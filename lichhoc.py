@@ -1,10 +1,10 @@
-from bs4 import BeautifulSoup, SoupStrainer
+from bs4 import BeautifulSoup
 import requests
 from xlwt import Workbook
 import re
 import pandas as pd
 
-def Get_Url(discipline: str, keyword1: str):
+def Get_Url(discipline: str, keyword1: str) -> str:
     parameters = {
         'discipline': discipline, # F = 1 (ENG 116), F = 2 (CS 303)
         'keyword1': keyword1,
@@ -12,10 +12,8 @@ def Get_Url(discipline: str, keyword1: str):
         't': '1599613145426'
     }
 
-    r = requests.get(
-        'http://courses.duytan.edu.vn/Modules/academicprogram/CourseResultSearch.aspx', parameters)
+    r = requests.get('http://courses.duytan.edu.vn/Modules/academicprogram/CourseResultSearch.aspx', parameters)
     soup = BeautifulSoup(r.text, 'html.parser')
-    url_sub = soup.find_all(class_='hit')[2]['href']  # link sau khi press Search
 
     def XuLyUrlSub(url_sub: str) -> str:
         # http://courses.duytan.edu.vn/Sites/Home_ChuongTrinhDaoTao.aspx?p=home_listcoursedetail&courseid=55&timespan=70&t=s
@@ -23,13 +21,16 @@ def Get_Url(discipline: str, keyword1: str):
         url = "http://courses.duytan.edu.vn/Modules/academicprogram/CourseClassResult.aspx?courseid=55&semesterid=70&timespan=70"
         courseid = url_sub[73:url_sub.find("×pan")]
         return url.replace(url[85:87], courseid)
-    
-    url_sub = XuLyUrlSub(url_sub)
+    try:
+        url_sub = soup.find_all(class_='hit')[2]['href']  # link sau khi press Search
+        url_sub = XuLyUrlSub(url_sub)
+        return url_sub
+    except:
+        print('Không tìm thấy môn học {}'.format(discipline))
 
-    return url_sub
 
 #input
-url_sub = Get_Url("ENG", "117") 
+url_sub = Get_Url("CS", "401") 
 
 def Get_Data(url_sub: str):
     # init list
