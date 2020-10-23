@@ -1,5 +1,5 @@
 import unittest
-from Schedule import Schedule
+from Schedule import *
 
 
 class TestCleanSchedules(unittest.TestCase):
@@ -19,6 +19,15 @@ class TestCleanSchedules(unittest.TestCase):
     
     def test_GetStudyTime2(self):
         self.assertEqual(self.Schedule2.getStudyTime(), 315.0)
+
+    def test_GetTimeOfDate(self):
+        self.assertEqual(self.Schedule.getTimeOfDate(Monday), ['07:00-09:00','07:00-10:15'])
+
+    def test_GetTimeOfDate_2(self):
+        self.assertEqual(self.Schedule.getTimeOfDate(Thursday), ['07:00-09:00'])
+
+    def test_GetTimeOfDate_3(self):
+        self.assertEqual(self.Schedule.getTimeOfDate(Sunday), None)
 
         
 if __name__ == "__main__":

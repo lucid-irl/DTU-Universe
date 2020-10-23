@@ -3,6 +3,14 @@ import json
 from datetime import timedelta
 
 
+Monday = 'T2'
+Tuseday = 'T3'
+Wednesday = 'T4'
+Thursday = 'T5'
+Friday = 'T6'
+Saturday = 'T7'
+Sunday = 'CN'
+
 class Schedule:
     """
     Lịch học trong tuần của một môn
@@ -44,6 +52,26 @@ class Schedule:
                         time_temp = delta_time
                 time_sum += time_temp  
         return time_sum/60
+    
+    def getTimeOfDate(self, day: str):
+        """
+        Hàm này trả về một `List` chứa thời gian tương ứng với Thứ bạn truyền vào. Mặc định trả về `None` nếu 
+        Thứ truyền vào không có trong `Schedule`.
+
+        Các thứ được trừu tượng thành các biến: Monday, Tuseday, Wednesday, Thursday, Friday, Saturday và Sunday có thể được `import`
+        và sử dụng thông qua Schedule module.
+
+        >>> from Schedule import *
+        >>> s = Schedule([{'T2':['07:00-09:00','07:00-10:15']},{'T5':['07:00-09:00']}])
+        >>> s.getTimeOfDate(Monday)
+        >>> ['07:00-09:00','07:00-10:15']
+        """
+        for lesson in self.schedules:
+            for k, v in lesson.items():
+                if k==day:
+                    return v
+        else:
+            return None
 
     @staticmethod
     def convertStringToTimeDelta(pattern: str) -> timedelta:
@@ -77,5 +105,4 @@ def StringToSchedule(raw: str) -> Schedule:
 if __name__ == "__main__":
     string = """[{"T2":["07:00-09:00","07:00-10:15"]},{"T5":["07:00-09:00"]}]"""
     s = StringToSchedule(string)
-    # print(s.convertStringToTimeDelta('07:00-09:00').total_seconds())
-    print(s.getStudyTime())
+    print(s.getTimeOfDate(Monday))
