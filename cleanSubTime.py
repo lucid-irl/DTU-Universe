@@ -3,9 +3,8 @@
 # các dạng có cấu trúc như list hoặc dict dễ dàng cho việc thao tác và truy xuất.
 
 # Hàm làm sạch luôn có tên bắt đầu bằng clean_<name define>
-# Đôi khi làm nhóm ta cần đặt ra những quy chuẩn cụ thể
 
-from re import template
+import re
 import SubTimeTestHTML.markup1
 import SubTimeTestHTML.markup2
 import SubTimeTestHTML.markup3
@@ -42,7 +41,7 @@ def clean_SubTime(raw_sub_time: str):
             while bool(re.match('^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]-([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$', join_schedules[anchor])):
                 time_buoi_hoc.append(join_schedules[anchor])
                 anchor+=1
-            buoi_hoc[join_schedules[index]] =  time_buoi_hoc
+            buoi_hoc[join_schedules[index][0:-1]] =  time_buoi_hoc
             index = anchor
             output.append(buoi_hoc)
     return output
