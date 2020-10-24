@@ -23,5 +23,13 @@ File excel lấy được sẽ trông như sau:
 Class này giúp bạn thao tác dễ dàng hơn với chuỗi Schedule có trong file excel. Nó bao gồm các phương thức tính toán thông kế đơn giản.
 ### Subject
 Đây là class quan trọng đại diện cho một Môn học. Đóng vai trò quan trọng trong việc sắp xếp các môn lên lịch.
+### Conflit
+Class này như tên của nó, nó đại diện cho một xung đột giữa hai Schedule khi được thêm vào Calendar. Xung đột này được phát hiện thông
+qua timedelta.
 ### Calendar
 Class này là class chính thao tác với TableWidget đảm nhiệm việc gắn Subject lên Table, sinh ra các signal quan trọng khi có xung đột.
+#### Thêm Subject
+Calendar có một phương thức addSubjectToCalendar() thêm Subject, nó sẽ thêm Subject vào một List. Sau đó, nó sẽ tự động chạy phương thức scanConflit() - Phương thức này trả về một List chứa các Conflix object. Cuối cùng Calendar sẽ chạy hàm show() để hiển thị lịch
+lên table dựa theo list Subject cùng với đó là vẽ xung đột thời gian cuối cùng.
+### Xoá Subject
+Thao tác xoá đơn giản là xoá Subject cho ID chỉ định ra khỏi Calendar và gọi lại phương thức show() của Calendar để vẽ lại lịch.
