@@ -1,6 +1,6 @@
 from typing import Tuple
-from Schedule import Schedule
-
+from schedule import Schedule
+import schedule
 class Subject:
     """
     # Subject đại diện cho một lớp học của một môn
@@ -32,7 +32,7 @@ class Subject:
     http://courses.duytan.edu.vn/Sites/Home_ChuongTrinhDaoTao.aspx?p=home_coursesearch
     """
 
-    def __init__(self, id: str, name: str, number_of_seats_left: int, credits: int, schedule: Schedule, teacher: str, place: str, week_range: Tuple(int), status: bool):
+    def __init__(self, id: str, name: str, number_of_seats_left: int, credits: int, schedule: Schedule, teacher: str, place: str, week_range: list, status: bool):
         self.id = id
         self.name = name
         self.number_of_seats_left = number_of_seats_left
@@ -42,3 +42,6 @@ class Subject:
         self.place = place
         self.week_range = week_range
         self.status = status
+
+    def getSchedule(self) -> Schedule:
+        return self.schedule
