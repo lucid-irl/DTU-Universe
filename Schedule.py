@@ -1,15 +1,34 @@
-from typing import List, Dict
+"""
+# Schedule module
+~~~~~~~~~~~~~~~
+## Class Schedule
+Đại diện cho thời gian học của một môn trong một Tuần.
+
+## Các Hằng thao tác liên quan
+Ngoài ra sẽ có các Hằng về Thứ và Tuần giúp bạn dễ dàng hơn trong việc sử dụng:
+
+MONDAY, TUSEDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY, WEEK
+## Các Function liên quan
+StringToSchedule() cho phép bạn chuyển chuỗi thời gian đã clean thành một Schedule.
+Hàm này được viết nhằm mục đích nhanh chóng xử lý đống data time có trong file Excel
+mà bạn đã lấy về được.
+"""
+
+from typing import List, Dict, Set
 import json
-from datetime import timedelta
+from datetime import time, timedelta
 
 
-Monday = 'T2'
-Tuseday = 'T3'
-Wednesday = 'T4'
-Thursday = 'T5'
-Friday = 'T6'
-Saturday = 'T7'
-Sunday = 'CN'
+Monday = MONDAY = 'T2'
+Tuseday = TUSEDAY = 'T3'
+Wednesday = WEDNESDAY = 'T4'
+Thursday = THURSDAY = 'T5'
+Friday = FRIDAY = 'T6'
+Saturday = SATURDAY = 'T7'
+Sunday = SUNDAY = 'CN'
+
+Week = WEEK = [Monday, Tuseday, Wednesday, Thursday, Friday, Saturday, Sunday]
+
 
 class Schedule:
     """
@@ -18,7 +37,7 @@ class Schedule:
     Bao gồm các phương thức để lấy ra những thông tin cần thiết của tuần học đó.
     """
 
-    def __init__(self, schedules: List[Dict[str,List]]) -> None:
+    def __init__(self, schedules: List[Dict[str, List]]) -> None:
         self.schedules = schedules
 
     def getNumberLessonPerWeek(self) -> int:
@@ -27,7 +46,7 @@ class Schedule:
 
     def getDatesOfLesson(self) -> List[str]:
         """Trả về một list chứa Thứ học của môn đó trong tuần đó.
-        
+
         >>> ["T2","T4","T6"]
         """
         output = []
@@ -47,15 +66,16 @@ class Schedule:
             for _, times in lesson.items():
                 time_temp = 0
                 for time in times:
-                    delta_time = self.convertStringToTimeDelta(time).total_seconds()
+                    delta_time = self.convertStringToTimeDelta(
+                        time).total_seconds()
                     if delta_time > time_temp:
                         time_temp = delta_time
-                time_sum += time_temp  
+                time_sum += time_temp
         return time_sum/60
-    
-    def getTimeOfDate(self, day: str):
+
+    def getTimeOfDate(self, day: str) -> List[str]:
         """
-        Hàm này trả về một `List` chứa thời gian tương ứng với Thứ bạn truyền vào. Mặc định trả về `None` nếu 
+        Hàm này trả về một `List` chứa thời gian tương ứng với Thứ bạn truyền vào. Mặc định trả về một `List rỗng` nếu 
         Thứ truyền vào không có trong `Schedule`.
 
         Các thứ được trừu tượng thành các biến: Monday, Tuseday, Wednesday, Thursday, Friday, Saturday và Sunday có thể được `import`
@@ -68,10 +88,58 @@ class Schedule:
         """
         for lesson in self.schedules:
             for k, v in lesson.items():
-                if k==day:
+                if k == day:
                     return v
         else:
-            return None
+            return []
+
+    def getStartTimeOfDate(self, day: str, merge: bool = False) -> List[timedelta]:
+        """Trả về một `List` chứa timedelta là thời gian `Bắt đầu` của buổi học trong một Thứ nào đó.
+
+        >>> s = Schedule([{'T2':['07:00-09:00','07:00-10:15']},{'T5':['07:00-09:00']}])
+        >>> s.getStartTimeOfDate(Monday)
+        >>> ["07:00","07:00"]
+
+        Như bạn có thấy thời gian `Bắt đầu` của một Subject trong một Thứ nào đó có thể trùng nhau. Nhưng nếu
+        bạn cần gộp chúng lại, bạn chỉ cần set tham số merge thành `True`.
+
+        Phương thức này trả về `List rỗng` nếu Thứ không tìm thấy trong Schedule.
+        """
+        output = []
+        time_of_date = self.getTimeOfDate(day)
+        if time_of_date:
+            for lesson in time_of_date:
+                hour = int(lesson.split('-')[0].split(':')[0])
+                minute = int(lesson.split('-')[0].split(':')[1])
+                timedelta_output = timedelta(hours=hour, minutes=minute)
+                output.append(timedelta_output)
+        if merge:
+            return [i for i in set(output)]
+        return output
+
+    def getEndTimeOfDate(self, day: str, merge: bool = False) -> List[timedelta]:
+        """Trả về một `List` chứa timedelta là thời gian `Kết thúc` của buổi học trong một Thứ nào đó.
+
+        >>> s = Schedule([{'T2':['07:00-09:00','07:00-10:15']},{'T5':['07:00-09:00']}])
+        >>> s.getStartTimeOfDate(Monday)
+        >>> ["09:00","10:15"]
+
+        Như bạn có thấy thời gian `Kết thúc` của một Subject trong một Thứ nào đó có thể trùng nhau. Nhưng nếu
+        bạn cần gộp chúng lại, bạn chỉ cần set tham số merge thành `True`.
+
+        Phương thức này trả về `List rỗng` nếu Thứ không tìm thấy trong Schedule.
+        """
+        output = []
+        time_of_date = self.getTimeOfDate(day)
+        if time_of_date:
+            for lesson in time_of_date:
+                hour = int(lesson.split('-')[1].split(':')[0])
+                minute = int(lesson.split('-')[1].split(':')[1])
+                timedelta_output = timedelta(hours=hour, minutes=minute)
+                output.append(timedelta_output)
+        if merge:
+            return [i for i in set(output)]
+        return output
 
     @staticmethod
     def convertStringToTimeDelta(pattern: str) -> timedelta:
@@ -87,11 +155,11 @@ class Schedule:
         time1_minute = int(patterns[0].split(':')[1])
         time2_hour = int(patterns[1].split(':')[0])
         time2_minute = int(patterns[1].split(':')[1])
-        time1 = timedelta(hours=time1_hour,minutes=time1_minute)
+        time1 = timedelta(hours=time1_hour, minutes=time1_minute)
         time2 = timedelta(hours=time2_hour, minutes=time2_minute)
         return time2 - time1
 
-    
+
 def StringToSchedule(raw: str) -> Schedule:
     """Hàm này nhận vào một string và trả về một Schedule.
 
@@ -105,4 +173,4 @@ def StringToSchedule(raw: str) -> Schedule:
 if __name__ == "__main__":
     string = """[{"T2":["07:00-09:00","07:00-10:15"]},{"T5":["07:00-09:00"]}]"""
     s = StringToSchedule(string)
-    print(s.getTimeOfDate(Monday))
+    print(s.getEndTimeOfDate(Thursday, merge=True))
