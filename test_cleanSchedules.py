@@ -27,7 +27,10 @@ class TestCleanSchedules(unittest.TestCase):
         self.assertEqual(self.Schedule.getTimeOfDate(Thursday), ['07:00-09:00'])
 
     def test_GetTimeOfDate_3(self):
-        self.assertEqual(self.Schedule.getTimeOfDate(Sunday), None)
+        self.assertEqual(self.Schedule.getTimeOfDate(Sunday), [])
+
+    def test_GetEndTimeOfDate(self):
+        self.assertEqual(self.Schedule.getEndTimeOfDate(Thursday), ['09:00'])
 
         
 if __name__ == "__main__":
