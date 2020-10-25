@@ -3,6 +3,7 @@ import requests
 from xlwt import Workbook
 import re
 import pandas as pd
+from PyQt5.QtCore import QThread
 
 def Get_Url(discipline: str, keyword1: str) -> str:
     parameters = {
@@ -66,7 +67,6 @@ def Get_Data(url_sub: str):
             list_sub_date.append(str(mem.text).strip()[:2])
     
     # get sub time
-    # xin fix
     td_chua_gio_hoc = soup.find_all("tr", class_='lop')
     for lop in td_chua_gio_hoc:
         str_mem = str(lop("td")[6])
@@ -74,20 +74,6 @@ def Get_Data(url_sub: str):
         new_mem = new_mem.strip().replace('\n',' ')
         print(new_mem)
         list_sub_time.append(new_mem)
-    # print('td:', td_chua_gio_hoc)
-        # if sibling.string == '':
-        #     continue
-        # if ':' in str(sibling.string):
-        #     print(str(sibling.string).strip())
-        # if len(str(sibling.string)) == 4:
-        #     print(sibling.string)
-        # str_mem = str(mem)
-
-        # print(new_mem)
-        # td_tag = mem.parent
-        # br_tag = td_tag.br
-        # date = br_tag.previous_element
-        # list_sub_time.append(date)
 
     # get sub place and teacher
     templst = soup.find_all(style = "text-align: center; vertical-align: top;")
@@ -96,22 +82,7 @@ def Get_Data(url_sub: str):
         temp1 = temp.get_text()
         list_sub_place.append(str(temp1))
 
-    # get sub lec
-    templst = soup.find(style = "width: 130px;")
-    for mem in templst:
-        tr_tag = mem.parent
-        tr_tag_next = tr_tag.findNext("tr")
-        tinchi = str(tr_tag_next.text).strip()
-    key = tinchi.find("(")
-    tinchi = int(tinchi[key+1])
-    Lec = []
-    for i in range(0, len(list_sub_id)):
-        Lec.append(tinchi)
-
-    f = len(list_sub_date)/ len(list_sub_name) # số buổi học trong 1 tuần (tần số)
-    F = [f]*len(list_sub_id)
-    # Lec (result[6]) là số tín chỉ
-    result = [list_sub_name, list_sub_id, F,list_sub_date, list_sub_time, list_sub_place, Lec]
+    result = [list_sub_id, list_sub_name,list_sub_date,list_sub_time,list_sub_place]
     return result
 
 info = Get_Data(url_sub)
@@ -120,7 +91,7 @@ def init_excel(info: list):
     wb = Workbook()
     sheet1 = wb.add_sheet("sheet 1")
 
-    # hàng trước cột sau
+    # hàng trước cột sau :
     sheet1.write(0, 0, "STT")
     sheet1.write(0, 1, "Name")
     sheet1.write(0, 2, "ID")
