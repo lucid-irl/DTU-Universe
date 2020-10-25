@@ -8,6 +8,7 @@ import SubTimeTestHTML.markup1
 import SubTimeTestHTML.markup2
 import SubTimeTestHTML.markup3
 import SubTimeTestHTML.markup4
+import SubTimeTestHTML.markup5
 
 class TestCleanMarkup(unittest.TestCase):
 
@@ -22,6 +23,9 @@ class TestCleanMarkup(unittest.TestCase):
 
     def test_cleanMarkup4(self):
         self.assertEqual(clean_SubTime(SubTimeTestHTML.markup4.markup), [{'T7':['17:45-21:00']}])
+
+    def test_cleanMarkup5(self):
+        self.assertEqual(clean_SubTime(SubTimeTestHTML.markup5.markup), [{'T2':['15:15-17:15']}])
 
 if __name__ == "__main__":
     unittest.main()
