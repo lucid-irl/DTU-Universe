@@ -1,13 +1,15 @@
 from xlwt import Workbook
 from Crawl import *
 
-def CreateExcel(name: str, number: str):
+def CreateExcel(name: str, number: str) -> bool:
     excel_name = name+number+'.xls'
     
     wb = Workbook()
     sheet1 = wb.add_sheet("sheet 1")
-    soup = Get_Soup(Get_Url(name, number)) 
-    print("Name: ", GetName(soup))
+    try:
+        soup = Get_Soup(Get_Url(name, number))
+    except:
+        return False
 
     # hàng trước cột sau :
     sheet1.write(0, 0, "STT")
@@ -39,6 +41,9 @@ def CreateExcel(name: str, number: str):
         sheet1.write(row + i, col + 9, GetStatus(soup)[i])
 
     
-    wb.save(excel_name) 
+    wb.save(excel_name)
+    return True
 
-CreateExcel("CS", "414")
+
+if __name__ == "__main__":
+    print(CreateExcel("CS", "414"))
