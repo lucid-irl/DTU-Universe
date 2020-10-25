@@ -9,8 +9,10 @@
 
 
 from schedule import Schedule, StringToSchedule
+from semeter import Semeter
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QListWidgetItem, QMessageBox
+from PyQt5.QtCore import Qt
 
 from getSubject import ThreadGetSubject
 from subject import Subject
@@ -24,6 +26,7 @@ from PyQt5.QtWidgets import QTableWidgetItem
 class Ui_MainWindow(object):
 
     SUBJECTS_LOAD = []
+    SUBJECTS_CHOOSED = []
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(892, 680)
@@ -203,6 +206,9 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        #user add
+        self.semeter = Semeter(self.tableWidget_lichHoc)
+
         self.addSignal()
 
     def retranslateUi(self, MainWindow):
@@ -277,8 +283,37 @@ class Ui_MainWindow(object):
 
     def addSignal(self):
         self.pushButton_timKiem.clicked.connect(self.findSubject)
+        self.pushButton_themLop.clicked.connect(self.addSubjectToTable)
+        self.pushButton_xoaLop.clicked.connect(self.deleteSubject)
+
+    def loadListChoosed(self):
+        print('load list choosed')
+        for subject in self.semeter.getSubject():
+            self.custom_widget_subject = QCustomQWidget(subject)
+            self.myQListWidgetItem = QListWidgetItem(self.listWidget_lopDaChon)
+            self.myQListWidgetItem.setData(Qt.UserRole, subject)
+            self.myQListWidgetItem.setSizeHint(self.custom_widget_subject.sizeHint())
+            self.listWidget_lopDaChon.addItem(self.myQListWidgetItem)
+            self.listWidget_lopDaChon.setItemWidget(self.myQListWidgetItem, self.custom_widget_subject)
+
+    def deleteSubject(self):
+        print('delete')
+        subject = self.listWidget_lopDaChon.currentItem().data(Qt.UserRole)
+        self.semeter.deleteSubject(subject.getName())
+        self.listWidget_lopDaChon.clear()
+        self.loadListChoosed()
+
+    def addSubjectToTable(self):
+        print('add subject to table')
+        # subject
+        subject = self.listWidget_tenLop.currentItem().data(Qt.UserRole)
+        self.semeter.addSubjectToSemeter(subject)
+        self.loadListChoosed()
 
     def findSubject(self):
+        print('find')
+        self.SUBJECTS_LOAD.clear()
+        self.listWidget_tenLop.clear()
         subject_name = self.lineEdit_tenMon.text()
         file_name = subject_name+'.xls'
         self.thread_getsubject = ThreadGetSubject(subject_name)
@@ -311,6 +346,7 @@ class Ui_MainWindow(object):
         for subject in self.SUBJECTS_LOAD:
             self.custom_widget_subject = QCustomQWidget(subject)
             self.myQListWidgetItem = QListWidgetItem(self.listWidget_tenLop)
+            self.myQListWidgetItem.setData(Qt.UserRole, subject)
             self.myQListWidgetItem.setSizeHint(self.custom_widget_subject.sizeHint())
             self.listWidget_tenLop.addItem(self.myQListWidgetItem)
             self.listWidget_tenLop.setItemWidget(self.myQListWidgetItem, self.custom_widget_subject)
