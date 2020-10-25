@@ -20,7 +20,11 @@ class ThreadGetSubject(QThread):
             self.nonFoundExcel.emit(False)
 
     def run(self):
-        url = CreateExcel(self.name, self.id)
+        try:
+            url = CreateExcel(self.name, self.id)
+        except:
+            self.nonFoundExcel.emit(False)
+            return
         if url:
             self.foundExcel.emit(self.name+self.id+'.xls')
         else:
