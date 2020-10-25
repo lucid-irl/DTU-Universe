@@ -1,5 +1,14 @@
 from xlwt import Workbook
 from Crawl import *
+import os.path
+from os import path
+
+def CreateFolderToSave():
+    if path.exists("Data"):
+        return None
+    else:
+        os.mkdir("Data")
+    return None
 
 def CreateExcel(name: str, number: str) -> bool:
     excel_name = name+number+'.xls'
@@ -39,11 +48,10 @@ def CreateExcel(name: str, number: str) -> bool:
         sheet1.write(row + i, col + 7, GetSeat(soup)[i])
         sheet1.write(row + i, col + 8, GetWeekRange(soup)[i])
         sheet1.write(row + i, col + 9, GetStatus(soup)[i])
-
     
-    wb.save(excel_name)
+    CreateFolderToSave()
+    wb.save("Data/" + excel_name)
     return True
 
-
 if __name__ == "__main__":
-    print(CreateExcel("CS", "414"))
+    CreateExcel("ENG", "117")
