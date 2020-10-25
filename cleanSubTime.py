@@ -32,7 +32,10 @@ def clean_SubTime(raw_sub_time: str):
     anchor = 0
     index = 0
     while True:
-        if bool(re.match('^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]-([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$', join_schedules[index+1])) == False:
+        try:
+            if bool(re.match('^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]-([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$', join_schedules[index+1])) == False:
+                break
+        except:
             break
         if join_schedules[index] in day:
             anchor = index+1
@@ -41,6 +44,8 @@ def clean_SubTime(raw_sub_time: str):
             while bool(re.match('^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]-([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$', join_schedules[anchor])):
                 time_buoi_hoc.append(join_schedules[anchor])
                 anchor+=1
+                if anchor == len(join_schedules):
+                    break
             buoi_hoc[join_schedules[index][0:-1]] =  time_buoi_hoc
             index = anchor
             output.append(buoi_hoc)
