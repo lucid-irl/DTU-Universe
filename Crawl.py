@@ -114,13 +114,17 @@ def GetWeekRange(soup):
 
 def GetStatus(soup):
     lst = []
-
+    result = []
     tr_list = soup.find_all("tr", class_='lop')
     for tr_tag in tr_list:
         lst.append(str(tr_tag('td')[10].font.string))
-    return lst
+    for mem in lst:
+        if mem == "Còn Hạn Đăng Ký":
+            result.append(int(1))
+        else:
+            result.append(int(0))
+    return result
 
 if __name__ == "__main__":
     url_sub = Get_Url("ENG", "116")
-    print(GetSchedule(url_sub)[0])
-
+    soup = Get_Soup(url_sub)
