@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>891</width>
+    <height>680</height>
+   </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1900</width>
+    <height>1200</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="pushButton_timKiem">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>90</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TÌM</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tableWidget_lichHoc">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>80</y>
+      <width>531</width>
+      <height>311</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Consolas</family>
+      <pointsize>8</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="lineWidth">
+     <number>1</number>
+    </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::AdjustToContents</enum>
+    </property>
+    <property name="rowCount">
+     <number>19</number>
+    </property>
+    <attribute name="horizontalHeaderDefaultSectionSize">
+     <number>70</number>
+    </attribute>
+    <attribute name="verticalHeaderDefaultSectionSize">
+     <number>15</number>
+    </attribute>
+    <row>
+     <property name="text">
+      <string>7h</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>9h</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>9h15</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>10h</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>10h15</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>11h</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>11h15</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>13h</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>14h</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>15h</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>15h15</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>16h</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>16h15</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>17h</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>17h15</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>17h45</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>18h</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>19h</string>
+     </property>
+    </row>
+    <row>
+     <property name="text">
+      <string>21h</string>
+     </property>
+    </row>
+    <column>
+     <property name="text">
+      <string>Thứ 2</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Thứ 3</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Thứ 4</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Thứ 5</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Thứ 6</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Thứ 7</string>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Chủ Nhật</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>70</y>
+      <width>71</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_2">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>70</y>
+      <width>141</width>
+      <height>161</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="title">
+     <string>LỚP ĐÃ CHỌN</string>
+    </property>
+    <widget class="QListWidget" name="listWidget_lopDaChon">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>121</width>
+       <height>131</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_tenMon">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>90</y>
+      <width>111</width>
+      <height>20</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>70</y>
+      <width>81</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>MÔN CẦN TÌM:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>10</y>
+      <width>611</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>PHẦN MỀM MÔ PHỎNG VÀ HỖ TRỢ ĐĂNG KÍ LỊCH HỌC</string>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_4">
+    <property name="geometry">
+     <rect>
+      <x>740</x>
+      <y>270</y>
+      <width>141</width>
+      <height>161</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="title">
+     <string>LỚP XUNG ĐỘT</string>
+    </property>
+    <widget class="QListWidget" name="listWidget_lopXungDot">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>121</width>
+       <height>131</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_5">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>120</y>
+      <width>181</width>
+      <height>281</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="title">
+     <string>LỚP HIỆN CÓ:</string>
+    </property>
+    <widget class="QListWidget" name="listWidget_tenLop">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>161</width>
+       <height>201</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_themLop">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>230</y>
+       <width>91</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>THÊM &gt;</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="pushButton_xoaLop">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>240</y>
+      <width>56</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>XÓA</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_luuText">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>240</y>
+      <width>56</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>SAVE TXT</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>590</y>
+      <width>651</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>by Trần Huy Hoàng - Trần Tuấn Khôi - Nguyễn Nhật Trường</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>410</y>
+      <width>131</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Thông tin thêm:</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_giaiDoan1">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>400</y>
+      <width>91</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>GIAI ĐOẠN I</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_giaiDoan2">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>400</y>
+      <width>91</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>GIAI ĐOẠN II</string>
+    </property>
+   </widget>
+   <widget class="QPlainTextEdit" name="plainTextEdit_thongTin">
+    <property name="geometry">
+     <rect>
+      <x>23</x>
+      <y>440</y>
+      <width>851</width>
+      <height>151</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>891</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuL_CH_H_C">
+    <property name="title">
+     <string>LỊCH HỌC</string>
+    </property>
+    <addaction name="separator"/>
+   </widget>
+   <addaction name="menuL_CH_H_C"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
