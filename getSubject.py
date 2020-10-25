@@ -1,15 +1,23 @@
+from Crawl import Get_Url
 from PyQt5.QtCore import QThread, pyqtSignal
 from DataToExcel import CreateExcel
-from schedule import Schedule
 
 class ThreadGetSubject(QThread):
     foundExcel = pyqtSignal('PyQt_PyObject')
     nonFoundExcel = pyqtSignal('PyQt_PyObject')
 
-    def __init__(self, name: str, id: str):
+    def __init__(self, name):
         QThread.__init__(self)
-        self.name = name
-        self.id = id
+        try:
+            self.name = name.split(' ')[0]
+            self.id = name.split(' ')[1]
+        except:
+            self.nonFoundExcel.emit(False)
+
+    
+    def exist(self):
+        if Get_Url(self.name, self.id) == None:
+            self.nonFoundExcel.emit(False)
 
     def run(self):
         url = CreateExcel(self.name, self.id)

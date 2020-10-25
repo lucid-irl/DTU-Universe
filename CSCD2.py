@@ -10,11 +10,14 @@
 
 from schedule import Schedule, StringToSchedule
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QListWidgetItem, QMessageBox
 
 from getSubject import ThreadGetSubject
 from subject import Subject
+from customwidget import QCustomQWidget
 
 import xlrd
+import os
 
 
 class Ui_MainWindow(object):
@@ -213,16 +216,18 @@ class Ui_MainWindow(object):
 
     def findSubject(self):
         subject_name = self.lineEdit_tenMon.text()
-        name = subject_name.split(' ')[0]
-        id = subject_name.split(' ')[1]
-        self.thread_getsubject = ThreadGetSubject(name=name, id=id)
+
+        file_name = subject_name+'.xls'
+        self.thread_getsubject = ThreadGetSubject(subject_name)
         self.thread_getsubject.foundExcel.connect(self.fillDataToSubjectTempList)
         self.thread_getsubject.nonFoundExcel.connect(self.nonFoundSubject)
-        self.thread_getsubject.start()
+        if os.path.exists(file_name):
+            self.fillDataToSubjectTempList(file_name)
+        else:
+            self.thread_getsubject.start()
 
     def fillDataToSubjectTempList(self, e):
-        print(e)
-        wb = xlrd.open_workbook('ENG116')
+        wb = xlrd.open_workbook(e)
         sheet = wb.sheet_by_index(0)
         
         for i in range(1, sheet.nrows):
@@ -231,21 +236,25 @@ class Ui_MainWindow(object):
             seats = sheet.cell_value(i, 1)
             credit = int(sheet.cell_value(i, 6))
             schedule = StringToSchedule(sheet.cell_value(i, 3))
-            teacher = sheet.cell_value(i, 1)
-            place = sheet.cell_value(i, 1)
-            week_range = sheet.cell_value(i, 1)
-            status =  sheet.cell_value(i, 1)
+            teacher = sheet.cell_value(i, 5)
+            place = sheet.cell_value(i, 4)
+            week_range = sheet.cell_value(i, 8).split('--')
+            status =  int(sheet.cell_value(i, 9))
             subject = Subject(id, name, seats, credit, schedule, teacher, place, week_range, status)
             self.SUBJECTS_LOAD.append(subject)
         self.loadListView()
 
     def loadListView(self):
-        print('loaded')
-        
+        for subject in self.SUBJECTS_LOAD:
+            self.custom_widget_subject = QCustomQWidget(subject)
+            self.myQListWidgetItem = QListWidgetItem(self.listWidget_tenLop)
+            self.myQListWidgetItem.setSizeHint(self.custom_widget_subject.sizeHint())
+            self.listWidget_tenLop.addItem(self.myQListWidgetItem)
+            self.listWidget_tenLop.setItemWidget(self.myQListWidgetItem, self.custom_widget_subject)
 
 
     def nonFoundSubject(self):
-        print('dm ngu vc')
+        QMessageBox.warning(MainWindow, 'Cảnh báo sương sương','Có vẻ như bạn chưa donate, vui lòng donate để sử dụng hết tất cả những tính năng', QMessageBox.Ok)
 
 
 if __name__ == "__main__":
