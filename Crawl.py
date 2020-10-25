@@ -59,13 +59,19 @@ def GetID(soup):
 def GetSeat(soup):
     list_sub_seat = []
     templst = []
+    result = []
     td_list = soup.find_all("td", align = "center")
     for td_tag in td_list:
         templst.append((str(td_tag.text).strip()))
     for temp in templst:
         if (len(temp) <= 2) or temp == "Hết chỗ":
             list_sub_seat.append(temp)
-    return list_sub_seat
+    for mem in list_sub_seat:
+        if mem == "Hết chỗ":
+            result.append(int(0))
+        else:
+            result.append(int(mem))
+    return result
 
 def GetCredit(soup):
     '''
@@ -114,13 +120,17 @@ def GetWeekRange(soup):
 
 def GetStatus(soup):
     lst = []
-
+    result = []
     tr_list = soup.find_all("tr", class_='lop')
     for tr_tag in tr_list:
         lst.append(str(tr_tag('td')[10].font.string))
-    return lst
+    for mem in lst:
+        if mem == "Còn Hạn Đăng Ký":
+            result.append(int(1))
+        else:
+            result.append(int(0))
+    return result
 
 if __name__ == "__main__":
     url_sub = Get_Url("ENG", "116")
-    print(GetSchedule(url_sub)[0])
-
+    soup = Get_Soup(url_sub)
