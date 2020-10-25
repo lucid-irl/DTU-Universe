@@ -26,6 +26,6 @@ class ThreadGetSubject(QThread):
             self.nonFoundExcel.emit(False)
             return
         if url:
-            self.foundExcel.emit(self.name+self.id+'.xls')
+            self.foundExcel.emit("Data/"+self.name+self.id+'.xls')
         else:
             self.nonFoundExcel.emit(False)
