@@ -45,3 +45,9 @@ class Subject:
 
     def getSchedule(self) -> Schedule:
         return self.schedule
+
+    def getName(self) -> str:
+        return self.name
+
+    def __str__(self):
+        return "<Subject {0}>".format(self.name)
