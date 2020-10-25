@@ -3,6 +3,7 @@ import requests
 from xlwt import Workbook
 import re
 import pandas as pd
+from PyQt5.QtCore import QThread
 
 def Get_Url(discipline: str, keyword1: str) -> str:
     parameters = {
