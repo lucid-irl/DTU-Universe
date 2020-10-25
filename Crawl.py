@@ -59,13 +59,19 @@ def GetID(soup):
 def GetSeat(soup):
     list_sub_seat = []
     templst = []
+    result = []
     td_list = soup.find_all("td", align = "center")
     for td_tag in td_list:
         templst.append((str(td_tag.text).strip()))
     for temp in templst:
         if (len(temp) <= 2) or temp == "Hết chỗ":
             list_sub_seat.append(temp)
-    return list_sub_seat
+    for mem in list_sub_seat:
+        if mem == "Hết chỗ":
+            result.append(int(0))
+        else:
+            result.append(int(mem))
+    return result
 
 def GetCredit(soup):
     '''
