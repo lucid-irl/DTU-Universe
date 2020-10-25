@@ -137,7 +137,8 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-.vscode
+.vscode/
 __pycache__/
 
 .xls
+.pyc 
