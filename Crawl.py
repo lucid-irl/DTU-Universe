@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
-
+import json
 
 from cleanSubTime import clean_SubTime
 
@@ -31,18 +31,21 @@ def Get_Url(discipline: str, keyword1: str) -> str:
         url_sub = XuLyUrlSub(url_sub)
         return url_sub
     except:
-        print('Không tìm thấy môn học {}'.format(discipline))
+        return None
 
-def GetName(url_sub: str): 
+def Get_Soup(url_sub: str):
     req = requests.get(url_sub)
     soup = BeautifulSoup(req.text, 'html.parser')
+    return soup       
 
-    temp = soup.find_all(class_="nhom-lop")
-    return [str(td_tag.div.string).strip() for td_tag in temp]
+def GetName(soup):
+    out = []
+    tr_tags = soup.find_all('tr', class_="lop")
+    for tr_tag in tr_tags:
+        out.append(str(tr_tag.td.a.string).strip())
+    return out
 
-def GetID(url_sub: str): 
-    req = requests.get(url_sub)
-    soup = BeautifulSoup(req.text, 'html.parser')
+def GetID(soup): 
     list_sub_id = []
 
     templst = soup.find_all(class_="lop")
@@ -51,15 +54,9 @@ def GetID(url_sub: str):
         td_tag = temp.parent
         next_td_tag = td_tag.findNext("td")
         list_sub_id.append(str(next_td_tag.text).strip())
-    for mem in list_sub_id:
-        if mem == "":
-            list_sub_id.remove(mem)
     return list_sub_id
 
-def GetSeat(url_sub: str):
-    req = requests.get(url_sub)
-    soup = BeautifulSoup(req.text, 'html.parser')
-
+def GetSeat(soup):
     list_sub_seat = []
     templst = []
     td_list = soup.find_all("td", align = "center")
@@ -70,13 +67,10 @@ def GetSeat(url_sub: str):
             list_sub_seat.append(temp)
     return list_sub_seat
 
-def GetCredit(url_sub: str):
+def GetCredit(soup):
     '''
         Phương thức này trả về 1 int, không phải list vì Credit của các lớp bằng nhau
     '''
-    req = requests.get(url_sub)
-    soup = BeautifulSoup(req.text, 'html.parser')
-
     templst = soup.find(style = "width: 130px;")
     for mem in templst:
         tr_tag = mem.parent
@@ -86,40 +80,31 @@ def GetCredit(url_sub: str):
     tinchi = int(tinchi[key+1])
     return tinchi
 
-def GetSchedule(url_sub: str):
-    req = requests.get(url_sub)
-    soup = BeautifulSoup(req.text, 'html.parser')
+def GetSchedule(soup):
     lst = []
 
     tr_list = soup.find_all("tr", class_='lop')
-    index = 0
-    print("tr 15:", tr_list[15])
     for tr_tag in tr_list:
-        print('index:', index)
-        print(clean_SubTime(str(tr_tag('td')[6])))
-        index +=1
-
-        
-
+        lst.append(json.dumps(clean_SubTime(str(tr_tag('td')[6]))))
     return lst
 
-def Get_TeacherAndPlace(url_sub: str):
-    req = requests.get(url_sub)
-    soup = BeautifulSoup(req.text, 'html.parser')
-    list_sub_teacherandplace = []
+def GetTeacher(soup):
+    list_sub_teacher = []
 
-    templst = soup.find_all(style = "text-align: center; vertical-align: top;")
-    for temp in templst:
-        td_tag = temp.next_sibling.next_sibling
-        info = str(td_tag.text).strip()
-        if info != "None":
-            list_sub_teacherandplace.append(info)
-    return list_sub_teacherandplace
-    # Không lấy riêng teacher và place đc vì ở chung tag (xét chẵn lẻ)
+    tr_list = soup.find_all("tr", class_='lop')
+    for tr_tag in tr_list:
+        list_sub_teacher.append(str(tr_tag('td')[9].text).strip())
+    return list_sub_teacher
 
-def GetWeekRange(url_sub: str):
-    req = requests.get(url_sub)
-    soup = BeautifulSoup(req.text, 'html.parser')
+def GetPlace(soup):
+    list_sub_place = []
+
+    tr_list = soup.find_all("tr", class_='lop')
+    for tr_tag in tr_list:
+        list_sub_place.append(str(tr_tag('td')[8].text).strip())
+    return list_sub_place
+
+def GetWeekRange(soup):
     list_week = []
 
     td_list = soup.find_all("td", style = "text-align: center;")
@@ -127,18 +112,15 @@ def GetWeekRange(url_sub: str):
         list_week.append(str(td_tag.text).strip())
     return list_week
 
-def GetStatus(url_sub: str):
-    req = requests.get(url_sub)
-    soup = BeautifulSoup(req.text, 'html.parser')
-    list_status = []
+def GetStatus(soup):
+    lst = []
 
-    td_list = soup.find_all("td", align = "center", style = "width: 70px;")
-    for td_tag in td_list:
-        temp = td_tag[1]
-        list_status.append(str(temp.text))
-    return list_status
-    # Trả về Tình trạng đăng ký và Tình trạng triển khai vì tag giống nhau (xét chẵn lẻ)
+    tr_list = soup.find_all("tr", class_='lop')
+    for tr_tag in tr_list:
+        lst.append(str(tr_tag('td')[10].font.string))
+    return lst
 
-url_sub = Get_Url("ENG", "116")
-print(url_sub)
-print(GetStatus(url_sub))
+if __name__ == "__main__":
+    url_sub = Get_Url("ENG", "116")
+    print(GetSchedule(url_sub)[0])
+
