@@ -139,5 +139,5 @@ cython_debug/
 
 .vscode/
 
-.xls
-.pyc 
+*.xls
+*.pyc 
