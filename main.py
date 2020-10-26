@@ -1,19 +1,22 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 from PyQt5 import uic
-from customwidget import QCustomQWidget
+from Classes.customwidget import QCustomQWidget
 
-from semeter import Semeter
-from subject import Subject
-from schedule import Schedule, StringToSchedule
+from Classes.semeter import Semeter
+from Classes.subject import Subject
+from Classes.schedule import Schedule, StringToSchedule
 
-from thread_getSubject import ThreadGetSubject
+from Threads.thread_getSubject import ThreadGetSubject
 
 import sys
 import os
 import xlrd, xlwt
 
 class Main(QMainWindow):
+
+    # Config
+    FODLER_EXCELS = 'Data'
 
     def __init__(self):
         super(Main, self).__init__()
@@ -98,11 +101,12 @@ class Main(QMainWindow):
         self.subject_found.clear()
         self.listView_SubjectDownloaded.clear()
         subject_name = self.line_findSubject.text()
-        file_name = subject_name+'.xls'
+        file_name = 'Data/'+subject_name+'.xls'
         self.thread_getsubject = ThreadGetSubject(subject_name)
         self.thread_getsubject.foundExcel.connect(self.fillDataToSubjectTempList)
         self.thread_getsubject.nonFoundExcel.connect(self.nonFoundSubject)
         if os.path.exists(file_name):
+            print(file_name)
             self.fillDataToSubjectTempList(file_name)
         else:
             self.thread_getsubject.start()
