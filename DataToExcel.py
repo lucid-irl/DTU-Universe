@@ -11,7 +11,7 @@ def CreateFolderToSave():
     return None
 
 def CreateExcel(name: str, number: str) -> bool:
-    excel_name = name+number+'.xls'
+    excel_name = name + " " + number + '.xls'
     
     wb = Workbook()
     sheet1 = wb.add_sheet("sheet 1")
@@ -33,7 +33,8 @@ def CreateExcel(name: str, number: str) -> bool:
     sheet1.write(0, 9, "Status")
 
     url_sub = Get_Url(name, number)
-    n = len(Get_Soup(url_sub).find_all('tr',class_='lop'))
+    soup = Get_Soup(url_sub)
+    n = len(GetName(soup))
     row = 1
     col = 0
 
@@ -54,4 +55,4 @@ def CreateExcel(name: str, number: str) -> bool:
     return True
 
 if __name__ == "__main__":
-    CreateExcel("ENG", "117")
+    CreateExcel("ENG", "116")
