@@ -7,7 +7,18 @@ phòng đào tạo DTU. Ứng dụng được viết bằng Python, giao diện 
 Từ những ý tưởng sơ khai chúng tôi đã vẽ ra một loạt các chức năng râu ria khác. Nhưng ý tưởng chính vẫn là một
 ứng dụng cho phép người dùng Xếp một bản xem trước của lịch học, phục vụ cho những kỳ đăng ký tín chỉ đầy chật vật
 và đầy đau khổ. Những ý tưởng râu ria đằng sau như cho phép chèn lịch cá nhân, bờ la bờ la nhiều thứ khác.
-
+## Bạn muốn phát triển một phiên bản khác
+Dự án này được xây dựng trên Python 3.6.8 64-bit. Bạn cần PyQt5 và các thư viện liên quan nếu muốn phát triển dự án này thêm nữa.
+File requirements.txt là cần thiết giúp bạn nhanh chóng cài thư viện và các công cụ cần thiết cho việc phát triển.
+## Phần này để ghi nhận công lao của các bạn
+Xin cảm ơn:
+* Trần Huy Hoàng lớp Big Data.
+* Khôi lớp Big Data.
+* Trường lớp Big Data.
+* Mình lớp Computer Science.
+Đây là những thành viên của Start-up Hư Đốn. Với các cột mốc quan trọng 14:30, 19:32, căn phòng chừng 8 mét vuông và con mèo đen tên Tôm.
+## Giấy phép
+Tất cả file code trong kho này đều theo giấy phép MIT.
 ## Kiến trúc
 ### Kiến trúc bộ cào
 Nói chung bộ cào sẽ xuất ra một file Excel có các cột như ID lớp, tên lớp,...Nhưng *quan trọng nhất vẫn là chuỗi Schedule*, chuỗi này quan trọng trong việc sắp xếp các môn trong một Tuần học. Hàm clean chuỗi này được mình viết chi tiết trong cleanSubTime.py
@@ -24,12 +35,7 @@ Class này giúp bạn thao tác dễ dàng hơn với chuỗi Schedule có tron
 ### Subject
 Đây là class quan trọng đại diện cho một Môn học. Đóng vai trò quan trọng trong việc sắp xếp các môn lên lịch.
 ### Conflit
-Class này như tên của nó, nó đại diện cho một xung đột giữa hai Schedule khi được thêm vào Calendar. Xung đột này được phát hiện thông
+Class này như tên của nó, nó đại diện cho một xung đột giữa hai Schedule khi được thêm vào Semeter. Xung đột này được phát hiện thông
 qua timedelta.
-### Calendar
+### Semeter
 Class này là class chính thao tác với TableWidget đảm nhiệm việc gắn Subject lên Table, sinh ra các signal quan trọng khi có xung đột.
-#### Thêm Subject
-Calendar có một phương thức addSubjectToCalendar() thêm Subject, nó sẽ thêm Subject vào một List. Sau đó, nó sẽ tự động chạy phương thức scanConflit() - Phương thức này trả về một List chứa các Conflix object. Cuối cùng Calendar sẽ chạy hàm show() để hiển thị lịch
-lên table dựa theo list Subject cùng với đó là vẽ xung đột thời gian cuối cùng.
-### Xoá Subject
-Thao tác xoá đơn giản là xoá Subject cho ID chỉ định ra khỏi Calendar và gọi lại phương thức show() của Calendar để vẽ lại lịch.

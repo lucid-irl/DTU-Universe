@@ -8,3 +8,16 @@ light_pink = '#ff7675'
 orange = '#e17055'
 red = '#d63031'
 pink = '#e84393'
+
+list_color = [
+    mint_leaf,
+    light_blue,
+    elec_blue,
+    purple,
+    silver,
+    light_yellow,
+    light_pink,
+    orange,
+    red,
+    pink
+]

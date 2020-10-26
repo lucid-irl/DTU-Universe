@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>891</width>
+    <width>901</width>
     <height>680</height>
    </rect>
   </property>
@@ -24,10 +24,17 @@
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>90</y>
+      <y>80</y>
       <width>41</width>
-      <height>21</height>
+      <height>41</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="text">
      <string>TÌM</string>
@@ -37,9 +44,9 @@
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>80</y>
-      <width>531</width>
-      <height>311</height>
+      <y>70</y>
+      <width>541</width>
+      <height>321</height>
      </rect>
     </property>
     <property name="font">
@@ -57,13 +64,13 @@
      <enum>QAbstractScrollArea::AdjustToContents</enum>
     </property>
     <property name="rowCount">
-     <number>19</number>
+     <number>14</number>
     </property>
     <attribute name="horizontalHeaderDefaultSectionSize">
      <number>70</number>
     </attribute>
     <attribute name="verticalHeaderDefaultSectionSize">
-     <number>15</number>
+     <number>20</number>
     </attribute>
     <row>
      <property name="text">
@@ -82,17 +89,7 @@
     </row>
     <row>
      <property name="text">
-      <string>10h</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
       <string>10h15</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>11h</string>
      </property>
     </row>
     <row>
@@ -122,17 +119,7 @@
     </row>
     <row>
      <property name="text">
-      <string>16h</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
       <string>16h15</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>17h</string>
      </property>
     </row>
     <row>
@@ -147,12 +134,7 @@
     </row>
     <row>
      <property name="text">
-      <string>18h</string>
-     </property>
-    </row>
-    <row>
-     <property name="text">
-      <string>19h</string>
+      <string>18h45</string>
      </property>
     </row>
     <row>
@@ -212,7 +194,7 @@
    <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
      <rect>
-      <x>740</x>
+      <x>750</x>
       <y>70</y>
       <width>141</width>
       <height>161</height>
@@ -253,7 +235,7 @@
      <rect>
       <x>20</x>
       <y>70</y>
-      <width>81</width>
+      <width>101</width>
       <height>16</height>
      </rect>
     </property>
@@ -290,7 +272,7 @@
    <widget class="QGroupBox" name="groupBox_4">
     <property name="geometry">
      <rect>
-      <x>740</x>
+      <x>750</x>
       <y>270</y>
       <width>141</width>
       <height>161</height>
@@ -347,9 +329,9 @@
     <widget class="QPushButton" name="pushButton_themLop">
      <property name="geometry">
       <rect>
-       <x>40</x>
+       <x>90</x>
        <y>230</y>
-       <width>91</width>
+       <width>81</width>
        <height>41</height>
       </rect>
      </property>
@@ -362,11 +344,29 @@
       <string>THÊM &gt;</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="pushButton_themLop_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>230</y>
+       <width>81</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>CẬP NHẬT</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QPushButton" name="pushButton_xoaLop">
     <property name="geometry">
      <rect>
-      <x>750</x>
+      <x>760</x>
       <y>240</y>
       <width>56</width>
       <height>21</height>
@@ -379,7 +379,7 @@
    <widget class="QPushButton" name="pushButton_luuText">
     <property name="geometry">
      <rect>
-      <x>820</x>
+      <x>830</x>
       <y>240</y>
       <width>56</width>
       <height>21</height>
@@ -469,7 +469,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>891</width>
+     <width>901</width>
      <height>21</height>
     </rect>
    </property>
