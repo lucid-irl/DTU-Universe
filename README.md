@@ -1,7 +1,5 @@
 # Ứng dụng siêu cấp vũ trụ DTU
 
-https://img.shields.io/badge/python-%3E%3D%203.6-brightgreen | 
-
 ## Từ một ý tưởng đơn giản vãi loz
 App này được hình thành từ một ý tưởng sơ khai nhất là lấy lịch học trên trang Course của DTU và lịch thi trên
 phòng đào tạo DTU. Ứng dụng được viết bằng Python, giao diện được dựng trên PyQt5.
@@ -21,8 +19,6 @@ Xin cảm ơn:
 Đây là những thành viên của Start-up Hư Đốn. Với các cột mốc quan trọng 14:30, 19:32, căn phòng chừng 8 mét vuông và con mèo đen tên Tôm.
 ## Giấy phép
 Tất cả file code trong kho này đều theo giấy phép MIT.
-
-
 ## Kiến trúc
 ### Kiến trúc bộ cào
 Nói chung bộ cào sẽ xuất ra một file Excel có các cột như ID lớp, tên lớp,...Nhưng *quan trọng nhất vẫn là chuỗi Schedule*, chuỗi này quan trọng trong việc sắp xếp các môn trong một Tuần học. Hàm clean chuỗi này được mình viết chi tiết trong cleanSubTime.py
