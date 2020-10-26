@@ -1,6 +1,6 @@
 from typing import Tuple
-from schedule import Schedule
-import schedule
+from Classes.schedule import Schedule
+
 class Subject:
     """
     # Subject đại diện cho một lớp học của một môn

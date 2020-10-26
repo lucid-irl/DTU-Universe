@@ -1,7 +1,7 @@
-from subject import Subject
+from Classes.subject import Subject
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
 from PyQt5.QtGui import QColor
-from schedule import *
+from Classes.schedule import *
 from color import *
 import random
 
