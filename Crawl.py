@@ -38,22 +38,56 @@ def Get_Soup(url_sub: str):
     soup = BeautifulSoup(req.text, 'html.parser')
     return soup       
 
+
+def CheckExistLab(soup):
+    '''
+        Hàm này để kiểm tra môn học có lớp Thực hành không
+        Nếu có sẽ trả về True, không có trả về False
+    '''
+    templst = []
+
+    tr_tags = soup.find_all("tr", class_ = "lop")
+    for tr_tag in tr_tags:
+        templst.append(str(tr_tag('td')[2].string).strip())
+    if len(set(templst)) == 2:
+        return True
+    else:
+        return False
+
+def GetListExistId(soup, lst_input: list):
+    result = []
+    key = []
+    list_sub_id = []
+    tr_tags = soup.find_all("tr", class_ = "lop")
+    for tr_tag in tr_tags:
+        list_sub_id.append(str(tr_tag('td')[1].a.string).strip())
+    for i in range(len(list_sub_id)):
+        if list_sub_id[i] != "":
+            key.append(i)
+    for i in range(len(lst_input)):
+        if i in key:
+            result.append(lst_input[i])
+    return result
+
 def GetName(soup):
     out = []
     tr_tags = soup.find_all('tr', class_="lop")
     for tr_tag in tr_tags:
         out.append(str(tr_tag.td.a.string).strip())
-    return out
+    return GetListExistId(soup, out)
 
 def GetID(soup): 
     list_sub_id = []
 
-    templst = soup.find_all(class_="lop")
-    for tr_tag in templst:
-        temp = tr_tag.td.a
-        td_tag = temp.parent
-        next_td_tag = td_tag.findNext("td")
-        list_sub_id.append(str(next_td_tag.text).strip())
+    tr_tags = soup.find_all("tr", class_ = "lop")
+    for tr_tag in tr_tags:
+        list_sub_id.append(str(tr_tag('td')[1].a.string).strip())
+    if CheckExistLab(soup):
+        for i in range(len(list_sub_id)):
+            if i % 2 == 0:
+                list_sub_id[i] = list_sub_id[i+1]
+    while ("" in list_sub_id):
+        list_sub_id.remove("")
     return list_sub_id
 
 def GetSeat(soup):
@@ -71,7 +105,7 @@ def GetSeat(soup):
             result.append(int(0))
         else:
             result.append(int(mem))
-    return result
+    return GetListExistId(soup, result)
 
 def GetCredit(soup):
     '''
@@ -92,7 +126,7 @@ def GetSchedule(soup):
     tr_list = soup.find_all("tr", class_='lop')
     for tr_tag in tr_list:
         lst.append(json.dumps(clean_SubTime(str(tr_tag('td')[6]))))
-    return lst
+    return GetListExistId(soup, lst)
 
 def GetTeacher(soup):
     list_sub_teacher = []
@@ -100,7 +134,7 @@ def GetTeacher(soup):
     tr_list = soup.find_all("tr", class_='lop')
     for tr_tag in tr_list:
         list_sub_teacher.append(str(tr_tag('td')[9].text).strip())
-    return list_sub_teacher
+    return GetListExistId(soup, list_sub_teacher)
 
 def GetPlace(soup):
     list_sub_place = []
@@ -108,7 +142,7 @@ def GetPlace(soup):
     tr_list = soup.find_all("tr", class_='lop')
     for tr_tag in tr_list:
         list_sub_place.append(str(tr_tag('td')[8].text).strip())
-    return list_sub_place
+    return GetListExistId(soup, list_sub_place)
 
 def GetWeekRange(soup):
     list_week = []
@@ -116,7 +150,7 @@ def GetWeekRange(soup):
     td_list = soup.find_all("td", style = "text-align: center;")
     for td_tag in td_list:
         list_week.append(str(td_tag.text).strip())
-    return list_week
+    return GetListExistId(soup, list_week)
 
 def GetStatus(soup):
     lst = []
@@ -129,8 +163,18 @@ def GetStatus(soup):
             result.append(int(1))
         else:
             result.append(int(0))
-    return result
+    return GetListExistId(soup, result)
+
+def TestRange(soup):
+    print("ID: ", len(GetID(soup)))
+    print("Name: ", len(GetName(soup)))
+    print("Schedule: ", len(GetSchedule(soup)))
+    print("Seat: ", len(GetSeat(soup)))
+    print("Place: ", len(GetPlace(soup)))
+    print("Status: ", len(GetStatus(soup)))
 
 if __name__ == "__main__":
-    url_sub = Get_Url("ENG", "116")
+    url_sub = Get_Url("ENG", "117")
     soup = Get_Soup(url_sub)
+    #TestRange(soup)
+    print(GetName(soup))

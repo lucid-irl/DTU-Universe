@@ -1,6 +1,6 @@
-import sys
+
 from PyQt5.QtWidgets import QWidget,QLabel, QHBoxLayout
-from subject import Subject
+from Classes.subject import Subject
 
 class QCustomQWidget (QWidget):
     '''Khởi tạo widgit'''

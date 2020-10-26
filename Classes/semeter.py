@@ -1,14 +1,14 @@
-from subject import Subject
+from Classes.subject import Subject
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
 from PyQt5.QtGui import QColor
-from schedule import *
+from Classes.schedule import *
 from color import *
 import random
 
 
 class Semeter:
 
-    time_chain = {'7:00:00':0,'9:00:00':1,'9:15:00':2,'10:15:00':4,'11:15:00':5,'13:00:00':7,'14:00:00':8,'15:00:00':9,'16:00:00':11,'16:15:00':12,'17:00:00':13,'17:45:00':14,'19:00:00':15,'21:00:00':16}
+    time_chain = {'7:00:00':0,'9:00:00':1,'9:15:00':2,'10:15:00':3,'11:15:00':4,'13:00:00':5,'14:00:00':6,'15:00:00':7,'15:15:00':8,'16:15:00':9,'17:15:00':10,'17:45:00':11,'18:45:00':12,'21:00:00':13}
     color_choices = []
 
     def __init__(self, table: QTableWidget) -> None:
@@ -50,9 +50,6 @@ class Semeter:
                     end = str(end_time_subjects[i])
                     start_row = self.time_chain[start]
                     end_row = self.time_chain[end]
-                    print('start row:', start_row)
-                    print('end row:', end_row)
-                    print('column:', WEEK.index(day))
                     column = WEEK.index(day)
                     for pen in range(start_row, end_row+1+1):
                         self.table.setItem(pen, column, QTableWidgetItem())

@@ -1,9 +1,9 @@
-from datetime import time, timedelta
-from typing import List, Sequence, Tuple
+from datetime import timedelta
+from typing import List, Tuple
 from unittest.signals import removeResult
 
-from subject import *
-from schedule import *
+from Classes.subject import *
+from Classes.schedule import *
 
 class Conflit:
     """

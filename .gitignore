@@ -140,4 +140,5 @@ cython_debug/
 .vscode/
 
 *.xls
-*.pyc 
+*.pyc
+settings.json
