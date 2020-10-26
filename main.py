@@ -11,7 +11,7 @@ from Threads.thread_getSubject import ThreadGetSubject
 
 import sys
 import os
-import xlrd, xlwt
+import xlrd
 
 class Main(QMainWindow):
 
