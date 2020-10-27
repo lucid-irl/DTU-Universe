@@ -22,7 +22,7 @@ class Main(QMainWindow):
         super(Main, self).__init__()
         self.subject_found = []
 
-        uic.loadUi('GUI/GUI.ui', self)
+        uic.loadUi('GUI/special.ui', self)
 
         self.button_findSubject = self.findChild(QPushButton,'pushButton_timKiem')
         self.button_addSujectToTable = self.findChild(QPushButton, 'pushButton_themLop')
