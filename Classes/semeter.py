@@ -19,7 +19,7 @@ class Semeter:
 
     def __init__(self, table: QTableWidget) -> None:
         self.table = table
-        self.subjectss = []
+        self.subjects = []
 
     def getSubject(self):
         return self.subjectss
