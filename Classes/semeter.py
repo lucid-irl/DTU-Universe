@@ -22,7 +22,7 @@ class Semeter:
         self.subjects = []
 
     def getSubject(self):
-        return self.subjectss
+        return self.subjects
 
     def addSubjectToSemeter(self, subject: Subject):
         self.subjects.append(subject)

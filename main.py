@@ -44,24 +44,24 @@ class Main(QMainWindow):
         self.table_Semeter = self.findChild(QTableWidget, 'tableWidget_lichHoc')
 
 ################## hot fix ##################################
-        self.button_findSubject = QPushButton()
-        self.button_addSujectToTable = QPushButton()
-        self.button_updateSubject = QPushButton()
-        self.button_deleleSubjectFromTable = QPushButton()
-        self.button_saveExcel = QPushButton()
+        # self.button_findSubject = QPushButton()
+        # self.button_addSujectToTable = QPushButton()
+        # self.button_updateSubject = QPushButton()
+        # self.button_deleleSubjectFromTable = QPushButton()
+        # self.button_saveExcel = QPushButton()
 
-        self.listView_SubjectDownloaded = QListWidget()
-        self.listView_SubjectChoiced = QListWidget()
-        self.listView_SubjectConflict = QListWidget()
+        # self.listView_SubjectDownloaded = QListWidget()
+        # self.listView_SubjectChoiced = QListWidget()
+        # self.listView_SubjectConflict = QListWidget()
 
-        self.line_findSubject = QLineEdit()
+        # self.line_findSubject = QLineEdit()
 
-        self.checkBox_phase1 = QCheckBox()
-        self.checkBox_phase2 = QCheckBox()
+        # self.checkBox_phase1 = QCheckBox()
+        # self.checkBox_phase2 = QCheckBox()
 
-        self.plainText = QPlainTextEdit()
+        # self.plainText = QPlainTextEdit()
 
-        self.table_Semeter = QTableWidget()
+        # self.table_Semeter = QTableWidget()
 ################## hot fix ##################################
 
 
