@@ -35,7 +35,7 @@ class Subject:
     def __init__(self, id: str, name: str, number_of_seats_left: int, credits: int, schedule: Schedule, teacher: str, place: str, week_range: list, status: int):
         self.id = id
         self.name = name
-        self.number_of_seats_left = number_of_seats_left
+        self.number_of_seats_left = number_of_seats_left  
         self.credits = credits
         self.schedule = schedule
         self.teacher = teacher
