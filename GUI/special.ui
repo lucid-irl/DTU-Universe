@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>927</width>
-    <height>680</height>
+    <width>1073</width>
+    <height>772</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -36,10 +36,18 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>0</y>
-      <width>901</width>
-      <height>641</height>
+      <y>20</y>
+      <width>1051</width>
+      <height>691</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Segoe UI</family>
+      <pointsize>11</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_7">
      <property name="sizeConstraint">
@@ -49,9 +57,10 @@
       <widget class="QLabel" name="label_5">
        <property name="font">
         <font>
-         <pointsize>16</pointsize>
-         <weight>75</weight>
-         <bold>true</bold>
+         <family>Segoe UI</family>
+         <pointsize>11</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
        <property name="text">
@@ -83,13 +92,14 @@
               <widget class="QLabel" name="label">
                <property name="font">
                 <font>
-                 <pointsize>10</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
+                 <family>Segoe UI</family>
+                 <pointsize>11</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
                 </font>
                </property>
                <property name="text">
-                <string>Nhập môn cần tìm:</string>
+                <string>Nhập môn cần tìm</string>
                </property>
               </widget>
              </item>
@@ -121,6 +131,14 @@
                    <height>10</height>
                   </size>
                  </property>
+                 <property name="font">
+                  <font>
+                   <family>Segoe UI</family>
+                   <pointsize>11</pointsize>
+                   <weight>50</weight>
+                   <bold>false</bold>
+                  </font>
+                 </property>
                 </widget>
                </item>
                <item>
@@ -139,9 +157,10 @@
                  </property>
                  <property name="font">
                   <font>
-                   <pointsize>10</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
+                   <family>Segoe UI</family>
+                   <pointsize>11</pointsize>
+                   <weight>50</weight>
+                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -171,9 +190,10 @@
                </property>
                <property name="font">
                 <font>
-                 <pointsize>10</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
+                 <family>Segoe UI</family>
+                 <pointsize>11</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
                 </font>
                </property>
                <property name="text">
@@ -188,6 +208,14 @@
                  <width>170</width>
                  <height>260</height>
                 </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>11</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
                </property>
               </widget>
              </item>
@@ -211,9 +239,10 @@
                </property>
                <property name="font">
                 <font>
-                 <pointsize>10</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
+                 <family>Segoe UI</family>
+                 <pointsize>11</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
                 </font>
                </property>
                <property name="text">
@@ -237,9 +266,10 @@
                </property>
                <property name="font">
                 <font>
-                 <pointsize>10</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
+                 <family>Segoe UI</family>
+                 <pointsize>11</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
                 </font>
                </property>
                <property name="text">
@@ -265,7 +295,8 @@
                </property>
                <property name="font">
                 <font>
-                 <pointsize>10</pointsize>
+                 <family>Segoe UI</family>
+                 <pointsize>11</pointsize>
                  <weight>50</weight>
                  <bold>false</bold>
                 </font>
@@ -279,7 +310,10 @@
               <widget class="QCheckBox" name="checkBox_giaiDoan2">
                <property name="font">
                 <font>
-                 <pointsize>10</pointsize>
+                 <family>Segoe UI</family>
+                 <pointsize>11</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
                 </font>
                </property>
                <property name="text">
@@ -299,10 +333,10 @@
              </property>
              <property name="font">
               <font>
-               <family>Consolas</family>
-               <pointsize>8</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
+               <family>Segoe UI</family>
+               <pointsize>11</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
               </font>
              </property>
              <property name="lineWidth">
@@ -318,7 +352,7 @@
               <number>70</number>
              </attribute>
              <attribute name="verticalHeaderDefaultSectionSize">
-              <number>20</number>
+              <number>25</number>
              </attribute>
              <row>
               <property name="text">
@@ -462,9 +496,10 @@
              </property>
              <property name="font">
               <font>
-               <pointsize>10</pointsize>
-               <weight>75</weight>
-               <bold>true</bold>
+               <family>Segoe UI</family>
+               <pointsize>11</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
               </font>
              </property>
              <property name="text">
@@ -485,6 +520,14 @@
                <width>155</width>
                <height>130</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>Segoe UI</family>
+               <pointsize>11</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
              </property>
             </widget>
            </item>
@@ -508,9 +551,10 @@
                  </property>
                  <property name="font">
                   <font>
-                   <pointsize>10</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
+                   <family>Segoe UI</family>
+                   <pointsize>11</pointsize>
+                   <weight>50</weight>
+                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -534,9 +578,10 @@
                  </property>
                  <property name="font">
                   <font>
-                   <pointsize>10</pointsize>
-                   <weight>75</weight>
-                   <bold>true</bold>
+                   <family>Segoe UI</family>
+                   <pointsize>11</pointsize>
+                   <weight>50</weight>
+                   <bold>false</bold>
                   </font>
                  </property>
                  <property name="text">
@@ -550,9 +595,10 @@
               <widget class="QLabel" name="label_4">
                <property name="font">
                 <font>
-                 <pointsize>10</pointsize>
-                 <weight>75</weight>
-                 <bold>true</bold>
+                 <family>Segoe UI</family>
+                 <pointsize>11</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
                 </font>
                </property>
                <property name="text">
@@ -574,6 +620,14 @@
                  <height>130</height>
                 </size>
                </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>11</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
               </widget>
              </item>
             </layout>
@@ -586,7 +640,10 @@
         <widget class="QLabel" name="label_7">
          <property name="font">
           <font>
+           <family>Segoe UI</family>
            <pointsize>11</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
          </property>
          <property name="text">
@@ -608,15 +665,24 @@
            <height>140</height>
           </size>
          </property>
+         <property name="font">
+          <font>
+           <family>Segoe UI</family>
+           <pointsize>11</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
+          </font>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QLabel" name="label_6">
          <property name="font">
           <font>
-           <pointsize>16</pointsize>
-           <weight>75</weight>
-           <bold>true</bold>
+           <family>Segoe UI</family>
+           <pointsize>11</pointsize>
+           <weight>50</weight>
+           <bold>false</bold>
           </font>
          </property>
          <property name="text">
@@ -634,8 +700,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>927</width>
-     <height>21</height>
+     <width>1073</width>
+     <height>26</height>
     </rect>
    </property>
   </widget>
