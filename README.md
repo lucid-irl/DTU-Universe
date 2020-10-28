@@ -10,13 +10,14 @@ và đầy đau khổ. Những ý tưởng râu ria đằng sau như cho phép c
 ## Bạn muốn phát triển một phiên bản khác
 Dự án này được xây dựng trên Python 3.6.8 64-bit. Bạn cần PyQt5 và các thư viện liên quan nếu muốn phát triển dự án này thêm nữa.
 File requirements.txt là cần thiết giúp bạn nhanh chóng cài thư viện và các công cụ cần thiết cho việc phát triển.
+Mọi sự đóng góp đều được khuyến khích.
 ## Phần này để ghi nhận công lao của các bạn
 Xin cảm ơn:
 * Trần Huy Hoàng lớp Big Data.
 * Khôi lớp Big Data.
 * Trường lớp Big Data.
-* Mình lớp Computer Science.
-Đây là những thành viên của Start-up Hư Đốn. Với các cột mốc quan trọng 14:30, 19:32, căn phòng chừng 8 mét vuông và con mèo đen tên Tôm.
+* !(Trương A Xin)[https://www.facebook.com/truongaxin/] lớp Computer Science.
+Bên trên là những thành viên sáng lập của Start-up Hư Đốn. Với các cột mốc quan trọng 14:30, 19:32, 21:59, căn phòng chừng 8 mét vuông và con mèo đen tên Tôm.
 ## Giấy phép
 Tất cả file code trong kho này đều theo giấy phép MIT.
 ## Kiến trúc
@@ -38,4 +39,4 @@ Class này giúp bạn thao tác dễ dàng hơn với chuỗi Schedule có tron
 Class này như tên của nó, nó đại diện cho một xung đột giữa hai Schedule khi được thêm vào Semeter. Xung đột này được phát hiện thông
 qua timedelta.
 ### Semeter
-Class này là class chính thao tác với TableWidget đảm nhiệm việc gắn Subject lên Table, sinh ra các signal quan trọng khi có xung đột.
+Class chính trong việc xử lý logic. Trung gian tương tác với GUI và Subjects.
