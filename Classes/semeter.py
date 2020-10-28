@@ -28,7 +28,7 @@ class Semeter:
     
     SUBJECTS = []
 
-    def getSubjectInSemeter(self):
+    def getSubjectsInSemeter(self) -> List[Subject]:
         return self.SUBJECTS
     
     def getTimeChains(self):
