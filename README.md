@@ -1,5 +1,5 @@
 <div align="center">
-    # Ứng dụng siêu cấp vũ trụ DTU
+    <h1>Ứng dụng siêu cấp vũ trụ DTU</h1>
 </div>
 
 ## Từ một ý tưởng đơn giản vãi loz
