@@ -1,5 +1,16 @@
+from email import message
 from typing import Tuple
 from Classes.schedule import Schedule
+
+import re
+
+
+class ColorError(Exception):
+
+    def __init__(self, color: str) -> None:
+        self.color = color
+        self.message = '{0} is Error :D'.format(self.color)
+        super().__init__(message=message)
 
 class Subject:
     """
@@ -42,6 +53,16 @@ class Subject:
         self.place = place
         self.week_range = week_range
         self.status = status
+        self.color = None
+
+    def setColor(self, color: str):
+        if re.match(r'^#(?:[0-9a-f]{3}){1,2}$', color):
+            self.color = color
+        else:
+            raise ColorError(color)
+
+    def getColor(self) -> str:
+        return self.color
 
     def getSchedule(self) -> Schedule:
         return self.schedule
