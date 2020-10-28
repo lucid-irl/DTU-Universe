@@ -1,3 +1,4 @@
+from re import sub
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt
@@ -76,6 +77,7 @@ class Main(QMainWindow):
         self.button_findSubject.clicked.connect(self.findSubject)
         self.button_addSujectToTable.clicked.connect(self.addSubjectToTable)
         self.button_deleleSubjectFromTable.clicked.connect(self.deleteSubject)
+        self.listView_SubjectDownloaded.itemClicked.connect(self.showInfoSubject)
 
 
     def loadTable(self, subjects: List[Subject]):
@@ -98,10 +100,17 @@ class Main(QMainWindow):
 
 
     def deleteSubject(self):
-        subject = self.listView_SubjectChoiced.currentItem().data(Qt.UserRole)
-        self.semeter.deleteSubject(subject.getName())
-        self.removeSel()
-        self.loadTable(self.semeter.getSubjectsInSemeter())
+        item = self.listView_SubjectChoiced.currentItem()
+        if item:
+            subject = item.data(Qt.UserRole)
+            self.semeter.deleteSubject(subject.getName())
+            self.removeSel()
+            self.loadTable(self.semeter.getSubjectsInSemeter())
+        else:
+            QMessageBox.warning(self,
+                'Một thông báo sương sương',
+                """Vui lòng chọn một môn nào đó để xoá khỏi lịch. Bạn có thể Donate để mở khoá tính năng xoá một lúc nhiều môn.""",
+                QMessageBox.Ok)
 
 
     def removeSel(self):
@@ -112,11 +121,18 @@ class Main(QMainWindow):
 
 
     def addSubjectToTable(self):
-        subject = self.listView_SubjectDownloaded.currentItem().data(Qt.UserRole)
-        subject.setColor(color.getColor())
-        self.semeter.addSubjectToSemeter(subject)
-        self.loadListChoosed()
-        self.loadTable(self.semeter.getSubjectsInSemeter())
+        item = self.listView_SubjectDownloaded.currentItem()
+        if item:
+            subject = item.data(Qt.UserRole)
+            subject.setColor(color.getColor())
+            self.semeter.addSubjectToSemeter(subject)
+            self.loadListChoosed()
+            self.loadTable(self.semeter.getSubjectsInSemeter())
+        else:
+            QMessageBox.warning(self,
+                'Một thông báo sương sương',
+                """Vui lòng chọn một môn nào đó để thêm vào lịch. Bạn có thể Donate để mở khoá tính năng thêm một lúc nhiều môn.""",
+                QMessageBox.Ok)
 
 
     def findSubject(self):
@@ -127,15 +143,15 @@ class Main(QMainWindow):
         file_name = team_config.FOLDER_SAVE_EXCEL+'/'+subject_name+'.xls'
 
         self.thread_getsubject = ThreadGetSubject(subject_name)
-        self.thread_getsubject.signal_foundExcel.connect(self.fillDataToSubjectTempList)
+        self.thread_getsubject.signal_foundExcel.connect(self.fillDataToSubjects)
         self.thread_getsubject.signal_nonFoundExcel.connect(self.nonFoundSubject)
         if os.path.exists(file_name):
-            self.fillDataToSubjectTempList(file_name)
+            self.fillDataToSubjects(file_name)
         else:
             self.thread_getsubject.start()
 
 
-    def fillDataToSubjectTempList(self, e):
+    def fillDataToSubjects(self, e):
         self.plainTextEdit_thongtin.clear()
         wb = xlrd.open_workbook(e)
         sheet = wb.sheet_by_index(0)
@@ -143,11 +159,11 @@ class Main(QMainWindow):
         for i in range(1, sheet.nrows):
             id = sheet.cell_value(i, 1)
             name = sheet.cell_value(i, 2)
-            seats = sheet.cell_value(i, 1)
-            credit = int(sheet.cell_value(i, 6))
             schedule = StringToSchedule(sheet.cell_value(i, 3))
-            teacher = sheet.cell_value(i, 5)
             place = sheet.cell_value(i, 4)
+            teacher = sheet.cell_value(i, 5)
+            credit = int(sheet.cell_value(i, 6))
+            seats = sheet.cell_value(i, 7)
             week_range = sheet.cell_value(i, 8).split('--')
             status =  int(sheet.cell_value(i, 9))
             subject = Subject(id, name, seats, credit, schedule, teacher, place, week_range, status)
@@ -186,6 +202,12 @@ class Main(QMainWindow):
             for c in range(self.table_Semeter.columnCount()):
                 self.table_Semeter.setItem(i, c, QTableWidgetItem())
                 self.table_Semeter.item(i, c).setBackground(QColor(255,255,255))
+
+
+    def showInfoSubject(self):
+        self.plainTextEdit_thongtin.clear()
+        subject = self.listView_SubjectDownloaded.currentItem().data(Qt.UserRole)
+        self.plainTextEdit_thongtin.setPlainText(subject.getInfo())
 
 
     def nonFoundSubject(self):
