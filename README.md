@@ -1,6 +1,6 @@
 <div align="center">
     <h1>Ứng dụng siêu cấp vũ trụ DTU</h1>
-    [[https://github.com/MrSometimeswinmid/DoAn/Images/logo.png|alt=octocat]]
+    ![Logo team](https://github.com/MrSometimeswinmid/DoAn/Images/logo.png?raw=true)
 </div>
 
 ## Từ một ý tưởng đơn giản vãi loz
