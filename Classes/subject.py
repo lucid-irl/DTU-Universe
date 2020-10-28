@@ -1,5 +1,4 @@
 from email import message
-from typing import Tuple
 from Classes.schedule import Schedule
 
 import re
@@ -55,6 +54,20 @@ class Subject:
         self.status = status
         self.color = None
 
+    def __str__(self):
+        return "<Subject {0}>".format(self.name)
+
+    def __repr__(self) -> str:
+        return "<Subject {0}>".format(self.name)
+
+    def getInfo(self):
+        info = """
+        Môn học: {0}
+        Giảng viên: {1} | Số tín chỉ: {2} | Số chỗ: {3}
+        Môn này học tại {4}.
+        """.format(self.name, self.teacher, self.credits, self.number_of_seats_left, self.place)
+        return info
+
     def setColor(self, color: str):
         if re.match(r'^#(?:[0-9a-f]{3}){1,2}$', color):
             self.color = color
@@ -69,6 +82,3 @@ class Subject:
 
     def getName(self) -> str:
         return self.name
-
-    def __str__(self):
-        return "<Subject {0}>".format(self.name)
