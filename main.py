@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt
 from PyQt5 import uic
 from Classes.customwidget import QCustomQWidget
@@ -22,7 +23,7 @@ class Main(QMainWindow):
         super(Main, self).__init__()
         self.subject_found = []
 
-        uic.loadUi('GUI/special.ui', self)
+        uic.loadUi('GUI/untitled2.ui', self)
 
         self.button_findSubject = self.findChild(QPushButton,'pushButton_timKiem')
         self.button_addSujectToTable = self.findChild(QPushButton, 'pushButton_themLop')
@@ -44,24 +45,24 @@ class Main(QMainWindow):
         self.table_Semeter = self.findChild(QTableWidget, 'tableWidget_lichHoc')
 
 ################## hot fix ##################################
-        self.button_findSubject = QPushButton()
-        self.button_addSujectToTable = QPushButton()
-        self.button_updateSubject = QPushButton()
-        self.button_deleleSubjectFromTable = QPushButton()
-        self.button_saveExcel = QPushButton()
+        # self.button_findSubject = QPushButton()
+        # self.button_addSujectToTable = QPushButton()
+        # self.button_updateSubject = QPushButton()
+        # self.button_deleleSubjectFromTable = QPushButton()
+        # self.button_saveExcel = QPushButton()
 
-        self.listView_SubjectDownloaded = QListWidget()
-        self.listView_SubjectChoiced = QListWidget()
-        self.listView_SubjectConflict = QListWidget()
+        # self.listView_SubjectDownloaded = QListWidget()
+        # self.listView_SubjectChoiced = QListWidget()
+        # self.listView_SubjectConflict = QListWidget()
 
-        self.line_findSubject = QLineEdit()
+        # self.line_findSubject = QLineEdit()
 
-        self.checkBox_phase1 = QCheckBox()
-        self.checkBox_phase2 = QCheckBox()
+        # self.checkBox_phase1 = QCheckBox()
+        # self.checkBox_phase2 = QCheckBox()
 
-        self.plainText = QPlainTextEdit()
+        # self.plainText = QPlainTextEdit()
 
-        self.table_Semeter = QTableWidget()
+        # self.table_Semeter = QTableWidget()
 ################## hot fix ##################################
 
 
@@ -83,8 +84,15 @@ class Main(QMainWindow):
             self.myQListWidgetItem.setData(Qt.UserRole, subject)
             self.myQListWidgetItem.setSizeHint(self.custom_widget_subject.sizeHint())
 
-            self.listView_SubjectChoiced.addItem(self.myQListWidgetItem)
+
             self.listView_SubjectChoiced.setItemWidget(self.myQListWidgetItem, self.custom_widget_subject)
+
+            
+            self.listView_SubjectChoiced.addItem(self.myQListWidgetItem)
+
+    
+    def cleanListSubjectChoiced(self):
+        pass
 
     def deleteSubject(self):
         subject = self.listView_SubjectChoiced.currentItem().data(Qt.UserRole)
