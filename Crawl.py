@@ -61,6 +61,10 @@ def GetListExistId(soup, lst_input: list):
     tr_tags = soup.find_all("tr", class_ = "lop")
     for tr_tag in tr_tags:
         list_sub_id.append(str(tr_tag('td')[1].a.string).strip())
+    if CheckExistLab(soup):
+        for i in range(len(list_sub_id)):
+            if i % 2 == 0:
+                list_sub_id[i] = list_sub_id[i+1]
     for i in range(len(list_sub_id)):
         if list_sub_id[i] != "":
             key.append(i)
@@ -174,7 +178,8 @@ def TestRange(soup):
     print("Status: ", len(GetStatus(soup)))
 
 if __name__ == "__main__":
-    url_sub = Get_Url("ENG", "117")
+    url_sub = Get_Url("CS", "414")
     soup = Get_Soup(url_sub)
     #TestRange(soup)
-    print(GetName(soup))
+    print(url_sub)
+    print(GetID(soup))
