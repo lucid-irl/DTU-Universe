@@ -16,22 +16,23 @@ class Semeter:
 
     TIME_CHAINS = {'7:00:00':0,'9:00:00':1,'9:15:00':2,'10:15:00':3,'11:15:00':4,'13:00:00':5,'14:00:00':6,'15:00:00':7,'15:15:00':8,'16:15:00':9,'17:15:00':10,'17:45:00':11,'18:45:00':12,'21:00:00':13}
     color_choices = []
+    SUBJECTS = []
 
     def __init__(self, table: QTableWidget) -> None:
         self.table = table
-        self.subjects = []
+        
 
     def getSubject(self):
-        return self.subjectss
+        return self.SUBJECTS
 
     def addSubjectToSemeter(self, subject: Subject):
-        self.subjects.append(subject)
+        self.SUBJECTS.append(subject)
         self.loadTable()
 
     def deleteSubject(self, name):
-        for j in range(len(self.subjects)):
-            if self.subjects[j].getName() == name:
-                self.subjects.pop(j)
+        for j in range(len(self.SUBJECTS)):
+            if self.SUBJECTS[j].getName() == name:
+                self.SUBJECTS.pop(j)
         self.loadTable()
 
     def resetTableColor(self):
@@ -44,7 +45,7 @@ class Semeter:
     def loadTable(self):
         """Quét lại bộ chứa subject và hiển thị lên Table."""
         self.resetTableColor()
-        for subject1 in self.subjects:
+        for subject1 in self.SUBJECTS:
             days = subject1.getSchedule().getDatesOfLesson()
             cl = random.choice(list_color)
             self.color_choices.append(cl)
