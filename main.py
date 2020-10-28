@@ -13,17 +13,15 @@ from Threads.thread_getSubject import ThreadGetSubject
 import sys
 import os
 import xlrd
+import team_config
 
 class Main(QMainWindow):
-
-    # Config
-    FODLER_EXCELS = 'Data'
 
     def __init__(self):
         super(Main, self).__init__()
         self.subject_found = []
 
-        uic.loadUi('GUI/untitled2.ui', self)
+        uic.loadUi(team_config.FOLDER_UI+'/'+team_config.USE_UI, self)
 
         self.button_findSubject = self.findChild(QPushButton,'pushButton_timKiem')
         self.button_addSujectToTable = self.findChild(QPushButton, 'pushButton_themLop')
@@ -109,7 +107,7 @@ class Main(QMainWindow):
         self.subject_found.clear()
         self.listView_SubjectDownloaded.clear()
         subject_name = self.line_findSubject.text()
-        file_name = 'Data/'+subject_name+'.xls'
+        file_name = team_config.FOLDER_SAVE_EXCEL+'/'+subject_name+'.xls'
         self.thread_getsubject = ThreadGetSubject(subject_name)
         self.thread_getsubject.foundExcel.connect(self.fillDataToSubjectTempList)
         self.thread_getsubject.nonFoundExcel.connect(self.nonFoundSubject)
