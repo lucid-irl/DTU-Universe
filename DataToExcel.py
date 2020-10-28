@@ -4,11 +4,8 @@ import os.path
 from os import path
 
 def CreateFolderToSave():
-    if path.exists("Data"):
-        return None
-    else:
+    if path.exists("Data") == False:
         os.mkdir("Data")
-    return None
 
 def CreateExcel(name: str, number: str) -> bool:
     excel_name = name + " " + number + '.xls'
