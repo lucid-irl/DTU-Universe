@@ -1,3 +1,6 @@
+import re
+
+
 mint_leaf = '#00b894'
 light_blue = '#00cec9'
 elec_blue = '#0984e3'
@@ -21,3 +24,8 @@ list_color = [
     red,
     pink
 ]
+
+def getColor():
+    color = list_color[0]
+    list_color.pop(0)
+    return color
