@@ -1,9 +1,13 @@
+"""Class này triển khai những chức năng liên quan để việc xếp lịch.
+Các chức năng phải được triển khai thành một class, và một phương thức emit() một signal.
+Các xử lý logic của các chức năng được triển khai trong semeter."""
+
 from Classes.subject import Subject
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
-from PyQt5.QtGui import QColor
+from PyQt5.QtCore import pyqtSignal, QThread
+
 from Classes.schedule import *
+from Classes.conflict import *
 from color import *
-import random
 
 
 class Semeter:
@@ -12,53 +16,73 @@ class Semeter:
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Class này chịu trách nhiệm hiển thị trực quan lịch của một Subject lên Table. Các thao tác liên quan đến Table
     có trên giao diện đều phải thông qua class này và các phương thức của nó.
+    
+    Trong Class này triển khai các xử lý logic và trả về cho giao diện.
+    Nhiệm vụ của giao diện là bắt signal và cập nhật UI.
     """
 
-    TIME_CHAINS = {'7:00:00':0,'9:00:00':1,'9:15:00':2,'10:15:00':3,'11:15:00':4,'13:00:00':5,'14:00:00':6,'15:00:00':7,'15:15:00':8,'16:15:00':9,'17:15:00':10,'17:45:00':11,'18:45:00':12,'21:00:00':13}
-    color_choices = []
+    TIME_CHAINS = {
+        '7:00:00':0,'9:00:00':1,'9:15:00':2,'10:15:00':3,'11:15:00':4,
+        '13:00:00':5,'14:00:00':6,'15:00:00':7,'15:15:00':8,'16:15:00':9,'17:15:00':10,'17:45:00':11,'18:45:00':12,'21:00:00':13
+        }
+    
     SUBJECTS = []
 
-    def __init__(self, table: QTableWidget) -> None:
-        self.table = table
-        
-
-    def getSubject(self):
+    def getSubjectInSemeter(self):
         return self.SUBJECTS
+    
+    def getTimeChains(self):
+        return self.TIME_CHAINS
 
     def addSubjectToSemeter(self, subject: Subject):
         self.SUBJECTS.append(subject)
-        self.loadTable()
 
     def deleteSubject(self, name):
         for j in range(len(self.SUBJECTS)):
             if self.SUBJECTS[j].getName() == name:
                 self.SUBJECTS.pop(j)
-        self.loadTable()
+
+    def scanSubjectConflict(self) -> List[Conflit]:
+        pass
 
     def resetTableColor(self):
         """Xoá hết màu có trên Table."""
-        for i in range(self.table.rowCount()):
-            for c in range(self.table.columnCount()):
-                self.table.setItem(i, c, QTableWidgetItem())
-                self.table.item(i, c).setBackground(QColor(255,255,255))
+        self.signal_resetTable(self.SUBJECTS)
 
-    def loadTable(self):
-        """Quét lại bộ chứa subject và hiển thị lên Table."""
-        self.resetTableColor()
-        for subject1 in self.SUBJECTS:
-            days = subject1.getSchedule().getDatesOfLesson()
-            cl = random.choice(list_color)
-            self.color_choices.append(cl)
-            mau = QColor(cl)
-            for day in days:
-                start_time_subjects = subject1.getSchedule().getStartTimeOfDate(day)
-                end_time_subjects = subject1.getSchedule().getEndTimeOfDate(day)
-                for i in range(len(start_time_subjects)):
-                    start = str(start_time_subjects[i])
-                    end = str(end_time_subjects[i])
-                    start_row = self.TIME_CHAINS[start]
-                    end_row = self.TIME_CHAINS[end]
-                    column = WEEK.index(day)
-                    for pen in range(start_row, end_row+1+1):
-                        self.table.setItem(pen, column, QTableWidgetItem())
-                        self.table.item(pen, column).setBackground(mau)
+
+class AddSubject(QThread):
+    signal_loadTable = pyqtSignal('PyQt_PyObject')
+
+    def __init__(self, subject: Subject, semeter: Semeter) -> None:
+        super(QThread, self).__init__()
+        self.semeter = semeter
+        self.subject = subject
+
+    def run(self):
+        self.semeter.addSubjectToSemeter(self.subject)
+        self.signal_loadTable.emit(self.semeter.getSubjectInSemeter())
+
+class DeleteSubject(QThread):
+        
+    signal_loadTable = pyqtSignal('PyQt_PyObject')
+
+    def __init__(self, name: str, semeter: Semeter) -> None:
+        super(QThread, self).__init__()
+        self.semeter = semeter
+        self.name = name
+
+    def run(self):
+        self.semeter.deleteSubject(self.name)
+        self.signal_loadTable.emit(self.semeter.getSubjectInSemeter())
+
+class ScanConflictSubject:
+        
+    signal_loadTable = pyqtSignal('PyQt_PyObject')
+
+    def __init__(self, semeter: Semeter) -> None:
+        self.semeter = semeter
+
+    def run(self):
+        conflicts = self.semeter.scanSubjectConflict()
+        self.signal_loadTable.emit(conflicts)
+
