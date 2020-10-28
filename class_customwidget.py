@@ -9,6 +9,8 @@ class QCustomQWidget (QWidget):
         super(QCustomQWidget, self).__init__(parent)
         self.master = parent
         self.subject = subject
+        status = self.subject.getStatus()
+
         self.textQVBoxLayout = QHBoxLayout()
         self.text_subjectname = QLabel(subject.name, self.master)
         self.textQVBoxLayout.addWidget(self.text_subjectname)

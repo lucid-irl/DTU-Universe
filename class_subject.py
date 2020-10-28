@@ -80,3 +80,6 @@ class Subject:
 
     def getName(self) -> str:
         return self.name
+    
+    def getStatus(self) -> int:
+        return self.status
