@@ -176,10 +176,3 @@ def TestRange(soup):
     print("Seat: ", len(GetSeat(soup)))
     print("Place: ", len(GetPlace(soup)))
     print("Status: ", len(GetStatus(soup)))
-
-if __name__ == "__main__":
-    url_sub = Get_Url("CS", "414")
-    soup = Get_Soup(url_sub)
-    #TestRange(soup)
-    print(url_sub)
-    print(GetID(soup))
