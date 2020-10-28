@@ -1,4 +1,6 @@
-# Ứng dụng siêu cấp vũ trụ DTU
+<div align="center">
+    # Ứng dụng siêu cấp vũ trụ DTU
+</div>
 
 ## Từ một ý tưởng đơn giản vãi loz
 App này được hình thành từ một ý tưởng sơ khai nhất là lấy lịch học trên trang Course của DTU và lịch thi trên
@@ -17,6 +19,7 @@ Xin cảm ơn:
 * [Trần Tuấn Khôi](https://www.facebook.com/profile.php?id=100010060428020) lớp Big Data.
 * [Nguyen Truong](https://www.facebook.com/truongbede.me/) lớp Big Data.
 * [Trương A Xin](https://www.facebook.com/truongaxin/) lớp Chế biến code.
+
 Bên trên là những thành viên sáng lập của Start-up Sống Vì Donate. Với các cột mốc quan trọng 14:30, 19:32, 21:59, căn phòng chừng 8 mét vuông và con mèo đen tên Tôm.
 ## Giấy phép
 Tất cả file code trong kho này đều theo giấy phép MIT.
