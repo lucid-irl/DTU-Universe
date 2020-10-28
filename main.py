@@ -70,7 +70,7 @@ class Main(QMainWindow):
         self.semeter = Semeter()
         self.show()   
         self.addSignalWidget()
-        
+
 
     def addSignalWidget(self):
         self.button_findSubject.clicked.connect(self.findSubject)
@@ -79,27 +79,29 @@ class Main(QMainWindow):
 
 
     def loadTable(self, subjects: List[Subject]):
-        for subject1 in subjects:
-            days = subject1.getSchedule().getDatesOfLesson()
-            cl = QColor(random.choice(color.list_color))
+        self.resetColorTable()
+        for subject in subjects:
+            days = subject.getSchedule().getDatesOfLesson()
+            color = QColor(subject.getColor())
             for day in days:
-                start_time_subjects = subject1.getSchedule().getStartTimeOfDate(day)
-                end_time_subjects = subject1.getSchedule().getEndTimeOfDate(day)
+                start_time_subjects = subject.getSchedule().getStartTimeOfDate(day)
+                end_time_subjects = subject.getSchedule().getEndTimeOfDate(day)
                 for i in range(len(start_time_subjects)):
                     start = str(start_time_subjects[i])
                     end = str(end_time_subjects[i])
-                    start_row = self.semeter.getTimeChains[start]
-                    end_row = self.semeter.getTimeChains[end]
+                    start_row = self.semeter.getTimeChains()[start]
+                    end_row = self.semeter.getTimeChains()[end]
                     column = WEEK.index(day)
                     for pen in range(start_row, end_row+1+1):
                         self.table_Semeter.setItem(pen, column, QTableWidgetItem())
-                        self.table_Semeter.item(pen, column).setBackground(cl)
+                        self.table_Semeter.item(pen, column).setBackground(color)
 
 
     def deleteSubject(self):
         subject = self.listView_SubjectChoiced.currentItem().data(Qt.UserRole)
         self.semeter.deleteSubject(subject.getName())
         self.removeSel()
+        self.loadTable(self.semeter.getSubjectsInSemeter())
 
 
     def removeSel(self):
@@ -111,8 +113,10 @@ class Main(QMainWindow):
 
     def addSubjectToTable(self):
         subject = self.listView_SubjectDownloaded.currentItem().data(Qt.UserRole)
+        subject.setColor(color.getColor())
         self.semeter.addSubjectToSemeter(subject)
         self.loadListChoosed()
+        self.loadTable(self.semeter.getSubjectsInSemeter())
 
 
     def findSubject(self):
@@ -153,7 +157,7 @@ class Main(QMainWindow):
 
     def loadListChoosed(self):
         self.listView_SubjectChoiced.clear()
-        for subject in self.semeter.getSubjectInSemeter():
+        for subject in self.semeter.getSubjectsInSemeter():
 
             self.custom_widget_subject = QCustomQWidget(subject)
 
@@ -178,8 +182,8 @@ class Main(QMainWindow):
 
 
     def resetColorTable(self):
-        for i in range(self.table.rowCount()):
-            for c in range(self.table.columnCount()):
+        for i in range(self.table_Semeter.rowCount()):
+            for c in range(self.table_Semeter.columnCount()):
                 self.table_Semeter.setItem(i, c, QTableWidgetItem())
                 self.table_Semeter.item(i, c).setBackground(QColor(255,255,255))
 
