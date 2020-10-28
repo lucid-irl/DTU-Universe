@@ -13,11 +13,11 @@ File requirements.txt là cần thiết giúp bạn nhanh chóng cài thư việ
 Mọi sự đóng góp đều được khuyến khích.
 ## Phần này để ghi nhận công lao của các bạn
 Xin cảm ơn:
-* Trần Huy Hoàng lớp Big Data.
-* Khôi lớp Big Data.
-* Trường lớp Big Data.
-* ![Trương A Xin](https://www.facebook.com/truongaxin/) lớp Computer Science.
-Bên trên là những thành viên sáng lập của Start-up Hư Đốn. Với các cột mốc quan trọng 14:30, 19:32, 21:59, căn phòng chừng 8 mét vuông và con mèo đen tên Tôm.
+* [Trần Huy Hoàng](https://www.facebook.com/kietchay100) lớp Big Data.
+* [Trần Tuấn Khôi](https://www.facebook.com/profile.php?id=100010060428020) lớp Big Data.
+* [Nguyen Truong](https://www.facebook.com/truongbede.me/) lớp Big Data.
+* [Trương A Xin](https://www.facebook.com/truongaxin/) lớp Chế biến code.
+Bên trên là những thành viên sáng lập của Start-up Sống Vì Donate. Với các cột mốc quan trọng 14:30, 19:32, 21:59, căn phòng chừng 8 mét vuông và con mèo đen tên Tôm.
 ## Giấy phép
 Tất cả file code trong kho này đều theo giấy phép MIT.
 ## Kiến trúc
