@@ -2,7 +2,7 @@
     <h1>Ứng dụng siêu cấp vũ trụ DTU</h1>
 </div>
 
-<div align="center"><img src="https://github.com/MrSometimeswinmid/DoAn/blob/main/Images/logo.png" width=50px/></div>
+<div align="center"><img src="https://github.com/MrSometimeswinmid/DoAn/blob/main/Images/logo.png" width=150px/></div>
 
 ## Từ một ý tưởng đơn giản vãi loz
 App này được hình thành từ một ý tưởng sơ khai nhất là lấy lịch học trên trang Course của DTU và lịch thi trên
