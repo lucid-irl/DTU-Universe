@@ -176,3 +176,8 @@ def TestRange(soup):
     print("Seat: ", len(GetSeat(soup)))
     print("Place: ", len(GetPlace(soup)))
     print("Status: ", len(GetStatus(soup)))
+
+def GetSubName(soup):
+    div_tag = soup.find(class_ = "title-1")
+    return div_tag.string[div_tag.string.find(":") + 1 : ].replace("  ", "")
+
