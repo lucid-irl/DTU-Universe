@@ -77,6 +77,7 @@ class Main(QMainWindow):
         self.button_addSujectToTable.clicked.connect(self.addSubjectToTable)
         self.button_deleleSubjectFromTable.clicked.connect(self.deleteSubject)
         self.listView_SubjectDownloaded.itemClicked.connect(self.showInfoSubject)
+        self.listView_SubjectChoiced.itemClicked.connect(self.showInfoSubject)
 
 
     def loadTable(self, subjects: List[Subject]):
