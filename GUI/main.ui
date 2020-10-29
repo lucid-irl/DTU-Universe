@@ -195,6 +195,10 @@
         <property name="text">
          <string>Xóa</string>
         </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>C:/Users/truon/Downloads/iconfinder_-trash_62114.png</normaloff>C:/Users/truon/Downloads/iconfinder_-trash_62114.png</iconset>
+        </property>
        </widget>
       </item>
       <item row="0" column="0" colspan="2">
@@ -556,7 +560,7 @@
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
+          <verstretch>1</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
@@ -587,9 +591,9 @@
       <item row="1" column="0">
        <widget class="QLineEdit" name="lineEdit_tenMon">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
+          <verstretch>1</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
@@ -631,7 +635,7 @@
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
+          <verstretch>1</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
@@ -662,9 +666,9 @@
       <item row="1" column="1">
        <widget class="QPushButton" name="pushButton_timKiem">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
+          <verstretch>1</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
@@ -690,6 +694,10 @@
         <property name="text">
          <string>Tìm</string>
         </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../Images/find_icon.png</normaloff>../Images/find_icon.png</iconset>
+        </property>
        </widget>
       </item>
       <item row="4" column="1">
@@ -697,7 +705,7 @@
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
+          <verstretch>1</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
@@ -709,7 +717,7 @@
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>30</height>
+          <height>16777215</height>
          </size>
         </property>
         <property name="font">
@@ -723,6 +731,10 @@
         <property name="text">
          <string>Thêm</string>
         </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>C:/Users/truon/Downloads/iconfinder_Plus_green_1891032.png</normaloff>C:/Users/truon/Downloads/iconfinder_Plus_green_1891032.png</iconset>
+        </property>
        </widget>
       </item>
       <item row="3" column="0" colspan="2">
@@ -730,7 +742,7 @@
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
+          <verstretch>15</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
@@ -760,7 +772,7 @@
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
+          <verstretch>1</verstretch>
          </sizepolicy>
         </property>
         <property name="minimumSize">
@@ -772,7 +784,7 @@
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>30</height>
+          <height>16777215</height>
          </size>
         </property>
         <property name="font">
@@ -785,6 +797,10 @@
         </property>
         <property name="text">
          <string>Cập Nhật</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../Images/iconfinder_refresh_134221.png</normaloff>../Images/iconfinder_refresh_134221.png</iconset>
         </property>
        </widget>
       </item>
