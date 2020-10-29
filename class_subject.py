@@ -83,3 +83,6 @@ class Subject:
     
     def getStatus(self) -> int:
         return self.status
+
+    def getID(self) -> str:
+        return self.id
