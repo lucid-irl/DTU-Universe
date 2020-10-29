@@ -13,7 +13,7 @@
     <x>0</x>
     <y>0</y>
     <width>1339</width>
-    <height>900</height>
+    <height>1000</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -70,7 +70,7 @@
        <enum>Qt::SolidLine</enum>
       </property>
       <property name="rowCount">
-       <number>17</number>
+       <number>18</number>
       </property>
       <attribute name="horizontalHeaderDefaultSectionSize">
        <number>90</number>
@@ -111,6 +111,11 @@
       <row>
        <property name="text">
         <string>13:15</string>
+       </property>
+      </row>
+      <row>
+       <property name="text">
+        <string>14:00</string>
        </property>
       </row>
       <row>

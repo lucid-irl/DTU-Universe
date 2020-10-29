@@ -93,7 +93,7 @@ class Main(QMainWindow):
                     start_row = self.semeter.getTimeChains()[start]
                     end_row = self.semeter.getTimeChains()[end]
                     column = WEEK.index(day)
-                    for pen in range(start_row, end_row+1+1):
+                    for pen in range(start_row, end_row+1):
                         self.table_Semeter.setItem(pen, column, QTableWidgetItem())
                         self.table_Semeter.item(pen, column).setBackground(color)
 
