@@ -3,18 +3,17 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt
 from PyQt5 import uic
-from Classes.customwidget import QCustomQWidget
 
-from Classes.semeter import *
-from Classes.subject import Subject
-from Classes.schedule import Schedule, StringToSchedule
+from class_customwidget import QCustomQWidget
+from class_semeter import *
+from class_subject import Subject
+from class_schedule import StringToSchedule
 
-from Threads.thread_getSubject import ThreadGetSubject
+from thread_getSubject import ThreadGetSubject
 
 import sys
 import os
 import xlrd
-import random
 import color
 import team_config
 
@@ -128,11 +127,17 @@ class Main(QMainWindow):
             self.semeter.addSubjectToSemeter(subject)
             self.loadListChoosed()
             self.loadTable(self.semeter.getSubjectsInSemeter())
+            self.scanConflict()
         else:
             QMessageBox.warning(self,
                 'Một thông báo sương sương',
                 """Vui lòng chọn một môn nào đó để thêm vào lịch. Bạn có thể Donate để mở khoá tính năng thêm một lúc nhiều môn.""",
                 QMessageBox.Ok)
+
+    def scanConflict(self):
+        if len(self.semeter.getSubjectsInSemeter()) >= 2:
+            a = self.semeter.scanSubjectConflict()
+            print('danh sach conflict: ', a)
 
 
     def findSubject(self):
