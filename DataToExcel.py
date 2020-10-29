@@ -30,6 +30,7 @@ def CreateExcel(name: str, number: str) -> bool:
     sheet1.write(0, 7, "Seat Left")
     sheet1.write(0, 8, "Week Range")
     sheet1.write(0, 9, "Status")
+    sheet1.write(0, 10, "Subject Name")
 
     url_sub = Get_Url(name, number)
     soup = Get_Soup(url_sub)
@@ -48,7 +49,10 @@ def CreateExcel(name: str, number: str) -> bool:
         sheet1.write(row + i, col + 7, GetSeat(soup)[i])
         sheet1.write(row + i, col + 8, GetWeekRange(soup)[i])
         sheet1.write(row + i, col + 9, GetStatus(soup)[i])
+        sheet1.write(row + i, col + 10, GetSubName(soup))
     
     CreateFolderToSave()
     wb.save(team_config.FOLDER_SAVE_EXCEL+"/"+ excel_name)
     return True
+
+CreateExcel("ENG", "116")
