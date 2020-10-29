@@ -143,3 +143,4 @@ cython_debug/
 *.pyc
 settings.json
 me_*/
+me_*.*

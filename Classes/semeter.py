@@ -41,6 +41,7 @@ class Semeter:
         for j in range(len(self.SUBJECTS)):
             if self.SUBJECTS[j].getName() == name:
                 self.SUBJECTS.pop(j)
+                break
 
     def scanSubjectConflict(self) -> List[Conflit]:
         pass

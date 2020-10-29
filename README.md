@@ -1,4 +1,8 @@
-# Ứng dụng siêu cấp vũ trụ DTU
+<div align="center">
+    <h1>Ứng dụng siêu cấp vũ trụ DTU</h1>
+</div>
+
+<div align="center"><img src="https://github.com/MrSometimeswinmid/DoAn/blob/main/Images/logo.png" /></div>
 
 ## Từ một ý tưởng đơn giản vãi loz
 App này được hình thành từ một ý tưởng sơ khai nhất là lấy lịch học trên trang Course của DTU và lịch thi trên
@@ -10,13 +14,15 @@ và đầy đau khổ. Những ý tưởng râu ria đằng sau như cho phép c
 ## Bạn muốn phát triển một phiên bản khác
 Dự án này được xây dựng trên Python 3.6.8 64-bit. Bạn cần PyQt5 và các thư viện liên quan nếu muốn phát triển dự án này thêm nữa.
 File requirements.txt là cần thiết giúp bạn nhanh chóng cài thư viện và các công cụ cần thiết cho việc phát triển.
+Mọi sự đóng góp đều được khuyến khích.
 ## Phần này để ghi nhận công lao của các bạn
 Xin cảm ơn:
-* Trần Huy Hoàng lớp Big Data.
-* Khôi lớp Big Data.
-* Trường lớp Big Data.
-* Mình lớp Computer Science.
-Đây là những thành viên của Start-up Hư Đốn. Với các cột mốc quan trọng 14:30, 19:32, căn phòng chừng 8 mét vuông và con mèo đen tên Tôm.
+* [Trần Huy Hoàng](https://www.facebook.com/kietchay100) lớp Big Data.
+* [Trần Tuấn Khôi](https://www.facebook.com/profile.php?id=100010060428020) lớp Big Data.
+* [Nguyen Truong](https://www.facebook.com/truongbede.me/) lớp Big Data.
+* [Trương A Xin](https://www.facebook.com/truongaxin/) lớp Chế biến code.
+
+Bên trên là những thành viên sáng lập của Start-up Sống Vì Donate. Với các cột mốc quan trọng 14:30, 19:32, 21:59, căn phòng chừng 8 mét vuông và con mèo đen tên Tôm.
 ## Giấy phép
 Tất cả file code trong kho này đều theo giấy phép MIT.
 ## Kiến trúc
@@ -38,4 +44,4 @@ Class này giúp bạn thao tác dễ dàng hơn với chuỗi Schedule có tron
 Class này như tên của nó, nó đại diện cho một xung đột giữa hai Schedule khi được thêm vào Semeter. Xung đột này được phát hiện thông
 qua timedelta.
 ### Semeter
-Class này là class chính thao tác với TableWidget đảm nhiệm việc gắn Subject lên Table, sinh ra các signal quan trọng khi có xung đột.
+Class chính trong việc xử lý logic. Trung gian tương tác với GUI và Subjects.
