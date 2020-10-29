@@ -1,7 +1,7 @@
 
-from PyQt5.QtWidgets import QWidget,QLabel, QHBoxLayout, QLayout
+from PyQt5.QtWidgets import QApplication, QWidget,QLabel, QHBoxLayout, QLayout, QPushButton
 from class_subject import Subject
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QClipboard
 
 class QCustomQWidget (QWidget):
     """Custom layout cho item trong QListWidget."""
@@ -26,6 +26,16 @@ class QCustomQWidget (QWidget):
 
         self.textQVBoxLayout.setSizeConstraint(QLayout.SetFixedSize)
         self.setLayout(self.textQVBoxLayout)
+
+    def addButtonCopyIDSubject(self):
+        self.button_copyIDToClipBoard = QPushButton('Sao chép ID', self)
+        self.button_copyIDToClipBoard.clicked.connect(self.copyID)
+        self.textQVBoxLayout.addWidget(self.button_copyIDToClipBoard,1)
+
+    def copyID(self):
+        clipboard = QApplication.clipboard()
+        clipboard.clear(mode=clipboard.Clipboard)
+        clipboard.setText(self.subject.getID())
 
     
     
