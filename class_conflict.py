@@ -111,7 +111,7 @@ class Conflit:
     def getStartConflitTime(self, day:str) -> timedelta:
         """
         Phương thức này trả về một timedelta là thời gian bắt đầu xung đột của một Thứ nào đó. Phương thức này
-        trả về một List rỗng nếu `day` truyền vào không thuộc time gặp xung đột hoặc hai Subject không xung đột.
+        trả về None nếu `day` truyền vào không thuộc time gặp xung đột hoặc hai Subject không xung đột.
         """
         output = []
         if self.isconflict:
@@ -123,7 +123,7 @@ class Conflit:
                 elif self.subject1_hours_end > self.subject2_hours_start and self.subject1_hours_end < self.subject2_hours_end:
                     output.append(day)
         else:
-            return [] # error
+            return None
 
     def getEndConflitTime(self) -> List[str]:
         """
