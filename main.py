@@ -42,7 +42,8 @@ class Main(QMainWindow):
         self.checkBox_phase1 = self.findChild(QCheckBox, 'checkBox_giaiDoan1')
         self.checkBox_phase2 = self.findChild(QCheckBox, 'checkBox_giaiDoan2')
 
-        self.plainTextEdit_thongtin = self.findChild(QPlainTextEdit, 'plainTextEdit_thongTin')
+        self.textEdit_thongtin = self.findChild(QTextEdit, 'textEdit_thongtin')
+        self.textEdit_thongke = self.findChild(QTextEdit, 'textEdit_thongke')
 
         self.table_Semeter = self.findChild(QTableWidget, 'tableWidget_lichHoc')
 
@@ -62,7 +63,7 @@ class Main(QMainWindow):
         # self.checkBox_phase1 = QCheckBox()
         # self.checkBox_phase2 = QCheckBox()
 
-        # self.plainTextEdit_thongtin = QPlainTextEdit()
+        # self.textEdit_thongtin = QTextEdit()
 
         # self.table_Semeter = QTableWidget()
 ################## hot fix ##################################
@@ -135,6 +136,7 @@ class Main(QMainWindow):
                 """Vui lòng chọn một môn nào đó để thêm vào lịch. Bạn có thể Donate để mở khoá tính năng thêm một lúc nhiều môn.""",
                 QMessageBox.Ok)
 
+
     def scanConflict(self):
         if len(self.semeter.getSubjectsInSemeter()) >= 2:
             a = self.semeter.scanSubjectConflict()
@@ -144,7 +146,7 @@ class Main(QMainWindow):
     def findSubject(self):
         self.SUBJECT_FOUND.clear()
         self.listView_SubjectDownloaded.clear()
-        self.plainTextEdit_thongtin.appendPlainText('Đang tìm kiếm...')
+        self.textEdit_thongtin.setText('Đang tìm kiếm...')
         subject_name = self.line_findSubject.text()
         file_name = team_config.FOLDER_SAVE_EXCEL+'/'+subject_name+'.xls'
 
@@ -158,7 +160,7 @@ class Main(QMainWindow):
 
 
     def fillDataToSubjects(self, e):
-        self.plainTextEdit_thongtin.clear()
+        self.textEdit_thongtin.clear()
         wb = xlrd.open_workbook(e)
         sheet = wb.sheet_by_index(0)
         
@@ -210,10 +212,10 @@ class Main(QMainWindow):
                 self.table_Semeter.item(i, c).setBackground(QColor(255,255,255))
 
 
-    def showInfoSubject(self):
-        self.plainTextEdit_thongtin.clear()
-        subject = self.listView_SubjectDownloaded.currentItem().data(Qt.UserRole)
-        self.plainTextEdit_thongtin.setPlainText(subject.getInfo())
+    def showInfoSubject(self, e):
+        self.textEdit_thongtin.clear()
+        subject = e.data(Qt.UserRole)
+        self.textEdit_thongtin.setText(subject.getInfo())
 
 
     def nonFoundSubject(self):
