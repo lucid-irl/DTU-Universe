@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import time, timedelta
 from typing import List, Tuple
 from unittest.signals import removeResult
 
@@ -90,59 +90,85 @@ class Conflit:
 
                 for time_end2 in self.subject2_hours_end:
                     for time_start1 in self.subject1_hours_start:
-                        if time_end2 > time_start1:
+                        if time_end2 >= time_start1:
                             for time_end2 in self.subject2_hours_end:
                                 for time_end1 in self.subject1_hours_end:
-                                    if time_end2 < time_end1:
+                                    if time_end2 <= time_end1:
                                         if day not in output:
                                             output.append(day)
 
                 for time_end1 in self.subject1_hours_end:
                     for time_start2 in self.subject2_hours_start:
-                        if time_end1 > time_start2:
+                        if time_end1 >= time_start2:
                             for time_end1 in self.subject1_hours_end:
                                 for time_end2 in self.subject2_hours_end:
-                                    if time_end1 < time_end2:
+                                    if time_end1 <= time_end2:
                                         if day not in output:
                                             output.append(day)
             return output
         return []
 
-    def getStartConflitTime(self, day:str) -> timedelta:
+    def getConflitTime(self) -> List[Dict[str,Tuple[timedelta, timedelta]]]:
         """
-        Phương thức này trả về một timedelta là thời gian bắt đầu xung đột của một Thứ nào đó. Phương thức này
-        trả về None nếu `day` truyền vào không thuộc time gặp xung đột hoặc hai Subject không xung đột.
+        Trả về một List[Dict[Tuple]] chứa thời gian bắt đầu và thời gian kết thúc xung đột của hai môn học nào đó.
+        [{Monday: ('07:00:00','8:00:00')}, {Tuseday: ('07:00:00','8:00:00')}]
         """
         output = []
         if self.isconflict:
-            if day in self.getDateHaveConflict():
-                if (self.subject1_hours_start == self.subject2_hours_start):
-                    return 
-                elif self.subject2_hours_end > self.subject1_hours_start and self.subject2_hours_end < self.subject1_hours_end:
-                    output.append(day)
-                elif self.subject1_hours_end > self.subject2_hours_start and self.subject1_hours_end < self.subject2_hours_end:
-                    output.append(day)
+            for day in self.getDateHaveConflict():
+
+                start1 = self.subject1.getSchedule().getStartTimeOfDate(day)
+                end1 = self.subject1.getSchedule().getEndTimeOfDate(day)
+                start2 = self.subject2.getSchedule().getStartTimeOfDate(day)
+                end2 = self.subject2.getSchedule().getEndTimeOfDate(day)
+
+                # Phân rã thành những cặp start và end
+                timeRange1s = []
+                for i in range(len(start1)):
+                    timeRange = [start1[i], end1[i]]
+                    timeRange1s.append(timeRange)
+
+                timeRange2s = []
+                for i in range(len(start2)):
+                    timeRange2 = [start2[i], end2[i]]
+                    timeRange2s.append(timeRange2)
+                print(day)
+                print(self.subject1,':',timeRange1s)
+                print(self.subject2,':',timeRange2s)
+
+            
+                # So khớp từ cặp để tìm xung đột.
+                for time_range_sub1 in timeRange1s:
+                    for time_range_sub2 in timeRange2s:
+                        if (self.isThatRangeTimeInThisRangeTime(time_range_sub1, time_range_sub2)
+                        or self.isThatRangeTimeInThisRangeTime(time_range_sub2, time_range_sub1)
+                        or self.isTwoTimeRangeIntersect(time_range_sub1, time_range_sub2)
+                        or self.isTwoTimeRangeIntersect(time_range_sub2, time_range_sub1)):
+                            # sort lấy range giữa
+                            time_ranges = time_range_sub1 + time_range_sub2
+                            time_ranges = sorted(time_ranges)
+                            output.append({day:(str(time_ranges[1]), str(time_ranges[2]))})
+        return output
+
+    
+    def isInTimeRange(self, timeRange: List[timedelta], point: timedelta) -> bool:
+        if point >= timeRange[0] and point <= timeRange[1]:
+            return True
         else:
-            return None
+            return False
+    
+    def isThatRangeTimeInThisRangeTime(self, thatRangeTime: List[timedelta], thisRangeTime: List[timedelta]) -> bool:
+        if self.isInTimeRange(thisRangeTime, thatRangeTime[0]) and self.isInTimeRange(thisRangeTime, thatRangeTime[1]):
+            return True
+        else:
+            return False
+    
+    def isTwoTimeRangeIntersect(self, timeRange: List[timedelta], timeRange2: List[timedelta]):
+        if self.isInTimeRange(timeRange, timeRange2[0]) and self.isInTimeRange(timeRange2, timeRange[1]):
+            return True
+        elif self.isInTimeRange(timeRange2, timeRange[0]) and self.isInTimeRange(timeRange, timeRange2[1]):
+            return True
+        else:
+            return False
 
-    def getEndConflitTime(self) -> List[str]:
-        """
-        Phương thức này trả về một List chứa các chuỗi thời gian kết thúc xung đột.
-        """
-        pass
 
-    def getRangeOfConflitTime(self) -> List[Tuple[str]]:
-        """
-        Phương thức này trả về một List các Tuple chứa thời gian bắt đầu và kết thúc xung đột.
-
-        >>> [("09:00","09:15"),("10:00","10:15")]
-        """
-        pass
-
-if __name__ == "__main__":
-    sd1 = Schedule([{'T2':['07:00-09:00','07:00-10:15']},{'T5':['07:00-09:00']}])
-    sd2 = Schedule([{'T2':['08:00-10:15']},{'T5':['06:00-11:15']}])
-    s1 = Subject('1','ok',3,4,sd1,'ok','ok',(),True)
-    s2 = Subject('1','ok',3,4,sd2,'ok','ok',(),True)
-    cf = Conflit(s1, s2).getDateHaveConflict()
-    print(cf)
