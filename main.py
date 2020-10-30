@@ -137,10 +137,13 @@ class Main(QMainWindow):
                 QMessageBox.Ok)
 
 
-    def scanConflict(self):
+    def scanConflict(self) -> List[str]:
         if len(self.semeter.getSubjectsInSemeter()) >= 2:
-            a = self.semeter.scanSubjectConflict()
-            print('danh sach conflict: ', a)
+            output = []
+            conflits = self.semeter.scanSubjectConflict()
+            for conflict in conflits:
+                output.append(conflict.getConflitTime())
+            return output
 
 
     def findSubject(self):
@@ -184,6 +187,7 @@ class Main(QMainWindow):
         for subject in self.semeter.getSubjectsInSemeter():
 
             self.custom_widget_subject = QCustomQWidget(subject)
+            self.custom_widget_subject.addButtonCopyIDSubject()
 
             self.myQListWidgetItem = QListWidgetItem(self.listView_SubjectChoiced)
             self.myQListWidgetItem.setData(Qt.UserRole, subject)
