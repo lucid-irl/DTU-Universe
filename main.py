@@ -137,7 +137,7 @@ class Main(QMainWindow):
                 QMessageBox.Ok)
 
 
-    def scanConflict(self):
+    def scanConflict(self):git 
         if len(self.semeter.getSubjectsInSemeter()) >= 2:
             a = self.semeter.scanSubjectConflict()
             print('danh sach conflict: ', a)
