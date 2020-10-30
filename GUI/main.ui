@@ -13,7 +13,7 @@
     <x>0</x>
     <y>0</y>
     <width>1297</width>
-    <height>988</height>
+    <height>900</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -376,7 +376,7 @@
       <property name="minimumSize">
        <size>
         <width>0</width>
-        <height>700</height>
+        <height>500</height>
        </size>
       </property>
       <property name="maximumSize">
@@ -388,16 +388,22 @@
       <property name="font">
        <font>
         <family>Segoe UI</family>
-        <pointsize>11</pointsize>
+        <pointsize>9</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
       </property>
       <property name="lineWidth">
        <number>1</number>
       </property>
       <property name="sizeAdjustPolicy">
        <enum>QAbstractScrollArea::AdjustToContents</enum>
+      </property>
+      <property name="showGrid">
+       <bool>true</bool>
       </property>
       <property name="gridStyle">
        <enum>Qt::SolidLine</enum>
