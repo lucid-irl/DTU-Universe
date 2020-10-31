@@ -138,15 +138,10 @@ def GetTeacher(soup):
     tr_list = soup.find_all("tr", class_='lop')
     for tr_tag in tr_list:
         list_sub_teacher.append(str(tr_tag('td')[9].text).strip())
+    for i in range(len(list_sub_teacher)):
+        if list_sub_teacher[i] == "":
+            list_sub_teacher[i] = "KHÔNG RÕ"
     return GetListExistId(soup, list_sub_teacher)
-
-def GetPlace(soup):
-    list_sub_place = []
-
-    tr_list = soup.find_all("tr", class_='lop')
-    for tr_tag in tr_list:
-        list_sub_place.append(str(tr_tag('td')[8].text).strip())
-    return GetListExistId(soup, list_sub_place)
 
 def GetWeekRange(soup):
     list_week = []
@@ -180,4 +175,22 @@ def TestRange(soup):
 def GetSubName(soup):
     div_tag = soup.find(class_ = "title-1")
     return div_tag.string[div_tag.string.find(":") + 1 : ].replace("  ", "")
+
+def GetPlace(soup):
+    list_sub_place = []
+    result = []
+    templst = [] 
+    tr_list = soup.find_all("tr", class_='lop')
+    for tr_tag in tr_list:
+        list_sub_place.append(str(tr_tag('td')[8].text).split("\r\n"))
+
+    for place in list_sub_place:
+        for mem in place:
+            temp = mem.strip()
+            if temp != "":
+                templst.append(temp)
+        result.append(", ".join(templst))
+        templst = []    
+
+    return GetListExistId(soup, result)
 
