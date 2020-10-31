@@ -162,6 +162,10 @@
         <property name="text">
          <string>Xuất Excel</string>
         </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>../Images/iconfinder_119_Excel_logo_logos_4373169.png</normaloff>../Images/iconfinder_119_Excel_logo_logos_4373169.png</iconset>
+        </property>
        </widget>
       </item>
       <item row="2" column="0">
@@ -706,43 +710,6 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
-       <widget class="QPushButton" name="pushButton_themLop">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>1</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Segoe UI</family>
-          <pointsize>11</pointsize>
-          <weight>50</weight>
-          <bold>false</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>Thêm</string>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>C:/Users/truon/Downloads/iconfinder_Plus_green_1891032.png</normaloff>C:/Users/truon/Downloads/iconfinder_Plus_green_1891032.png</iconset>
-        </property>
-       </widget>
-      </item>
       <item row="3" column="0" colspan="2">
        <widget class="QListWidget" name="listWidget_tenLop">
         <property name="sizePolicy">
@@ -773,7 +740,24 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
+     </layout>
+    </item>
+    <item row="16" column="2" colspan="2">
+     <widget class="QTextEdit" name="textEdit_thongtin">
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="leftMargin">
+       <number>7</number>
+      </property>
+      <property name="rightMargin">
+       <number>7</number>
+      </property>
+      <item>
        <widget class="QPushButton" name="pushButton_capNhat">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -810,14 +794,44 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_themLop">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>1</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>11</pointsize>
+          <weight>50</weight>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Thêm</string>
+        </property>
+        <property name="icon">
+         <iconset>
+          <normaloff>C:/Users/truon/Downloads/iconfinder_Plus_green_1891032.png</normaloff>C:/Users/truon/Downloads/iconfinder_Plus_green_1891032.png</iconset>
+        </property>
+       </widget>
+      </item>
      </layout>
-    </item>
-    <item row="16" column="2" colspan="2">
-     <widget class="QTextEdit" name="textEdit_thongtin">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
     </item>
    </layout>
   </widget>
