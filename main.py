@@ -137,11 +137,7 @@ class Main(QMainWindow):
                 QMessageBox.Ok)
 
 
-<<<<<<< HEAD
-    def scanConflict(self):git 
-=======
     def scanConflict(self) -> List[str]:
->>>>>>> 3e62061c2f9a243521707549b9052bcf638b84bf
         if len(self.semeter.getSubjectsInSemeter()) >= 2:
             output = []
             conflits = self.semeter.scanSubjectConflict()
