@@ -129,7 +129,7 @@ class Main(QMainWindow):
             self.semeter.addSubjectToSemeter(subject)
             self.loadListChoosed()
             self.loadTable(self.semeter.getSubjectsInSemeter())
-            self.scanConflict()
+            self.paintConflict()
         else:
             QMessageBox.warning(self,
                 'Một thông báo sương sương',
@@ -137,13 +137,16 @@ class Main(QMainWindow):
                 QMessageBox.Ok)
 
 
-    def scanConflict(self) -> List[str]:
+    def paintConflict(self) -> List[str]:
         if len(self.semeter.getSubjectsInSemeter()) >= 2:
-            output = []
-            conflits = self.semeter.scanSubjectConflict()
-            for conflict in conflits:
-                output.append(conflict.getConflitTime())
-            return output
+            for conflictsASubject in self.semeter.scanSubjectConflict():
+                for conflict in conflictsASubject:
+                    key = next(iter(conflict))
+                    col = self.semeter.DATE_CHAINS[key]
+                    startConflict = self.semeter.TIME_CHAINS[conflict[key][0]]
+                    endConflict = self.semeter.TIME_CHAINS[conflict[key][1]]
+                    self.table_Semeter.setItem(startConflict, col, QTableWidgetItem().setText('Conflict'))
+                    self.table_Semeter.item(endConflict, col).setBackground(QColor('#FF0000'))
 
 
     def findSubject(self):
