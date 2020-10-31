@@ -40,6 +40,16 @@ class Semeter:
         '19:15:00':16,
         '21:00:00':17
         }
+
+    DATE_CHAINS = {
+        Monday: 0,
+        Tuseday: 1,
+        Wednesday: 2,
+        Thursday: 3,
+        Friday: 4,
+        Saturday: 5,
+        Sunday: 6,
+    }
     
     SUBJECTS = []
 
@@ -58,8 +68,11 @@ class Semeter:
                 self.SUBJECTS.pop(j)
                 break
 
-    def scanSubjectConflict(self) -> List[Conflit]:
-        """Bắt cặp tất cả Subject có trong danh sách trả về List chứa Conflicts."""
+    def scanSubjectConflict(self) -> List[List[Dict[str,Tuple[str]]]]:
+        """Bắt cặp tất cả Subject có trong danh sách trả về List chứa Conflicts.
+
+        [[{'T6': ('9:15:00', '10:15:00')}, {'T6': ('7:00:00', '9:00:00')}, {'T6': ('7:00:00', '10:15:00')}]]"""
+        conflicts = []
         output = []
         tempSubjectsList = self.SUBJECTS.copy()
         while len(tempSubjectsList) > 1:
@@ -69,12 +82,10 @@ class Semeter:
                     break
                 conflict = Conflit(baseSubject, tempSubjectsList[i])
                 if conflict.isConflict():
-                    output.append(conflict)
-                    ## test
-                    print(conflict.getDateHaveConflict())
-                #### test
-                # test.append(baseSubject.getName()+'--'+tempSubjectsList[i].getName())
-            tempSubjectsList.pop(0) 
+                    conflicts.append(conflict)
+            tempSubjectsList.pop(0)
+        for conflict in conflicts:
+            output.append(conflict.getConflitTime())
         return output
 
 
