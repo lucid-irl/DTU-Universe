@@ -8,7 +8,7 @@
 App này được hình thành từ một ý tưởng sơ khai nhất là lấy lịch học trên trang Course của DTU và lịch thi trên
 phòng đào tạo DTU. Ứng dụng được viết bằng Python, giao diện được dựng trên PyQt5.
 ## Đến một cái đồ án với nhiều chức năng thật sự...vãi loz
-Từ những *ý tưởng sơ khai*** chúng tôi đã vẽ ra một loạt các chức năng râu ria khác. Nhưng ý tưởng chính vẫn là một
+Từ những *ý tưởng sơ khai* ** chúng tôi đã vẽ ra một loạt các chức năng râu ria khác. Nhưng ý tưởng chính vẫn là một
 ứng dụng cho phép người dùng Xếp một bản xem trước của lịch học, phục vụ cho những kỳ đăng ký tín chỉ đầy chật vật
 và đầy đau khổ. Những ý tưởng râu ria đằng sau như cho phép chèn lịch cá nhân, bờ la bờ la nhiều thứ khác.
 ## Bạn muốn phát triển một phiên bản khác
@@ -47,4 +47,4 @@ qua timedelta.
 Class chính trong việc xử lý logic. Trung gian tương tác với GUI và Subjects.
 
 ** *Ứng dụng này không thuộc DTU, không chịu sự quản lý của DTU.*
-*** *Mọi bản cập nhật, sửa chửa, nâng cấp*
+*** *Mọi bản cập nhật, sửa chửa, nâng cấp không phụ thuộc vào DTU.*
