@@ -47,4 +47,5 @@ qua timedelta.
 Class chính trong việc xử lý logic. Trung gian tương tác với GUI và Subjects.
 
 ** *Ứng dụng này không thuộc DTU, không chịu sự quản lý của DTU.*
+
 *** *Mọi bản cập nhật, sửa chửa, nâng cấp không phụ thuộc vào DTU.*
