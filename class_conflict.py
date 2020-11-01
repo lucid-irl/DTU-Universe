@@ -150,7 +150,6 @@ class Conflit:
                             output.append({day:(str(time_ranges[1]), str(time_ranges[2]))})
         return output
 
-    
     def isInTimeRange(self, timeRange: List[timedelta], point: timedelta) -> bool:
         if point >= timeRange[0] and point <= timeRange[1]:
             return True
@@ -171,4 +170,8 @@ class Conflit:
         else:
             return False
 
+    def getSubject1(self):
+        return self.subject1
 
+    def getSubject2(self):
+        return self.subject2
