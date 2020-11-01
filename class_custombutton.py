@@ -32,16 +32,16 @@ class PicButton(QAbstractButton):
         self.update()
 
     def sizeHint(self):
-        return QSize(200, 200)
+        return QSize(20, 20)
 
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = QWidget()
+    layout = QHBoxLayout(window)
 
-app = QApplication(sys.argv)
-window = QWidget()
-layout = QHBoxLayout(window)
+    button = PicButton(QPixmap("Images\iconfinder_clipboard_download_50092.png"), QPixmap("Images\iconfinder_refresh_134221.png"), 
+    QPixmap("Images\iconfinder_checked-checklist-notepad_532781.png"))
+    layout.addWidget(button)
 
-button = PicButton(QPixmap("Images\iconfinder_clipboard_download_50092.png"), QPixmap("Images\iconfinder_refresh_134221.png"), 
-QPixmap("Images\iconfinder_checked-checklist-notepad_532781.png"))
-layout.addWidget(button)
-
-window.show()
-sys.exit(app.exec_())
+    window.show()
+    sys.exit(app.exec_())
