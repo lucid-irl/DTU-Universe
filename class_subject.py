@@ -40,9 +40,10 @@ class Subject:
     http://courses.duytan.edu.vn/Sites/Home_ChuongTrinhDaoTao.aspx?p=home_coursesearch
     """
 
-    def __init__(self, id: str, name: str, number_of_seats_left: int, credits: int, schedule: Schedule, teacher: str, place: str, week_range: list, status: int):
+    def __init__(self, id: str, name: str, number_of_seats_left: int, credits: int, schedule: Schedule, teacher: str, place: str, week_range: list, status: int, fullname: str):
         self.id = id
         self.name = name
+        self.fullname = fullname
         self.number_of_seats_left = number_of_seats_left  
         self.credits = credits
         self.schedule = schedule
@@ -59,11 +60,7 @@ class Subject:
         return "<Subject {0}>".format(self.name)
 
     def getInfo(self):
-        info = """
-        Môn học: {0}
-        Giảng viên: {1} | Số tín chỉ: {2} | Số chỗ: {3}
-        Môn này học tại {4}.
-        """.format(self.name, self.teacher, self.credits, self.number_of_seats_left, self.place)
+        info = """Môn học: {0} | {5}\nGiảng viên: {1} | Số tín chỉ: {2} | Số chỗ: {3}\nMôn này học tại {4}.""".format(self.name, self.teacher, self.credits, self.number_of_seats_left, self.place, self.fullname)
         return info
 
     def setColor(self, color: str):
