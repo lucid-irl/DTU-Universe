@@ -72,6 +72,7 @@ class Main(QMainWindow):
         self.semeter = Semeter()
         self.show()   
         self.addSignalWidget()
+        self.addShortcut()
 
 
     def addSignalWidget(self):
@@ -82,6 +83,12 @@ class Main(QMainWindow):
         self.listView_SubjectDownloaded.itemClicked.connect(self.showInfoSubject)
         self.listView_SubjectChoiced.itemClicked.connect(self.showInfoSubject)
 
+    def addShortcut(self):
+        self.quitSc = QShortcut(QKeySequence('Esc'), self)
+        self.quitSc.activated.connect(QApplication.instance().quit)
+        
+        # shortcut for button here
+        self.button_findSubject.setShortcut('Return')
 
     def loadTable(self, subjects: List[Subject]):
         self.resetColorTable()
@@ -142,7 +149,7 @@ class Main(QMainWindow):
         self.loadListChoosed()
         self.loadTable(self.semeter.getSubjectsInSemeter())
         self.paintConflict()
-        
+
 
     def paintConflict(self) -> List[str]:
         if len(self.semeter.getSubjectsInSemeter()) >= 2:
