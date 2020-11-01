@@ -25,7 +25,7 @@ class Main(QMainWindow):
 
     def __init__(self):
         super(Main, self).__init__()
-
+        self.semeter = Semeter()
         uic.loadUi(team_config.FOLDER_UI+'/'+team_config.USE_UI, self)
 
         self.button_findSubject = self.findChild(QPushButton,'pushButton_timKiem')
@@ -48,6 +48,10 @@ class Main(QMainWindow):
 
         self.table_Semeter = self.findChild(QTableWidget, 'tableWidget_lichHoc')
 
+        self.show()   
+        self.addSignalWidget()
+        self.addShortcut()
+
 ################## hot fix ##################################
         # self.button_findSubject = QPushButton()
         # self.button_addSujectToTable = QPushButton()
@@ -69,15 +73,10 @@ class Main(QMainWindow):
         # self.table_Semeter = QTableWidget()
 ################## hot fix ##################################
 
-        self.semeter = Semeter()
-        self.show()   
-        self.addSignalWidget()
-        self.addShortcut()
 
 
     def addSignalWidget(self):
         self.button_findSubject.clicked.connect(self.findSubject)
-        # self.button_addSujectToTable.clicked.connect(self.addSubjectToTable)
         self.button_deleleSubjectFromTable.clicked.connect(self.deleteSubject)
         self.button_updateSubject.clicked.connect(self.updateSubject)
         self.listView_SubjectDownloaded.itemClicked.connect(self.showInfoSubject)
@@ -105,8 +104,11 @@ class Main(QMainWindow):
                     end_row = self.semeter.getTimeChains()[end]
                     column = WEEK.index(day)
                     for pen in range(start_row, end_row+1):
-                        self.table_Semeter.setItem(pen, column, QTableWidgetItem())
-                        self.table_Semeter.item(pen, column).setBackground(color)
+                        item = QTableWidgetItem()
+                        item.setText(subject.getName())
+                        item.setBackground(color)
+                        self.table_Semeter.setItem(pen, column, item)
+
 
 
     def deleteSubject(self):
