@@ -83,3 +83,6 @@ class Subject:
 
     def getID(self) -> str:
         return self.id
+
+    def getFullName(self) -> str:
+        return self.fullname

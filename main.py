@@ -107,6 +107,7 @@ class Main(QMainWindow):
                         item = QTableWidgetItem()
                         item.setText(subject.getName())
                         item.setBackground(color)
+                        item.setToolTip(subject.getFullName())
                         self.table_Semeter.setItem(pen, column, item)
 
 
