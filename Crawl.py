@@ -155,7 +155,7 @@ def GetStatus(soup):
 
 def GetSubName(soup):
     div_tag = soup.find(class_ = "title-1")
-    return div_tag.string[div_tag.string.find(":") + 1 : ].replace("  ", "")
+    return div_tag.string[div_tag.string.find(":") + 1 : ].replace("  ", "").replace("\xa0\r\n", "")
 
 def GetPlace(soup):
     list_sub_place = []
