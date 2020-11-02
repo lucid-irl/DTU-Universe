@@ -132,17 +132,6 @@ def GetSchedule(soup):
         lst.append(json.dumps(clean_SubTime(str(tr_tag('td')[6]))))
     return GetListExistId(soup, lst)
 
-def GetTeacher(soup):
-    list_sub_teacher = []
-
-    tr_list = soup.find_all("tr", class_='lop')
-    for tr_tag in tr_list:
-        list_sub_teacher.append(str(tr_tag('td')[9].text).strip())
-    for i in range(len(list_sub_teacher)):
-        if list_sub_teacher[i] == "":
-            list_sub_teacher[i] = "KHÔNG RÕ"
-    return GetListExistId(soup, list_sub_teacher)
-
 def GetWeekRange(soup):
     list_week = []
 
@@ -164,14 +153,6 @@ def GetStatus(soup):
             result.append(int(0))
     return GetListExistId(soup, result)
 
-def TestRange(soup):
-    print("ID: ", len(GetID(soup)))
-    print("Name: ", len(GetName(soup)))
-    print("Schedule: ", len(GetSchedule(soup)))
-    print("Seat: ", len(GetSeat(soup)))
-    print("Place: ", len(GetPlace(soup)))
-    print("Status: ", len(GetStatus(soup)))
-
 def GetSubName(soup):
     div_tag = soup.find(class_ = "title-1")
     return div_tag.string[div_tag.string.find(":") + 1 : ].replace("  ", "")
@@ -191,6 +172,24 @@ def GetPlace(soup):
                 templst.append(temp)
         result.append(", ".join(templst))
         templst = []    
+
+    return GetListExistId(soup, result)
+
+def GetTeacher(soup):
+    list_sub_teacher = []
+    templst = []
+    result = []
+
+    tr_list = soup.find_all("tr", class_='lop')
+    for tr_tag in tr_list:
+        list_sub_teacher.append(str(tr_tag('td')[9].text).strip())
+    for i in range(len(list_sub_teacher)):
+        if list_sub_teacher[i] == "":
+            list_sub_teacher[i] = "KHÔNG RÕ"
+    for mem in list_sub_teacher:
+        templst.append(mem.split())
+    for temp in templst:
+        result.append(" ".join(temp))
 
     return GetListExistId(soup, result)
 
