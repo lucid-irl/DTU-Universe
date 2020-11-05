@@ -8,6 +8,7 @@ from class_customConflictWidget import CustomConflictWidget
 from class_semeter import *
 from class_subject import Subject
 from class_schedule import StringToSchedule
+from class_calendar import *
 
 from thread_getSubject import ThreadGetSubject
 
@@ -23,9 +24,11 @@ class Main(QMainWindow):
 
     SUBJECT_FOUND = []
 
-    def __init__(self):
+    def __init__(self, mainwindow=None):
         super(Main, self).__init__()
+        self.mainwindow = mainwindow
         self.semeter = Semeter()
+        self.calendar = None
         uic.loadUi(team_config.FOLDER_UI+'/'+team_config.USE_UI, self)
 
         self.button_findSubject = self.findChild(QPushButton,'pushButton_timKiem')
@@ -33,6 +36,7 @@ class Main(QMainWindow):
         self.button_updateSubject = self.findChild(QPushButton, 'pushButton_capNhat')
         self.button_deleleSubjectFromTable = self.findChild(QPushButton, 'pushButton_xoaLop')
         self.button_saveExcel = self.findChild(QPushButton, 'pushButton_luuText')
+        self.button_choiceCalendar = self.findChild(QPushButton, 'pushButton_choiceCalendar')
 
         self.listView_SubjectDownloaded = self.findChild(QListWidget, 'listWidget_tenLop')
         self.listView_SubjectChoiced = self.findChild(QListWidget, 'listWidget_lopDaChon')
@@ -48,7 +52,7 @@ class Main(QMainWindow):
 
         self.table_Semeter = self.findChild(QTableWidget, 'tableWidget_lichHoc')
 
-        self.show()   
+        # self.show()
         self.addSignalWidget()
         self.addShortcut()
 
@@ -58,6 +62,7 @@ class Main(QMainWindow):
         # self.button_updateSubject = QPushButton()
         # self.button_deleleSubjectFromTable = QPushButton()
         # self.button_saveExcel = QPushButton()
+        # self.button_choiceCalendar = QPushButton()
 
         # self.listView_SubjectDownloaded = QListWidget()
         # self.listView_SubjectChoiced = QListWidget()
@@ -76,13 +81,16 @@ class Main(QMainWindow):
 
 
     def addSignalWidget(self):
+        """Phương thức này kết nối signal với slot tương ứng."""
         self.button_findSubject.clicked.connect(self.findSubject)
         self.button_deleleSubjectFromTable.clicked.connect(self.deleteSubject)
         self.button_updateSubject.clicked.connect(self.updateSubject)
+        self.button_choiceCalendar.clicked.connect(self.openCalendarChoicer)
         self.listView_SubjectDownloaded.itemClicked.connect(self.showInfoSubject)
         self.listView_SubjectChoiced.itemClicked.connect(self.showInfoSubject)
 
     def addShortcut(self):
+        """Phương thức này chịu trách nhiệm gán Shortcut cho các chức năng trong ứng dụng."""
         self.quitSc = QShortcut(QKeySequence('Esc'), self)
         self.quitSc.activated.connect(QApplication.instance().quit)
         
@@ -111,7 +119,6 @@ class Main(QMainWindow):
                         self.table_Semeter.setItem(pen, column, item)
 
 
-
     def deleteSubject(self):
         item = self.listView_SubjectChoiced.currentItem()
         if item:
@@ -136,9 +143,19 @@ class Main(QMainWindow):
     def updateSubject(self):
         # tạm thời update mình sẽ xoá tất cả mọi file trong thư mục data để nó tải lại mọi thứ.
         try:
-            filelist = [ f for f in os.listdir(team_config.FOLDER_SAVE_EXCEL) if f.endswith(".xls") ]
-            for f in filelist:
-                os.remove(os.path.join(team_config.FOLDER_SAVE_EXCEL, f))
+            mss = QMessageBox.warning(
+                self,
+                team_config.MESSAGE_WARNING,
+                team_config.MESSAGE_UPDATE_CONTENT,
+                QMessageBox.Ok |
+                QMessageBox.Cancel,
+                defaultButton=QMessageBox.Cancel
+            )
+            if mss == QMessageBox.Ok:
+                print('OK')
+                filelist = [ f for f in os.listdir(team_config.FOLDER_SAVE_EXCEL) if f.endswith(".xls") ]
+                for f in filelist:
+                    os.remove(os.path.join(team_config.FOLDER_SAVE_EXCEL, f))
         except:
             QMessageBox.warning(
                 self,
@@ -263,17 +280,55 @@ class Main(QMainWindow):
         subject = e.data(Qt.UserRole)
         self.textEdit_thongtin.setText(subject.getInfo())
 
+    def openCalendarChoicer(self):
+        if self.calendar == None:
+            self.calendar = CalendarChoicer()
+        # active this window
+        self.calendar.setWindowFlags(Qt.WindowStaysOnTopHint)
+        self.calendar.show()
 
     def nonFoundSubject(self):
         QMessageBox.warning(
             self, 
-            'Cảnh báo sương sương',
-            'Có vẻ như bạn chưa donate, vui lòng donate để sử dụng hết tất cả những tính năng',
+            team_config.MESSAGE_ABOUT,
+            team_config.MESSAGE_DONATE_CONTENT,
             QMessageBox.Ok
         )
 
-    
+class MainWindow(QMainWindow):
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.setWindowTitle(team_config.TITLE)
+        self.setupUI()
+
+    def setupUI(self):
+        self.widget = Main(mainwindow=self)
+        self.setCentralWidget(self.widget)
+        # menu here
+        self.menubar = QMenuBar(self.widget)
+        self.menu_file = QMenu('Tệp tin', self.menubar)
+        self.action_setting = QAction('Cài đặt')
+        self.menu_file.addAction(self.action_setting)
+        self.menu_help = QMenu('Trợ giúp', self.menubar)
+        self.action_aboutUs = QAction('Về chúng tôi')
+        self.action_aboutUs.triggered.connect(self.showAboutUs)
+        self.menu_help.addAction(self.action_aboutUs)
+
+        self.menubar.addMenu(self.menu_file)
+        self.menubar.addMenu(self.menu_help)
+        self.setMenuBar(self.menubar)
+        # status bar
+        self.statusbar = QStatusBar(self)
+        self.setStatusBar(self.statusbar)
+
+        self.show()
+
+    def showAboutUs(self):
+        self.f = QWidget()
+        uic.loadUi(r'GUI\about_us.ui', self.f)
+        self.f.show()
 
 app = QApplication(sys.argv)
-window = Main()
+window = MainWindow()
 sys.exit(app.exec_())
