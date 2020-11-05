@@ -29,3 +29,7 @@ def getColor():
     color = list_color[0]
     list_color.pop(0)
     return color
+
+def generateColor() -> str:
+    """Random color #ffffff"""
+    pass
