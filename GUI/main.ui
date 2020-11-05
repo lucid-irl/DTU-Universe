@@ -13,7 +13,7 @@
     <x>0</x>
     <y>0</y>
     <width>1297</width>
-    <height>900</height>
+    <height>1109</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -51,7 +51,7 @@
      <number>10</number>
     </property>
     <property name="verticalSpacing">
-     <number>0</number>
+     <number>5</number>
     </property>
     <item row="16" column="4">
      <widget class="QTextEdit" name="textEdit_thongke">
@@ -66,63 +66,54 @@
       </property>
      </widget>
     </item>
-    <item row="17" column="2" colspan="2" alignment="Qt::AlignHCenter">
-     <widget class="QLabel" name="label_devname">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="font">
-       <font>
-        <family>Segoe UI</family>
-        <pointsize>11</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>by Trần Huy Hoàng - Trần Tuấn Khôi - Nguyễn Nhật Trường</string>
-      </property>
-      <property name="scaledContents">
-       <bool>true</bool>
-      </property>
-      <property name="wordWrap">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1" colspan="4" alignment="Qt::AlignHCenter">
-     <widget class="QLabel" name="label_title">
-      <property name="font">
-       <font>
-        <family>Segoe UI</family>
-        <pointsize>11</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::LeftToRight</enum>
-      </property>
-      <property name="text">
-       <string>PHẦN MỀM MÔ PHỎNG VÀ HỖ TRỢ ĐĂNG KÍ LỊCH HỌC</string>
-      </property>
-     </widget>
-    </item>
     <item row="9" column="2" colspan="2">
      <widget class="QLabel" name="label_info">
       <property name="font">
        <font>
         <family>Segoe UI</family>
-        <pointsize>11</pointsize>
+        <pointsize>9</pointsize>
         <weight>50</weight>
         <bold>false</bold>
        </font>
       </property>
       <property name="text">
        <string>Thông tin thêm</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="2">
+     <widget class="QCheckBox" name="checkBox_giaiDoan2">
+      <property name="font">
+       <font>
+        <family>Segoe UI</family>
+        <pointsize>9</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Giai đoạn II</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="3">
+     <widget class="QCheckBox" name="checkBox_giaiDoan1">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Segoe UI</family>
+        <pointsize>9</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Giai đoạn I</string>
       </property>
      </widget>
     </item>
@@ -154,17 +145,13 @@
         <property name="font">
          <font>
           <family>Segoe UI</family>
-          <pointsize>11</pointsize>
+          <pointsize>9</pointsize>
           <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
         <property name="text">
          <string>Xuất Excel</string>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>../Images/iconfinder_119_Excel_logo_logos_4373169.png</normaloff>../Images/iconfinder_119_Excel_logo_logos_4373169.png</iconset>
         </property>
        </widget>
       </item>
@@ -191,17 +178,13 @@
         <property name="font">
          <font>
           <family>Segoe UI</family>
-          <pointsize>11</pointsize>
+          <pointsize>9</pointsize>
           <weight>50</weight>
           <bold>false</bold>
          </font>
         </property>
         <property name="text">
          <string>Xóa</string>
-        </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>C:/Users/truon/Downloads/iconfinder_-trash_62114.png</normaloff>C:/Users/truon/Downloads/iconfinder_-trash_62114.png</iconset>
         </property>
        </widget>
       </item>
@@ -228,7 +211,7 @@
         <property name="font">
          <font>
           <family>Segoe UI</family>
-          <pointsize>11</pointsize>
+          <pointsize>9</pointsize>
           <weight>50</weight>
           <bold>false</bold>
          </font>
@@ -321,7 +304,7 @@
         <property name="font">
          <font>
           <family>Segoe UI</family>
-          <pointsize>11</pointsize>
+          <pointsize>9</pointsize>
           <weight>50</weight>
           <bold>false</bold>
          </font>
@@ -333,44 +316,11 @@
       </item>
      </layout>
     </item>
-    <item row="8" column="3">
-     <widget class="QCheckBox" name="checkBox_giaiDoan1">
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <family>Segoe UI</family>
-        <pointsize>11</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Giai đoạn I</string>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="2">
-     <widget class="QCheckBox" name="checkBox_giaiDoan2">
-      <property name="font">
-       <font>
-        <family>Segoe UI</family>
-        <pointsize>11</pointsize>
-        <weight>50</weight>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>Giai đoạn II</string>
-      </property>
-     </widget>
-    </item>
     <item row="1" column="2" colspan="2">
      <widget class="QTableWidget" name="tableWidget_lichHoc">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -548,6 +498,19 @@
       </column>
      </widget>
     </item>
+    <item row="16" column="2" colspan="2">
+     <widget class="QTextEdit" name="textEdit_thongtin">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
     <item row="1" column="1">
      <layout class="QGridLayout" name="gridLayout_3">
       <property name="leftMargin">
@@ -588,7 +551,7 @@
         <property name="font">
          <font>
           <family>Segoe UI</family>
-          <pointsize>11</pointsize>
+          <pointsize>9</pointsize>
           <weight>50</weight>
           <bold>false</bold>
          </font>
@@ -663,7 +626,7 @@
         <property name="font">
          <font>
           <family>Segoe UI</family>
-          <pointsize>11</pointsize>
+          <pointsize>9</pointsize>
           <weight>50</weight>
           <bold>false</bold>
          </font>
@@ -696,7 +659,7 @@
         <property name="font">
          <font>
           <family>Segoe UI</family>
-          <pointsize>11</pointsize>
+          <pointsize>9</pointsize>
           <weight>50</weight>
           <bold>false</bold>
          </font>
@@ -742,13 +705,6 @@
       </item>
      </layout>
     </item>
-    <item row="16" column="2" colspan="2">
-     <widget class="QTextEdit" name="textEdit_thongtin">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
     <item row="2" column="1">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <property name="leftMargin">
@@ -780,7 +736,7 @@
         <property name="font">
          <font>
           <family>Segoe UI</family>
-          <pointsize>11</pointsize>
+          <pointsize>9</pointsize>
           <weight>50</weight>
           <bold>false</bold>
          </font>
@@ -817,7 +773,7 @@
         <property name="font">
          <font>
           <family>Segoe UI</family>
-          <pointsize>11</pointsize>
+          <pointsize>9</pointsize>
           <weight>50</weight>
           <bold>false</bold>
          </font>
@@ -825,9 +781,86 @@
         <property name="text">
          <string>Thêm</string>
         </property>
-        <property name="icon">
-         <iconset>
-          <normaloff>C:/Users/truon/Downloads/iconfinder_Plus_green_1891032.png</normaloff>C:/Users/truon/Downloads/iconfinder_Plus_green_1891032.png</iconset>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="2" column="2">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QPushButton" name="pushButton_choiceCalendar">
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Chọn ngày bắt đầu học kỳ</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="2" colspan="2" alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label_title">
+      <property name="font">
+       <font>
+        <family>Segoe UI</family>
+        <pointsize>9</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Hầu hết các học kỳ của đại học Duy Tân sẽ chia ra thành hai giai đoạn. Mỗi giai đoạn sẽ kéo dài khoảng &lt;span style=&quot; font-weight:600;&quot;&gt;6-8 tuần tuỳ môn học&lt;/span&gt;. Vì thế việc chọn ngày bắt đầu mỗi kỳ học là việc quan trọng để phần mềm hoạt động đúng trong việc phát hiện ra các xung đột khi bạn thêm lớp vào lịch. Nhấn vào nút &lt;span style=&quot; font-weight:600;&quot;&gt;Chọn ngày bắt đầu học kỳ&lt;/span&gt; để chọn ngày bắt đầu học kỳ.&lt;/p&gt;&lt;p&gt;Tất nhiên có một điều bạn không thể quên đó là tuần học luôn bắt đầu bằng &lt;span style=&quot; font-weight:600;&quot;&gt;thứ Hai&lt;/span&gt; nếu bạn chọn vào một ngày nào đó mà nó không phải là thứ Hai thì &lt;span style=&quot; font-style:italic;&quot;&gt;chứng tỏ bạn đang vừa dùng Cần vừa hút Phần mềm&lt;/span&gt;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="text">
+       <string>Hãy chọn một ngày bắt đầu kỳ học</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="3">
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QPushButton" name="pushButton_previousWeek">
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Tuần trước</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_nextWeek">
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Tuần sau</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_goto">
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>9</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Đi tới...</string>
         </property>
        </widget>
       </item>
