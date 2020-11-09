@@ -25,26 +25,6 @@ Xin cảm ơn:
 Bên trên là những thành viên sáng lập của Start-up Sống Vì Donate. Với các cột mốc quan trọng 14:30, 19:32, 21:59, căn phòng chừng 8 mét vuông và con mèo đen tên Tôm.
 ## Giấy phép
 Tất cả file code trong kho này đều theo giấy phép MIT.
-## Kiến trúc
-### Kiến trúc bộ cào
-Nói chung bộ cào sẽ xuất ra một file Excel có các cột như ID lớp, tên lớp,...Nhưng *quan trọng nhất vẫn là chuỗi Schedule*, chuỗi này quan trọng trong việc sắp xếp các môn trong một Tuần học. Hàm clean chuỗi này được mình viết chi tiết trong cleanSubTime.py
-
-File excel lấy được sẽ trông như sau:
-| ID               | Tên lớp       | Schedule  | Nơi học | Teacher | Số tín chỉ |
-| ---------------- |:-------------:|:---------:|:-------:|:-------:|:----------:|
-| ENG117202001009  | ENG 117 A     | [{"T2":["07:00-09:00","07:00-10:15"]},{"T5":["07:00-09:00"]}]   | Hoà Khánh Nam | NGUYỄN DŨNG | 3 |
-| ENG117202001011  | ENG 117 AC    | [{"T2":["07:00-09:00","07:00-10:15"]},{"T5":["07:00-09:00"]}]   | Hoà Khánh Nam | VIẾT NIN    | 2 |
-| ENG117202001012  | ENG 117 B     | [{"T2":["07:00-09:00"]},{"T5":["07:00-09:00"]}]                 | Hoà Khánh Nam | VĂN HIỀN    | 2 |
-### Các class cốt lõi
-### Schedule
-Class này giúp bạn thao tác dễ dàng hơn với chuỗi Schedule có trong file excel. Nó bao gồm các phương thức tính toán thông kế đơn giản.
-### Subject
-Đây là class quan trọng đại diện cho một Môn học. Đóng vai trò quan trọng trong việc sắp xếp các môn lên lịch.
-### Conflit
-Class này như tên của nó, nó đại diện cho một xung đột giữa hai Schedule khi được thêm vào Semeter. Xung đột này được phát hiện thông
-qua timedelta.
-### Semeter
-Class chính trong việc xử lý logic. Trung gian tương tác với GUI và Subjects.
 
 ** *Ứng dụng này không thuộc DTU, không chịu sự quản lý của DTU.*
 
