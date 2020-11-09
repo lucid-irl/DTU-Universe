@@ -9,6 +9,8 @@ from class_conflict import *
 from color import *
 
 
+
+
 class Semeter:
     """
     Class này là class trung gian giữa Subject và Table
@@ -50,8 +52,21 @@ class Semeter:
         Saturday: 5,
         Sunday: 6,
     }
+
+    DATECHOICED = ''
     
     SUBJECTS = []
+
+    SEMETERS = [] # lisst of list
+    # [
+    #     [sub1, sub2, sub3, sub4],
+    #     [sub1, sub2, sub3, sub4],
+    #     [sub1, sub2, sub3, sub4],
+    #     [sub1, sub2, sub3, sub4],
+    #     [sub1, sub2, sub3, sub4],
+    #     [sub1, sub2, sub3, sub4],
+    #     [sub1, sub2, sub3, sub4],
+    # ]
 
     def getSubjectsInSemeter(self) -> List[Subject]:
         return self.SUBJECTS
@@ -102,44 +117,12 @@ class Semeter:
             tempSubjectsList.pop(0)
         return conflicts
 
-    def resetTableColor(self):
-        """Xoá hết màu có trên Table."""
-        self.signal_resetTable(self.SUBJECTS)
-
-
-class AddSubject(QThread):
-    signal_loadTable = pyqtSignal('PyQt_PyObject')
-
-    def __init__(self, subject: Subject, semeter: Semeter) -> None:
-        super(QThread, self).__init__()
-        self.semeter = semeter
-        self.subject = subject
-
-    def run(self):
-        self.semeter.addSubjectToSemeter(self.subject)
-        self.signal_loadTable.emit(self.semeter.getSubjectInSemeter())
-
-class DeleteSubject(QThread):
-        
-    signal_loadTable = pyqtSignal('PyQt_PyObject')
-
-    def __init__(self, name: str, semeter: Semeter) -> None:
-        super(QThread, self).__init__()
-        self.semeter = semeter
-        self.name = name
-
-    def run(self):
-        self.semeter.deleteSubject(self.name)
-        self.signal_loadTable.emit(self.semeter.getSubjectInSemeter())
-
-class ScanConflictSubject:
-        
-    signal_loadTable = pyqtSignal('PyQt_PyObject')
-
-    def __init__(self, semeter: Semeter) -> None:
-        self.semeter = semeter
-
-    def run(self):
-        conflicts = self.semeter.scanSubjectConflict()
-        self.signal_loadTable.emit(conflicts)
+    def initSemeter(self):
+        # subject = Subject()
+        for subject in self.SUBJECTS:
+            for start in range(subject.getWeekRange()[0], subject.getWeekRange()[1]):
+                try:
+                    self.SEMETERS[start].append(subject)
+                except IndexError:
+                    self.SEMETERS.append(list())
 
