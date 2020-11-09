@@ -1,3 +1,4 @@
+from typing import List
 from class_schedule import Schedule
 import re
 
@@ -86,3 +87,6 @@ class Subject:
 
     def getFullName(self) -> str:
         return self.fullname
+
+    def getWeekRange(self) -> list:
+        return self.week_range
