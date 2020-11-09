@@ -37,6 +37,9 @@ class Main(QMainWindow):
         self.button_deleleSubjectFromTable = self.findChild(QPushButton, 'pushButton_xoaLop')
         self.button_saveExcel = self.findChild(QPushButton, 'pushButton_luuText')
         self.button_choiceCalendar = self.findChild(QPushButton, 'pushButton_choiceCalendar')
+        self.button_nextWeek = self.findChild(QPushButton, 'pushButton_nextWeek')
+        self.button_previousWeek = self.findChild(QPushButton, 'pushButton_previousWeek')
+        self.button_gotoWeek = self.findChild(QPushButton, 'pushButton_goto')
 
         self.listView_SubjectDownloaded = self.findChild(QListWidget, 'listWidget_tenLop')
         self.listView_SubjectChoiced = self.findChild(QListWidget, 'listWidget_lopDaChon')
@@ -53,7 +56,7 @@ class Main(QMainWindow):
         self.table_Semeter = self.findChild(QTableWidget, 'tableWidget_lichHoc')
 
         # self.show()
-        self.addSignalWidget()
+        self.connectSignals()
         self.addShortcut()
 
 ################## hot fix ##################################
@@ -80,7 +83,7 @@ class Main(QMainWindow):
 
 
 
-    def addSignalWidget(self):
+    def connectSignals(self):
         """Phương thức này kết nối signal với slot tương ứng."""
         self.button_findSubject.clicked.connect(self.findSubject)
         self.button_deleleSubjectFromTable.clicked.connect(self.deleteSubject)
