@@ -46,5 +46,9 @@ def hex_code_colors():
         c = "0" + c
     z = a + b + c
     return "#" + z.upper()
+    #bạn thêm giúp mình là loại trường hợp #000000 và #FFFFFF ra, đó là màu trắng và đen
+
+
+print(hex_code_colors())
 
 
