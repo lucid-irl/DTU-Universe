@@ -88,6 +88,19 @@ class Semeter:
             output.append(conflict.getConflitTime())
         return output
 
+    def scanConflicts(self) -> List[Conflit]:
+        conflicts = []
+        tempSubjectsList = self.SUBJECTS.copy()
+        while len(tempSubjectsList) > 1:
+            baseSubject = tempSubjectsList[0]
+            for i in range(1,len(tempSubjectsList)):
+                if i==len(tempSubjectsList):
+                    break
+                conflict = Conflit(baseSubject, tempSubjectsList[i])
+                if conflict.isConflict():
+                    conflicts.append(conflict)
+            tempSubjectsList.pop(0)
+        return conflicts
 
     def resetTableColor(self):
         """Xoá hết màu có trên Table."""

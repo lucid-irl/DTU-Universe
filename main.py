@@ -1,10 +1,10 @@
-from re import sub
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt
 from PyQt5 import uic
 
 from class_customwidget import QCustomQWidget
+from class_customConflictWidget import CustomConflictWidget
 from class_semeter import *
 from class_subject import Subject
 from class_schedule import StringToSchedule
@@ -16,6 +16,7 @@ import os
 import xlrd
 import color
 import team_config
+import sys
 
 class Main(QMainWindow):
     """Class này chỉ đảm nhiệm việc xử lý giao diện."""
@@ -24,12 +25,12 @@ class Main(QMainWindow):
 
     def __init__(self):
         super(Main, self).__init__()
-
+        self.semeter = Semeter()
         uic.loadUi(team_config.FOLDER_UI+'/'+team_config.USE_UI, self)
 
         self.button_findSubject = self.findChild(QPushButton,'pushButton_timKiem')
         self.button_addSujectToTable = self.findChild(QPushButton, 'pushButton_themLop')
-        self.button_updateSubject = self.findChild(QPushButton, 'pushButton_themLop_2')
+        self.button_updateSubject = self.findChild(QPushButton, 'pushButton_capNhat')
         self.button_deleleSubjectFromTable = self.findChild(QPushButton, 'pushButton_xoaLop')
         self.button_saveExcel = self.findChild(QPushButton, 'pushButton_luuText')
 
@@ -46,6 +47,10 @@ class Main(QMainWindow):
         self.textEdit_thongke = self.findChild(QTextEdit, 'textEdit_thongke')
 
         self.table_Semeter = self.findChild(QTableWidget, 'tableWidget_lichHoc')
+
+        self.show()   
+        self.addSignalWidget()
+        self.addShortcut()
 
 ################## hot fix ##################################
         # self.button_findSubject = QPushButton()
@@ -68,18 +73,21 @@ class Main(QMainWindow):
         # self.table_Semeter = QTableWidget()
 ################## hot fix ##################################
 
-        self.semeter = Semeter()
-        self.show()   
-        self.addSignalWidget()
 
 
     def addSignalWidget(self):
         self.button_findSubject.clicked.connect(self.findSubject)
-        self.button_addSujectToTable.clicked.connect(self.addSubjectToTable)
         self.button_deleleSubjectFromTable.clicked.connect(self.deleteSubject)
+        self.button_updateSubject.clicked.connect(self.updateSubject)
         self.listView_SubjectDownloaded.itemClicked.connect(self.showInfoSubject)
         self.listView_SubjectChoiced.itemClicked.connect(self.showInfoSubject)
 
+    def addShortcut(self):
+        self.quitSc = QShortcut(QKeySequence('Esc'), self)
+        self.quitSc.activated.connect(QApplication.instance().quit)
+        
+        # shortcut for button here
+        self.button_findSubject.setShortcut('Return')
 
     def loadTable(self, subjects: List[Subject]):
         self.resetColorTable()
@@ -96,8 +104,12 @@ class Main(QMainWindow):
                     end_row = self.semeter.getTimeChains()[end]
                     column = WEEK.index(day)
                     for pen in range(start_row, end_row+1):
-                        self.table_Semeter.setItem(pen, column, QTableWidgetItem())
-                        self.table_Semeter.item(pen, column).setBackground(color)
+                        item = QTableWidgetItem()
+                        item.setText(subject.getName())
+                        item.setBackground(color)
+                        item.setToolTip(subject.getFullName())
+                        self.table_Semeter.setItem(pen, column, item)
+
 
 
     def deleteSubject(self):
@@ -120,21 +132,26 @@ class Main(QMainWindow):
         for item in listItems:
             self.listView_SubjectChoiced.takeItem(self.listView_SubjectChoiced.row(item))
 
+    
+    def updateSubject(self):
+        # tạm thời update mình sẽ xoá tất cả mọi file trong thư mục data để nó tải lại mọi thứ.
+        try:
+            filelist = [ f for f in os.listdir(team_config.FOLDER_SAVE_EXCEL) if f.endswith(".xls") ]
+            for f in filelist:
+                os.remove(os.path.join(team_config.FOLDER_SAVE_EXCEL, f))
+        except:
+            QMessageBox.warning(
+                self,
+                team_config.MESSAGE_WARNING,
+                'Có vẻ như gặp lỗi trong quá trình cập nhật.')
 
-    def addSubjectToTable(self):
-        item = self.listView_SubjectDownloaded.currentItem()
-        if item:
-            subject = item.data(Qt.UserRole)
-            subject.setColor(color.getColor())
-            self.semeter.addSubjectToSemeter(subject)
-            self.loadListChoosed()
-            self.loadTable(self.semeter.getSubjectsInSemeter())
-            self.paintConflict()
-        else:
-            QMessageBox.warning(self,
-                'Một thông báo sương sương',
-                """Vui lòng chọn một môn nào đó để thêm vào lịch. Bạn có thể Donate để mở khoá tính năng thêm một lúc nhiều môn.""",
-                QMessageBox.Ok)
+
+    def addSubjectToTable(self, subject: Subject=None):
+        subject.setColor(color.getColor())
+        self.semeter.addSubjectToSemeter(subject)
+        self.loadListChoosed()
+        self.loadTable(self.semeter.getSubjectsInSemeter())
+        self.paintConflict()
 
 
     def paintConflict(self) -> List[str]:
@@ -145,13 +162,33 @@ class Main(QMainWindow):
                     col = self.semeter.DATE_CHAINS[key]
                     startConflict = self.semeter.TIME_CHAINS[conflict[key][0]]
                     endConflict = self.semeter.TIME_CHAINS[conflict[key][1]]
-                    self.table_Semeter.setItem(startConflict, col, QTableWidgetItem().setText('Conflict'))
-                    self.table_Semeter.item(endConflict, col).setBackground(QColor('#FF0000'))
+                    for row in range(startConflict, endConflict+1):
+                        item = QTableWidgetItem()
+                        item.setText('Conflict')
+                        item.setBackground(QColor('#FF0000'))
+                        self.table_Semeter.setItem(row, col, item)
+        self.loadListConflict()
+
+    def loadListConflict(self):
+        self.listView_SubjectConflict.clear()
+        for conflict in self.semeter.scanConflicts():
+            sub1 = conflict.getSubject1()
+            sub2 = conflict.getSubject2()
+
+            self.custom_conflict_widget = CustomConflictWidget(sub1, sub2)
+
+            self.myQListWidgetItem = QListWidgetItem(self.listView_SubjectConflict)
+            self.myQListWidgetItem.setData(Qt.UserRole, conflict)
+            self.myQListWidgetItem.setSizeHint(self.custom_conflict_widget.sizeHint())
+
+            self.listView_SubjectConflict.setItemWidget(self.myQListWidgetItem, self.custom_conflict_widget)
+            self.listView_SubjectConflict.addItem(self.myQListWidgetItem)
 
 
     def findSubject(self):
         self.SUBJECT_FOUND.clear()
         self.listView_SubjectDownloaded.clear()
+        self.textEdit_thongtin.clear()
         self.textEdit_thongtin.setText('Đang tìm kiếm...')
         subject_name = self.line_findSubject.text()
         file_name = team_config.FOLDER_SAVE_EXCEL+'/'+subject_name+'.xls'
@@ -180,7 +217,8 @@ class Main(QMainWindow):
             seats = sheet.cell_value(i, 7)
             week_range = sheet.cell_value(i, 8).split('--')
             status =  int(sheet.cell_value(i, 9))
-            subject = Subject(id, name, seats, credit, schedule, teacher, place, week_range, status)
+            fullname = sheet.cell_value(i, 10)
+            subject = Subject(id, name, seats, credit, schedule, teacher, place, week_range, status, fullname)
             self.SUBJECT_FOUND.append(subject)
         self.loadListView()
 
@@ -202,7 +240,8 @@ class Main(QMainWindow):
 
     def loadListView(self):
         for subject in self.SUBJECT_FOUND:
-            self.custom_widget_subject = QCustomQWidget(subject)
+            self.custom_widget_subject = QCustomQWidget(subject, self)
+            self.custom_widget_subject.addButtonAddToSemeter()
 
             self.myQListWidgetItem = QListWidgetItem(self.listView_SubjectDownloaded)
             self.myQListWidgetItem.setSizeHint(self.custom_widget_subject.sizeHint())
@@ -226,7 +265,12 @@ class Main(QMainWindow):
 
 
     def nonFoundSubject(self):
-        QMessageBox.warning(self, 'Cảnh báo sương sương','Có vẻ như bạn chưa donate, vui lòng donate để sử dụng hết tất cả những tính năng', QMessageBox.Ok)
+        QMessageBox.warning(
+            self, 
+            'Cảnh báo sương sương',
+            'Có vẻ như bạn chưa donate, vui lòng donate để sử dụng hết tất cả những tính năng',
+            QMessageBox.Ok
+        )
 
     
 
