@@ -88,5 +88,5 @@ class Subject:
     def getFullName(self) -> str:
         return self.fullname
 
-    def getWeekRange(self) -> list:
-        return self.week_range
+    def getWeekRange(self) -> List[int]:
+        return [int(i) for i in self.week_range]
