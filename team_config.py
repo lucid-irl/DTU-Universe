@@ -7,7 +7,7 @@ FOLDER_SAVE_EXCEL = "Data"
 # Nơi chưa tệp UI
 FOLDER_UI = "GUI"
 USE_UI = "main.ui"
-CALENDAR_CHOICE_UI = 'calendar_choice.ui'
+CALENDAR_CHOICE_UI = 'calendarChoicer.ui'
 
 # RELATIVE PATH UI
 USE_UI_PATH = FOLDER_UI+'/'+USE_UI
