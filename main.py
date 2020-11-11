@@ -120,6 +120,7 @@ class Main(QMainWindow):
                         item.setBackground(color)
                         item.setToolTip(subject.getFullName())
                         self.table_Semeter.setItem(pen, column, item)
+        self.paintConflict()
 
 
     def deleteSubject(self):
@@ -171,10 +172,10 @@ class Main(QMainWindow):
         self.semeter.addSubjectToSemeter(subject)
         self.loadListChoosed()
         self.loadTable(self.semeter.getSubjectsInSemeter())
-        self.paintConflict()
 
 
     def paintConflict(self) -> List[str]:
+        """Vẽ Conflict lên bảng."""
         if len(self.semeter.getSubjectsInSemeter()) >= 2:
             for conflictsASubject in self.semeter.scanSubjectConflict():
                 for conflict in conflictsASubject:
@@ -190,6 +191,7 @@ class Main(QMainWindow):
         self.loadListConflict()
 
     def loadListConflict(self):
+        """Load List Widget chứa thông tin Subject Conflict."""
         self.listView_SubjectConflict.clear()
         for conflict in self.semeter.scanConflicts():
             sub1 = conflict.getSubject1()
@@ -284,11 +286,14 @@ class Main(QMainWindow):
         self.textEdit_thongtin.setText(subject.getInfo())
 
     def openCalendarChoicer(self):
-        if self.calendar == None:
-            self.calendar = CalendarChoicer()
-        # active this window
-        self.calendar.setWindowFlags(Qt.WindowStaysOnTopHint)
-        self.calendar.show()
+        # if self.calendar == None:
+        #     self.calendar = CalendarChoicer(self)
+        # # active this window
+        # self.calendar.setWindowFlags(Qt.WindowStaysOnTopHint)
+        # self.calendar.show()
+        cal = CalendarChoicer(self)
+        cal.exec()
+        cal.button_OK_clicked()
 
     def nonFoundSubject(self):
         QMessageBox.warning(
@@ -304,6 +309,11 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle(team_config.TITLE)
         self.setupUI()
+        qtRectangle = self.frameGeometry()
+        centerPoint = QDesktopWidget().availableGeometry().center()
+        qtRectangle.moveCenter(centerPoint)
+        self.move(qtRectangle.topLeft())
+        self.show()
 
     def setupUI(self):
         self.widget = Main(mainwindow=self)
@@ -325,7 +335,7 @@ class MainWindow(QMainWindow):
         self.statusbar = QStatusBar(self)
         self.setStatusBar(self.statusbar)
 
-        self.show()
+
 
     def showAboutUs(self):
         self.f = QWidget()
