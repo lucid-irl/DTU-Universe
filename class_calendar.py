@@ -7,27 +7,17 @@ import team_config
 import sys
 
 
-class CalendarChoicer(QWidget):
+class CalendarChoicer(QDialog):
 
-    signal_OK_Pressed = pyqtSignal()
-    def __init__(self) -> None:
-        super().__init__()
+    signal_OK_Pressed = pyqtSignal('PyQt_PyObject')
+    def __init__(self,*args, **kwargs) -> None:
+        super(CalendarChoicer, self).__init__(*args, **kwargs)
         print(team_config.CALENDAR_CHOICE_UI_PATH)
         uic.loadUi(team_config.CALENDAR_CHOICE_UI_PATH, self)
-        self.button_OK = self.findChild(QPushButton, 'pushButton_OK')
-        self.calendar = self.findChild(QCalendarWidget, 'calendarWidget')
+        self.buttonBox = self.findChild(QDialogButtonBox, 'buttonBox')
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
 
-        # temp
-        self.button_OK = QPushButton()
-        self.calendar = QCalendarWidget()
-
-    def connectSignals(self):
-        self.button_OK.clicked.connect(self.button_OK_clicked)
-
-    def button_OK_clicked(self):
-        qdate = self.calendar.selectedDate()
-        self.signal_OK_Pressed.emit(qdate)
-    
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
