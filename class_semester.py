@@ -52,8 +52,6 @@ class Semester:
         Saturday: 5,
         Sunday: 6,
         }
-
-    DATECHOICED = ''
     
     # subject mà người dùng chọn sẽ nằm ở đây
     SUBJECTS = [] # CS414 1-8 CR 250 6-12  -> 12
@@ -68,6 +66,7 @@ class Semester:
     #     [sub1, sub2, sub3, sub4],
     #     .....
     # ]
+    SEMESTERS_INDEX = 0
 
     def getSubjectsInSemester(self) -> List[Subject]:
         return self.SUBJECTS
@@ -77,7 +76,8 @@ class Semester:
 
     def addSubjectToSemester(self, subject: Subject):
         self.SUBJECTS.append(subject)
-        self.initSemester()
+        print(self.SUBJECTS)
+        # self.initSemester()
 
     def deleteSubject(self, name):
         for j in range(len(self.SUBJECTS)):
@@ -123,6 +123,7 @@ class Semester:
         """Trả về số Tuần kéo dài tối đa mà Semester có thể có."""
         max = 0
         for subject in self.SUBJECTS:
+            print(self.SUBJECTS)
             if subject.getWeekRange()[1] > max:
                 max = subject.getWeekRange()[1]
         return max
@@ -132,9 +133,26 @@ class Semester:
         Sau đó thực hiện đổ từ Subject tương ứng vào các List. Mỗi List sẽ đại diện cho một Tuần học.
         """
         self.SEMESTERS = [[] for i in range(self.getMaxWeekInSemester())]
+        print(self.SUBJECTS)
         for subject in self.SUBJECTS:
             for i in range(subject.getWeekRange()[0]-1, subject.getWeekRange()[1]):
                 self.SEMESTERS[i].append(subject)
         return self.SEMESTERS
 
+    def nextWeek(self):
+        """Phương thức này sẽ tăng index của Semester lên 1. Thao tác trên biến SEMESTER_INDEX."""
+        if self.SEMESTERS_INDEX < self.getMaxWeekInSemester():
+            self.SEMESTERS_INDEX+=1
+            self.SUBJECTS = self.SEMESTERS[self.SEMESTERS_INDEX]
+            return 0
+        else:
+            return -1
 
+    def previousWeek(self):
+        """Phương thức này sẽ giảm index của Semester xuống 1. Thao tác trên biến SEMESTER_INDEX."""
+        if self.SEMESTERS_INDEX > 0:
+            self.SEMESTERS_INDEX-=1
+            self.SUBJECTS = self.SEMESTERS[self.SEMESTERS_INDEX]
+            return 0
+        else:
+            return -1
