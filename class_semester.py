@@ -114,7 +114,7 @@ class Semester:
                 if i==len(tempSubjectsList):
                     break
                 conflict = Conflit(baseSubject, tempSubjectsList[i])
-                if conflict.isConflict():
+                if conflict.getConflitTime():
                     conflicts.append(conflict)
             tempSubjectsList.pop(0)
         return conflicts

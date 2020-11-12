@@ -73,7 +73,9 @@ class Conflit:
         return False
     
     def getDateHaveConflict(self) -> List[str]:
-        """Trả về một list chứa Thứ xung đột giữa hai Subject."""
+        """**Không còn được dùng nữa**
+        
+        Trả về một list chứa Thứ xung đột giữa hai Subject."""
         output = []
         for day in self.in_of_day:
             self.subject1_hours_start = self.subject1.getSchedule().getStartTimeOfDate(day, merge=True)
@@ -118,6 +120,8 @@ class Conflit:
         [{Monday: ('07:00:00','8:00:00')}, {Tuseday: ('07:00:00','8:00:00')}]
         """
         output = []
+        if self.subject1.getID() == self.subject2.getID():
+            return output
         for day in self.getGenericDate():
 
             start1 = self.subject1.getSchedule().getStartTimeOfDate(day)

@@ -108,10 +108,13 @@ class Main(QMainWindow):
                 while i < len(self.semester.getSubjectsInSemester()):
                     if subject.getID() == self.semester.getSubjectsInSemester()[i].getID():
                         # Xoá trên semester
+                        cl = self.semester.getSubjectsInSemester()[i].getColor()
+                        color.remove_color(cl)
                         self.semester.deleteSubject(self.semester.getSubjectsInSemester()[i].getName())
                         continue
                     i+=1
             else:
+                color.remove_color(subject.getColor())
                 self.semester.deleteSubject(subject.getName())
                 self.removeSel()
             self.loadTable(self.semester.getSubjectsInSemester())
@@ -167,7 +170,7 @@ class Main(QMainWindow):
 
 
     def addSubjectToTable(self, subject: Subject=None):
-        cl = color.getColor()
+        cl = color.hex_code_colors()
         if self.checkLecLab(subject, self.SUBJECT_FOUND):
             for i in self.checkLecLab(subject, self.SUBJECT_FOUND):
                 self.SUBJECT_FOUND[i].setColor(cl)
@@ -368,9 +371,9 @@ class MainWindow(QMainWindow):
         self.setStatusBar(self.statusbar)
 
     def showAboutUs(self):
-        self.f = QWidget()
+        self.f = QDialog()
         uic.loadUi(r'GUI\about_us.ui', self.f)
-        self.f.show()
+        self.f.exec()
 
 app = QApplication(sys.argv)
 window = MainWindow()
