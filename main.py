@@ -3,12 +3,14 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt
 from PyQt5 import uic
 
+from class_weeksChoicer import WeeksChoicer
 from class_customwidget import QCustomQWidget
 from class_customConflictWidget import CustomConflictWidget
-from class_semeter import *
+from class_semester import *
 from class_subject import Subject
 from class_schedule import StringToSchedule
 from class_calendar import *
+from class_convertType import *
 
 from thread_getSubject import ThreadGetSubject
 
@@ -27,68 +29,41 @@ class Main(QMainWindow):
     def __init__(self, mainwindow=None):
         super(Main, self).__init__()
         self.mainwindow = mainwindow
-        self.semeter = Semeter()
+        self.semester = Semester()
         self.calendar = None
         uic.loadUi(team_config.FOLDER_UI+'/'+team_config.USE_UI, self)
 
-        self.button_findSubject = self.findChild(QPushButton,'pushButton_timKiem')
-        self.button_addSujectToTable = self.findChild(QPushButton, 'pushButton_themLop')
-        self.button_updateSubject = self.findChild(QPushButton, 'pushButton_capNhat')
-        self.button_deleleSubjectFromTable = self.findChild(QPushButton, 'pushButton_xoaLop')
-        self.button_saveExcel = self.findChild(QPushButton, 'pushButton_luuText')
-        self.button_choiceCalendar = self.findChild(QPushButton, 'pushButton_choiceCalendar')
-        self.button_nextWeek = self.findChild(QPushButton, 'pushButton_nextWeek')
-        self.button_previousWeek = self.findChild(QPushButton, 'pushButton_previousWeek')
-        self.button_gotoWeek = self.findChild(QPushButton, 'pushButton_goto')
+        self.button_findSubject = ConvertThisQObject(self, QPushButton, 'pushButton_timKiem').toQPushButton()
+        self.button_updateSubject = ConvertThisQObject(self, QPushButton, 'pushButton_capNhat').toQPushButton()
+        self.button_deleleSubjectFromTable = ConvertThisQObject(self, QPushButton, 'pushButton_xoaLop').toQPushButton()
+        self.button_saveExcel = ConvertThisQObject(self, QPushButton, 'pushButton_luuText').toQPushButton()
+        self.button_nextWeek = ConvertThisQObject(self, QPushButton, 'pushButton_nextWeek').toQPushButton()
+        self.button_previousWeek = ConvertThisQObject(self, QPushButton, 'pushButton_previousWeek').toQPushButton()
+        self.button_gotoWeek = ConvertThisQObject(self, QPushButton, 'pushButton_goto').toQPushButton()
 
-        self.listView_SubjectDownloaded = self.findChild(QListWidget, 'listWidget_tenLop')
-        self.listView_SubjectChoiced = self.findChild(QListWidget, 'listWidget_lopDaChon')
-        self.listView_SubjectConflict = self.findChild(QListWidget, 'listWidget_lopXungDot')
+        self.listView_SubjectDownloaded = ConvertThisQObject(self, QListWidget, 'listWidget_tenLop').toQListWidget()
+        self.listView_SubjectChoiced = ConvertThisQObject(self, QListWidget, 'listWidget_lopDaChon').toQListWidget()
+        self.listView_SubjectConflict = ConvertThisQObject(self, QListWidget, 'listWidget_lopXungDot').toQListWidget()
 
-        self.line_findSubject = self.findChild(QLineEdit, 'lineEdit_tenMon')
+        self.line_findSubject = ConvertThisQObject(self, QLineEdit, 'lineEdit_tenMon').toQLineEdit()
 
-        self.checkBox_phase1 = self.findChild(QCheckBox, 'checkBox_giaiDoan1')
-        self.checkBox_phase2 = self.findChild(QCheckBox, 'checkBox_giaiDoan2')
+        self.checkBox_phase1 = ConvertThisQObject(self, QCheckBox, 'checkBox_giaiDoan1').toQCheckBox()
+        self.checkBox_phase2 = ConvertThisQObject(self, QCheckBox, 'checkBox_giaiDoan2').toQCheckBox()
 
-        self.textEdit_thongtin = self.findChild(QTextEdit, 'textEdit_thongtin')
-        self.textEdit_thongke = self.findChild(QTextEdit, 'textEdit_thongke')
+        self.textEdit_thongtin = ConvertThisQObject(self, QTextEdit, 'textEdit_thongtin').toQTextEdit()
+        self.textEdit_thongke = ConvertThisQObject(self, QTextEdit, 'textEdit_thongke').toQTextEdit()
 
-        self.table_Semeter = self.findChild(QTableWidget, 'tableWidget_lichHoc')
+        self.table_Semeter = ConvertThisQObject(self, QTableWidget, 'tableWidget_lichHoc').toQTableWidget()
 
-        # self.show()
         self.connectSignals()
         self.addShortcut()
-
-################## hot fix ##################################
-        # self.button_findSubject = QPushButton()
-        # self.button_addSujectToTable = QPushButton()
-        # self.button_updateSubject = QPushButton()
-        # self.button_deleleSubjectFromTable = QPushButton()
-        # self.button_saveExcel = QPushButton()
-        # self.button_choiceCalendar = QPushButton()
-
-        # self.listView_SubjectDownloaded = QListWidget()
-        # self.listView_SubjectChoiced = QListWidget()
-        # self.listView_SubjectConflict = QListWidget()
-
-        # self.line_findSubject = QLineEdit()
-
-        # self.checkBox_phase1 = QCheckBox()
-        # self.checkBox_phase2 = QCheckBox()
-
-        # self.textEdit_thongtin = QTextEdit()
-
-        # self.table_Semeter = QTableWidget()
-################## hot fix ##################################
-
-
 
     def connectSignals(self):
         """Phương thức này kết nối signal với slot tương ứng."""
         self.button_findSubject.clicked.connect(self.findSubject)
         self.button_deleleSubjectFromTable.clicked.connect(self.deleteSubject)
         self.button_updateSubject.clicked.connect(self.updateSubject)
-        self.button_choiceCalendar.clicked.connect(self.openCalendarChoicer)
+        self.button_gotoWeek.clicked.connect(self.showWeeks)
         self.listView_SubjectDownloaded.itemClicked.connect(self.showInfoSubject)
         self.listView_SubjectChoiced.itemClicked.connect(self.showInfoSubject)
 
@@ -111,8 +86,8 @@ class Main(QMainWindow):
                 for i in range(len(start_time_subjects)):
                     start = str(start_time_subjects[i])
                     end = str(end_time_subjects[i])
-                    start_row = self.semeter.getTimeChains()[start]
-                    end_row = self.semeter.getTimeChains()[end]
+                    start_row = self.semester.getTimeChains()[start]
+                    end_row = self.semester.getTimeChains()[end]
                     column = WEEK.index(day)
                     for pen in range(start_row, end_row+1):
                         item = QTableWidgetItem()
@@ -124,20 +99,33 @@ class Main(QMainWindow):
 
 
     def deleteSubject(self):
+        """Xoá Subject (cả LEC và LAB của nó) ra khỏi semester."""
         item = self.listView_SubjectChoiced.currentItem()
         if item:
-            subject = item.data(Qt.UserRole)
-            self.semeter.deleteSubject(subject.getName())
-            self.removeSel()
-            self.loadTable(self.semeter.getSubjectsInSemeter())
+            subject = item.data(Qt.UserRole) # subject được chọn trong QListWidget
+            if self.checkLecLab(subject, self.semester.getSubjectsInSemester()):
+                i = 0
+                while i < len(self.semester.getSubjectsInSemester()):
+                    if subject.getID() == self.semester.getSubjectsInSemester()[i].getID():
+                        # Xoá trên semester
+                        self.semester.deleteSubject(self.semester.getSubjectsInSemester()[i].getName())
+                        continue
+                    i+=1
+            else:
+                self.semester.deleteSubject(subject.getName())
+                self.removeSel()
+            self.loadTable(self.semester.getSubjectsInSemester())
+            self.loadListChoosed()
+            self.checkEnableItemInListFound(subject)
         else:
             QMessageBox.warning(self,
                 'Một thông báo sương sương',
-                """Vui lòng chọn một môn nào đó để xoá khỏi lịch. Bạn có thể Donate để mở khoá tính năng xoá một lúc nhiều môn.""",
+                'Vui lòng chọn một môn nào đó để xoá khỏi lịch. Bạn có thể Donate để mở khoá tính năng xoá một lúc nhiều môn.',
                 QMessageBox.Ok)
 
 
     def removeSel(self):
+        """Xoá Subject đã chọn khỏi listView_SubjectChoiced"""
         listItems=self.listView_SubjectChoiced.selectedItems()
         if not listItems: return        
         for item in listItems:
@@ -156,7 +144,6 @@ class Main(QMainWindow):
                 defaultButton=QMessageBox.Cancel
             )
             if mss == QMessageBox.Ok:
-                print('OK')
                 filelist = [ f for f in os.listdir(team_config.FOLDER_SAVE_EXCEL) if f.endswith(".xls") ]
                 for f in filelist:
                     os.remove(os.path.join(team_config.FOLDER_SAVE_EXCEL, f))
@@ -166,23 +153,60 @@ class Main(QMainWindow):
                 team_config.MESSAGE_WARNING,
                 'Có vẻ như gặp lỗi trong quá trình cập nhật.')
 
+    def checkLecLab(self, subject: Subject, inList: list) -> List:
+        """Kiểm tra Subject truyền vào có Môn LEC hay LAB hay không. 
+        Nếu có trả về list index của Subject LEC hoặc LAB tương ứng. N
+        ếu không trả về None."""
+        output = []
+        i = 0
+        while i<len(inList):
+            if subject.getID() == inList[i].getID():
+                output.append(i)
+            i+=1
+        return output
+
 
     def addSubjectToTable(self, subject: Subject=None):
-        subject.setColor(color.getColor())
-        self.semeter.addSubjectToSemeter(subject)
+        cl = color.getColor()
+        if self.checkLecLab(subject, self.SUBJECT_FOUND):
+            for i in self.checkLecLab(subject, self.SUBJECT_FOUND):
+                self.SUBJECT_FOUND[i].setColor(cl)
+                sub = self.SUBJECT_FOUND[i]
+                self.semester.addSubjectToSemester(sub)
+        else:
+            subject.setColor(cl)
+            self.semester.addSubjectToSemester(subject)
         self.loadListChoosed()
-        self.loadTable(self.semeter.getSubjectsInSemeter())
+        self.loadTable(self.semester.getSubjectsInSemester())
+        self.checkUnableItemInListFound()
 
+    def afterAddSubject(self):
+        """Hàm này chạy bất cứ khi nào bạn Add một Subject vào Semester. 
+        Dùng để load lại giao diện cho đúng logic."""
+        pass
+
+    def checkUnableItemInListFound(self):
+        """Ẩn hoặc vô hiệu Subject đã thêm vào bảng."""
+        setSubjectChoicedIDs = {i.getID() for i in self.semester.getSubjectsInSemester()}
+        for i in range(self.listView_SubjectDownloaded.count()):
+            if self.listView_SubjectDownloaded.item(i).data(Qt.UserRole).getID() in setSubjectChoicedIDs:
+                self.listView_SubjectDownloaded.item(i).setHidden(True)
+
+    def checkEnableItemInListFound(self, subject: Subject):
+        """Ẩn hoặc vô hiệu Subject đã thêm vào bảng."""
+        for i in range(self.listView_SubjectDownloaded.count()):
+            if self.listView_SubjectDownloaded.item(i).data(Qt.UserRole).getID() == subject.getID():
+                self.listView_SubjectDownloaded.item(i).setHidden(False)
 
     def paintConflict(self) -> List[str]:
         """Vẽ Conflict lên bảng."""
-        if len(self.semeter.getSubjectsInSemeter()) >= 2:
-            for conflictsASubject in self.semeter.scanSubjectConflict():
+        if len(self.semester.getSubjectsInSemester()) >= 2:
+            for conflictsASubject in self.semester.scanSubjectConflict():
                 for conflict in conflictsASubject:
                     key = next(iter(conflict))
-                    col = self.semeter.DATE_CHAINS[key]
-                    startConflict = self.semeter.TIME_CHAINS[conflict[key][0]]
-                    endConflict = self.semeter.TIME_CHAINS[conflict[key][1]]
+                    col = self.semester.DATE_CHAINS[key]
+                    startConflict = self.semester.TIME_CHAINS[conflict[key][0]]
+                    endConflict = self.semester.TIME_CHAINS[conflict[key][1]]
                     for row in range(startConflict, endConflict+1):
                         item = QTableWidgetItem()
                         item.setText('Conflict')
@@ -193,7 +217,7 @@ class Main(QMainWindow):
     def loadListConflict(self):
         """Load List Widget chứa thông tin Subject Conflict."""
         self.listView_SubjectConflict.clear()
-        for conflict in self.semeter.scanConflicts():
+        for conflict in self.semester.scanConflicts():
             sub1 = conflict.getSubject1()
             sub2 = conflict.getSubject2()
 
@@ -242,12 +266,13 @@ class Main(QMainWindow):
             fullname = sheet.cell_value(i, 10)
             subject = Subject(id, name, seats, credit, schedule, teacher, place, week_range, status, fullname)
             self.SUBJECT_FOUND.append(subject)
-        self.loadListView()
+        self.loadListSubjectFound()
 
 
     def loadListChoosed(self):
+        print('choice', self.semester.getSubjectsInSemester())
         self.listView_SubjectChoiced.clear()
-        for subject in self.semeter.getSubjectsInSemeter():
+        for subject in self.semester.getSubjectsInSemester():
 
             self.custom_widget_subject = QCustomQWidget(subject)
             self.custom_widget_subject.addButtonCopyIDSubject()
@@ -260,7 +285,7 @@ class Main(QMainWindow):
             self.listView_SubjectChoiced.addItem(self.myQListWidgetItem)
 
 
-    def loadListView(self):
+    def loadListSubjectFound(self):
         for subject in self.SUBJECT_FOUND:
             self.custom_widget_subject = QCustomQWidget(subject, self)
             self.custom_widget_subject.addButtonAddToSemeter()
@@ -285,15 +310,22 @@ class Main(QMainWindow):
         subject = e.data(Qt.UserRole)
         self.textEdit_thongtin.setText(subject.getInfo())
 
-    def openCalendarChoicer(self):
-        # if self.calendar == None:
-        #     self.calendar = CalendarChoicer(self)
-        # # active this window
-        # self.calendar.setWindowFlags(Qt.WindowStaysOnTopHint)
-        # self.calendar.show()
-        cal = CalendarChoicer(self)
-        cal.exec()
-        cal.button_OK_clicked()
+
+    def showWeeks(self):
+        if self.semester.getMaxWeekInSemester() == 0:
+            msgbox = QMessageBox()
+            msgbox.setIcon(QMessageBox.Information)
+            msgbox.setWindowTitle(team_config.MESSAGE_ABOUT)
+            msgbox.setText('Có vẻ như bạn chưa thêm môn nào vào bảng. Hãy thử tìm kiếm và thêm ít nhất một môn vào bảng.')
+            msgbox.setStandardButtons(QMessageBox.Ok)
+            msgbox.exec()
+            self.line_findSubject.setFocus()
+            return
+        weekChoicer = WeeksChoicer(self.semester.getMaxWeekInSemester())
+        weekChoicer.exec()
+
+    def fillCalendarToSemeter(self, e):
+        print(e)
 
     def nonFoundSubject(self):
         QMessageBox.warning(
@@ -334,8 +366,6 @@ class MainWindow(QMainWindow):
         # status bar
         self.statusbar = QStatusBar(self)
         self.setStatusBar(self.statusbar)
-
-
 
     def showAboutUs(self):
         self.f = QWidget()
