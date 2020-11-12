@@ -1,5 +1,6 @@
 import re
 import random
+from re import X
 
 mint_leaf = '#00b894'
 light_blue = '#00cec9'
@@ -30,6 +31,10 @@ def getColor():
     list_color.pop(0)
     return color
 
+LIST_COLORS = []
+
+def remove_color(doppelganger):
+    LIST_COLORS.pop(doppelganger)
 
 def hex_code_colors():
     a = hex(random.randrange(0,256))
@@ -44,11 +49,23 @@ def hex_code_colors():
         b = "0" + b
     if len(c)<2:
         c = "0" + c
-    z = a + b + c
-    return "#" + z.upper()
-    #bạn thêm giúp mình là loại trường hợp #000000 và #FFFFFF ra, đó là màu trắng và đen
+    x = a + b + c
+    z = "#" + x.upper()
+    LIST_COLORS.append(z)
+    
+    for cl in range(len(LIST_COLORS)):
+        while (cl != "#000000" or "#FFFFFF"):
+            if cl in LIST_COLORS:
+                remove_color(LIST_COLORS.index(cl))
+                LIST_COLORS.append(cl)
+                return z
+            else:
+                LIST_COLORS.append(z)
+                return z
 
+    
 
+print(LIST_COLORS)
 print(hex_code_colors())
 
 
