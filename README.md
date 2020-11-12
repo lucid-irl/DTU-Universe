@@ -20,7 +20,7 @@ Xin cảm ơn:
 * [Trần Huy Hoàng](https://www.facebook.com/kietchay100) lớp Big Data.
 * [Trần Tuấn Khôi](https://www.facebook.com/profile.php?id=100010060428020) lớp Big Data.
 * [Nguyen Truong](https://www.facebook.com/truongbede.me/) lớp Big Data.
-* [Trương A Xin](https://www.facebook.com/truongaxin/) lớp Chế biến code.
+* [Trương A Xin](https://www.facebook.com/truongaxin/) lớp Phần mềm.
 
 Bên trên là những thành viên sáng lập của Start-up Sống Vì Donate. Với các cột mốc quan trọng 14:30, 19:32, 21:59, căn phòng chừng 8 mét vuông và con mèo đen tên Tôm.
 ## Giấy phép

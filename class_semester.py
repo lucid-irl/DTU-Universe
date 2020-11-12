@@ -1,6 +1,6 @@
 """Class này triển khai những chức năng liên quan để việc xếp lịch.
 Các chức năng phải được triển khai thành một class, và một phương thức emit() một signal.
-Các xử lý logic của các chức năng được triển khai trong semeter."""
+Các xử lý logic của các chức năng được triển khai trong semester."""
 
 from PyQt5.QtCore import pyqtSignal, QThread
 from class_subject import Subject
@@ -9,7 +9,9 @@ from class_conflict import *
 from color import *
 
 
-class Semeter:
+
+
+class Semester:
     """
     Class này là class trung gian giữa Subject và Table
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -49,18 +51,33 @@ class Semeter:
         Friday: 4,
         Saturday: 5,
         Sunday: 6,
-    }
+        }
     
-    SUBJECTS = []
+    # subject mà người dùng chọn sẽ nằm ở đây
+    SUBJECTS = [] # CS414 1-8 CR 250 6-12  -> 12
+    SEMESTERS = []
+    # [
+    #     [sub1, sub2, sub3, sub4], tuan 1
+    #     [sub1, sub2, sub3, sub4], tuan 2
+    #     [sub1, sub2, sub3, sub4],
+    #     [sub1, sub2, sub3, sub4],
+    #     [sub1, sub2, sub3, sub4],
+    #     [sub1, sub2, sub3, sub4],
+    #     [sub1, sub2, sub3, sub4],
+    #     .....
+    # ]
+    SEMESTERS_INDEX = 0
 
-    def getSubjectsInSemeter(self) -> List[Subject]:
+    def getSubjectsInSemester(self) -> List[Subject]:
         return self.SUBJECTS
     
     def getTimeChains(self):
         return self.TIME_CHAINS
 
-    def addSubjectToSemeter(self, subject: Subject):
+    def addSubjectToSemester(self, subject: Subject):
         self.SUBJECTS.append(subject)
+        print(self.SUBJECTS)
+        # self.initSemester()
 
     def deleteSubject(self, name):
         for j in range(len(self.SUBJECTS)):
@@ -102,44 +119,40 @@ class Semeter:
             tempSubjectsList.pop(0)
         return conflicts
 
-    def resetTableColor(self):
-        """Xoá hết màu có trên Table."""
-        self.signal_resetTable(self.SUBJECTS)
+    def getMaxWeekInSemester(self) -> int:
+        """Trả về số Tuần kéo dài tối đa mà Semester có thể có."""
+        max = 0
+        for subject in self.SUBJECTS:
+            print(self.SUBJECTS)
+            if subject.getWeekRange()[1] > max:
+                max = subject.getWeekRange()[1]
+        return max
 
+    def initSemester(self):
+        """Mỗi Subject sẽ có số Tuần học cụ thể từ Tuần nào tới Tuần nào. Vì thế lấy số Tuần tối đa mà Subject có thể chiếm. 
+        Sau đó thực hiện đổ từ Subject tương ứng vào các List. Mỗi List sẽ đại diện cho một Tuần học.
+        """
+        self.SEMESTERS = [[] for i in range(self.getMaxWeekInSemester())]
+        print(self.SUBJECTS)
+        for subject in self.SUBJECTS:
+            for i in range(subject.getWeekRange()[0]-1, subject.getWeekRange()[1]):
+                self.SEMESTERS[i].append(subject)
+        return self.SEMESTERS
 
-class AddSubject(QThread):
-    signal_loadTable = pyqtSignal('PyQt_PyObject')
+    def nextWeek(self):
+        """Phương thức này sẽ tăng index của Semester lên 1. Thao tác trên biến SEMESTER_INDEX."""
+        if self.SEMESTERS_INDEX < self.getMaxWeekInSemester():
+            self.SEMESTERS_INDEX+=1
+            self.SUBJECTS = self.SEMESTERS[self.SEMESTERS_INDEX]
+            return 0
+        else:
+            return -1
 
-    def __init__(self, subject: Subject, semeter: Semeter) -> None:
-        super(QThread, self).__init__()
-        self.semeter = semeter
-        self.subject = subject
-
-    def run(self):
-        self.semeter.addSubjectToSemeter(self.subject)
-        self.signal_loadTable.emit(self.semeter.getSubjectInSemeter())
-
-class DeleteSubject(QThread):
-        
-    signal_loadTable = pyqtSignal('PyQt_PyObject')
-
-    def __init__(self, name: str, semeter: Semeter) -> None:
-        super(QThread, self).__init__()
-        self.semeter = semeter
-        self.name = name
-
-    def run(self):
-        self.semeter.deleteSubject(self.name)
-        self.signal_loadTable.emit(self.semeter.getSubjectInSemeter())
-
-class ScanConflictSubject:
-        
-    signal_loadTable = pyqtSignal('PyQt_PyObject')
-
-    def __init__(self, semeter: Semeter) -> None:
-        self.semeter = semeter
-
-    def run(self):
-        conflicts = self.semeter.scanSubjectConflict()
-        self.signal_loadTable.emit(conflicts)
-
+    def previousWeek(self):
+        """Phương thức này sẽ giảm index của Semester xuống 1. Thao tác trên biến SEMESTER_INDEX."""
+        if self.SEMESTERS_INDEX > 0:
+            self.SEMESTERS_INDEX-=1
+            self.SUBJECTS = self.SEMESTERS[self.SEMESTERS_INDEX]
+            return 0
+        else:
+            return -1
