@@ -1,6 +1,6 @@
 """Class này triển khai những chức năng liên quan để việc xếp lịch.
 Các chức năng phải được triển khai thành một class, và một phương thức emit() một signal.
-Các xử lý logic của các chức năng được triển khai trong semeter."""
+Các xử lý logic của các chức năng được triển khai trong semester."""
 
 from PyQt5.QtCore import pyqtSignal, QThread
 from class_subject import Subject
@@ -11,7 +11,7 @@ from color import *
 
 
 
-class Semeter:
+class Semester:
     """
     Class này là class trung gian giữa Subject và Table
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -51,31 +51,33 @@ class Semeter:
         Friday: 4,
         Saturday: 5,
         Sunday: 6,
-    }
+        }
 
     DATECHOICED = ''
     
-    SUBJECTS = []
-
-    SEMETERS = [] # lisst of list
+    # subject mà người dùng chọn sẽ nằm ở đây
+    SUBJECTS = [] # CS414 1-8 CR 250 6-12  -> 12
+    SEMESTERS = []
     # [
+    #     [sub1, sub2, sub3, sub4], tuan 1
+    #     [sub1, sub2, sub3, sub4], tuan 2
     #     [sub1, sub2, sub3, sub4],
     #     [sub1, sub2, sub3, sub4],
     #     [sub1, sub2, sub3, sub4],
     #     [sub1, sub2, sub3, sub4],
     #     [sub1, sub2, sub3, sub4],
-    #     [sub1, sub2, sub3, sub4],
-    #     [sub1, sub2, sub3, sub4],
+    #     .....
     # ]
 
-    def getSubjectsInSemeter(self) -> List[Subject]:
+    def getSubjectsInSemester(self) -> List[Subject]:
         return self.SUBJECTS
     
     def getTimeChains(self):
         return self.TIME_CHAINS
 
-    def addSubjectToSemeter(self, subject: Subject):
+    def addSubjectToSemester(self, subject: Subject):
         self.SUBJECTS.append(subject)
+        self.initSemester()
 
     def deleteSubject(self, name):
         for j in range(len(self.SUBJECTS)):
@@ -117,12 +119,22 @@ class Semeter:
             tempSubjectsList.pop(0)
         return conflicts
 
-    def initSemeter(self):
-        # subject = Subject()
+    def getMaxWeekInSemester(self) -> int:
+        """Trả về số Tuần kéo dài tối đa mà Semester có thể có."""
+        max = 0
         for subject in self.SUBJECTS:
-            for start in range(subject.getWeekRange()[0], subject.getWeekRange()[1]):
-                try:
-                    self.SEMETERS[start].append(subject)
-                except IndexError:
-                    self.SEMETERS.append(list())
+            if subject.getWeekRange()[1] > max:
+                max = subject.getWeekRange()[1]
+        return max
+
+    def initSemester(self):
+        """Mỗi Subject sẽ có số Tuần học cụ thể từ Tuần nào tới Tuần nào. Vì thế lấy số Tuần tối đa mà Subject có thể chiếm. 
+        Sau đó thực hiện đổ từ Subject tương ứng vào các List. Mỗi List sẽ đại diện cho một Tuần học.
+        """
+        self.SEMESTERS = [[] for i in range(self.getMaxWeekInSemester())]
+        for subject in self.SUBJECTS:
+            for i in range(subject.getWeekRange()[0]-1, subject.getWeekRange()[1]):
+                self.SEMESTERS[i].append(subject)
+        return self.SEMESTERS
+
 
