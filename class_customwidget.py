@@ -9,6 +9,7 @@ from class_subject import Subject
 class QCustomQWidget(QWidget):
     """Custom layout cho item trong QListWidget."""
 
+    signal_buttonAddIsPressed = pyqtSignal('PyQt_PyObject')
     def __init__ (self, subject: Subject, parent=None):
         super(QCustomQWidget, self).__init__(parent)
         self.master = parent
@@ -51,4 +52,4 @@ class QCustomQWidget(QWidget):
         self.button_add.setToolTip('Thêm môn này vào bảng')
 
     def addThisSubjectToSemeter(self):
-        self.master.addSubjectToTable(self.subject)
+        self.signal_buttonAddIsPressed.emit(self.subject)

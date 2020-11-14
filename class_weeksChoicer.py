@@ -2,6 +2,8 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
+from class_semester import *
+
 import sys
 
 class WeeksChoicer(QDialog):
@@ -22,7 +24,8 @@ class WeeksChoicer(QDialog):
         while count<self.maxWeek:
             for column in range(0, maxItemInRow):
                 self.weekButton = QPushButton(str(count+1), self)
-                self.weekButton.clicked.connect(self.showWeek)
+                self.weekButton.value = count+1
+                self.weekButton.clicked.connect(lambda b, value=self.weekButton.value: self.showWeek(value))
                 self.qgridbox.addWidget(self.weekButton, row, column)
                 count+=1
                 if count == self.maxWeek:
@@ -30,9 +33,9 @@ class WeeksChoicer(QDialog):
             row+=1
         self.setLayout(self.qgridbox)
 
-
-    def showWeek(self, e: QPushButton):
-        print(e)
+    def showWeek(self, value):
+        self.choiceWeek.emit(value)
+        self.close()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

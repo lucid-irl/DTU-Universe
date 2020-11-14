@@ -60,6 +60,12 @@ class Subject:
     def __repr__(self) -> str:
         return "<Subject {0}>".format(self.name)
 
+    def __eq__(self, o: object) -> bool:
+        if self.name == o.name:
+            return True
+        else:
+            return False
+
     def getInfo(self):
         info = """Môn học: {0} | {5}\nHọc từ tuần {6} đến tuần {7}\nGiảng viên: {1} | Số tín chỉ: {2} | Số chỗ: {3}\nMôn này học tại {4}.""".format(self.name, self.teacher, self.credits, self.number_of_seats_left, self.place, self.fullname, self.week_range[0], self.week_range[1])
         return info

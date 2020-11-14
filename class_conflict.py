@@ -1,16 +1,17 @@
 from datetime import time, timedelta
+from time import sleep
 from typing import List, Tuple
 from unittest.signals import removeResult
 
 from class_subject import *
 from class_schedule import *
 
-class Conflit:
+class Conflict:
     """
-    # Conflit đại diện cho sự xung đột thời gian giữa hai môn học
+    # conflict đại diện cho sự xung đột thời gian giữa hai môn học
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ## Khởi tạo
-    Class này nhận vào hai Subject và trả về một `Conflit` đại diện cho xung đột giữa hai môn.
+    Class này nhận vào hai Subject và trả về một `conflict` đại diện cho xung đột giữa hai môn.
     Class này sẽ có các phương thức cơ bản giúp bạn lấy ra những thông tin về việc xung đột này như:
     Thời điểm bắt đầu xung đột, thời điểm kết thúc xung đột, khoảng thời gian kéo dài giữa hai xung đột,
     thông tin của hai môn học bị xung đột.
@@ -26,6 +27,13 @@ class Conflit:
         
     def __repr__(self):
         return '<Conflict [{0}]--[{1}]>'.format(self.subject1.getName(), self.subject2.getName())
+
+    def __eq__(self, o: object) -> bool:
+        if ((self.subject1 == o.getSubject1() and self.subject2 == o.getSubject2()) or
+            (self.subject1 == o.getSubject2() and self.subject2 == o.getSubject1())):
+            return True
+        else:
+            return False
 
     def isConflict(self) -> bool:
         """**Không còn được dùng nữa**
@@ -114,7 +122,7 @@ class Conflit:
         setday2 = set(self.subject2.getSchedule().getDatesOfLesson())
         return setday1.intersection(setday2)
 
-    def getConflitTime(self) -> List[Dict[str,Tuple[timedelta, timedelta]]]:
+    def getConflictTime(self) -> List[Dict[str,Tuple[timedelta, timedelta]]]:
         """
         Trả về một List[Dict[Tuple]] chứa thời gian bắt đầu và thời gian kết thúc xung đột của hai môn học nào đó.
         [{Monday: ('07:00:00','8:00:00')}, {Tuseday: ('07:00:00','8:00:00')}]
@@ -178,3 +186,51 @@ class Conflit:
 
     def getSubject2(self):
         return self.subject2
+
+
+class ConflictList:
+    """ConflictList
+    ~~~~~~~~~~~~~~~
+    Class này dùng để lưu trữ các Conflict object."""
+    __instance = None
+    __listConflict = []
+
+    def __init__(self):
+        if ConflictList.__instance != None:
+            raise Exception('This class is a Singeton!')
+        else:
+            ConflictList.__instance = self
+    
+    def __contains__(self, item: Conflict):
+        for conflict in ConflictList.__listConflict:
+            if conflict == item:
+                return True
+        return False
+
+    @staticmethod
+    def addConflict(conflict: Conflict):
+        if conflict not in ConflictList:
+            ConflictList.__listConflict.append(conflict)
+        else:
+            raise Exception('This Confict object was in ConflictList!')
+
+    @staticmethod
+    def getInstance():
+        if ConflictList.__instance == None:
+            ConflictList()
+        return ConflictList.__instance
+
+    @staticmethod
+    def getConflictList():
+        return ConflictList.__listConflict
+
+
+if __name__ == "__main__":
+    conList = ConflictList()
+    contist2 = ConflictList.getInstance()
+
+    print(conList.addConflict())
+    print(contist2.addConflict())
+
+    print(conList)
+    print(contist2)
