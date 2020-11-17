@@ -64,7 +64,11 @@ class Semester:
     # IMPORTANT!!!
     def addSubject(self, subject: Subject):
         """Thêm một Subject vào Semester."""
-        self.SUBJECTS.append(subject)
+        if self.SEMESTER == []:
+            self.SEMESTER_INDEX = 0
+            self.SUBJECTS.append(subject)
+        else:
+            self.SUBJECTS.append(subject)
         self.__initSemester()
 
     def deleteSubject(self, id):
@@ -73,7 +77,7 @@ class Semester:
             if self.SUBJECTS[j].getID() == id:
                 self.SUBJECTS.pop(j)
                 break
-        if self.SUBJECTS != []:
+        if self.SUBJECTS:
             self.SEMESTER_INDEX = 0
         else:
             self.SEMESTER_INDEX = None
@@ -96,7 +100,7 @@ class Semester:
     def getSubjects(self) -> List[Subject]:
         return self.SUBJECTS
     
-    def getCurrentSubjects(self):
+    def getCurrentSubjects(self) -> List[Subject]:
         if self.SEMESTER_INDEX == None:
             return []
         return self.SEMESTER[self.SEMESTER_INDEX]
@@ -167,6 +171,10 @@ class Semester:
                 tempSubjectsList.pop(0)
         return conflicts
 
+    def setSemesterIndex(self, index: int):
+        pass
+
+
     # Các phương thức về kiểm tra
     @staticmethod
     def __isInConflict(con: Conflict, listConflict: list) -> bool:
@@ -185,25 +193,27 @@ class Semester:
     # Điều khiển Week Context của Semester
     def nextWeek(self):
         """Phương thức này sẽ tăng index của Semester lên 1. Thao tác trên biến SEMESTER_INDEX."""
-        if self.SEMESTER_INDEX < self.getMaxWeekInSemester():
-            self.SEMESTER_INDEX+=1
-            self.SUBJECTS = self.SEMESTER[self.SEMESTER_INDEX]
-            return 0
-        else:
-            return -1
+        if self.SEMESTER_INDEX >= 0 and self.SEMESTER_INDEX+1 < len(self.SEMESTER):
+            if self.SEMESTER_INDEX < self.getMaxWeekInSemester():
+                self.SEMESTER_INDEX+=1
+                return self.SEMESTER_INDEX
+            else:
+                return -1
 
     def previousWeek(self):
         """Phương thức này sẽ giảm index của Semester xuống 1. Thao tác trên biến SEMESTER_INDEX."""
-        if self.SEMESTER_INDEX > 0:
-            self.SEMESTER_INDEX-=1
-            self.SUBJECTS = self.SEMESTER[self.SEMESTER_INDEX]
-            return 0
-        else:
-            return -1
+        if self.SEMESTER_INDEX-1 >= 0 and self.SEMESTER_INDEX < len(self.SEMESTER):
+            if self.SEMESTER_INDEX > 0:
+                self.SEMESTER_INDEX-=1
+                return self.SEMESTER_INDEX
+            else:
+                return -1
 
     def gotoWeek(self, week: int) -> bool:
-        if week <= self.getMaxWeekInSemester():
-            self.SEMESTER_INDEX = week-1
+        if self.SEMESTER_INDEX >= 0 and self.SEMESTER_INDEX < len(self.SEMESTER):
+            if week <= self.getMaxWeekInSemester():
+                self.SEMESTER_INDEX = week-1
+                return week
 
 
     # Các phương thức về test sẽ nằm ở đây
