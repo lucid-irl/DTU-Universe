@@ -1,4 +1,4 @@
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import pyqtSignal, Qt
 from PyQt5.QtWidgets import QApplication, QWidget,QLabel, QHBoxLayout, QLayout, QPushButton
 
@@ -36,9 +36,11 @@ class QCustomQWidget(QWidget):
         self.setLayout(self.textQVBoxLayout)
 
     def addButtonCopyIDSubject(self):
-        self.button_copyIDToClipBoard = QPushButton('Sao chép ID', self)
+        self.button_copyIDToClipBoard = QPushButton()
+        self.button_copyIDToClipBoard.setIcon(QIcon('Images\\2921119-work-office-files\svg\\010-info.svg'))
         self.button_copyIDToClipBoard.clicked.connect(self.copyID)
-        self.textQVBoxLayout.addWidget(self.button_copyIDToClipBoard,1)
+        self.button_copyIDToClipBoard.setToolTip('Copy mã môn của môn này')
+        self.textQVBoxLayout.addWidget(self.button_copyIDToClipBoard,0, Qt.AlignRight)
 
     def copyID(self):
         clipboard = QApplication.clipboard()
@@ -46,10 +48,11 @@ class QCustomQWidget(QWidget):
         clipboard.setText(self.subject.getID())
 
     def addButtonAddToSemeter(self):
-        self.button_add = PicButton(QPixmap('Images\icon_add.png'),QPixmap('Images\icon_add.png'),QPixmap('Images\icon_add.png'),self)
-        self.textQVBoxLayout.addWidget(self.button_add, 0, Qt.AlignRight)
+        self.button_add = QPushButton()
+        self.button_add.setIcon(QIcon('Images\\2921119-work-office-files\svg\\019-add.svg'))
         self.button_add.clicked.connect(self.addThisSubjectToSemeter)
         self.button_add.setToolTip('Thêm môn này vào bảng')
+        self.textQVBoxLayout.addWidget(self.button_add, 0, Qt.AlignRight)
 
     def addThisSubjectToSemeter(self):
         self.signal_buttonAddIsPressed.emit(self.subject)
