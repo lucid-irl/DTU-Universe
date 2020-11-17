@@ -27,4 +27,12 @@ class ConvertThisQObject:
 
     def toQTableWidget(self) -> QTableWidget:
         return self.qobject
+
+    def toQLabel(self) -> QLabel:
+        return self.qobject
         
+    def toQWidget(self) -> QWidget:
+        return self.qobject
+        
+    def toQScrollArea(self) -> QScrollArea:
+        return self.qobject
