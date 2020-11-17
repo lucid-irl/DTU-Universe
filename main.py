@@ -11,6 +11,7 @@ from class_subject import Subject
 from class_schedule import StringToSchedule
 from class_calendar import *
 from class_convertType import *
+from class_layout import FlowLayout
 
 from thread_getSubject import ThreadGetSubject
 
@@ -46,6 +47,8 @@ class Main(QMainWindow):
         self.listView_SubjectChoiced = ConvertThisQObject(self, QListWidget, 'listWidget_lopDaChon').toQListWidget()
         self.listView_SubjectConflict = ConvertThisQObject(self, QListWidget, 'listWidget_lopXungDot').toQListWidget()
 
+        self.label_week = ConvertThisQObject(self, QLabel, 'label_week').toQLabel()
+
         self.line_findSubject = ConvertThisQObject(self, QLineEdit, 'lineEdit_tenMon').toQLineEdit()
 
         self.checkBox_phase1 = ConvertThisQObject(self, QCheckBox, 'checkBox_giaiDoan1').toQCheckBox()
@@ -56,6 +59,13 @@ class Main(QMainWindow):
 
         self.table_Semeter = ConvertThisQObject(self, QTableWidget, 'tableWidget_lichHoc').toQTableWidget()
 
+        self.scroll_buttonWeek = ConvertThisQObject(self, QScrollArea, 'scrollArea').toQScrollArea()
+        self.widget_buttonWeekContainer = ConvertThisQObject(self, QWidget, 'scrollAreaWidgetContents_weeks').toQWidget()
+        self.flowlayout = FlowLayout()
+        self.widget_buttonWeekContainer.setLayout(self.flowlayout)
+        self.scroll_buttonWeek.setWidget(self.widget_buttonWeekContainer)
+        self.scroll_buttonWeek.setWidgetResizable(True)
+
         self.connectSignals()
         self.addShortcut()
 
@@ -64,7 +74,9 @@ class Main(QMainWindow):
         self.button_findSubject.clicked.connect(self.findSubject)
         self.button_deleleSubjectFromTable.clicked.connect(self.actionDeleteSubject)
         self.button_updateSubject.clicked.connect(self.updateSubject)
-        self.button_gotoWeek.clicked.connect(self.showWeeks)
+        self.button_previousWeek.clicked.connect(self.actionGoToPreviousWeek)
+        self.button_nextWeek.clicked.connect(self.actionGoToNextWeek)
+        self.button_gotoWeek.clicked.connect(self.showWeekChoicer)
         self.listView_SubjectDownloaded.itemClicked.connect(self.showInfoSubject)
         self.listView_SubjectChoiced.itemClicked.connect(self.showInfoSubject)
 
@@ -91,6 +103,14 @@ class Main(QMainWindow):
     def actionFindSubject(self):
         pass
 
+    def actionGoToPreviousWeek(self):
+        self.gotoPreviousWeek()
+
+    def actionGoToNextWeek(self):
+        self.gotoNextWeek()
+
+    def actionAddSubject(self):
+        pass
 
     # IMPORTANT!!!
     # Các phương thức load giao diện quan trọng
@@ -162,6 +182,25 @@ class Main(QMainWindow):
             self.listView_SubjectDownloaded.addItem(self.myQListWidgetItem)
             self.listView_SubjectDownloaded.setItemWidget(self.myQListWidgetItem, self.custom_widget_subject)
 
+    def loadListButtonWeekContainer(self, maxWeek):
+        """Render các button để điều hướng trong các Tuần của Semester."""
+        for i in reversed(range(self.flowlayout.count())): 
+            self.flowlayout.itemAt(i).widget().setParent(None)
+        count = 0
+        while count<maxWeek:
+            self.weekButton = QPushButton(str(count+1), self)
+            self.weekButton.setFixedWidth(40)
+            self.weekButton.setFixedHeight(40)
+            self.weekButton.clicked.connect(lambda b, value=count+1: self.gotoWeek(value))
+            self.flowlayout.addWidget(self.weekButton)
+            count+=1
+
+    def loadLabelWeek(self):
+        if self.semester.getCurrentSemesterIndex() >= 0:
+            self.label_week.setText('Tuần '+str(self.semester.getCurrentSemesterIndex()+1))
+        else:
+            self.label_week.setText('Tuần ?')
+
 
     # IMPORTANT!!!
     # Các phương thức thao tác trên Subject
@@ -183,7 +222,9 @@ class Main(QMainWindow):
         print(self.semester.getSubjects())
         self.loadListSubjectChoiced()
         self.loadListConflict()
+        self.loadListButtonWeekContainer(self.semester.getMaxWeekInSemester())
         self.loadTable(self.semester.getCurrentSubjects())
+        self.loadLabelWeek()
         self.enableItemInListFound(subject)
 
     def addSubject(self, subject: Subject):
@@ -198,13 +239,16 @@ class Main(QMainWindow):
             self.semester.addSubject(subject)
         self.loadListSubjectChoiced()
         self.loadListConflict()
+        self.loadListButtonWeekContainer(self.semester.getMaxWeekInSemester())
         self.loadTable(self.semester.getCurrentSubjects())
+        self.loadLabelWeek()
         self.unableItemInListFound()
 
 
     # Các phương thức thao tác trên kho dữ liệu
     def updateSubject(self):
         # tạm thời update mình sẽ xoá tất cả mọi file trong thư mục data để nó tải lại mọi thứ.
+        self.listView_SubjectDownloaded.clear()
         try:
             mss = QMessageBox.warning(
                 self,
@@ -304,6 +348,40 @@ class Main(QMainWindow):
                 self.listView_SubjectDownloaded.item(i).setHidden(False)
 
 
+    # Điều hướng trong Semester
+    def gotoPreviousWeek(self):
+        """Điều hướng tới Tuần trước của Semester."""
+        self.semester.previousWeek()
+        self.loadTable(self.semester.getCurrentSubjects())
+        self.loadLabelWeek()
+
+    def gotoNextWeek(self):
+        """Điều hướng tới Tuần kế tiếp của Semester."""
+        self.semester.nextWeek()
+        self.loadTable(self.semester.getCurrentSubjects())
+        self.loadLabelWeek()
+
+    def gotoWeek(self, week):
+        self.semester.gotoWeek(week)
+        print(self.semester.getSubjects())
+        self.loadTable(self.semester.getCurrentSubjects())
+        self.loadLabelWeek()
+
+    def showWeekChoicer(self):
+        if self.semester.getMaxWeekInSemester() == 0:
+            msgbox = QMessageBox()
+            msgbox.setIcon(QMessageBox.Information)
+            msgbox.setWindowTitle(team_config.MESSAGE_ABOUT)
+            msgbox.setText('Có vẻ như bạn chưa thêm môn nào vào bảng. Hãy thử tìm kiếm và thêm ít nhất một môn vào bảng.')
+            msgbox.setStandardButtons(QMessageBox.Ok)
+            msgbox.exec()
+            self.line_findSubject.setFocus()
+            return
+        weekChoicer = WeeksChoicer(self.semester.getMaxWeekInSemester())
+        weekChoicer.choiceWeek.connect(self.afterSemesterChanged)
+        weekChoicer.exec()
+
+
     # Các phương thức kiểm tra và logic
     def isHaveLecOrLab(self, subject: Subject, inList: list) -> List:
         """Kiểm tra List of Subject truyền vào có Môn LEC hay LAB hay không. 
@@ -316,9 +394,10 @@ class Main(QMainWindow):
             i+=1
         return output
 
-    def afterSubjectsChanged(self, e):
+    def afterSemesterChanged(self, e):
         """Hàm này chạy bất cứ khi nào bạn thay đổi một Subject vào/ra Semester. 
         Dùng để load lại giao diện cho đúng logic."""
+        print('ok', e)
         self.semester.gotoWeek(e)
         self.loadTable(self.semester.getCurrentSubjects())
         self.loadListConflict()
@@ -330,19 +409,6 @@ class Main(QMainWindow):
         subject = e.data(Qt.UserRole)
         self.textEdit_thongtin.setText(subject.getInfo())
 
-    def showWeeks(self):
-        if self.semester.getMaxWeekInSemester() == 0:
-            msgbox = QMessageBox()
-            msgbox.setIcon(QMessageBox.Information)
-            msgbox.setWindowTitle(team_config.MESSAGE_ABOUT)
-            msgbox.setText('Có vẻ như bạn chưa thêm môn nào vào bảng. Hãy thử tìm kiếm và thêm ít nhất một môn vào bảng.')
-            msgbox.setStandardButtons(QMessageBox.Ok)
-            msgbox.exec()
-            self.line_findSubject.setFocus()
-            return
-        weekChoicer = WeeksChoicer(self.semester.getMaxWeekInSemester())
-        weekChoicer.choiceWeek.connect(self.afterSubjectsChanged)
-        weekChoicer.exec()
 
     # Các hộp thoại thông báo, được chúng tôi gọi là message
     def messageError(self):
@@ -391,5 +457,6 @@ class MainWindow(QMainWindow):
         self.f.exec()
 
 app = QApplication(sys.argv)
+app.setAttribute(Qt.AA_UseHighDpiPixmaps)
 window = MainWindow()
 sys.exit(app.exec_())
