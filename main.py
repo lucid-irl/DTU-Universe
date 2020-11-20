@@ -11,6 +11,7 @@ from class_subject import Subject
 from class_schedule import StringToSchedule
 from class_calendar import *
 from class_convertType import *
+from class_ui_animation import *
 from class_layout import FlowLayout
 
 from thread_getSubject import ThreadGetSubject
@@ -22,15 +23,19 @@ import color
 import team_config
 import sys
 
-class Main(QMainWindow):
+class Main(QWidget):
     """Class này chỉ đảm nhiệm việc xử lý giao diện."""
 
     SUBJECT_FOUND = []
+    WINDOW_IS_MAXIMIZED = False
+    WINDOW_INIT_SIZE = None
 
     # Các phương thức setting Giao diện bao gồm kết nối Signal, add Hot key,...
-    def __init__(self, mainwindow=None):
+    def __init__(self, mainwindow: QMainWindow=None):
         super(Main, self).__init__()
         self.mainwindow = mainwindow
+        self.setWindowFlag(Qt.FramelessWindowHint)
+        self.setAttribute(Qt.WA_TranslucentBackground)
         self.semester = Semester()
         self.calendar = None
         uic.loadUi(team_config.FOLDER_UI+'/'+team_config.USE_UI, self)
@@ -42,6 +47,15 @@ class Main(QMainWindow):
         self.button_nextWeek = ConvertThisQObject(self, QPushButton, 'pushButton_nextWeek').toQPushButton()
         self.button_previousWeek = ConvertThisQObject(self, QPushButton, 'pushButton_previousWeek').toQPushButton()
         self.button_gotoWeek = ConvertThisQObject(self, QPushButton, 'pushButton_goto').toQPushButton()
+
+        # title bar
+        self.button_close = ConvertThisQObject(self, QPushButton, 'pushButton_close').toQPushButton()
+        self.button_maximum = ConvertThisQObject(self, QPushButton, 'pushButton_maximum').toQPushButton()
+        self.button_minimum = ConvertThisQObject(self, QPushButton, 'pushButton_minimum').toQPushButton()
+
+        # navigation bar
+        self.button_menu = ConvertThisQObject(self, QPushButton, 'pushButton_menu').toQPushButton()
+        self.frame_navi = ConvertThisQObject(self, QFrame, 'frame_navbar').toQFrame()
 
         self.listView_SubjectDownloaded = ConvertThisQObject(self, QListWidget, 'listWidget_tenLop').toQListWidget()
         self.listView_SubjectChoiced = ConvertThisQObject(self, QListWidget, 'listWidget_lopDaChon').toQListWidget()
@@ -66,6 +80,13 @@ class Main(QMainWindow):
         self.scroll_buttonWeek.setWidget(self.widget_buttonWeekContainer)
         self.scroll_buttonWeek.setWidgetResizable(True)
 
+        self.effect = QGraphicsDropShadowEffect()
+        self.effect.setBlurRadius(10)
+        self.effect.setOffset(3)
+        self.setGraphicsEffect(self.effect)
+
+        # After init
+        self.WINDOW_INIT_SIZE = self.size()
         self.connectSignals()
         self.addShortcut()
 
@@ -76,7 +97,10 @@ class Main(QMainWindow):
         self.button_updateSubject.clicked.connect(self.updateSubject)
         self.button_previousWeek.clicked.connect(self.actionGoToPreviousWeek)
         self.button_nextWeek.clicked.connect(self.actionGoToNextWeek)
-        self.button_gotoWeek.clicked.connect(self.showWeekChoicer)
+        self.button_close.clicked.connect(self.closeWindow)
+        self.button_maximum.clicked.connect(self.maximum)
+        self.button_minimum.clicked.connect(self.minimum)
+        self.button_menu.clicked.connect(self.expandNavbar)
         self.listView_SubjectDownloaded.itemClicked.connect(self.showInfoSubject)
         self.listView_SubjectChoiced.itemClicked.connect(self.showInfoSubject)
 
@@ -87,6 +111,11 @@ class Main(QMainWindow):
         
         # shortcut for button here
         self.button_findSubject.setShortcut('Return')
+
+
+    # UI Animation
+    def button_find_hover(self):
+        pass
 
 
     # IMPORTANT!!!
@@ -196,7 +225,7 @@ class Main(QMainWindow):
             count+=1
 
     def loadLabelWeek(self):
-        if self.semester.getCurrentSemesterIndex() >= 0:
+        if self.semester.getCurrentSemesterIndex() != None:
             self.label_week.setText('Tuần '+str(self.semester.getCurrentSemesterIndex()+1))
         else:
             self.label_week.setText('Tuần ?')
@@ -223,7 +252,10 @@ class Main(QMainWindow):
         self.loadListSubjectChoiced()
         self.loadListConflict()
         self.loadListButtonWeekContainer(self.semester.getMaxWeekInSemester())
-        self.loadTable(self.semester.getCurrentSubjects())
+        if self.semester.getSubjects():
+            self.loadTable(self.semester.getCurrentSubjects())
+        else:
+            self.resetColorTable()
         self.loadLabelWeek()
         self.enableItemInListFound(subject)
 
@@ -419,44 +451,61 @@ class Main(QMainWindow):
             QMessageBox.Ok
         )
 
-class MainWindow(QMainWindow):
 
-    def __init__(self) -> None:
-        super().__init__()
-        self.setWindowTitle(team_config.TITLE)
-        self.setupUI()
-        qtRectangle = self.frameGeometry()
-        centerPoint = QDesktopWidget().availableGeometry().center()
-        qtRectangle.moveCenter(centerPoint)
-        self.move(qtRectangle.topLeft())
-        self.show()
+    # ANIMATION ####################################
+    # title bar
+    def closeWindow(self):
+        self.close()
 
-    def setupUI(self):
-        self.widget = Main(mainwindow=self)
-        self.setCentralWidget(self.widget)
-        # menu here
-        self.menubar = QMenuBar(self.widget)
-        self.menu_file = QMenu('Tệp tin', self.menubar)
-        self.action_setting = QAction('Cài đặt')
-        self.menu_file.addAction(self.action_setting)
-        self.menu_help = QMenu('Trợ giúp', self.menubar)
-        self.action_aboutUs = QAction('Về chúng tôi')
-        self.action_aboutUs.triggered.connect(self.showAboutUs)
-        self.menu_help.addAction(self.action_aboutUs)
+    def minimum(self):
+        self.showMinimized()
 
-        self.menubar.addMenu(self.menu_file)
-        self.menubar.addMenu(self.menu_help)
-        self.setMenuBar(self.menubar)
-        # status bar
-        self.statusbar = QStatusBar(self)
-        self.setStatusBar(self.statusbar)
+    def maximum(self):
+        if self.WINDOW_IS_MAXIMIZED:
+            centerPoint = QDesktopWidget().availableGeometry().center()
+            self.hopePointX = centerPoint.x() - self.WINDOW_INIT_SIZE.width()/2
+            self.hopePointY = centerPoint.y() - self.WINDOW_INIT_SIZE.height()/2
+            self.qrect = QRect(self.hopePointX, self.hopePointY, self.WINDOW_INIT_SIZE.width(), self.WINDOW_INIT_SIZE.height())
+            self.ani = QPropertyAnimation(self, b'geometry')
+            self.ani.setDuration(500)
+            self.ani.setEndValue(self.qrect)
+            self.ani.setEasingCurve(QEasingCurve.InOutQuad)
+            self.ani.start()
+            self.WINDOW_IS_MAXIMIZED = False
+        else:
+            self.desktop = QApplication.desktop()
+            self.screenRect = self.desktop.screenGeometry()
+            self.screenRect.setHeight(self.screenRect.height()-50)
+            self.ani = QPropertyAnimation(self, b'geometry')
+            self.ani.setDuration(500)
+            self.ani.setEndValue(self.screenRect)
+            self.ani.setEasingCurve(QEasingCurve.InOutQuad)
+            self.ani.start()
+            self.WINDOW_IS_MAXIMIZED = True
 
-    def showAboutUs(self):
-        self.f = QDialog()
-        uic.loadUi(r'GUI\about_us.ui', self.f)
-        self.f.exec()
+    def mousePressEvent(self,event):
+        if event.button() == Qt.LeftButton:
+            self.moving = True
+            self.offset = event.pos()
+
+    def mouseMoveEvent(self,event):
+        if self.moving:
+            self.move(event.globalPos()-self.offset)
+
+    def expandNavbar(self):
+        init_frame_navi_width = self.frame_navi.width()
+        if init_frame_navi_width == 74:
+            newWidth = 200
+        else:
+            newWidth = 74
+        self.ani = QPropertyAnimation(self.frame_navi, b'minimumWidth')
+        self.ani.setDuration(300)
+        self.ani.setStartValue(init_frame_navi_width)
+        self.ani.setEndValue(newWidth)
+        self.ani.setEasingCurve(QEasingCurve.InOutQuart)
+        self.ani.start()
 
 app = QApplication(sys.argv)
-app.setAttribute(Qt.AA_UseHighDpiPixmaps)
-window = MainWindow()
+window = Main()
+window.show()
 sys.exit(app.exec_())
