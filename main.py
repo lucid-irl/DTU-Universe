@@ -11,7 +11,6 @@ from class_subject import Subject
 from class_schedule import StringToSchedule
 from class_calendar import *
 from class_convertType import *
-from class_ui_animation import *
 from class_layout import FlowLayout
 
 from thread_getSubject import ThreadGetSubject
@@ -74,7 +73,7 @@ class Main(QWidget):
         self.table_Semeter = ConvertThisQObject(self, QTableWidget, 'tableWidget_lichHoc').toQTableWidget()
 
         self.scroll_buttonWeek = ConvertThisQObject(self, QScrollArea, 'scrollArea').toQScrollArea()
-        self.widget_buttonWeekContainer = ConvertThisQObject(self, QWidget, 'scrollAreaWidgetContents_weeks').toQWidget()
+        self.widget_buttonWeekContainer = ConvertThisQObject(self, QWidget, 'weeks_container').toQWidget()
         self.flowlayout = FlowLayout()
         self.widget_buttonWeekContainer.setLayout(self.flowlayout)
         self.scroll_buttonWeek.setWidget(self.widget_buttonWeekContainer)
@@ -133,9 +132,13 @@ class Main(QWidget):
         pass
 
     def actionGoToPreviousWeek(self):
+        if self.semester.getCurrentSemesterIndex() == None:
+            return
         self.gotoPreviousWeek()
 
     def actionGoToNextWeek(self):
+        if self.semester.getCurrentSemesterIndex() == None:
+            return
         self.gotoNextWeek()
 
     def actionAddSubject(self):
