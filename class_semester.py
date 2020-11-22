@@ -58,7 +58,7 @@ class Semester:
     CONFLICT = []
     # list of week do initSemester sẽ nằm ở đây
     SEMESTER = []
-    SEMESTER_INDEX = 0
+    SEMESTER_INDEX = None
 
 
     # IMPORTANT!!!
@@ -102,7 +102,7 @@ class Semester:
     
     def getCurrentSubjects(self) -> List[Subject]:
         if self.SEMESTER_INDEX == None:
-            return []
+            return
         return self.SEMESTER[self.SEMESTER_INDEX]
 
     def getWeek(self, week):
