@@ -12,7 +12,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1493</width>
+    <width>1523</width>
     <height>976</height>
    </rect>
   </property>
@@ -33,39 +33,44 @@
     <number>0</number>
    </property>
    <property name="leftMargin">
-    <number>10</number>
+    <number>0</number>
    </property>
    <property name="topMargin">
-    <number>10</number>
+    <number>0</number>
    </property>
    <property name="rightMargin">
-    <number>10</number>
+    <number>0</number>
    </property>
    <property name="bottomMargin">
-    <number>10</number>
+    <number>0</number>
    </property>
    <item>
     <widget class="QFrame" name="frame_window">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+      <sizepolicy hsizetype="Minimum" vsizetype="Ignored">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
      <property name="styleSheet">
       <string notr="true">QFrame{
-	background: #ffffff;
-	border-radius: 7px;
+background: #ffffff;
+border-radius: 7px;
+
+}
+
+#frame_window {
+border: 1px solid #ced6e0;
 }
 
 /*Custom widget*/
 QPushButton {
-	background: transparent;
-	border: none;
+background: transparent;
+border: none;
 }
 
 QLabel {
-	background: transparent;
+background: transparent;
 }</string>
      </property>
      <property name="frameShape">
@@ -111,7 +116,7 @@ QLabel {
          <item alignment="Qt::AlignLeft">
           <widget class="QPushButton" name="pushButton_menu">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -132,7 +137,7 @@ QLabel {
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../Images/icons/cil-menu.png</normaloff>../Images/icons/cil-menu.png</iconset>
+             <normaloff>../resources/icon_menu_gray.svg</normaloff>../resources/icon_menu_gray.svg</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -356,8 +361,21 @@ QPushButton::hover {
              <height>0</height>
             </size>
            </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="styleSheet">
-            <string notr="true"/>
+            <string notr="true">QPushButton {
+border-radius: 7px;
+	background-color: rgb(218, 218, 218);
+}
+
+QPushButton:hover {
+background-color: gray;
+}</string>
            </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
@@ -366,37 +384,20 @@ QPushButton::hover {
             <enum>QFrame::Raised</enum>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">
-            <item>
-             <widget class="QPushButton" name="pushButton_2">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>50</height>
-               </size>
-              </property>
-              <property name="styleSheet">
-               <string notr="true"/>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pushButton">
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>50</height>
-               </size>
-              </property>
-              <property name="text">
-               <string/>
-              </property>
-             </widget>
-            </item>
-            <item alignment="Qt::AlignBottom">
-             <widget class="QPushButton" name="pushButton_nav_button">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item alignment="Qt::AlignHCenter">
+             <widget class="QPushButton" name="button_nav_home">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -405,12 +406,36 @@ QPushButton::hover {
               </property>
               <property name="minimumSize">
                <size>
-                <width>50</width>
-                <height>50</height>
+                <width>60</width>
+                <height>60</height>
                </size>
               </property>
               <property name="text">
                <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>../resources/icon_home_white_fill.svg</normaloff>../resources/icon_home_white_fill.svg</iconset>
+              </property>
+             </widget>
+            </item>
+            <item alignment="Qt::AlignHCenter|Qt::AlignBottom">
+             <widget class="QPushButton" name="button_nav_info">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>60</width>
+                <height>60</height>
+               </size>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>../resources/icon_info_white.svg</normaloff>../resources/icon_info_white.svg</iconset>
               </property>
              </widget>
             </item>
@@ -686,7 +711,7 @@ background-color:#05c46b;
                     </property>
                     <property name="icon">
                      <iconset>
-                      <normaloff>../Images/vectorpaint (2).svg</normaloff>../Images/vectorpaint (2).svg</iconset>
+                      <normaloff>../resources/icon_find_white.svg</normaloff>../resources/icon_find_white.svg</iconset>
                     </property>
                     <property name="iconSize">
                      <size>
@@ -1078,8 +1103,8 @@ background-color: #ffffff;
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>255</width>
-                       <height>346</height>
+                       <width>279</width>
+                       <height>355</height>
                       </rect>
                      </property>
                      <property name="styleSheet">
@@ -1108,7 +1133,70 @@ color: #000000;
             <item>
              <widget class="QFrame" name="frame_center">
               <property name="styleSheet">
-               <string notr="true"/>
+               <string notr="true">/*scroll bar*/
+QScrollBar:vertical {
+width: 12px;
+margin: 15px 0 15px 0;
+}
+QScrollBar::handle:vertical {
+background-color: rgb(205, 205, 205);
+min-height: 20px;
+border-radius: 6px;
+}
+QScrollBar::add-line:vertical {
+background-color: rgb(248, 248, 248);
+height: 20px;
+subcontrol-position: bottom;
+subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:vertical {
+background-color: rgb(248, 248, 248);
+height: 20px;
+subcontrol-position: top;
+subcontrol-origin: margin;
+}
+
+QScrollBar::add-page:vertical {
+background-color: rgb(248, 248, 248);
+}
+
+QScrollBar::sub-page:vertical {
+background-color: rgb(248, 248, 248);
+}
+
+/*horizontal scrollbar*/
+/*scroll bar*/
+QScrollBar:horizontal {
+height: 12px;
+margin: 0 15px 0 15px;
+}
+QScrollBar::handle:horizontal {
+background-color: rgb(205, 205, 205);
+min-width: 20px;
+border-radius: 6px;
+}
+QScrollBar::add-line:horizontal {
+background-color: rgb(248, 248, 248);
+width: 20px;
+subcontrol-position: right;
+subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:horizontal {
+background-color: rgb(248, 248, 248);
+width: 20px;
+subcontrol-position: left;
+subcontrol-origin: margin;
+}
+
+QScrollBar::add-page:horizontal {
+background-color: rgb(248, 248, 248);
+}
+
+QScrollBar::sub-page:horizontal {
+background-color: rgb(248, 248, 248);
+}</string>
               </property>
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
@@ -1123,7 +1211,7 @@ color: #000000;
                   <bool>true</bool>
                  </property>
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
@@ -1157,13 +1245,21 @@ color: #000000;
 	border-radius: 7px;
 	padding: 10px;
 	background-color: rgb(255, 255, 255);
-}</string>
+}
+
+</string>
                  </property>
                  <property name="lineWidth">
                   <number>1</number>
                  </property>
                  <property name="sizeAdjustPolicy">
                   <enum>QAbstractScrollArea::AdjustToContents</enum>
+                 </property>
+                 <property name="editTriggers">
+                  <set>QAbstractItemView::NoEditTriggers</set>
+                 </property>
+                 <property name="selectionMode">
+                  <enum>QAbstractItemView::NoSelection</enum>
                  </property>
                  <property name="showGrid">
                   <bool>true</bool>
@@ -1174,14 +1270,29 @@ color: #000000;
                  <property name="rowCount">
                   <number>18</number>
                  </property>
+                 <attribute name="horizontalHeaderVisible">
+                  <bool>true</bool>
+                 </attribute>
+                 <attribute name="horizontalHeaderCascadingSectionResizes">
+                  <bool>false</bool>
+                 </attribute>
                  <attribute name="horizontalHeaderDefaultSectionSize">
                   <number>90</number>
+                 </attribute>
+                 <attribute name="horizontalHeaderHighlightSections">
+                  <bool>true</bool>
+                 </attribute>
+                 <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+                  <bool>true</bool>
                  </attribute>
                  <attribute name="horizontalHeaderStretchLastSection">
                   <bool>false</bool>
                  </attribute>
                  <attribute name="verticalHeaderDefaultSectionSize">
                   <number>25</number>
+                 </attribute>
+                 <attribute name="verticalHeaderHighlightSections">
+                  <bool>true</bool>
                  </attribute>
                  <attribute name="verticalHeaderStretchLastSection">
                   <bool>false</bool>
@@ -1762,6 +1873,8 @@ QLabel {
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources/icons.qrc"/>
+ </resources>
  <connections/>
 </ui>
