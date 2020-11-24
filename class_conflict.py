@@ -187,6 +187,8 @@ class Conflict:
     def getSubject2(self):
         return self.subject2
 
+    def getInfo(self):
+        return "Xung đột giữa hai môn {0} và {1}".format(self.subject1.getName(), self.subject2.getName())
 
 class ConflictList:
     """ConflictList
