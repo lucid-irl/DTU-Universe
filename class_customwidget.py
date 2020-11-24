@@ -2,8 +2,9 @@ from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import pyqtSignal, Qt
 from PyQt5.QtWidgets import QApplication, QWidget,QLabel, QHBoxLayout, QLayout, QPushButton
 
-from class_custombutton import PicButton
 from class_subject import Subject
+
+from win10toast import ToastNotifier
 # from main import Main
 
 class QCustomQWidget(QWidget):
@@ -46,6 +47,8 @@ class QCustomQWidget(QWidget):
         clipboard = QApplication.clipboard()
         clipboard.clear(mode=clipboard.Clipboard)
         clipboard.setText(self.subject.getID())
+        toastCopied = ToastNotifier()
+        toastCopied.show_toast("CS4RSA - Thông báo", "Bạn đã copy mã {0} vào Clipboard".format(self.subject.getID()), duration = 5, icon_path = "Images\logo.ico", threaded=True)
 
     def addButtonAddToSemeter(self):
         self.button_add = QPushButton()
