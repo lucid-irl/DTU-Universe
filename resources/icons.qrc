@@ -1,0 +1,8 @@
+<RCC>
+  <qresource prefix="image">
+    <file>icon_menu_gray.svg</file>
+    <file>icon_home_white.svg</file>
+    <file>icon_find_white.svg</file>
+    <file>icon_info_white.svg</file>
+  </qresource>
+</RCC>
