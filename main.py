@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
+from PyQt5.QtWidgets import (QWidget, QApplication, QPushButton, QListWidget, QListWidgetItem,
+                             QTableWidget, QTableWidgetItem, QMessageBox, QLineEdit, QCheckBox, QTextEdit, QLabel)
 from PyQt5.QtCore import Qt
 from PyQt5 import uic
 
@@ -22,9 +22,11 @@ import color
 import team_config
 import sys
 
+
 class Main(QWidget):
     """Class này chỉ đảm nhiệm việc xử lý giao diện."""
 
+    CONTEXT_CURRENT_SUBJECT = None
     SUBJECT_FOUND = []
     WINDOW_IS_MAXIMIZED = False
     WINDOW_INIT_SIZE = None
@@ -79,11 +81,6 @@ class Main(QWidget):
         self.scroll_buttonWeek.setWidget(self.widget_buttonWeekContainer)
         self.scroll_buttonWeek.setWidgetResizable(True)
 
-        self.effect = QGraphicsDropShadowEffect()
-        self.effect.setBlurRadius(10)
-        self.effect.setOffset(3)
-        self.setGraphicsEffect(self.effect)
-
         # After init
         self.WINDOW_INIT_SIZE = self.size()
         self.connectSignals()
@@ -112,11 +109,6 @@ class Main(QWidget):
         self.button_findSubject.setShortcut('Return')
 
 
-    # UI Animation
-    def button_find_hover(self):
-        pass
-
-
     # IMPORTANT!!!
     # Các phương thức này chuẩn bị đủ đúng context trước khi thao tác, ta gọi chúng là Action
     def actionDeleteSubject(self):
@@ -129,7 +121,17 @@ class Main(QWidget):
             self.messageError()
 
     def actionFindSubject(self):
-        pass
+        if self.line_findSubject.text().strip() == "":
+            mess = QMessageBox()
+            mess.setIcon(QMessageBox.Warning)
+            mess.setText('Có vẻ như bạn quên nhập môn học. Hãy nhập vào đi bạn nhé!')
+            mess.setWindowTitle('Một cảnh báo dễ thương')
+            mess.setStandardButtons(QMessageBox.Ok)
+            mess.exec()
+            self.line_findSubject.setFocus()
+        else:
+            self.findSubject()
+            
 
     def actionGoToPreviousWeek(self):
         if self.semester.getCurrentSemesterIndex() == None:
@@ -283,7 +285,6 @@ class Main(QWidget):
     # Các phương thức thao tác trên kho dữ liệu
     def updateSubject(self):
         # tạm thời update mình sẽ xoá tất cả mọi file trong thư mục data để nó tải lại mọi thứ.
-        self.listView_SubjectDownloaded.clear()
         try:
             mss = QMessageBox.warning(
                 self,
@@ -297,6 +298,7 @@ class Main(QWidget):
                 filelist = [ f for f in os.listdir(team_config.FOLDER_SAVE_EXCEL) if f.endswith(".xls") ]
                 for f in filelist:
                     os.remove(os.path.join(team_config.FOLDER_SAVE_EXCEL, f))
+                self.listView_SubjectDownloaded.clear()
         except:
             QMessageBox.warning(
                 self,
@@ -317,17 +319,18 @@ class Main(QWidget):
             credit = int(sheet.cell_value(i, 6))
             seats = sheet.cell_value(i, 7)
             week_range = sheet.cell_value(i, 8).split('--')
-            status =  int(sheet.cell_value(i, 9))
+            status = int(sheet.cell_value(i, 9))
             fullname = sheet.cell_value(i, 10)
             subject = Subject(id, name, seats, credit, schedule, teacher, place, week_range, status, fullname)
             self.SUBJECT_FOUND.append(subject)
         self.loadListSubjectFound()
+        self.unableItemInListFound()
 
     def findSubject(self):
+        """Tìm môn học."""
         self.SUBJECT_FOUND.clear()
         self.listView_SubjectDownloaded.clear()
         self.textEdit_thongtin.clear()
-        self.textEdit_thongtin.setText('Đang tìm kiếm...')
         subject_name = self.line_findSubject.text()
         file_name = team_config.FOLDER_SAVE_EXCEL+'/'+subject_name+'.xls'
 
@@ -432,7 +435,6 @@ class Main(QWidget):
     def afterSemesterChanged(self, e):
         """Hàm này chạy bất cứ khi nào bạn thay đổi một Subject vào/ra Semester. 
         Dùng để load lại giao diện cho đúng logic."""
-        print('ok', e)
         self.semester.gotoWeek(e)
         self.loadTable(self.semester.getCurrentSubjects())
         self.loadListConflict()
