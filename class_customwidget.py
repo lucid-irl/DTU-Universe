@@ -10,7 +10,13 @@ from win10toast import ToastNotifier
 class QCustomQWidget(QWidget):
     """Custom layout cho item trong QListWidget."""
 
+    ICON_BUTTON_DELETE = 'Images\\3597038-text-editor\\svg\\007-delete.svg'
+    ICON_BUTTON_COPY_ID = 'Images\\2921119-work-office-files\svg\\010-info.svg'
+    ICON_BUTTON_ADD = 'Images\\2921119-work-office-files\svg\\019-add.svg'
+
     signal_buttonAddIsPressed = pyqtSignal('PyQt_PyObject')
+    signal_buttonDeleteIsPressed = pyqtSignal('PyQt_PyObject')
+
     def __init__ (self, subject: Subject, parent=None):
         super(QCustomQWidget, self).__init__(parent)
         self.master = parent
@@ -38,7 +44,7 @@ class QCustomQWidget(QWidget):
 
     def addButtonCopyIDSubject(self):
         self.button_copyIDToClipBoard = QPushButton()
-        self.button_copyIDToClipBoard.setIcon(QIcon('Images\\2921119-work-office-files\svg\\010-info.svg'))
+        self.button_copyIDToClipBoard.setIcon(QIcon(self.ICON_BUTTON_COPY_ID))
         self.button_copyIDToClipBoard.clicked.connect(self.copyID)
         self.button_copyIDToClipBoard.setToolTip('Copy mã môn của môn này')
         self.textQVBoxLayout.addWidget(self.button_copyIDToClipBoard,0, Qt.AlignRight)
@@ -52,10 +58,20 @@ class QCustomQWidget(QWidget):
 
     def addButtonAddToSemeter(self):
         self.button_add = QPushButton()
-        self.button_add.setIcon(QIcon('Images\\2921119-work-office-files\svg\\019-add.svg'))
+        self.button_add.setIcon(QIcon(self.ICON_BUTTON_ADD))
         self.button_add.clicked.connect(self.addThisSubjectToSemeter)
         self.button_add.setToolTip('Thêm môn này vào bảng')
         self.textQVBoxLayout.addWidget(self.button_add, 0, Qt.AlignRight)
 
     def addThisSubjectToSemeter(self):
         self.signal_buttonAddIsPressed.emit(self.subject)
+
+    def addButtonDelete(self):
+        self.button_delete = QPushButton()
+        self.button_delete.setIcon(QIcon(self.ICON_BUTTON_DELETE))
+        self.button_delete.setToolTip('Xoá môn này')
+        self.button_delete.clicked.connect(self.deleteThisSubjectToSemeter)
+        self.textQVBoxLayout.addWidget(self.button_delete, 0, Qt.AlignRight)
+
+    def deleteThisSubjectToSemeter(self):
+        self.signal_buttonDeleteIsPressed.emit(self.subject)

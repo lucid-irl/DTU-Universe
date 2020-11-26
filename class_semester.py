@@ -2,7 +2,6 @@
 Các chức năng phải được triển khai thành một class, và một phương thức emit() một signal.
 Các xử lý logic của các chức năng được triển khai trong semester."""
 
-from PyQt5.QtCore import pyqtSignal, QThread
 from class_subject import Subject
 from class_schedule import *
 from class_conflict import *

@@ -3,7 +3,6 @@ from PyQt5.QtWidgets import (QWidget, QApplication, QPushButton, QListWidget, QL
 from PyQt5.QtCore import Qt
 from PyQt5 import uic
 
-from class_weeksChoicer import WeeksChoicer
 from class_customwidget import QCustomQWidget
 from class_customConflictWidget import CustomConflictWidget
 from class_semester import *
@@ -195,6 +194,8 @@ class Main(QWidget):
 
             self.custom_widget_subject = QCustomQWidget(subject)
             self.custom_widget_subject.addButtonCopyIDSubject()
+            self.custom_widget_subject.addButtonDelete()
+            self.custom_widget_subject.signal_buttonDeleteIsPressed.connect(self.deleteSubject)
 
             self.myQListWidgetItem = QListWidgetItem(self.listView_SubjectChoiced)
             self.myQListWidgetItem.setData(Qt.UserRole, subject)
