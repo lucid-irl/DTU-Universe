@@ -2,12 +2,13 @@
 Các chức năng phải được triển khai thành một class, và một phương thức emit() một signal.
 Các xử lý logic của các chức năng được triển khai trong semester."""
 
+
+from PyQt5.QtCore import pyqtSignal
+
 from class_subject import Subject
 from class_schedule import *
 from class_conflict import *
 from color import *
-
-
 
 
 class Semester:
@@ -59,6 +60,9 @@ class Semester:
     SEMESTER = []
     SEMESTER_INDEX = None
 
+    signal_indexChanged = pyqtSignal('PyQt_PyObject')
+    singal_addSubject = pyqtSignal('PyQt_PyObject')
+    signal_deleteSubject = pyqtSignal('PyQt_PyObject')
 
     # IMPORTANT!!!
     def addSubject(self, subject: Subject):
