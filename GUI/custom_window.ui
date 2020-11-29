@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>496</width>
-    <height>473</height>
+    <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,6 +41,18 @@ border-radius: 7px;
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="leftMargin">
+       <number>11</number>
+      </property>
+      <property name="topMargin">
+       <number>11</number>
+      </property>
+      <property name="rightMargin">
+       <number>11</number>
+      </property>
+      <property name="bottomMargin">
+       <number>11</number>
+      </property>
       <item>
        <widget class="QFrame" name="frame_titlebar">
         <property name="sizePolicy">
@@ -57,8 +69,7 @@ border-radius: 7px;
         </property>
         <property name="styleSheet">
          <string notr="true">QFrame {
-background-color: red;
-color: white;
+color: black;
 }</string>
         </property>
         <property name="frameShape">
@@ -70,12 +81,28 @@ color: white;
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <widget class="QLabel" name="label_title">
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>Thông báo</string>
            </property>
           </widget>
          </item>
         </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="Line" name="line">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(0, 0, 0);</string>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
        </widget>
       </item>
       <item>
@@ -99,8 +126,26 @@ color: white;
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
+         <property name="leftMargin">
+          <number>11</number>
+         </property>
+         <property name="topMargin">
+          <number>11</number>
+         </property>
+         <property name="rightMargin">
+          <number>11</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item alignment="Qt::AlignTop">
           <widget class="QLabel" name="label_image">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="text">
             <string/>
            </property>
@@ -109,8 +154,20 @@ color: white;
            </property>
           </widget>
          </item>
-         <item>
+         <item alignment="Qt::AlignTop">
           <widget class="QLabel" name="label_content">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="font">
+            <font>
+             <family>Segoe UI</family>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
            <property name="text">
             <string>Đây là một thông báo</string>
            </property>
@@ -122,16 +179,33 @@ color: white;
       <item alignment="Qt::AlignRight">
        <widget class="QFrame" name="frame_buttons">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>33</pointsize>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">QFrame {
-background-color: yellow;
-color: white;
-}</string>
+         <string notr="true">
+
+QPushButton {
+font-family: &quot;Segoe UI&quot;;
+font-size: 15px;
+border-radius: 7px;
+border: 1px solid #ced6e0;
+background-color: #bdc3c7;
+color: #ffffff;
+}
+
+QPushButton:hover {
+background-color:#34495e;
+}
+</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
@@ -140,8 +214,32 @@ color: white;
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
          <item>
           <widget class="QPushButton" name="button_OK">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>35</height>
+            </size>
+           </property>
            <property name="text">
             <string>OK</string>
            </property>
@@ -149,6 +247,18 @@ color: white;
          </item>
          <item>
           <widget class="QPushButton" name="button_Cancel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>35</height>
+            </size>
+           </property>
            <property name="text">
             <string>Cancel</string>
            </property>
