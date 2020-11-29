@@ -13,30 +13,30 @@ class ColorError(Exception):
 class Subject:
     """
     # Subject đại diện cho một lớp học của một môn
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ## Các thông tin chính
 
-    id: Mã lớp học.
+    `id`: Mã lớp học.
 
-    name: Tên lớp học.
+    `name`: Tên lớp học.
 
-    number_of_seats_left: Số chỗ còn lại.
+    `number_of_seats_left`: Số chỗ còn lại.
 
-    credits: Số tín chỉ.
+    `credits`: Số tín chỉ.
 
-    schedule: Một `Schedule` object đại diện cho thời gian của môn đó trong một Tuần học.
+    `schedule`: Một Schedule object đại diện cho thời gian của môn đó trong một Tuần học.
 
-    teacher: Tên giảng viên.
+    `teacher`: Tên giảng viên.
 
-    place: Nơi học.
+    `place`: Nơi học.
 
-    week_range: Tuần học.
+    `week_range`: Tuần học.
 
-    status: Tình trạng đăng ký.
+    `status`: Tình trạng đăng ký.
 
-    ## Subject, Semester và Table widget
-    Class này sẽ giao tiếp với Semester để có thể vẽ màu trên Table widget.
-    Các thuộc tính và phương thức của class này sẽ được team xây dựng đần trong các bản tới 😁😁
+    `fullname`: Tên đầy đủ của môn học.
+
+    ## Thông tin của class này nằm ở đây
 
     http://courses.duytan.edu.vn/Sites/Home_ChuongTrinhDaoTao.aspx?p=home_coursesearch
     """
