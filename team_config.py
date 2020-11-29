@@ -1,5 +1,6 @@
 # app title
 TITLE = 'Phần mềm mô phỏng và đăng ký tín chỉ'
+SHORT_NAME = 'CS4RSA'
 
 # Nơi lưu file excel tải xuống
 FOLDER_SAVE_EXCEL = "Data"
