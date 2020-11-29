@@ -54,5 +54,3 @@ def CreateExcel(name: str, number: str) -> bool:
     CreateFolderToSave()
     wb.save(team_config.FOLDER_SAVE_EXCEL+"/"+ excel_name)
     return True
-
-CreateExcel("ENG", "116")

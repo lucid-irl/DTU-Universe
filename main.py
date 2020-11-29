@@ -3,14 +3,13 @@ from PyQt5.QtWidgets import (QWidget, QApplication, QPushButton, QListWidget, QL
 from PyQt5.QtCore import Qt
 from PyQt5 import uic
 
-from class_customwidget import QCustomQWidget
+from class_custom_list_item_widget import CustomListItemWidget
 from class_customConflictWidget import CustomConflictWidget
 from class_semester import *
 from class_subject import Subject
 from class_schedule import StringToSchedule
-from class_calendar import *
 from class_convertType import *
-from class_layout import FlowLayout
+from class_flow_layout import FlowLayout
 
 from thread_getSubject import ThreadGetSubject
 
@@ -192,7 +191,7 @@ class Main(QWidget):
         self.listView_SubjectChoiced.clear()
         for subject in self.semester.getSubjects():
 
-            self.custom_widget_subject = QCustomQWidget(subject)
+            self.custom_widget_subject = CustomListItemWidget(subject)
             self.custom_widget_subject.addButtonCopyIDSubject()
             self.custom_widget_subject.addButtonDelete()
             self.custom_widget_subject.signal_buttonDeleteIsPressed.connect(self.deleteSubject)
@@ -206,7 +205,7 @@ class Main(QWidget):
 
     def loadListSubjectFound(self):
         for subject in self.SUBJECT_FOUND:
-            self.custom_widget_subject = QCustomQWidget(subject, self)
+            self.custom_widget_subject = CustomListItemWidget(subject, self)
             self.custom_widget_subject.addButtonAddToSemeter()
             self.custom_widget_subject.signal_buttonAddIsPressed.connect(self.addSubject)
 
@@ -254,7 +253,6 @@ class Main(QWidget):
             color.remove_color(subject.getColor())
             self.semester.deleteSubject(subject.getID())
             self.removeSel()
-        print(self.semester.getSubjects())
         self.loadListSubjectChoiced()
         self.loadListConflict()
         self.loadListButtonWeekContainer(self.semester.getMaxWeekInSemester())
@@ -402,7 +400,6 @@ class Main(QWidget):
 
     def gotoWeek(self, week):
         self.semester.gotoWeek(week)
-        print(self.semester.getSubjects())
         self.loadTable(self.semester.getCurrentSubjects())
         self.loadLabelWeek()
 

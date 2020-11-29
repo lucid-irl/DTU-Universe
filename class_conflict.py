@@ -8,15 +8,13 @@ from class_schedule import *
 
 class Conflict:
     """
-    # conflict đại diện cho sự xung đột thời gian giữa hai môn học
+    # Conflict đại diện cho sự xung đột thời gian giữa hai môn học
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     ## Khởi tạo
     Class này nhận vào hai Subject và trả về một `conflict` đại diện cho xung đột giữa hai môn.
     Class này sẽ có các phương thức cơ bản giúp bạn lấy ra những thông tin về việc xung đột này như:
     Thời điểm bắt đầu xung đột, thời điểm kết thúc xung đột, khoảng thời gian kéo dài giữa hai xung đột,
     thông tin của hai môn học bị xung đột.
-
-    Tất nhiên nó sẽ moi thằng `Schedule` giữa của hai Subject ra nó thao tác.
     """
     def __init__(self, subject1: Subject, subject2: Subject):
         self.subject1 = subject1
@@ -189,50 +187,3 @@ class Conflict:
 
     def getInfo(self):
         return "Xung đột giữa hai môn {0} và {1}".format(self.subject1.getName(), self.subject2.getName())
-
-class ConflictList:
-    """ConflictList
-    ~~~~~~~~~~~~~~~
-    Class này dùng để lưu trữ các Conflict object."""
-    __instance = None
-    __listConflict = []
-
-    def __init__(self):
-        if ConflictList.__instance != None:
-            raise Exception('This class is a Singeton!')
-        else:
-            ConflictList.__instance = self
-    
-    def __contains__(self, item: Conflict):
-        for conflict in ConflictList.__listConflict:
-            if conflict == item:
-                return True
-        return False
-
-    @staticmethod
-    def addConflict(conflict: Conflict):
-        if conflict not in ConflictList:
-            ConflictList.__listConflict.append(conflict)
-        else:
-            raise Exception('This Confict object was in ConflictList!')
-
-    @staticmethod
-    def getInstance():
-        if ConflictList.__instance == None:
-            ConflictList()
-        return ConflictList.__instance
-
-    @staticmethod
-    def getConflictList():
-        return ConflictList.__listConflict
-
-
-if __name__ == "__main__":
-    conList = ConflictList()
-    contist2 = ConflictList.getInstance()
-
-    print(conList.addConflict())
-    print(contist2.addConflict())
-
-    print(conList)
-    print(contist2)
