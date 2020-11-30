@@ -244,7 +244,7 @@ class Main(QWidget):
             self.weekButton.clicked.connect(lambda b, value=count+1: self.gotoWeek(value))
             self.flowlayout.addWidget(self.weekButton)
             count+=1
-        self.changeBackgroundWeekButton(0)
+        self.semester.gotoWeek(1)
 
     def loadLabelWeek(self):
         if self.semester.getCurrentSemesterIndex() != None:
