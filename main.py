@@ -81,6 +81,19 @@ class Main(QWidget):
 
         # After init
         self.WINDOW_INIT_SIZE = self.size()
+
+        # Center window
+        centerPoint = QDesktopWidget().availableGeometry().center()
+        self.hopePointX = centerPoint.x() - self.WINDOW_INIT_SIZE.width()/2
+        self.hopePointY = centerPoint.y() - self.WINDOW_INIT_SIZE.height()/2
+        self.qrect = QRect(self.hopePointX, self.hopePointY, self.WINDOW_INIT_SIZE.width(), self.WINDOW_INIT_SIZE.height())
+        self.ani = QPropertyAnimation(self, b'geometry')
+        self.ani.setDuration(500)
+        self.ani.setEndValue(self.qrect)
+        self.ani.setEasingCurve(QEasingCurve.InOutQuad)
+        self.ani.start()
+        self.WINDOW_IS_MAXIMIZED = False
+
         self.connectSignals()
         self.addShortcut()
 
@@ -97,6 +110,9 @@ class Main(QWidget):
         self.button_menu.clicked.connect(self.expandNavbar)
         self.listView_SubjectDownloaded.itemClicked.connect(self.showInfoSubject)
         self.listView_SubjectChoiced.itemClicked.connect(self.showInfoSubject)
+        
+        # Các đối tượng dữ liệu
+        self.semester.signal_indexChanged.connect(self.changeBackgroundWeekButton)
 
     def addShortcut(self):
         """Phương thức này chịu trách nhiệm gán Shortcut cho các chức năng trong ứng dụng."""
@@ -228,6 +244,7 @@ class Main(QWidget):
             self.weekButton.clicked.connect(lambda b, value=count+1: self.gotoWeek(value))
             self.flowlayout.addWidget(self.weekButton)
             count+=1
+        self.changeBackgroundWeekButton(0)
 
     def loadLabelWeek(self):
         if self.semester.getCurrentSemesterIndex() != None:
@@ -384,6 +401,23 @@ class Main(QWidget):
             if self.listView_SubjectDownloaded.item(i).data(Qt.UserRole).getID() == subject.getID():
                 self.listView_SubjectDownloaded.item(i).setHidden(False)
 
+    def changeBackgroundWeekButton(self, week):
+        if self.flowlayout.itemAt(week):
+            if self.semester.getPastIndex() != None:
+                past_button = self.flowlayout.itemAt(self.semester.getPastIndex()).widget()
+                past_button.setStyleSheet("""QPushButton {
+                                        background-color: white;
+                                        border-radius: 7px;
+                                        border: none;
+                                        color: #000000;
+                                        }
+
+                                        QPushButton:hover {
+                                        background-color: #3498db;
+                                        color: #fff;
+                                        }""")
+            button = self.flowlayout.itemAt(week).widget()
+            button.setStyleSheet('background-color: #2980b9; color: white;')
 
     # Điều hướng trong Semester
     def gotoPreviousWeek(self):

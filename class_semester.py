@@ -3,7 +3,7 @@ Các chức năng phải được triển khai thành một class, và một ph�
 Các xử lý logic của các chức năng được triển khai trong semester."""
 
 
-from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import QObject, pyqtSignal
 
 from class_subject import Subject
 from class_schedule import *
@@ -11,7 +11,7 @@ from class_conflict import *
 from color import *
 
 
-class Semester:
+class Semester(QObject):
     """
     Class này là class trung gian giữa Subject và Table
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -59,6 +59,7 @@ class Semester:
     # list of week do initSemester sẽ nằm ở đây
     SEMESTER = []
     SEMESTER_INDEX = None
+    SEMESTER_PAST_INDEX = None
 
     signal_indexChanged = pyqtSignal('PyQt_PyObject')
     singal_addSubject = pyqtSignal('PyQt_PyObject')
@@ -119,6 +120,8 @@ class Semester:
     def getConflicts(self) -> List[Conflict]:
         return self.__scanConflicts()
 
+    def getPastIndex(self):
+        return self.SEMESTER_PAST_INDEX
 
     # Các thao tác trên Semester
     def getCurrentSemesterIndex(self):
@@ -174,8 +177,9 @@ class Semester:
                 tempSubjectsList.pop(0)
         return conflicts
 
-    def setSemesterIndex(self, index: int):
-        pass
+    def __setSemesterPastIndex(self, index: int):
+        """Set giá trị cho biến giữ index trước đó của Semester."""
+        self.SEMESTER_PAST_INDEX = index
 
 
     # Các phương thức về kiểm tra
@@ -197,8 +201,10 @@ class Semester:
     def nextWeek(self):
         """Phương thức này sẽ tăng index của Semester lên 1. Thao tác trên biến SEMESTER_INDEX."""
         if self.SEMESTER_INDEX >= 0 and self.SEMESTER_INDEX+1 < len(self.SEMESTER):
+            self.__setSemesterPastIndex(self.SEMESTER_INDEX)
             if self.SEMESTER_INDEX < self.getMaxWeekInSemester():
                 self.SEMESTER_INDEX+=1
+                self.signal_indexChanged.emit(self.SEMESTER_INDEX)
                 return self.SEMESTER_INDEX
             else:
                 return -1
@@ -206,20 +212,21 @@ class Semester:
     def previousWeek(self):
         """Phương thức này sẽ giảm index của Semester xuống 1. Thao tác trên biến SEMESTER_INDEX."""
         if self.SEMESTER_INDEX-1 >= 0 and self.SEMESTER_INDEX < len(self.SEMESTER):
+            self.__setSemesterPastIndex(self.SEMESTER_INDEX)
             if self.SEMESTER_INDEX > 0:
                 self.SEMESTER_INDEX-=1
+                self.signal_indexChanged.emit(self.SEMESTER_INDEX)
                 return self.SEMESTER_INDEX
             else:
                 return -1
 
     def gotoWeek(self, week: int) -> bool:
         if self.SEMESTER_INDEX >= 0 and self.SEMESTER_INDEX < len(self.SEMESTER):
+            self.__setSemesterPastIndex(self.SEMESTER_INDEX)
             if week <= self.getMaxWeekInSemester():
                 self.SEMESTER_INDEX = week-1
+                self.signal_indexChanged.emit(self.SEMESTER_INDEX)
                 return week
 
 
     # Các phương thức về test sẽ nằm ở đây
-    def showSubjectInSemester(self):
-        for i in self.SEMESTER:
-            pass

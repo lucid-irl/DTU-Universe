@@ -1119,6 +1119,15 @@ background-color: white;
 border-radius: 7px;
 border: none;
 color: #000000;
+}
+
+QPushButton:hover {
+background-color: #3498db;
+color: #fff;
+}
+
+QPushButton:pressed {
+background-color: #2980b9;
 }</string>
                      </property>
                     </widget>
