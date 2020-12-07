@@ -12,9 +12,13 @@ class ColorError(Exception):
 
 class Subject:
     """
-    # Subject đại diện cho một lớp học của một môn
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    ## Các thông tin chính
+    Đại diện cho một môn học trong một học kỳ có một ID nhất định.
+    
+    @info
+    
+    http://courses.duytan.edu.vn/Sites/Home_ChuongTrinhDaoTao.aspx?p=home_coursesearch
+
+    @parameters
 
     `id`: Mã lớp học.
 
@@ -34,17 +38,14 @@ class Subject:
 
     `status`: Tình trạng đăng ký.
 
-    `fullname`: Tên đầy đủ của môn học.
-
-    ## Thông tin của class này nằm ở đây
-
-    http://courses.duytan.edu.vn/Sites/Home_ChuongTrinhDaoTao.aspx?p=home_coursesearch
+    `full_name`: Tên đầy đủ của môn học.
     """
 
-    def __init__(self, id: str, name: str, number_of_seats_left: int, credits: int, schedule: Schedule, teacher: str, place: str, week_range: list, status: int, fullname: str):
+    def __init__(self, id: str, name: str, number_of_seats_left: int, credits: int, schedule: Schedule, 
+                teacher: str, place: str, week_range: list, status: int, full_name: str):
         self.id = id
         self.name = name
-        self.fullname = fullname
+        self.full_name = full_name
         self.number_of_seats_left = number_of_seats_left  
         self.credits = credits
         self.schedule = schedule
@@ -67,7 +68,7 @@ class Subject:
             return False
 
     def getInfo(self):
-        info = """Môn học: {0} | {5}\nHọc từ tuần {6} đến tuần {7}\nGiảng viên: {1} | Số tín chỉ: {2} | Số chỗ: {3}\nMôn này học tại {4}.""".format(self.name, self.teacher, self.credits, self.number_of_seats_left, self.place, self.fullname, self.week_range[0], self.week_range[1])
+        info = """Môn học: {0} | {5}\nHọc từ tuần {6} đến tuần {7}\nGiảng viên: {1} | Số tín chỉ: {2} | Số chỗ: {3}\nMôn này học tại {4}.""".format(self.name, self.teacher, self.credits, self.number_of_seats_left, self.place, self.full_name, self.week_range[0], self.week_range[1])
         return info
 
     def setColor(self, color: str):
@@ -92,7 +93,7 @@ class Subject:
         return self.id
 
     def getFullName(self) -> str:
-        return self.fullname
+        return self.full_name
 
     def getWeekRange(self) -> List[int]:
         return [int(i) for i in self.week_range]
