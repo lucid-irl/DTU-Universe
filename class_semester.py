@@ -69,7 +69,7 @@ class Semester(QObject):
     def addSubject(self, subject: Subject):
         """Thêm một Subject vào Semester."""
         if self.SEMESTER == []:
-            self.SEMESTER_INDEX = 0
+            self.__setSemesterIndex(0)
             self.SUBJECTS.append(subject)
         else:
             self.SUBJECTS.append(subject)
@@ -82,9 +82,9 @@ class Semester(QObject):
                 self.SUBJECTS.pop(j)
                 break
         if self.SUBJECTS:
-            self.SEMESTER_INDEX = 0
+            self.__setSemesterIndex(0)
         else:
-            self.SEMESTER_INDEX = None
+            self.__setSemesterIndex(None)
         self.__initSemester()
 
 
@@ -144,7 +144,8 @@ class Semester(QObject):
 
         Bắt cặp tất cả Subject có trong danh sách trả về List chứa Conflicts.
 
-        [[{'T6': ('9:15:00', '10:15:00')}, {'T6': ('7:00:00', '9:00:00')}, {'T6': ('7:00:00', '10:15:00')}]]"""
+        [[{'T6': ('9:15:00', '10:15:00')}, {'T6': ('7:00:00', '9:00:00')}, {'T6': ('7:00:00', '10:15:00')}]]
+        """
         conflicts = []
         output = []
         tempSubjectsList = self.getCurrentSubjects().copy()
@@ -181,6 +182,9 @@ class Semester(QObject):
         """Set giá trị cho biến giữ index trước đó của Semester."""
         self.SEMESTER_PAST_INDEX = index
 
+    def __setSemesterIndex(self, index: int):
+        self.SEMESTER_INDEX = index
+        self.signal_indexChanged.emit(self.SEMESTER_INDEX)
 
     # Các phương thức về kiểm tra
     @staticmethod
