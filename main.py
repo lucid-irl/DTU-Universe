@@ -232,7 +232,7 @@ class Main(QWidget):
             self.listView_SubjectDownloaded.addItem(self.myQListWidgetItem)
             self.listView_SubjectDownloaded.setItemWidget(self.myQListWidgetItem, self.custom_widget_subject)
 
-    def loadListButtonWeekContainer(self, maxWeek):
+    def loadButtonWeekContainer(self, maxWeek):
         """Render các button để điều hướng trong các Tuần của Semester."""
         for i in reversed(range(self.flowlayout.count())): 
             self.flowlayout.itemAt(i).widget().setParent(None)
@@ -244,7 +244,6 @@ class Main(QWidget):
             self.weekButton.clicked.connect(lambda b, value=count+1: self.gotoWeek(value))
             self.flowlayout.addWidget(self.weekButton)
             count+=1
-        self.semester.gotoWeek(1)
 
     def loadLabelWeek(self):
         if self.semester.getCurrentSemesterIndex() != None:
@@ -272,7 +271,7 @@ class Main(QWidget):
             self.removeSel()
         self.loadListSubjectChoiced()
         self.loadListConflict()
-        self.loadListButtonWeekContainer(self.semester.getMaxWeekInSemester())
+        self.loadButtonWeekContainer(self.semester.getMaxWeekInSemester())
         if self.semester.getSubjects():
             self.loadTable(self.semester.getCurrentSubjects())
         else:
@@ -292,7 +291,7 @@ class Main(QWidget):
             self.semester.addSubject(subject)
         self.loadListSubjectChoiced()
         self.loadListConflict()
-        self.loadListButtonWeekContainer(self.semester.getMaxWeekInSemester())
+        self.loadButtonWeekContainer(self.semester.getMaxWeekInSemester())
         self.loadTable(self.semester.getCurrentSubjects())
         self.loadLabelWeek()
         self.unableItemInListFound()
@@ -402,7 +401,7 @@ class Main(QWidget):
                 self.listView_SubjectDownloaded.item(i).setHidden(False)
 
     def changeBackgroundWeekButton(self, week):
-        if self.flowlayout.itemAt(week):
+        if week:
             if self.semester.getPastIndex() != None:
                 past_button = self.flowlayout.itemAt(self.semester.getPastIndex()).widget()
                 past_button.setStyleSheet("""QPushButton {
