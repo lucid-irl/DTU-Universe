@@ -31,11 +31,7 @@ Week = WEEK = [Monday, Tuseday, Wednesday, Thursday, Friday, Saturday, Sunday]
 
 
 class Schedule:
-    """
-    Lịch học trong tuần của một môn
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Bao gồm các phương thức để lấy ra những thông tin cần thiết của tuần học đó.
-    """
+    """Đại diện cho thời gian biểu của một Subject trong một Tuần kéo dài cho đến hết giai đoạn."""
 
     def __init__(self, schedules: List[Dict[str, List]]) -> None:
         self.schedules = schedules
@@ -45,7 +41,8 @@ class Schedule:
         return len(self.schedules)
 
     def getDatesOfLesson(self) -> List[str]:
-        """Trả về một list chứa Thứ học của môn đó trong tuần đó.
+        """
+        Trả về một list chứa Thứ học của môn đó trong tuần đó.
 
         >>> ["T2","T4","T6"]
         """
@@ -56,11 +53,13 @@ class Schedule:
         return output
 
     def getStudyTime(self) -> int:
-        """Trả về tổng phút lớn nhất có thể của môn học đó trong một Tuần.
+        """
+        Trả về tổng phút lớn nhất có thể của môn học đó trong một Tuần.
 
         >>> s = Schedule([{'T2':['07:00-09:00','07:00-10:15']},{'T5':['07:00-09:00']}])
         >>> s.getStudyTime()
-        >>> 315.0"""
+        >>> 315.0
+        """
         time_sum = 0
         for lesson in self.schedules:
             for _, times in lesson.items():
@@ -77,14 +76,6 @@ class Schedule:
         """
         Hàm này trả về một `List` chứa thời gian tương ứng với Thứ bạn truyền vào. Mặc định trả về một `List rỗng` nếu 
         Thứ truyền vào không có trong `Schedule`.
-
-        Các thứ được trừu tượng thành các biến: Monday, Tuseday, Wednesday, Thursday, Friday, Saturday và Sunday có thể được `import`
-        và sử dụng thông qua Schedule module.
-
-        >>> from Schedule import *
-        >>> s = Schedule([{'T2':['07:00-09:00','07:00-10:15']},{'T5':['07:00-09:00']}])
-        >>> s.getTimeOfDate(Monday)
-        >>> ['07:00-09:00','07:00-10:15']
         """
         for lesson in self.schedules:
             for k, v in lesson.items():
@@ -103,7 +94,7 @@ class Schedule:
         Như bạn có thấy thời gian `Bắt đầu` của một Subject trong một Thứ nào đó có thể trùng nhau. Nhưng nếu
         bạn cần gộp chúng lại, bạn chỉ cần set tham số merge thành `True`.
 
-        Phương thức này trả về `List rỗng` nếu Thứ không tìm thấy trong Schedule.
+        Phương thức này trả về `[]` nếu Thứ không tìm thấy trong Schedule.
         """
         output = []
         time_of_date = self.getTimeOfDate(day)
@@ -118,11 +109,8 @@ class Schedule:
         return output
 
     def getEndTimeOfDate(self, day: str, merge: bool = False) -> List[timedelta]:
-        """Trả về một `List` chứa timedelta là thời gian `Kết thúc` của buổi học trong một Thứ nào đó.
-
-        >>> s = Schedule([{'T2':['07:00-09:00','07:00-10:15']},{'T5':['07:00-09:00']}])
-        >>> s.getStartTimeOfDate(Monday)
-        >>> ["09:00","10:15"]
+        """
+        Trả về một `List` chứa timedelta là thời gian `Kết thúc` của buổi học trong một Thứ nào đó.
 
         Như bạn có thấy thời gian `Kết thúc` của một Subject trong một Thứ nào đó có thể trùng nhau. Nhưng nếu
         bạn cần gộp chúng lại, bạn chỉ cần set tham số merge thành `True`.
@@ -161,13 +149,15 @@ class Schedule:
 
 
 def StringToSchedule(raw: str) -> Schedule:
-    """Hàm này nhận vào một string và trả về một Schedule.
+    """
+    Hàm này nhận vào một string và trả về một Schedule.
 
     >>> s = StringToSchedule("[{"T2":["07:00-09:00","07:00-10:15"]},{"T5":["07:00-09:00"]}]")
     >>> s.getStudyTime()
-    >>> 315.0"""
-    object_ = json.loads(raw)
-    return Schedule(object_)
+    >>> 315.0
+    """
+    schedule_object = json.loads(raw)
+    return Schedule(schedule_object)
 
 
 if __name__ == "__main__":
