@@ -7,15 +7,8 @@ from class_subject import *
 from class_schedule import *
 
 class Conflict:
-    """
-    # Conflict đại diện cho sự xung đột thời gian giữa hai môn học
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    ## Khởi tạo
-    Class này nhận vào hai Subject và trả về một `conflict` đại diện cho xung đột giữa hai môn.
-    Class này sẽ có các phương thức cơ bản giúp bạn lấy ra những thông tin về việc xung đột này như:
-    Thời điểm bắt đầu xung đột, thời điểm kết thúc xung đột, khoảng thời gian kéo dài giữa hai xung đột,
-    thông tin của hai môn học bị xung đột.
-    """
+    """Đại diện cho hai xung đột giữa hai Subject (bị chồng lịch học)."""
+
     def __init__(self, subject1: Subject, subject2: Subject):
         self.subject1 = subject1
         self.subject2 = subject2
@@ -77,45 +70,9 @@ class Conflict:
                                 if time_end1 < time_end2:
                                     return True
         return False
-    
-    def getDateHaveConflict(self) -> List[str]:
-        """**Không còn được dùng nữa**
-        
-        Trả về một list chứa Thứ xung đột giữa hai Subject."""
-        output = []
-        for day in self.in_of_day:
-            self.subject1_hours_start = self.subject1.getSchedule().getStartTimeOfDate(day, merge=True)
-            self.subject1_hours_end = self.subject1.getSchedule().getEndTimeOfDate(day, merge=True)
-
-            self.subject2_hours_start = self.subject2.getSchedule().getStartTimeOfDate(day, merge=True)
-            self.subject2_hours_end = self.subject2.getSchedule().getEndTimeOfDate(day, merge=True)
-
-            for time_start in self.subject1_hours_start:
-                for time_start2 in self.subject2_hours_start:
-                    if time_start == time_start2:
-                        if day not in output:
-                            output.append(day)
-
-            for time_end2 in self.subject2_hours_end:
-                for time_start1 in self.subject1_hours_start:
-                    if time_end2 >= time_start1:
-                        for time_end2 in self.subject2_hours_end:
-                            for time_end1 in self.subject1_hours_end:
-                                if time_end2 <= time_end1:
-                                    if day not in output:
-                                        output.append(day)
-
-            for time_end1 in self.subject1_hours_end:
-                for time_start2 in self.subject2_hours_start:
-                    if time_end1 >= time_start2:
-                        for time_end1 in self.subject1_hours_end:
-                            for time_end2 in self.subject2_hours_end:
-                                if time_end1 <= time_end2:
-                                    if day not in output:
-                                        output.append(day)
-        return output
 
     def getGenericDate(self) -> Set[str]:
+        """Trả về một set chứa những Thứ mà hai môn học nằm chung."""
         setday1 = set(self.subject1.getSchedule().getDatesOfLesson())
         setday2 = set(self.subject2.getSchedule().getDatesOfLesson())
         return setday1.intersection(setday2)
