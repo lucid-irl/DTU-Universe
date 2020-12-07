@@ -436,20 +436,6 @@ class Main(QWidget):
         self.loadTable(self.semester.getCurrentSubjects())
         self.loadLabelWeek()
 
-    def showWeekChoicer(self):
-        if self.semester.getMaxWeekInSemester() == 0:
-            msgbox = QMessageBox()
-            msgbox.setIcon(QMessageBox.Information)
-            msgbox.setWindowTitle(team_config.MESSAGE_ABOUT)
-            msgbox.setText('Có vẻ như bạn chưa thêm môn nào vào bảng. Hãy thử tìm kiếm và thêm ít nhất một môn vào bảng.')
-            msgbox.setStandardButtons(QMessageBox.Ok)
-            msgbox.exec()
-            self.line_findSubject.setFocus()
-            return
-        weekChoicer = WeeksChoicer(self.semester.getMaxWeekInSemester())
-        weekChoicer.choiceWeek.connect(self.afterSemesterChanged)
-        weekChoicer.exec()
-
 
     # Các phương thức kiểm tra và logic
     def isHaveLecOrLab(self, subject: Subject, inList: list) -> List:
