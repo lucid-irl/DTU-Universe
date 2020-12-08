@@ -2,6 +2,8 @@ from typing import List
 from class_schedule import Schedule
 import re
 
+def cmp(a, b):
+    return (a > b) - (a < b) 
 
 class ColorError(Exception):
 
@@ -66,6 +68,9 @@ class Subject:
             return True
         else:
             return False
+
+    def __cmp__(self, o: object):
+        return cmp(self.id, o.id)
 
     def getInfo(self):
         info = """Môn học: {0} | {5}\nHọc từ tuần {6} đến tuần {7}\nGiảng viên: {1} | Số tín chỉ: {2} | Số chỗ: {3}\nMôn này học tại {4}.""".format(self.name, self.teacher, self.credits, self.number_of_seats_left, self.place, self.full_name, self.week_range[0], self.week_range[1])

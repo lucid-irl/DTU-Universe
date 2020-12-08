@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import (QWidget, QApplication, QPushButton, QListWidget, QL
                              QTableWidget, QTableWidgetItem, QMessageBox, QLineEdit, QCheckBox, QTextEdit, QLabel)
 from PyQt5.QtCore import Qt
 from PyQt5 import uic
+from PyQt5.sip import delete
 
 from class_custom_list_item_widget import CustomListItemWidget
 from class_customConflictWidget import CustomConflictWidget
@@ -112,7 +113,13 @@ class Main(QWidget):
         self.listView_SubjectChoiced.itemClicked.connect(self.showInfoSubject)
         
         # Các đối tượng dữ liệu
-        self.semester.signal_indexChanged.connect(self.changeBackgroundWeekButton)
+        self.semester.signal_indexChanged.connect(lambda: self.loadButtonWeekContainer(
+                                                    self.semester.getMaxWeekInSemester(), 
+                                                    self.semester.getCurrentSemesterIndex()))
+
+        self.semester.singal_addSubject.connect(self.afterAddSubject)
+
+        self.semester.signal_deleteSubject.connect(self.afterDeleteSubject)
 
     def addShortcut(self):
         """Phương thức này chịu trách nhiệm gán Shortcut cho các chức năng trong ứng dụng."""
@@ -145,7 +152,6 @@ class Main(QWidget):
             self.line_findSubject.setFocus()
         else:
             self.findSubject()
-            
 
     def actionGoToPreviousWeek(self):
         if self.semester.getCurrentSemesterIndex() == None:
@@ -232,18 +238,22 @@ class Main(QWidget):
             self.listView_SubjectDownloaded.addItem(self.myQListWidgetItem)
             self.listView_SubjectDownloaded.setItemWidget(self.myQListWidgetItem, self.custom_widget_subject)
 
-    def loadButtonWeekContainer(self, maxWeek):
+    def loadButtonWeekContainer(self, maxWeek, currentIndex):
         """Render các button để điều hướng trong các Tuần của Semester."""
-        for i in reversed(range(self.flowlayout.count())): 
-            self.flowlayout.itemAt(i).widget().setParent(None)
-        count = 0
-        while count<maxWeek:
-            self.weekButton = QPushButton(str(count+1), self)
-            self.weekButton.setFixedWidth(40)
-            self.weekButton.setFixedHeight(40)
-            self.weekButton.clicked.connect(lambda b, value=count+1: self.gotoWeek(value))
-            self.flowlayout.addWidget(self.weekButton)
-            count+=1
+        for i in reversed(range(self.flowlayout.count())):
+            delete(self.flowlayout.itemAt(i).widget())
+        if maxWeek == 0:
+            self.flowlayout.clear()
+            return
+        else:
+            for index in range(maxWeek):
+                self.weekButton = QPushButton(str(index+1), self)
+                self.weekButton.setFixedWidth(40)
+                self.weekButton.setFixedHeight(40)
+                self.weekButton.clicked.connect(lambda b, value=index+1: self.gotoWeek(value))
+                self.flowlayout.addWidget(self.weekButton)
+            if currentIndex >= 0:
+                self.changeBackgroundWeekButton(self.semester.getCurrentSemesterIndex())
 
     def loadLabelWeek(self):
         if self.semester.getCurrentSemesterIndex() != None:
@@ -262,22 +272,13 @@ class Main(QWidget):
                 if subject.getID() == self.semester.getSubjects()[i].getID():
                     cl = self.semester.getSubjects()[i].getColor()
                     color.remove_color(cl)
-                    self.semester.deleteSubject(self.semester.getSubjects()[i].getID())
+                    self.semester.deleteSubject(self.semester.getSubjects()[i])
                     continue
                 i+=1
         else:
             color.remove_color(subject.getColor())
-            self.semester.deleteSubject(subject.getID())
+            self.semester.deleteSubject(subject)
             self.removeSel()
-        self.loadListSubjectChoiced()
-        self.loadListConflict()
-        self.loadButtonWeekContainer(self.semester.getMaxWeekInSemester())
-        if self.semester.getSubjects():
-            self.loadTable(self.semester.getCurrentSubjects())
-        else:
-            self.resetColorTable()
-        self.loadLabelWeek()
-        self.enableItemInListFound(subject)
 
     def addSubject(self, subject: Subject):
         cl = color.hex_code_colors()
@@ -289,13 +290,25 @@ class Main(QWidget):
         else:
             subject.setColor(cl)
             self.semester.addSubject(subject)
+
+    def afterDeleteSubject(self, subject: Subject):
         self.loadListSubjectChoiced()
         self.loadListConflict()
-        self.loadButtonWeekContainer(self.semester.getMaxWeekInSemester())
+        self.loadButtonWeekContainer(self.semester.getMaxWeekInSemester(), self.semester.getCurrentSemesterIndex())
+        if self.semester.getSubjects():
+            self.loadTable(self.semester.getCurrentSubjects())
+        else:
+            self.resetColorTable()
+        self.loadLabelWeek()
+        self.enableItemInListFound(subject)
+
+    def afterAddSubject(self):
+        self.loadListSubjectChoiced()
+        self.loadListConflict()
+        self.loadButtonWeekContainer(self.semester.getMaxWeekInSemester(), self.semester.getCurrentSemesterIndex())
         self.loadTable(self.semester.getCurrentSubjects())
         self.loadLabelWeek()
         self.unableItemInListFound()
-
 
     # Các phương thức thao tác trên kho dữ liệu
     def updateSubject(self):
@@ -400,23 +413,10 @@ class Main(QWidget):
             if self.listView_SubjectDownloaded.item(i).data(Qt.UserRole).getID() == subject.getID():
                 self.listView_SubjectDownloaded.item(i).setHidden(False)
 
-    def changeBackgroundWeekButton(self, week):
-        if week:
-            if self.semester.getPastIndex() != None:
-                past_button = self.flowlayout.itemAt(self.semester.getPastIndex()).widget()
-                past_button.setStyleSheet("""QPushButton {
-                                        background-color: white;
-                                        border-radius: 7px;
-                                        border: none;
-                                        color: #000000;
-                                        }
+    def changeBackgroundWeekButton(self, index):
+        button = self.flowlayout.itemAt(index).widget()
+        button.setStyleSheet('background-color: #2980b9; color: white;')
 
-                                        QPushButton:hover {
-                                        background-color: #3498db;
-                                        color: #fff;
-                                        }""")
-            button = self.flowlayout.itemAt(week).widget()
-            button.setStyleSheet('background-color: #2980b9; color: white;')
 
     # Điều hướng trong Semester
     def gotoPreviousWeek(self):
@@ -526,6 +526,7 @@ class Main(QWidget):
         self.ani.setEndValue(newWidth)
         self.ani.setEasingCurve(QEasingCurve.InOutQuart)
         self.ani.start()
+
 
 app = QApplication(sys.argv)
 window = Main()

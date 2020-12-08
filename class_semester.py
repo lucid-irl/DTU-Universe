@@ -59,33 +59,27 @@ class Semester(QObject):
     # list of week do initSemester sẽ nằm ở đây
     SEMESTER = []
     SEMESTER_INDEX = None
-    SEMESTER_PAST_INDEX = None
+    SEMESTER_PAST_INDEX = 0
 
     signal_indexChanged = pyqtSignal('PyQt_PyObject')
     singal_addSubject = pyqtSignal('PyQt_PyObject')
     signal_deleteSubject = pyqtSignal('PyQt_PyObject')
 
+
     # IMPORTANT!!!
     def addSubject(self, subject: Subject):
         """Thêm một Subject vào Semester."""
-        if self.SEMESTER == []:
-            self.__setSemesterIndex(0)
-            self.SUBJECTS.append(subject)
-        else:
-            self.SUBJECTS.append(subject)
+        self.SUBJECTS.append(subject)
         self.__initSemester()
+        self.__setSemesterIndex(0)
+        self.singal_addSubject.emit(subject)
 
-    def deleteSubject(self, id):
+    def deleteSubject(self, subject: Subject):
         """Xoá một Subject khỏi Semester dựa theo ID."""
-        for j in range(len(self.SUBJECTS)):
-            if self.SUBJECTS[j].getID() == id:
-                self.SUBJECTS.pop(j)
-                break
-        if self.SUBJECTS:
-            self.__setSemesterIndex(0)
-        else:
-            self.__setSemesterIndex(None)
+        self.SUBJECTS.remove(subject)
         self.__initSemester()
+        self.__setSemesterIndex(0)
+        self.signal_deleteSubject.emit(subject)
 
 
     # IMPORTANT!!!
@@ -105,9 +99,9 @@ class Semester(QObject):
         return self.SUBJECTS
     
     def getCurrentSubjects(self) -> List[Subject]:
-        if self.SEMESTER_INDEX == None:
-            return
-        return self.SEMESTER[self.SEMESTER_INDEX]
+        if len(self.SEMESTER) >0:
+            return self.SEMESTER[self.SEMESTER_INDEX]
+        
 
     def getWeek(self, week):
         """Phương thức này trả về một list các Subject trong một Tuần cụ thể của Semester. Nếu tuần đó không tồn tại
@@ -225,12 +219,13 @@ class Semester(QObject):
                 return -1
 
     def gotoWeek(self, week: int) -> bool:
-        if self.SEMESTER_INDEX >= 0 and self.SEMESTER_INDEX < len(self.SEMESTER):
-            self.__setSemesterPastIndex(self.SEMESTER_INDEX)
-            if week <= self.getMaxWeekInSemester():
-                self.SEMESTER_INDEX = week-1
-                self.signal_indexChanged.emit(self.SEMESTER_INDEX)
-                return week
+        if len(self.SEMESTER) > 0:
+            if self.SEMESTER_INDEX >= 0 and self.SEMESTER_INDEX < len(self.SEMESTER):
+                self.__setSemesterPastIndex(self.SEMESTER_INDEX)
+                if week <= self.getMaxWeekInSemester():
+                    self.SEMESTER_INDEX = week-1
+                    self.signal_indexChanged.emit(self.SEMESTER_INDEX)
+                    return week
 
 
     # Các phương thức về test sẽ nằm ở đây

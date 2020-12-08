@@ -5,29 +5,38 @@
 # Hàm làm sạch luôn có tên bắt đầu bằng clean_<name define>
 
 import re
-import SubTimeTestHTML.markup1
-import SubTimeTestHTML.markup2
-import SubTimeTestHTML.markup3
-import SubTimeTestHTML.markup4
+from typing import List
+# import SubTimeTestHTML.markup1
+# import SubTimeTestHTML.markup2
+# import SubTimeTestHTML.markup3
+# import SubTimeTestHTML.markup4
 import re
 
-def clean_SubTime(raw_sub_time: str):
-    """Hàm này nhận vào <td> element và trả về time có cấu trúc của Subject.
-    Bộ datatest ở SubTimeTestHTML.
-    """
-    day = ["T2:","T3:","T4:","T5:","T6:","T7:","CN:"]
-    schedules = []
+
+def get_list_schedule_raw_from_html(html: str) -> List:
+    """Trích xuất và lấy ra list schedule thô từ html."""
+    schedules_raw = []
     join_schedules = []
-    raw_sub_time = raw_sub_time.replace('\n','')
+    raw_sub_time = html.replace('\n','')
     strings = re.findall(r'>(.*?)<', raw_sub_time)
     for string in strings:
         row = str(string).strip().split()
         if row:
-            schedules.append(row)
-
-    for item in schedules:
+            schedules_raw.append(row)
+    for item in schedules_raw:
         temp = ''.join(item)
         join_schedules.append(temp)
+    return join_schedules
+
+
+def clean_SubTime(raw_sub_time: str):
+    """
+    Hàm này nhận vào <td> element và trả về time có cấu trúc của Subject.
+    Bộ datatest ở SubTimeTestHTML.
+    """
+    days = ["T2:","T3:","T4:","T5:","T6:","T7:","CN:"]
+    join_schedules = get_list_schedule_raw_from_html(raw_sub_time)
+
     output = []
     anchor = 0
     index = 0
@@ -37,7 +46,7 @@ def clean_SubTime(raw_sub_time: str):
                 break
         except:
             break
-        if join_schedules[index] in day:
+        if join_schedules[index] in days:
             anchor = index+1
             buoi_hoc = {} # output {'T2:': ['07:00-09:00', '07:00-10:15']}
             time_buoi_hoc = []
@@ -50,7 +59,8 @@ def clean_SubTime(raw_sub_time: str):
             index = anchor
             output.append(buoi_hoc)
     return output
-        
-if __name__ == "__main__":
-    print(clean_SubTime(SubTimeTestHTML.markup4.markup))
+
+
+# if __name__ == "__main__":
+#     print(clean_SubTime(SubTimeTestHTML.markup4.markup))
 
