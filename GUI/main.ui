@@ -1651,7 +1651,7 @@ QLabel {
                    </widget>
                   </item>
                   <item row="4" column="0">
-                   <widget class="QPushButton" name="pushButton_xoaLop">
+                   <widget class="QPushButton" name="pushButton_dangKy">
                     <property name="sizePolicy">
                      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                       <horstretch>0</horstretch>
@@ -1682,7 +1682,7 @@ QLabel {
                      <string notr="true"/>
                     </property>
                     <property name="text">
-                     <string>Xóa</string>
+                     <string>Đăng ký</string>
                     </property>
                    </widget>
                   </item>
