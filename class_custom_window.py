@@ -1,55 +1,82 @@
 from typing import List
-from PyQt5.QtWidgets import QApplication, QPushButton, QLabel, QFrame, QHBoxLayout, QVBoxLayout, QWidget
-from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtCore import pyqtSignal, Qt
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
 from PyQt5 import uic
 
 from class_convertType import ConvertThisQObject
 
 import sys
+import os
 
 
-class CustomDialogButton(QPushButton):
+class CustomDialogWindow(QDialog):
 
-    def __init__(self) -> None:
-        super(CustomDialogButton, self).__init__()
-        
-    def addSignal(self, signal: pyqtSignal):
-        self.signal = signal
-
-    def getSignal(self):
-        return self.signal
-
-
-class CustomDialogWindow(QWidget):
-    """
-    Class này triển khai một Custom Window cho các Dialog Box block Main Window.
-    Các Button bên trong được thêm thông qua phương thức addButton()
-    """
     UI = 'GUI\\custom_window.ui'
+    signal_OK_is_pressed = pyqtSignal('PyQt_PyObject')
 
-    def __init__(self, title: str, content: str, image=None) -> None:
+    def __init__(self, title: str=None, content: str=None, imagePath=None) -> None:
         super(CustomDialogWindow, self).__init__()
-        self.title = title
-        self.content = content
-        self.buttons = []
-        self.image = image
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
+
+        self.title = title
+        self.content = content
+        self.imagePath = imagePath
+
         uic.loadUi(self.UI,self)
         self.frame_titleBar = ConvertThisQObject(self, QFrame, 'frame_titlebar').toQFrame()
-        self.button = ConvertThisQObject(self, QPushButton, 'button_Cancel').toQPushButton()
-        self.button.clicked.connect(lambda: self.close())
+        self.button_cancel = ConvertThisQObject(self, QPushButton, 'button_cancel').toQPushButton()
+        self.button_OK = ConvertThisQObject(self, QPushButton, 'button_OK').toQPushButton()
+        self.label_title = ConvertThisQObject(self, QLabel, 'label_title').toQLabel()
+        self.label_content = ConvertThisQObject(self, QLabel, 'label_content').toQLabel()
+        self.label_image = ConvertThisQObject(self, QLabel, 'label_image').toQLabel()
+        self.fillDataToDialog()
 
-    def addButton(self, name: str, button: QPushButton, signal: pyqtSignal):
-        """#### Thêm button vào custom window.
-        
-        """
-        pass
+        self.connectSignal()
+
+
+    def fillDataToDialog(self):
+        if self.title:
+            self.label_title.setText(self.title)
+        if self.content:
+            self.label_content.setText(self.content)
+        if self.imagePath and os.path.exists(self.imagePath):
+            if os.path.splitext(self.imagePath)[1] == '.gif':
+                gif = QMovie(self.imagePath)
+                self.label_image.setMovie(gif)
+                gif.start()
+                return
+            image = QPixmap(self.imagePath)
+            self.label_image.setPixmap(image)
+
+    def connectSignal(self):
+        self.button_cancel.clicked.connect(self.closeWindow)
+        self.button_OK.clicked.connect(self.closeWindowAndEmitSignal)
+
+    def closeWindowAndEmitSignal(self):
+        self.close()
+        self.signal_OK_is_pressed.emit(True)
+
+    def closeWindow(self):
+        self.close()
+
+    def minimum(self):
+        self.showMinimized()
+
+    def mousePressEvent(self,event):
+        if event.button() == Qt.LeftButton:
+            self.moving = True
+            self.offset = event.pos()
+
+    def mouseMoveEvent(self,event):
+        if self.moving:
+            self.move(event.globalPos()-self.offset)
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = CustomDialogWindow(None, None)
+    window = CustomDialogWindow('thong bao', 'ok', 'Images\\loading1.gif')
+    window.signal_OK_is_pressed.connect(lambda: print('ok'))
     window.show()
     sys.exit(app.exec())
