@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>496</width>
+    <width>519</width>
     <height>480</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -28,11 +34,21 @@
    </property>
    <item>
     <widget class="QFrame" name="frame_main">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="styleSheet">
       <string notr="true">QFrame {
 background-color: #fff;
 border-radius: 7px;
-}</string>
+}
+#frame_main {
+border: 2px solid #ced6e0;
+}
+</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -41,11 +57,14 @@ border-radius: 7px;
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="spacing">
+       <number>5</number>
+      </property>
       <property name="leftMargin">
        <number>11</number>
       </property>
       <property name="topMargin">
-       <number>11</number>
+       <number>0</number>
       </property>
       <property name="rightMargin">
        <number>11</number>
@@ -56,7 +75,7 @@ border-radius: 7px;
       <item>
        <widget class="QFrame" name="frame_titlebar">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -79,6 +98,18 @@ color: black;
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
          <item>
           <widget class="QLabel" name="label_title">
            <property name="font">
@@ -96,28 +127,15 @@ color: black;
        </widget>
       </item>
       <item>
-       <widget class="Line" name="line">
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(0, 0, 0);</string>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QFrame" name="frame_content">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+         <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="styleSheet">
-         <string notr="true">QFrame {
-background-color: green;
-color: white;
-}</string>
+         <string notr="true"/>
         </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
@@ -127,10 +145,10 @@ color: white;
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
          <property name="leftMargin">
-          <number>11</number>
+          <number>0</number>
          </property>
          <property name="topMargin">
-          <number>11</number>
+          <number>0</number>
          </property>
          <property name="rightMargin">
           <number>11</number>
@@ -141,7 +159,7 @@ color: white;
          <item alignment="Qt::AlignTop">
           <widget class="QLabel" name="label_image">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -157,7 +175,7 @@ color: white;
          <item alignment="Qt::AlignTop">
           <widget class="QLabel" name="label_content">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -171,6 +189,9 @@ color: white;
            <property name="text">
             <string>Đây là một thông báo</string>
            </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
         </layout>
@@ -179,7 +200,7 @@ color: white;
       <item alignment="Qt::AlignRight">
        <widget class="QFrame" name="frame_buttons">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -218,7 +239,7 @@ background-color:#34495e;
           <number>0</number>
          </property>
          <property name="topMargin">
-          <number>0</number>
+          <number>11</number>
          </property>
          <property name="rightMargin">
           <number>0</number>
@@ -246,7 +267,7 @@ background-color:#34495e;
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="button_Cancel">
+          <widget class="QPushButton" name="button_cancel">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
              <horstretch>0</horstretch>
