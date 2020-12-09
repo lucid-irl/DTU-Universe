@@ -6,6 +6,7 @@ from PyQt5.sip import delete
 
 from class_custom_list_item_widget import CustomListItemWidget
 from class_customConflictWidget import CustomConflictWidget
+from class_custom_window import CustomDialogWindow
 from class_semester import *
 from class_subject import Subject
 from class_schedule import StringToSchedule
@@ -34,15 +35,15 @@ class Main(QWidget):
     def __init__(self, mainwindow: QMainWindow=None):
         super(Main, self).__init__()
         self.mainwindow = mainwindow
+        self.setWindowTitle('CS4RSA')
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.semester = Semester()
-        self.calendar = None
         uic.loadUi(team_config.FOLDER_UI+'/'+team_config.USE_UI, self)
 
         self.button_findSubject = ConvertThisQObject(self, QPushButton, 'pushButton_timKiem').toQPushButton()
         self.button_updateSubject = ConvertThisQObject(self, QPushButton, 'pushButton_capNhat').toQPushButton()
-        self.button_deleleSubjectFromTable = ConvertThisQObject(self, QPushButton, 'pushButton_xoaLop').toQPushButton()
+        self.button_register = ConvertThisQObject(self, QPushButton, 'pushButton_dangKy').toQPushButton()
         self.button_saveExcel = ConvertThisQObject(self, QPushButton, 'pushButton_luuText').toQPushButton()
         self.button_nextWeek = ConvertThisQObject(self, QPushButton, 'pushButton_nextWeek').toQPushButton()
         self.button_previousWeek = ConvertThisQObject(self, QPushButton, 'pushButton_previousWeek').toQPushButton()
@@ -80,19 +81,13 @@ class Main(QWidget):
         self.scroll_buttonWeek.setWidget(self.widget_buttonWeekContainer)
         self.scroll_buttonWeek.setWidgetResizable(True)
 
-        # After init
+        # center window
         self.WINDOW_INIT_SIZE = self.size()
-
-        # Center window
         centerPoint = QDesktopWidget().availableGeometry().center()
         self.hopePointX = centerPoint.x() - self.WINDOW_INIT_SIZE.width()/2
         self.hopePointY = centerPoint.y() - self.WINDOW_INIT_SIZE.height()/2
         self.qrect = QRect(self.hopePointX, self.hopePointY, self.WINDOW_INIT_SIZE.width(), self.WINDOW_INIT_SIZE.height())
-        self.ani = QPropertyAnimation(self, b'geometry')
-        self.ani.setDuration(500)
-        self.ani.setEndValue(self.qrect)
-        self.ani.setEasingCurve(QEasingCurve.InOutQuad)
-        self.ani.start()
+        self.setGeometry(self.qrect)
         self.WINDOW_IS_MAXIMIZED = False
 
         self.connectSignals()
@@ -101,7 +96,7 @@ class Main(QWidget):
     def connectSignals(self):
         """Phương thức này kết nối signal với slot tương ứng."""
         self.button_findSubject.clicked.connect(self.findSubject)
-        self.button_deleleSubjectFromTable.clicked.connect(self.actionDeleteSubject)
+        self.button_register.clicked.connect(self.register)
         self.button_updateSubject.clicked.connect(self.updateSubject)
         self.button_previousWeek.clicked.connect(self.actionGoToPreviousWeek)
         self.button_nextWeek.clicked.connect(self.actionGoToNextWeek)
@@ -163,8 +158,6 @@ class Main(QWidget):
             return
         self.gotoNextWeek()
 
-    def actionAddSubject(self):
-        pass
 
     # IMPORTANT!!!
     # Các phương thức load giao diện quan trọng
@@ -241,7 +234,8 @@ class Main(QWidget):
     def loadButtonWeekContainer(self, maxWeek, currentIndex):
         """Render các button để điều hướng trong các Tuần của Semester."""
         for i in reversed(range(self.flowlayout.count())):
-            delete(self.flowlayout.itemAt(i).widget())
+            # delete(self.flowlayout.itemAt(i).widget())
+            self.flowlayout.itemAt(i).widget().deleteLater()
         if maxWeek == 0:
             self.flowlayout.clear()
             return
@@ -256,7 +250,7 @@ class Main(QWidget):
                 self.changeBackgroundWeekButton(self.semester.getCurrentSemesterIndex())
 
     def loadLabelWeek(self):
-        if self.semester.getCurrentSemesterIndex() != None:
+        if self.semester.getSubjects():
             self.label_week.setText('Tuần '+str(self.semester.getCurrentSemesterIndex()+1))
         else:
             self.label_week.setText('Tuần ?')
@@ -309,6 +303,11 @@ class Main(QWidget):
         self.loadTable(self.semester.getCurrentSubjects())
         self.loadLabelWeek()
         self.unableItemInListFound()
+
+    # Register
+    def register(self):
+        print('Run register window')
+
 
     # Các phương thức thao tác trên kho dữ liệu
     def updateSubject(self):
@@ -418,7 +417,7 @@ class Main(QWidget):
         button.setStyleSheet('background-color: #2980b9; color: white;')
 
 
-    # Điều hướng trong Semester
+    # Navigation in Semester
     def gotoPreviousWeek(self):
         """Điều hướng tới Tuần trước của Semester."""
         self.semester.previousWeek()
@@ -449,13 +448,6 @@ class Main(QWidget):
             i+=1
         return output
 
-    def afterSemesterChanged(self, e):
-        """Hàm này chạy bất cứ khi nào bạn thay đổi một Subject vào/ra Semester. 
-        Dùng để load lại giao diện cho đúng logic."""
-        self.semester.gotoWeek(e)
-        self.loadTable(self.semester.getCurrentSubjects())
-        self.loadListConflict()
-
 
     # Các phương thức phục vụ testing
     def showInfoSubject(self, e):
@@ -474,8 +466,7 @@ class Main(QWidget):
         )
 
 
-    # ANIMATION ####################################
-    # title bar
+    # Giao diện
     def closeWindow(self):
         self.close()
 
