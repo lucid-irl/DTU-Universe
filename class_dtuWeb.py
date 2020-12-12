@@ -4,37 +4,76 @@ import browser_cookie3
 import webbrowser
 import os
 import requests
+import logging
 
+
+logging.basicConfig(level=logging.INFO)
+
+CHROME_HEADER = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"}
 class DTULogin:
     """Yêu cầu: Google Chrome được cài đặt trên máy tính."""
 
     def getCookiesFromChrome(self):
         """Trả về cookies của Google Chrome trong máy tính. Nếu Google Chrome chưa được cài đặt trong máy, trả về None."""
+        logging.info('Get cookies from Google Chrome')
         try:
             return browser_cookie3.chrome()
         except:
             return None
 
-    def isHomePageDTU(self, html: str) -> bool:
+    @staticmethod
+    def isHomePageDTU(html: str) -> bool:
         """Kiểm tra HTML doc truyền vào có phải là trang chủ sau khi đăng nhập của MyDTU hay không."""
+        logging.info('Check html page is MyDTU home page is not.')
         soup = BeautifulSoup(html, 'lxml')
         nameStudent = soup.find(class_='hello man')
         if nameStudent:
             return True
         return False
-    
-    def isDTUCookiesTrue(self, cookies: CookieJar):
-        """Trả về True nếu cookies truyền vào cho phép đăng nhập vào MyDTU.
+
+    @staticmethod
+    def getDTUSessionIDFromCookies(cookies: CookieJar):
+        """Lấy ra sessionId từ Cookies."""
+        logging.info('Get ASP.NET_SessionId from cookies')
+        for cookie in cookies:
+            if cookie.name == 'ASP.NET_SessionId' and cookie.domain == 'mydtu.duytan.edu.vn':
+                return {'ASP.NET_SessionId':cookie.value}
+        return None
+
+    def isCanLoginDTU(self, sessionId):
+        """#### Phương thức này phụ thuộc hoàn toàn vào tình trạng máy chủ của MyDTU.
+        Tham số:
         
-        Lưu ý"""
-        cookie = self.getDTUSessionIDFromCookies(cookies)
-        if self.isCanLoginDTU(cookie):
-            DTURequest = requests.get('https://mydtu.duytan.edu.vn/Sites/index.aspx?p=home_timetable&functionid=13', cookies=cookie)
-            if self.isHomePageDTU(DTURequest.text):
-                return True
+        sessionId -- ASP.NET_SessionId của trang MyDTU.
+
+        Trả về True nếu có thể đăng nhập vào MyDTU, ngược lại trả về False.
+        Tất cả vấn đề về máy chủ, requests, sessionId đều khiến phương thức này trả về False."""
+
+        try:
+            logging.info('Check request, cookies, server')
+            DTURequest = requests.get(
+                                    'https://mydtu.duytan.edu.vn/Sites/index.aspx?p=home_timetable&functionid=13', 
+                                    cookies=sessionId,
+                                    headers=CHROME_HEADER
+                                    )
+            if DTURequest.status_code == 200:
+                if self.isHomePageDTU(DTURequest.text):
+                    return True
+                return False
+            else:
+                return False
+        except:
             return False
-        else:
-            return False
+
+
+class OpenBrowser:
+
+    def openAtDTU(self):
+        """Mở trình duyệt tại trang đăng nhập của MyDTU."""
+        browserName, browserPath = self.getBrowser()
+        dtuHomePage = 'https://mydtu.duytan.edu.vn/Signin.aspx'
+        webbrowser.register(browserName, None, webbrowser.BackgroundBrowser(browserPath))
+        webbrowser.get(browserName).open(dtuHomePage)
 
     @staticmethod
     def getBrowser():
@@ -52,36 +91,3 @@ class DTULogin:
                 return browserName, browserPath
         else:
             return None
-
-    @staticmethod
-    def getDTUSessionIDFromCookies(cookies: CookieJar):
-        """Lấy ra sessionId từ Cookies."""
-        for cookie in cookies:
-            if cookie.name == 'ASP.NET_SessionId' and cookie.domain == 'mydtu.duytan.edu.vn':
-                return {'ASP.NET_SessionId':cookie.value}
-        return None
-
-    @staticmethod
-    def isCanLoginDTU(cookies: CookieJar):
-        """Trả về True nếu có thể đăng nhập vào MyDTU, ngược lại trả về False.
-        
-        #### Phương thức này phụ thuộc hoàn toàn vào tình trạng máy chủ của MyDTU.
-        Tất cả các lỗi trong lúc request đều sẽ khiến phương thức này trả về `False`."""
-
-        try:
-            DTURequest = requests.get('https://mydtu.duytan.edu.vn/Sites/index.aspx?p=home_timetable&functionid=13', cookies=cookies)
-            if DTURequest.status_code == 200:
-                return True
-            else:
-                return False
-        except:
-            return False
-
-    def openAtDTU(self):
-        """Mở trình duyệt tại trang đăng nhập của MyDTU."""
-        browserName, browserPath = self.getBrowser()
-        dtuHomePage = 'https://mydtu.duytan.edu.vn/Signin.aspx'
-        webbrowser.register(browserName, None, webbrowser.BackgroundBrowser(browserPath))
-        webbrowser.get(browserName).open(dtuHomePage)
-
-    
