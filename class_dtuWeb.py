@@ -10,6 +10,8 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 CHROME_HEADER = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"}
+
+
 class DTULogin:
     """Yêu cầu: Google Chrome được cài đặt trên máy tính."""
 
@@ -64,6 +66,39 @@ class DTULogin:
                 return False
         except:
             return False
+
+
+class DTUSession:
+    """Đảm nhận việc tạo Session và requests."""
+
+    CHROME_HEADER = {
+        ':authority': 'mydtu.duytan.edu.vn',
+        ':method': 'POST',
+        ':scheme': 'https',
+        'accept': 'text/html, */*; q=0.01',
+        'accept-encoding': 'gzip, deflate, br',
+        'accept-language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
+        'content-length': '7',
+        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+        'dnt': '1',
+        'origin': 'https://mydtu.duytan.edu.vn',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
+        'x-requested-with': 'XMLHttpRequest'
+    }
+
+    def __init__(self, cookies):
+        CHROME_HEADER.update({'cookies':cookies})
+        self.dtuSession = requests.Session()
+        self.dtuSession.headers.update(CHROME_HEADER)
+
+    def post(self, url, data=None, params=None):
+        return self.dtuSession.post(url, data=data, params=params)
+
+    def get(self, url, params=None):
+        return self.dtuSession.get(url, params=params)
 
 
 class OpenBrowser:
