@@ -1,0 +1,1218 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="ctl00_Head1"><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <!--[if lt IE 9]>
+    <script src="../js/css3-mediaqueries.js"></script><![endif]-->
+    <title>
+	Cảnh báo Học tập
+</title><meta http-equiv="X-UA-Compatible" content="IE=10" /><meta name="Description" content="Chào mừng đến với MyDuyTan để được sử dụng các ứng dụng như: DTU mail, Thư viện Điện tử, Đào tạo Từ xa, Forum, Lịch cá nhân, Lịch học, Lịch dạy, Xem điểm, Quản lý Đề cương, Xem Chương trình học, Cố vấn Học tập, Đánh giá Giảng viên, Tin tức, Thông báo, Đăng ký Môn học Tín chỉ, ..." /><link rel="Shortcut Icon" href="../images/DTU.ICO" type="image/x-icon" /><link href="../MasterPages/jquerytooltip/jquery-ui-1.11.4.css" rel="stylesheet" type="text/css" />
+        <link href='../MasterPages/css/reset.css' type='text/css' rel='stylesheet' /><link href='../MasterPages/css/red.css' type='text/css' rel='stylesheet' /><!--[if IE 6]><link href='../MasterPages/css/ie6.css' type='text/css' rel='stylesheet' /><![endif]-->
+    
+    <script type="text/javascript" src="../js/jquery/jquery-1.11.1.min.js"></script>
+    
+    <script type="text/javascript" src="../MasterPages/jquerytooltip/jquery-ui-1.11.4.js"></script>
+    <script type="text/javascript" src="../admin/js/commonjs.js"></script>
+    <script type="text/javascript" src="../Content/js/url_endcode_decode.js"></script>
+    <script type="text/javascript" src="../js/nt_script_util.js"></script>
+    <script type="text/javascript" src="../js/jquery/plugins/datepicker/jquery.ui.datepicker-vi.js"></script>
+    <script type="text/javascript" src="../MasterPages/notification/ohsnap.js"></script>
+
+    <style type="text/css">
+        #ohsnap {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            z-index: 999999;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 0;
+            border: 1px solid #eed3d7;
+            border-radius: 4px;
+            float: right;
+            clear: right;
+        }
+
+            .alert a {
+                color: aqua;
+                text-decoration: underline;
+            }
+
+        .alert-red {
+            color: white;
+            background-color: #DA4453;
+        }
+
+        .alert-green {
+            color: white;
+            background-color: #37BC9B;
+        }
+
+        .alert-blue {
+            color: white;
+            background-color: #4A89DC;
+        }
+
+        .alert-yellow {
+            color: white;
+            background-color: #F6BB42;
+        }
+
+        .alert-orange {
+            color: white;
+            background-color: #E9573F;
+        }
+    </style>
+    <link href="../MasterPages/popup_js/css/style.css" rel="stylesheet" />
+    <script src="../MasterPages/popup_js/js/jquery.js"></script>
+    <script src="../MasterPages/popup_js/js/popup.js"></script>
+</head>
+<body>
+
+    <!--jQuery Modal Popup-->
+    
+
+    <!--End-->
+
+    
+    <!--hien thi so luong thong bao-->
+
+    <script type="text/javascript">
+        //Show menu when responsive
+        function ShowHideMenu() {
+            //alert("before show menu");            
+            $("#left_zone").slideToggle("slow");
+        }  
+        function ScreenClick(control) {
+            document.getElementById(control).click();
+        }
+    </script>
+    <!--end hien thi so luong thong bao-->
+    <div id="ohsnap"></div>
+    <form name="aspnetForm" method="post" action="./index.aspx?p=home_studyingwarning&amp;functionid=113" id="aspnetForm">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="uoDaNU8w8wTU5ryQg5oJKkDK6Ano447nO/JEEx6MGJ2LC5oTLrJFAe2Xih/p9u+AYQ/U5QYkcEW0UEeKBkWJK+9Z2oY/ehINZ+lFMYwHqunaF8wQvv4Q/kbgZsg=" />
+
+
+<script src="/ScriptResource.axd?d=GS80YWhTpFNqKGHTwq5hs8D3DfY0PI4qN3DF2KLwbwknl3jHA7G9fi_GmxGvQ9pyRVacUxRf8yZp8x9tYa4knfQNwLEKmdJPVk2Muz6vrZDX5F18JV9sKz2EAZO-0f9IVWqvXXttbTID09mLoUyVw0Plvr81&amp;t=4f7d5f1" type="text/javascript"></script>
+<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="3BBC689A" />
+<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="jQZY+f/hgZXUVHvECWFjJJQ68tQa+yy32JczqdHUhcfO3vB23MTu6wmJSnUmPFD3TKPoI2l6D2xbLP4moy/45Gy8atElxCGeu6TVbS6+QFSctfDnKZay1XhnceYPA17EUEwzKm1cky6nn2DhZ8k0enJoq93wURVdwR/3Ng==" />
+        
+        <input type="submit" name="ctl00$btnSetMobileScreen" value="Mobile Screen" id="ctl00_btnSetMobileScreen" style="display: none" />
+        <input type="submit" name="ctl00$btnSetDesktopScreen" value="Desktop Screen" id="ctl00_btnSetDesktopScreen" style="display: none" />
+        <div id="wrapper">
+
+            <div class="screen">
+                <img src="../MasterPages/images/phone-screen.png" class="mobile" alt="" title="View Mobile Devices Screen"
+                    onclick="ScreenClick('ctl00_btnSetMobileScreen')" /><img src="../MasterPages/images/desktop_screen3.png" class="desktop" alt="" title="View Desktop Screen"
+                        onclick="ScreenClick('ctl00_btnSetDesktopScreen')" />
+            </div>
+            <div id="header">
+                <span id="ctl00_lblVersion" style="position: absolute; top: 0; left: 0; z-index: 1000"><font color="#BFCADB"></font></span>
+
+                <div id="header-wrapper">
+
+                    <div class="header-top">
+                        <a class="logo" href="#">ĐẠI HỌC DUY TÂN</a>
+                        
+
+<script type="text/javascript">
+
+    //function loadAjaxTopMenu() {
+    //    var dd = new Date();
+    //    //$("#area-topmenu").html("<div align='left' style='padding-top:20px;'><img src='../images/ajax-loader.gif' /></div>");
+    //    $("#area-topmenu").load("../Modules/portal/ajax/TopMenuList.aspx?t=" + dd.getTime(), { symbol: $("#area-topmenu").val() });
+    //}
+
+    //$(document).ready(function() {
+    //loadAjaxTopMenu();
+    //});
+</script>
+
+<div id="area-topmenu">
+    
+    
+
+<ul id="nav">
+    <li class="first light"></li>
+    <li class=""><a href="../../sites/index.aspx?p=home_personalcalendar">
+        <table>
+            <tbody>
+                <tr>
+                    <td valign="middle" class="img">
+                        <img src="../../Uploads/Menu/33m-home.png"></td>
+                    <td><a style="padding: 0 !important; height: 52px;" href="../../sites/index.aspx?p=home_personalcalendar">Trang chủ</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </a></li>
+    <li class=""><a href="#" onclick="javascript:window.open('../../Email.aspx');">
+        <table>
+            <tbody>
+                <tr>
+                    <td valign="middle" class="img">
+                        <img src="../../Uploads/Menu/32truycap.png"></td>
+                    <td>
+                        <!--<a href='#' onclick="javascript:window.open('../Email.aspx')" style='padding:0 !important; height:52px;'>-->
+                        DTU Mail<!--</a>--></td>
+                </tr>
+            </tbody>
+        </table>
+    </a></li>
+    <li class=""><a href="#" onclick="javascript:window.open('../../Elearning.aspx');">
+        <table>
+            <tbody>
+                <tr>
+                    <td valign="middle" class="img">
+                        <img src="../../Uploads/Menu/12elearning.png"></td>
+                    <td>
+                        <!--<a href='#' onclick="javascript:window.open('../Elearning.aspx')" style='padding:0 !important; height:52px;'>-->
+                        Learning<!--</a>--></td>
+                </tr>
+            </tbody>
+        </table>
+    </a></li>
+    <li class=""><a href="#" onclick="javascript:window.open('../../Sites/ssoforum.aspx');">
+        <table>
+            <tbody>
+                <tr>
+                    <td valign="middle" class="img">
+                        <img src="../../Uploads/Menu/35diendan.png"></td>
+                    <td>
+                        <!--<a href='#' onclick="javascript:window.open('../Sites/ssoforum.aspx')" style='padding:0 !important; height:52px;'>-->
+                        Forum<!--</a>--></td>
+                </tr>
+            </tbody>
+        </table>
+    </a></li>
+    <li class=""><a href="#" onclick="javascript:window.open('../../Sites/ssoelib.aspx');">
+        <table>
+            <tbody>
+                <tr>
+                    <td valign="middle" class="img">
+                        <img src="../../Uploads/Menu/54thuvien.png"></td>
+                    <td>
+                        <!--<a href='#' onclick="javascript:window.open('../Sites/ssoelib.aspx')" style='padding:0 !important; height:52px;'>-->
+                        e-Lib<!--</a>--></td>
+                </tr>
+            </tbody>
+        </table>
+    </a></li>
+        
+</ul>
+
+    
+</div>
+
+                        <span class="language"><a class="vn active" href='https://mydtu.duytan.edu.vn/sites/index.aspx?p=home_studyingwarning&functionid=113&lang=vn' title="Tiếng Việt">Việt Nam</a><a
+                            class="en " href="https://mydtu.duytan.edu.vn/sites/index.aspx?p=home_studyingwarning&functionid=113&lang=en" title="English language"><!--style="color: #C4BAB9; cursor: default" title="disabled"-->English</a>
+                            <a class="bluetheme" href="https://mydtu.duytan.edu.vn/sites/index.aspx?p=home_studyingwarning&functionid=113&theme=blue">Blue theme</a><a class="redtheme" href='https://mydtu.duytan.edu.vn/sites/index.aspx?p=home_studyingwarning&functionid=113&theme=red'>Red
+                            theme</a></span>
+                        
+                        
+                        <span id="ShowHideMenu" class="menu-link fa fa-bars" onclick="ShowHideMenu()"></span>
+
+                    </div>
+                    <div id="subheader">
+                        
+                        <div class="date-clock">
+                            <div class="clock">
+                                <div class="time" id="mydate">
+                                </div>
+                                <div class="date">
+                                    Thứ bảy,
+                                ngày 12 tháng 12 năm 2020
+                                </div>
+                            </div>
+                            <div class="info">
+                                <a href="../Email.aspx" target="_blank" title="mail@dtu.edu.vn">mail@dtu.edu.vn</a>
+                                <a style="cursor: pointer;" onclick="javascript:window.open('../../../Elearning.aspx')" target="_blank" title="Học tập Trực tuyến">
+                                    Học tập Trực tuyến</a> <a href="../Sites/ssoforum.aspx" target="_blank"
+                                        title="Diễn đàn Học tập DTU">
+                                        Diễn đàn Học tập DTU</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="content">
+
+                
+
+<style type="text/css">
+    /*Disable responesive menu*/
+    .menu-link {
+        display: none;
+    }
+    /*End disable responesive menu*/
+    #ctl00_PlaceHolderContentArea_ctl00_TopZone {
+        display: none;
+    }
+    /*BG color is a must for IE6*/
+    .tooltip span.content {
+        display: none;
+        padding: 2px 3px;
+        margin-left: 0px;
+        width: 130px;
+        text-align: center;
+    }
+
+    .tooltip:hover span.content {
+        display: block;
+        position: absolute;
+        border: 1px solid #cccccc;
+        background: #ffffff;
+        color: #6c6c6c;
+        font-weight: normal;
+        top: 45px;
+        line-height: 15px;
+    }
+
+    .ttt span.ccc {
+        display: none;
+        padding: 5px;
+        margin-left: 0px;
+        text-align: left !important;
+        z-index: 9999;
+        border-radius: 5px;
+    }
+
+    .ttt:hover span.ccc {
+        display: block;
+        position: absolute;
+        border: 2px solid #cccccc;
+        color: #000;
+        background-color: #F6F6F6;
+        font-weight: normal;
+        line-height: 15px;
+        left: 0px;
+        top: 17px;
+        width: 250px;
+    }
+</style>
+
+
+<script type="text/javascript">
+    function loadAjaxTuanThu(tuanthu) {
+        $("#tuanthu").empty();
+        var dd = new Date();
+        $("#tuanthu").load("../Layouts/LoadTuanThu.aspx?t=" + dd.getTime() + "&tx=" + Url.encode(tuanthu), { symbol: $("#tuanthu").val() });
+    }
+</script>
+
+<div class="welcome">
+    <div class="hello man">Trương A Xin</div>
+    <div class="sitemap" id="area-sitemap">
+        <span><img width='16px' height='16px' src='../MasterPages/icons/danhgia.png' alt=''/><span class='title'>Cảnh báo Học tập</span></span>
+    </div>
+    
+    <div class="box-logout">
+        <span class="number-annoucement tooltip"><span class="content">
+            Bạn có <b>27</b> Thông báo, Tin tức & Sự kiện mới</span>
+            
+            
+            <span class="number">
+                27
+            </span>
+            </span><a class="profile tooltip" href="index.aspx?p=home_userinfor" alt="" style="position: relative;"><span
+                    class="content" style="width: 101px">Thông tin Cá nhân</span>
+                </a><a class="exit exit-vn tooltip" href="../logout.aspx" alt="" style="position: relative;">
+                    <span class="content" style="width: 50px">
+                        Thoát</span> </a>
+    </div>
+</div>
+<div id="content_border">
+    
+    <div id="zone">
+        <div id="top_zone">
+            <div id="ctl00_PlaceHolderContentArea_ctl00_TopZone" class="column">
+	
+            
+</div>
+        </div>
+        <div id="middle_zone" style="background: url(../MasterPages/images/bg_middle_zone.jpg) repeat-y left top">
+            <div id="left_zone" style="float: left">
+                <div id="ctl00_PlaceHolderContentArea_ctl00_LeftZone" class="column1">
+	
+                
+
+<div id="content_left">
+    <div id="main_control">
+        
+        <div class="accordion2" id="area-leftmenu">
+            <span id="ctl00_PlaceHolderContentArea_ctl00_ctl00_ucLeftMenuList1_lblLeftMenu"></span>
+<p class='item'  class='he'>Thông tin Cá nhân</p><ul><li><a href='../sites/index.aspx?p=home_userinfor&functionid=30' ><span>Thông tin Cá nhân</span></a></li><li><a href='../sites/index.aspx?p=home_changepassword&functionid=25' ><span>Mật khẩu</span></a></li><li><a href='../sites/index.aspx?p=home_searchuser&functionid=75' ><span>Tìm kiếm Người</span></a></li></ul><p class='item' >Tin tức & Thông báo</p><ul><li><a href='../sites/index.aspx?p=home_portalnews&functionid=10' ><span>Tin tức & Sự kiện</span>&nbsp;<span class='notreadnum'>[0]</span></a></li><li><a href='../sites/index.aspx?p=home_announcements&functionid=11' ><span>Thông báo</span>&nbsp;<span class='notreadnum'>[0]</span></a></li></ul><p class='item' >Lịch</p><ul><li><a href='../sites/index.aspx?p=home_personalcalendar&functionid=12' ><span>Lịch cá nhân</span></a></li><li><a href='../sites/index.aspx?p=home_timetable&functionid=13' ><span>Lịch học</span></a></li></ul><p class='item' >Học tập</p><ul><li><a href='../sites/index.aspx?p=home_semester&functionid=35' ><span>Đăng ký Môn học</span></a></li><li><a href='../sites/index.aspx?p=home_bangdiem&functionid=14' ><span>Bảng điểm</span></a></li><li><a href='../sites/index.aspx?p=home_listcurriculum&functionid=37' ><span>Chương Trình học</span></a></li><li><a href='../sites/index.aspx?p=home_view_syllabus_grading_classbysemester&functionid=81' ><span>Đề cương Môn học</span></a></li><li><a href='../sites/index.aspx?p=home_grading_classbysemester&functionid=82' ><span>Bảng điểm Cụ thể</span></a></li><li><a href='../sites/index.aspx?p=home_infowebpart&functionid=142' ><span>Hướng dẫn Sử dụng SAKAI (cho Sinh viên)</span></a></li><li><a href='../sites/index.aspx?p=home_infowebpart&functionid=147' ><span>Hướng dẫn Sử dụng ZOOM (cho Sinh viên)</span></a></li></ul><p class='item active' >Cố vấn Học tập</p><ul style='display: block;'><li><a href='../sites/index.aspx?p=home_listmentor&functionid=76' ><span>Giảng viên Cố vấn</span></a></li><li><a href='../sites/index.aspx?p=home_studyingwarning&functionid=113' ><span>Cảnh báo Học tập</span></a></li><li><a href='../sites/index.aspx?p=home_sar_liststudent&functionid=159' ><span>Đánh giá Rèn luyện</span></a></li></ul><p class='item' >Đánh giá & Khảo sát</p><ul><li><a href='../sites/index.aspx?p=home_ratingchoicesemester&functionid=15' ><span>Đánh giá Giảng viên</span></a></li><li><a href='../sites/index.aspx?p=home_selfassessment&functionid=157' ><span>Đăng ký chương trình miễn phí Data</span></a></li></ul><p class='item' >Thư viện</p><ul><li><a href='../sites/index.aspx?p=home_infowebpart&functionid=96' ><span>Nội quy Thư viện DTU</span></a></li><li><a href='../Sites/ssoelib.aspx?functionid=19'  target='_blank'><span>DTU e-Lib</span></a></li><li><a href='../Sites/ssoelib.aspx?elibtype=1&functionid=84'  target='_blank'><span>tailieu.duytan.edu.vn</span></a></li><li><a href='../Sites/ssodspace.aspx?functionid=98'  target='_blank'><span>Thư viện số</span></a></li></ul><p class='item' >Sổ tay Sinh viên</p><ul><li><a href='../sites/index.aspx?p=home_infowebpart&functionid=68' ><span>Định hướng cho Tương lai</span></a></li><li><a href='../sites/index.aspx?p=home_infowebpart&functionid=94' ><span>Chương trình, Môn, Lớp & Kỳ</span></a></li><li><a href='../sites/index.aspx?p=home_infowebpart&functionid=92' ><span>Phụ lục A: Cấu trúc Mã Môn học</span></a></li><li><a href='../sites/index.aspx?p=home_infowebpart&functionid=93' ><span>Phụ lục B: Hình thức Lớp học</span></a></li><li><a href='../sites/index.aspx?p=home_infowebpart&functionid=95' ><span>Phụ lục C: Hệ Chính quy</span></a></li></ul><p class='item' >Các Vấn đề Cơ sở Vật chất</p><ul><li><a href='../sites/index.aspx?p=home_facilityissuereporting_currentschedule&functionid=134' ><span>Báo cáo Sự cố Phòng học</span></a></li></ul><p class='item' >Phần mềm</p><ul><li><a href='../sites/index.aspx?p=home_infowebpart&functionid=116' ><span>Microsoft DreamSpark</span></a></li></ul><p class='item' >Kiểm định Chất lượng</p><ul><li><a href='../sites/index.aspx?p=home_so_mission_vision_of_group&functionid=129' ><span>Sứ mạng, Tầm nhìn của Đơn vị</span></a></li><li><a href='../sites/index.aspx?p=home_so_mission_vision_peo&functionid=121' ><span>Sứ mạng, Tầm nhìn, Mục tiêu Đào tạo của Chương trình</span></a></li><li><a href='../sites/index.aspx?p=home_so_uni_with_faculty_submission_matchup&functionid=131' ><span>Quan hệ giữa Sứ mạng Trường và Sứ mạng Đơn vị</span></a></li><li><a href='../sites/index.aspx?p=home_so_uni_submission_with_peo_matchup&functionid=133' ><span>Quan hệ giữa Sứ mạng Trường và Mục tiêu Đào tạo</span></a></li><li><a href='../sites/index.aspx?p=home_so_faculty_submission_with_peo_matchup&functionid=132' ><span>Quan hệ giữa Sứ mạng Đơn vị và Mục tiêu Đào tạo</span></a></li><li><a href='../sites/index.aspx?p=home_so_kpi&functionid=128' ><span>Chuẩn đầu ra</span></a></li><li><a href='../sites/index.aspx?p=home_so_with_peo_matchup&functionid=130' ><span>Chuẩn đầu ra cho Mục tiêu Đào tạo Chương trình</span></a></li><li><a href='../sites/index.aspx?p=home_so_with_course_matchup&functionid=118' ><span>Môn học cho Chuẩn đầu ra</span></a></li><li><a href='../sites/index.aspx?p=home_so_qa&functionid=115' ><span>Kiểm định Chất lượng Môn học</span></a></li></ul><p class='item' >Học phí</p><ul><li><a href='../sites/index.aspx?p=home_schoolfeeinvoice_student&functionid=109' ><span>Hóa đơn Học phí</span></a></li><li><a href='../sites/index.aspx?p=home_schoolfeepayment_student&functionid=110' ><span>Lịch sử Thanh toán</span></a></li><li><a href='../sites/index.aspx?p=home_tuitionfeepolicy_student&functionid=111' ><span>Quy định Học phí</span></a></li><li><a href='../sites/index.aspx?p=home_infowebpart&functionid=154' ><span>Hướng dẫn nộp Học phí qua Ngân hàng</span></a></li></ul><p class='item' >Quy định Sử dụng myDuyTan</p><ul><li><a href='../sites/index.aspx?p=home_infowebpart&functionid=88' ><span>Đối với Sinh viên/Học viên</span></a></li><li><a href='../sites/index.aspx?p=home_infowebpart&functionid=89' ><span>Đối với Cán bộ/Giảng viên</span></a></li></ul><p class='item' >Đăng Ký Cấp Giấy xác nhận</p><ul><li><a href='../Sites/ssodkgxn.aspx?functionid=149'  target='_blank'><span>Đăng ký Cấp Giấy xác nhận</span></a></li></ul>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".accordion2 p").click(function () {
+            $(this).next("ul").slideToggle("normal")
+            .siblings("ul:visible").slideUp("normal");
+            $(this).toggleClass("active");
+            $(this).siblings("p").removeClass("active");
+
+            //
+            $(this).next("ul").find('a').each(function (i, val) {
+                //console.log(i);
+                console.log(this.text + " - " + $(this).outerHeight());
+                if ($(this).outerHeight() > 41) {
+                    $(this).attr("style", "line-height:18px;padding-top:3px;padding-bottom:3px;");
+                }
+            });
+        });
+
+        //
+        $('.accordion2 ul li a').each(function (i, val) {
+            //console.log(this.text + " - " + $(this).outerHeight());
+            if ($(this).outerHeight() > 41) {
+                $(this).attr("style", "line-height:18px;padding-top:3px;padding-bottom:3px;");
+            }
+        });
+    });
+</script>
+
+
+
+
+        </div>
+    </div>
+</div>
+<!-- end content-left-->
+
+</div>
+            </div>
+            <div id="right_zone" style="float: right; width: 75%; padding-left: 10px;">
+                
+                <div class="main-border-top">
+                    <span class="functionname"><span>
+                        <img src='../MasterPages/icons/chucnang.png' />Cảnh báo Học tập <span id="tuanthu" style="display: inline;"></span></span></span>
+                </div>
+                
+                <div class="main-border-center">
+                    <div id="ctl00_PlaceHolderContentArea_ctl00_RightZone" class="column2">
+	
+                        <!--710px-->
+                    
+
+<script>
+    function LoadWarning(studentIdNumber, idx) {
+        //alert(studentIdNumber + "-" + idx);
+        //var dd = new Date();
+        //$('#loadWarning' + idx).html("<div align='center'><img src='../images/ajax-loader1.gif' />Đang xử lý...</div>");
+        //$("#loadWarning" + idx).load("../Modules/mentor/LoadWarning.aspx?t=" + dd.getTime() + "&stid=" + Url.encode(studentIdNumber), { symbol: $("#loadWarning" + idx).val() });
+        $.ajax({
+            type: "GET",
+            cache: false,
+            url: "../../../Modules/mentor/GetWarning.aspx/GetTest",
+            data: 'studentIdNumber=' + Url.encode(studentIdNumber),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: true,
+            beforeSend: function () {
+                //alert('hello');
+                show(idx);
+            },
+            success: function (msg) {
+                //var data = JSON.parse(msg.d);
+                //alert(msg.d);
+                $("#loadWarning" + idx).html(msg.d);//append($('<div/>').html(msg.d));
+            },
+            complete: function (msg) {
+                //alert('success');
+                hide(idx);
+            }
+        });
+    }
+    function show(idx) {
+        $('#waiting' + idx).fadeIn();
+    }
+    function hide(idx) {
+        $('#waiting' + idx).hide();//fadeOut
+    }
+    $(function () {
+        var tabContainers = $('div.tabs > div');
+        tabContainers.hide().filter(':first').show();
+
+        $('div.tabs ul.tabNavigation a').click(function () {
+            tabContainers.hide();
+            tabContainers.filter(this.hash).show();
+            $('div.tabs ul.tabNavigation a').removeClass('selected');
+            $(this).addClass('selected');
+            return false;
+        }).filter(':first').click();
+    });
+</script>
+
+<style>
+    .warning {
+        line-height: 17px;
+    }
+
+        .warning:after {
+            content: " ";
+            clear: both;
+            padding-bottom: 5px;
+            display: block;
+        }
+
+    .box {
+        display: block;
+        width: 17px;
+        height: 17px;
+        float: left;
+        margin-right: 5px;
+    }
+
+    .tbresult thead tr th {
+        background-color: #dedede;
+        text-align: center;
+        vertical-align: middle;
+        line-height: 15px;
+        padding: 5px 0;
+    }
+
+    .loaicanhbao {
+        background-color: #f6f6f6;
+        color: #c10000;
+    }
+
+    .tbdetail tr th {
+        border: #EEEEEE solid 1px !important;
+        background-color: #F6F6F6;
+        font-weight: normal !important;
+        text-align: left;
+        padding-left: 2px;
+    }
+
+    .tbdetail tr td {
+        border: #EEEEEE solid 1px !important;
+    }
+</style>
+<div class="tabs">
+    <ul class="tabNavigation">
+        <li><a style="text-transform: none;" href="#canhbaohoctap">Cảnh báo Học tập
+        </a></li>
+        <li><a style="text-transform: none;" href="#tieuchicovan">Các Tiêu chí Cảnh báo
+        </a></li>
+    </ul>
+    <div style="display: none; clear: both;" id="canhbaohoctap">
+        
+        <div class="mentorname">
+            Danh sách Sinh viên đang được Cố vấn bởi Giảng viên:
+            HỒ LÊ VIẾT NIN
+        </div>
+        <div>
+            <table class="tbresult" width="100%" border="0" cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th align="center" style="width: 35px;">STT</th>
+                        <th style="width: 80px;">
+                            Mã Sinh viên
+                        </th>
+                        <th style="width: 110px;">
+                            Họ & Tên
+                        </th>
+                        <th style="width: 140px;">
+                            Bằng cấp
+                        </th>
+                        <th style="">Cảnh báo
+                        </th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    
+                    <tr>
+                        <td align="center">1</td>
+                        <td>
+                            24211200265
+                        </td>
+                        <td>
+                            <span style="cursor: pointer; text-decoration: underline; color: #c10000" onclick="ShowWarningDetail('ppxdPtQCkOX2+rc5tqBFhg==')" title="Xem Thông tin Cá nhân">
+                                Trương A Xin
+                            </span>
+                        </td>
+                        <td>
+                            
+                                <a href="../../sites/index.aspx?p=home_listcurriculumforinstructor&studentidnumber=ppxdPtQCkOX2+rc5tqBFhg==" target="_blank">
+                                    K-24 - Công Nghệ Phần Mềm (Đại Học)</a>
+                                
+                        </td>
+
+                        <td style="text-align: left">
+                            <div id="loadWarning0"></div>
+                            <div id="waiting0" style='display: none'></div>
+                            <script>
+                                $('#waiting0').append("<div align='center' class='loading'><img src='../../../images/ajax-loader1.gif' />Đang xử lý...</div>");
+                                LoadWarning('ppxdPtQCkOX2+rc5tqBFhg==', '0');
+                            </script>
+                        </td>
+                    </tr>
+                    
+            </table>
+        </div>
+        
+    </div>
+    <div style="display: none; clear: both;" id="tieuchicovan">
+        <table class="tbresult" width="100%" border="0" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th style="width: 35px;">STT</th>
+                    <th style="width: 170px;">Loại Cảnh báo</th>
+                    <th style=""></th>
+                </tr>
+            </thead>
+            
+            <tr class="loaicanhbao">
+                <td style="text-align: center">1</td>
+                <td>Cảnh báo theo % Loại điểm</td>
+                <td><i>Cảnh báo liệu một Loại điểm nào đó của từng Lớp học hay một Cụm Lớp học nào đó có rơi vào những Khoảng điểm "nguy hiểm" cho công tác học tập của sinh viên hay không.</i></td>
+            </tr>
+            
+            <tr>
+                <td></td>
+                <td><b><i>Cảnh báo theo % Điểm Chuyên cần Trung bình ở Kỳ trước</i></b></td>
+                <td>
+                    
+                    <table class="tbdetail" width="100%" border="1">
+                        <tr>
+                            <th style="width: 90px; text-align: right">Loại điểm:</th>
+                            <th colspan="3">Chuyên Cần</th>
+                            <th style="text-align: right">Theo:</th>
+                            <th colspan="3">Tất cả các Lớp</th>
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;"></td>
+                            <td style="width: 20px"></td>
+                            <td style="text-align: right;">Từ:</td>
+                            <td style="width: 40px">60.00</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td style="width: 40px">70.00</td>
+                            <td style="text-align: right;">Màu:</td>
+                            <td><span class="box" style="background-color: #FFFF00">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;"></td>
+                            <td style="width: 20px"></td>
+                            <td style="text-align: right;">Từ:</td>
+                            <td style="width: 40px">50.00</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td style="width: 40px">60.00</td>
+                            <td style="text-align: right;">Màu:</td>
+                            <td><span class="box" style="background-color: #FFA500">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;"></td>
+                            <td style="width: 20px"></td>
+                            <td style="text-align: right;">Từ:</td>
+                            <td style="width: 40px">0.00</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td style="width: 40px">50.00</td>
+                            <td style="text-align: right;">Màu:</td>
+                            <td><span class="box" style="background-color: #FF0000">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                    </table>
+                    
+                    
+
+                </td>
+            </tr>
+            
+            <tr>
+                <td></td>
+                <td><b><i>Cảnh báo theo % Điểm Chuyên cần theo Số lớp ở Kỳ trước</i></b></td>
+                <td>
+                    
+                    <table class="tbdetail" width="100%" border="1">
+                        <tr>
+                            <th style="width: 90px; text-align: right">Loại điểm:</th>
+                            <th colspan="3">Chuyên Cần</th>
+                            <th style="text-align: right">Theo:</th>
+                            <th colspan="3">Số lượng Lớp</th>
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Số lượng Lớp:</td>
+                            <td style="width: 20px">1</td>
+                            <td style="text-align: right;">Từ:</td>
+                            <td style="width: 40px">0.00</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td style="width: 40px">50.00</td>
+                            <td style="text-align: right;">Màu:</td>
+                            <td><span class="box" style="background-color: #FFFF00">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Số lượng Lớp:</td>
+                            <td style="width: 20px">2</td>
+                            <td style="text-align: right;">Từ:</td>
+                            <td style="width: 40px">0.00</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td style="width: 40px">50.00</td>
+                            <td style="text-align: right;">Màu:</td>
+                            <td><span class="box" style="background-color: #FFA500">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Số lượng Lớp:</td>
+                            <td style="width: 20px">3</td>
+                            <td style="text-align: right;">Từ:</td>
+                            <td style="width: 40px">0.00</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td style="width: 40px">50.00</td>
+                            <td style="text-align: right;">Màu:</td>
+                            <td><span class="box" style="background-color: #FF0000">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                    </table>
+                    
+                    
+
+                </td>
+            </tr>
+            
+            <tr class="loaicanhbao">
+                <td style="text-align: center">2</td>
+                <td>Cảnh báo theo Điểm Trung bình Tích lũy (GPA)</td>
+                <td><i>Cảnh báo Điểm Trung bình Tích lũy cho một Bậc học nào đó tính theo Toàn khóa học hay theo từng Kỳ học có rơi vào những Khoảng điểm "nguy hiểm" cho điều kiện tốt nghiệp hay không.</i></td>
+            </tr>
+            
+            <tr>
+                <td></td>
+                <td><b><i>Cảnh báo GPA toàn Khóa - Thang điểm Mỹ</i></b></td>
+                <td>
+                    
+                    <table class="tbdetail" width="100%" border="1">
+                        <tr>
+                            <th style="width: 90px; text-align: right">Thang Điểm:</th>
+                            <th style="width: 40px">4</th>
+                            <th style="width: 40px; text-align: right">Theo:</th>
+                            <th style="width: 60px">Toàn Khóa</th>
+                            <th style="text-align: right">Học kỳ hay Nửa kỳ:</th>
+                            <th>Học kỳ</th>
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Từ:</td>
+                            <td>2.33</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td>2.67</td>
+                            <td style="text-align: right; width: 40px">Màu:</td>
+                            <td style="width: 40px"><span class="box" style="background-color: #FFFF00">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Từ:</td>
+                            <td>2.00</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td>2.33</td>
+                            <td style="text-align: right; width: 40px">Màu:</td>
+                            <td style="width: 40px"><span class="box" style="background-color: #FFA500">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Từ:</td>
+                            <td>0.00</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td>2.00</td>
+                            <td style="text-align: right; width: 40px">Màu:</td>
+                            <td style="width: 40px"><span class="box" style="background-color: #FF0000">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                    </table>
+                    
+                    
+
+                </td>
+            </tr>
+            
+            <tr>
+                <td></td>
+                <td><b><i>Cảnh báo GPA theo Kỳ gần nhất - Thang điểm Mỹ</i></b></td>
+                <td>
+                    
+                    <table class="tbdetail" width="100%" border="1">
+                        <tr>
+                            <th style="width: 90px; text-align: right">Thang Điểm:</th>
+                            <th style="width: 40px">4</th>
+                            <th style="width: 40px; text-align: right">Theo:</th>
+                            <th style="width: 60px">Học kỳ Gần nhất</th>
+                            <th style="text-align: right">Học kỳ hay Nửa kỳ:</th>
+                            <th>Học kỳ</th>
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Từ:</td>
+                            <td>2.33</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td>2.67</td>
+                            <td style="text-align: right; width: 40px">Màu:</td>
+                            <td style="width: 40px"><span class="box" style="background-color: #FFFF00">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Từ:</td>
+                            <td>2.00</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td>2.33</td>
+                            <td style="text-align: right; width: 40px">Màu:</td>
+                            <td style="width: 40px"><span class="box" style="background-color: #FFA500">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Từ:</td>
+                            <td>0.00</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td>2.00</td>
+                            <td style="text-align: right; width: 40px">Màu:</td>
+                            <td style="width: 40px"><span class="box" style="background-color: #FF0000">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                    </table>
+                    
+                    
+
+                </td>
+            </tr>
+            
+            <tr class="loaicanhbao">
+                <td style="text-align: center">3</td>
+                <td>Cảnh báo theo Số Đơn vị Học tập Đăng ký</td>
+                <td><i>Cảnh báo liệu Số Đơn vị Học tập Đăng ký cho Học kỳ Hiện tại hay tất cả các Học kỳ đã qua có thiếu ở mức độ nào không.</i></td>
+            </tr>
+            
+            <tr>
+                <td></td>
+                <td><b><i>Cảnh báo theo Số Tín chỉ Đăng ký ở Học kỳ Hiện tại (4 năm)</i></b></td>
+                <td>
+                    
+                    <table class="tbdetail" width="100%" border="1">
+                        <tr>
+                            <th style="width: 90px; text-align: right">Loại ĐVHT:</th>
+                            <th style="width: 40px">Tín chỉ</th>
+                            <th style="width: 40px; text-align: right">Theo:</th>
+                            <th colspan="3">Kỳ Hiện tại</th>
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Từ:</td>
+                            <td>12</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td style="width: 40px">15</td>
+                            <td style="text-align: right; width: 40px">Màu:</td>
+                            <td style="width: 40px"><span class="box" style="background-color: #FFFF00">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Từ:</td>
+                            <td>9</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td style="width: 40px">11</td>
+                            <td style="text-align: right; width: 40px">Màu:</td>
+                            <td style="width: 40px"><span class="box" style="background-color: #FFA500">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Từ:</td>
+                            <td>0</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td style="width: 40px">8</td>
+                            <td style="text-align: right; width: 40px">Màu:</td>
+                            <td style="width: 40px"><span class="box" style="background-color: #FF0000">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                    </table>
+                    
+                    
+
+                </td>
+            </tr>
+            
+            <tr>
+                <td></td>
+                <td><b><i>Cảnh báo theo Số Tín chỉ Đăng ký ở Tất cả các Học kỳ (4.5 năm)</i></b></td>
+                <td>
+                    
+                    <table class="tbdetail" width="100%" border="1">
+                        <tr>
+                            <th style="width: 90px; text-align: right">Loại ĐVHT:</th>
+                            <th style="width: 40px">Tín chỉ</th>
+                            <th style="width: 40px; text-align: right">Theo:</th>
+                            <th colspan="3">Tất cả các Kỳ</th>
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Từ:</td>
+                            <td>12</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td style="width: 40px">15</td>
+                            <td style="text-align: right; width: 40px">Màu:</td>
+                            <td style="width: 40px"><span class="box" style="background-color: #FFFF00">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Từ:</td>
+                            <td>9</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td style="width: 40px">11</td>
+                            <td style="text-align: right; width: 40px">Màu:</td>
+                            <td style="width: 40px"><span class="box" style="background-color: #FFA500">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Từ:</td>
+                            <td>0</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td style="width: 40px">8</td>
+                            <td style="text-align: right; width: 40px">Màu:</td>
+                            <td style="width: 40px"><span class="box" style="background-color: #FF0000">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                    </table>
+                    
+                    
+
+                </td>
+            </tr>
+            
+            <tr>
+                <td></td>
+                <td><b><i>Cảnh báo theo Số Tín chỉ Đăng ký ở Học kỳ Hiện tại (4.5 năm)</i></b></td>
+                <td>
+                    
+                    <table class="tbdetail" width="100%" border="1">
+                        <tr>
+                            <th style="width: 90px; text-align: right">Loại ĐVHT:</th>
+                            <th style="width: 40px">Tín chỉ</th>
+                            <th style="width: 40px; text-align: right">Theo:</th>
+                            <th colspan="3">Kỳ Hiện tại</th>
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Từ:</td>
+                            <td>12</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td style="width: 40px">15</td>
+                            <td style="text-align: right; width: 40px">Màu:</td>
+                            <td style="width: 40px"><span class="box" style="background-color: #FFFF00">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Từ:</td>
+                            <td>9</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td style="width: 40px">11</td>
+                            <td style="text-align: right; width: 40px">Màu:</td>
+                            <td style="width: 40px"><span class="box" style="background-color: #FFA500">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Từ:</td>
+                            <td>0</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td style="width: 40px">8</td>
+                            <td style="text-align: right; width: 40px">Màu:</td>
+                            <td style="width: 40px"><span class="box" style="background-color: #FF0000">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                    </table>
+                    
+                    
+
+                </td>
+            </tr>
+            
+            <tr>
+                <td></td>
+                <td><b><i>Cảnh báo theo Số Tín chỉ Đăng ký ở Học kỳ Hiện tại (5 năm)</i></b></td>
+                <td>
+                    
+                    <table class="tbdetail" width="100%" border="1">
+                        <tr>
+                            <th style="width: 90px; text-align: right">Loại ĐVHT:</th>
+                            <th style="width: 40px">Tín chỉ</th>
+                            <th style="width: 40px; text-align: right">Theo:</th>
+                            <th colspan="3">Kỳ Hiện tại</th>
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Từ:</td>
+                            <td>12</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td style="width: 40px">15</td>
+                            <td style="text-align: right; width: 40px">Màu:</td>
+                            <td style="width: 40px"><span class="box" style="background-color: #FFFF00">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Từ:</td>
+                            <td>9</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td style="width: 40px">11</td>
+                            <td style="text-align: right; width: 40px">Màu:</td>
+                            <td style="width: 40px"><span class="box" style="background-color: #FFA500">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Từ:</td>
+                            <td>0</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td style="width: 40px">8</td>
+                            <td style="text-align: right; width: 40px">Màu:</td>
+                            <td style="width: 40px"><span class="box" style="background-color: #FF0000">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                    </table>
+                    
+                    
+
+                </td>
+            </tr>
+            
+            <tr class="loaicanhbao">
+                <td style="text-align: center">4</td>
+                <td>Cảnh báo theo Trung bình Số Đơn vị Học tập Còn lại</td>
+                <td><i>Cảnh báo liệu Số Đơn vị Học tập còn lại chưa học có thể hoàn thành được trong số Năm học hay Học kỳ còn lại theo chuẩn cho phép của Chương trình không.</i></td>
+            </tr>
+            
+            <tr>
+                <td></td>
+                <td><b><i>Cảnh báo theo Trung bình Số Tín chỉ Còn lại theo Kỳ</i></b></td>
+                <td>
+                    
+                    <table class="tbdetail" width="100%" border="1">
+                        <tr>
+                            <th style="width: 90px; text-align: right">Loại ĐVHT:</th>
+                            <th style="width: 40px">Tín chỉ</th>
+                            <th style="width: 40px; text-align: right">Theo:</th>
+                            <th colspan="3">Học kỳ</th>
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Từ:</td>
+                            <td>19.00</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td style="width: 40px">60.00</td>
+                            <td style="text-align: right; width: 40px">Màu:</td>
+                            <td style="width: 40px"><span class="box" style="background-color: #FF0000">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Từ:</td>
+                            <td>18.00</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td style="width: 40px">19.00</td>
+                            <td style="text-align: right; width: 40px">Màu:</td>
+                            <td style="width: 40px"><span class="box" style="background-color: #FFA500">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                        <tr>
+                            <td style="text-align: right;">Từ:</td>
+                            <td>16.00</td>
+                            <td style="text-align: right;">Đến:</td>
+                            <td style="width: 40px">18.00</td>
+                            <td style="text-align: right; width: 40px">Màu:</td>
+                            <td style="width: 40px"><span class="box" style="background-color: #FFFF00">&nbsp;</span></td>
+                            
+                        </tr>
+                        
+                    </table>
+                    
+                    
+
+                </td>
+            </tr>
+            
+        </table>
+    </div>
+</div>
+<div id='detailWarning'>
+    
+
+    <!-- modal content -->
+    <div id="basic-modal-content" style="overflow: auto">
+        <!-- WarningDetail.aspx load here -->
+    </div>
+
+    <!-- preload the images -->
+    <div style='display: none'>
+        <img src='../simple-modal-demo-basic1.4.4/basic/img/basic/x.png' alt='' />
+    </div>
+</div>
+<!-- Page styles -->
+<link type='text/css' href='../../simple-modal-demo-basic1.4.4/basic/css/demo.css' rel='stylesheet' media='screen' />
+<!-- Contact Form CSS files -->
+<link type='text/css' href='../../simple-modal-demo-basic1.4.4/basic/css/basic.css' rel='stylesheet' media='screen' />
+<!-- IE6 "fix" for the close png image -->
+<!--[if lt IE 7]>
+<link type='text/css' href='../simple-modal-demo-basic1.4.4/basic/css/basic_ie.css' rel='stylesheet' media='screen' />
+<![endif]-->
+<!-- Load jQuery, SimpleModal and Basic JS files -->
+<script type='text/javascript' src='../simple-modal-demo-basic1.4.4/basic/js/jquery.js'></script>
+<script type='text/javascript' src='../simple-modal-demo-basic1.4.4/basic/js/jquery.simplemodal.js'></script>
+<script type='text/javascript' src='../simple-modal-demo-basic1.4.4/basic/js/basic.js'></script>
+<script>
+    function downloadFile() {
+        window.open('../Sites/ExtensionPage.aspx?p=extensionpage_downloadfile&type=autogenfile&academicid=0');
+    }
+</script>
+
+</div>
+                </div>
+                
+                <div class="main-border-bottom">
+                </div>
+                
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div id="bottom_zone">
+            <div id="ctl00_PlaceHolderContentArea_ctl00_BottomZone" class="column4">
+	
+            
+</div>
+        </div>
+    </div>
+    
+</div>
+<div id="footer">
+    <div id="footer-wrapper">
+    </div>
+    <div class="footer-legal">
+        Copyright&copy; 2020 <a href='http://duytan.edu.vn' target='_blank'>Đại học Duy Tân</a>.
+    </div>
+</div>
+
+
+            </div>
+        </div>
+    </form>
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-26395110-6', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+    <script type="text/javascript" language="javascript">        
+        var thistoday;
+        function nt_showtime(objId,year, month, day, hours, minutes, seconds, milliseconds) {
+            thistoday = new Date(year, month, day, hours, minutes, seconds, milliseconds);
+            var hh = thistoday.getHours();
+            var mm = thistoday.getMinutes();
+            var ss = thistoday.getSeconds();
+
+            mm = checkTime(mm);
+            ss = checkTime(ss);
+
+            t = setTimeout("nt_runtime('" + objId + "')", 1000);
+        }
+        
+        function nt_runtime(objId) {
+
+            var hh = thistoday.getHours();
+            var mm = thistoday.getMinutes();
+            var ss = thistoday.getSeconds();
+            ss+=1;
+                      
+            if (ss>=60) { ss = -(60 - ss); mm = parseInt(mm)+1; }
+            if (mm>=60) { mm = -(60 - mm); hh = parseInt(hh)+1; }
+            if (hh>=24) { hh = -(24 - hh); }
+            //alert(ss);
+            thistoday=new Date(1990, 1, 1,hh,mm,ss);
+
+            mm = checkTime(mm);
+            ss = checkTime(ss);
+            hh = checkTime(hh);
+            var h1,h2,m1,m2,s1,s2;
+            h1=(hh-hh%10)/10;
+            h2=hh%10;
+            
+            m1=(mm-mm%10)/10;
+            m2=mm%10;
+            
+            s1=(ss-ss%10)/10;
+            s2=ss%10;
+            document.getElementById(objId).innerHTML = '<span class="h1">'+h1+'</span><span class="h2">'+h2+'</span><span class="m1">' + m1+'</span><span class="m2">' + m2+'</span><span class="s1">' + s1+'</span><span class="s2">' + s2+'</span>';
+            t = setTimeout("nt_runtime('" + objId + "')", 1000);
+        }
+        nt_showtime('mydate',1990,1,1,10,50,31,0);
+
+        function ShowNotification() {
+            var annoNum = '27';   
+            if (annoNum > 0) {
+                var url = '../../sites/index.aspx?p=home_announcements&functionid=11';
+                ohSnap("Bạn có " + annoNum + " thông báo KHẨN cần đọc! <a href='" + url + "'>[Xem chi tiết]</a>", "red");
+            }
+        }
+
+        ShowNotification();
+
+        ////
+        //$(window).on('mouseover', (function () {
+        //    window.onbeforeunload = null;
+        //}));
+        //$(window).on('mouseout', (function () {
+        //    window.onbeforeunload = ConfirmLeave;
+        //}));
+        //function ConfirmLeave() {
+        //    return "";
+        //}
+        //var prevKey="";
+        //$(document).keydown(function (e) {
+        //    alert(e.key);
+        //    if (e.key=="f5") {
+        //        window.onbeforeunload = ConfirmLeave;
+        //    }
+        //    else if (e.key == "w" && prevKey == "CONTROL") {                
+        //        window.onbeforeunload = ConfirmLeave;   
+        //    }
+        //    else if (e.key == "r" && prevKey == "CONTROL") {
+        //        window.onbeforeunload = ConfirmLeave;
+        //    }
+        //    else if (e.key == "f4" && (prevKey == "ALT" || prevKey == "CONTROL")) {
+        //        console.log(e.key);
+        //        window.onbeforeunload = ConfirmLeave;
+        //    }
+        //    prevKey = e.key;            
+        //});
+    </script>
+</body>
+</html>
