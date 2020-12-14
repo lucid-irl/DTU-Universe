@@ -6,10 +6,16 @@ import os
 import requests
 import logging
 
+from requests.api import request
+
 
 logging.basicConfig(level=logging.INFO)
 
 CHROME_HEADER = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"}
+
+def toFile(html, name):
+    with open(name, 'w', encoding='utf-8') as f:
+        f.write(html)
 
 
 class DTULogin:
@@ -73,7 +79,6 @@ class DTUSession:
 
     CHROME_HEADER = {
         ':authority': 'mydtu.duytan.edu.vn',
-        ':method': 'POST',
         ':scheme': 'https',
         'accept': 'text/html, */*; q=0.01',
         'accept-encoding': 'gzip, deflate, br',
@@ -89,16 +94,16 @@ class DTUSession:
         'x-requested-with': 'XMLHttpRequest'
     }
 
-    def __init__(self, cookies):
-        CHROME_HEADER.update({'cookies':cookies})
+    def __init__(self, sessionId=None):
         self.dtuSession = requests.Session()
-        self.dtuSession.headers.update(CHROME_HEADER)
+        self.cookies = {"ASP.NET_SessionId":sessionId}
+        self.dtuSession.headers = CHROME_HEADER
 
     def post(self, url, data=None, params=None):
-        return self.dtuSession.post(url, data=data, params=params)
+        return self.dtuSession.post(url, data=data, params=params, cookies=self.cookies)
 
     def get(self, url, params=None):
-        return self.dtuSession.get(url, params=params)
+        return self.dtuSession.get(url, params=params, cookies=self.cookies)
 
 
 class OpenBrowser:
@@ -126,3 +131,13 @@ class OpenBrowser:
                 return browserName, browserPath
         else:
             return None
+
+if __name__ == "__main__":
+    
+    url = 'https://mydtu.duytan.edu.vn/Modules/portal/ajax/LoadBangDiem.aspx?timespanid=62&studentidnumber=ppxdPtQCkOX2+rc5tqBFhg%3D%3D&curriculumid=605&t=1607914382332'
+    cookies = {
+        "ASP.NET_SessionId":"iywbmlgfytjzvmdffk2zckah"
+    }
+    r = requests.get(url=url, cookies=cookies)
+    toFile(r.text, 'html\\bangdiemhocky1.html')
+    
