@@ -39,14 +39,14 @@ class DTUInfoStudent:
     page_warningDetail = 'https://mydtu.duytan.edu.vn/Modules/mentor/WarningDetail.aspx?'
     page_loadChuongTrinhHoc = 'https://mydtu.duytan.edu.vn/Modules/curriculuminportal/ajax/LoadChuongTrinhHoc.aspx?'
 
-    def __init__(self, sessionId):
-        """Khởi tạo một Session cho phép đăng nhập vào DTU thông qua sessionId.
+    def __init__(self, ASPNETSessionIdDict):
+        """Khởi tạo một Session cho phép đăng nhập vào DTU thông qua ASPNETSessionIdDict.
         Sau khi đăng nhập xong, tự động chạy phương thức `getSpecialStudentID()` lấy
         specialNumber."""
         logging.info('init session and get special id')
         self.session = requests.Session()
         self.session.headers.update(CHROME_HEADER)
-        requests.utils.add_dict_to_cookiejar(self.session.cookies, sessionId)
+        requests.utils.add_dict_to_cookiejar(self.session.cookies, ASPNETSessionIdDict)
         self.specialNumber = self.getSpecialStudentID()
 
     def __getRequestToMyDTU(self, url, params=None):
@@ -231,7 +231,10 @@ class DTUSubjectSCore:
 
     @maMon.setter
     def maMon(self, maMon:str):
-        """Mã môn học CS 414."""
+        """Mã môn học.
+        
+        Ví dụ CS 414
+        """
         self.__maMon = maMon
     @maLop.setter
     def maLop(self, maLop:str):
@@ -277,17 +280,11 @@ class DTUSubjectSCore:
     
     def showSubjectScore(self):
         """In thông tin điểm số của môn này ra màn hình."""
-        print("""Mã môn: {0}
-                Mã lớp: {1}
-                Hình thức: {2}
-                Tên môn: {3}
-                Số Đơn vị học tập (ĐVHT): {4}
-                Loại Đơn vị học tập: {5}
-                Điểm gốc: {6}
-                Điểm chữ: {7}
-                Điểm quy đổi: {8}
-                Điểm tích luỹ: {9}""".format(self.__maMon,self.__maLop,self.__hinhThuc,self.__tenMon,self.__soDonViHocTap,
-                                        self.__loaiDonViHocTap,self.__diemGoc,self.__diemChu,self.__diemQuyDoi,self.__diemTichLuy))
+        info = """Mã môn: {0}\nMã lớp: {1}\nHình thức: {2}\nTên môn: {3}\nSố Đơn vị học tập (ĐVHT): {4}\n
+        Loại Đơn vị học tập: {5}\nĐiểm gốc: {6}\nĐiểm chữ: {7}\nĐiểm quy đổi: {8}\nĐiểm tích luỹ: {9}"""
+        info.format(self.__maMon,self.__maLop,self.__hinhThuc,self.__tenMon,self.__soDonViHocTap,
+                    self.__loaiDonViHocTap,self.__diemGoc,self.__diemChu,self.__diemQuyDoi,self.__diemTichLuy)
+        print(info)
         
 
 class DTUSemesterScore:
@@ -372,11 +369,10 @@ class DTUSemesterScore:
 class DTUStudentScore(DTUSession):
     """Crawl thông tin bảng điểm của sinh viên."""
 
-    def __init__(self, sessionId, specialNumber) -> None:
-        super().__init__(sessionId)
+    def __init__(self, ASPNETSessionIdDict, specialNumber) -> None:
+        super().__init__(ASPNETSessionIdDict)
         self.specialNumber = specialNumber
-        self.__page = self.__getPage()
-        self.__soup = BeautifulSoup(self.__page, 'lxml')
+        self.__soup = BeautifulSoup(self.__getPage(), 'lxml')
         self.__listSemesterParam = self.__getSemesterParams()
 
     def __getPage(self):
@@ -413,14 +409,31 @@ class DTUStudentScore(DTUSession):
         }
         return self.post(url, params=params).text
 
-
     def getDTUSemesterScores(self) -> List[DTUSemesterScore]:
         """Trả về một list chứa các DTUSemesterScore."""
-        output = []
+        self.output = []
         for listParam in self.__listSemesterParam:
             html = self.__getScoreTableHTMLPage(listParam[1], listParam[2], self.specialNumber)
-            output.append(DTUSemesterScore(html))
+            self.output.append(DTUSemesterScore(html))
+        return self.output
+
+    def getSemesterInfo(self) -> List[str]:
+        """Trả về một list chưa thông tin tên học kỳ."""
+        def __mapGetSemesterName(trtag):
+            return str(trtag.td.text).strip()
+        listTrTag = self.__soup.find_all('tr', class_='hocky')
+        return [map(__mapGetSemesterName, listTrTag)]
+
+    def getJson(self):
+        """Trả về cấu trúc JSON của toàn bộ bảng điểm."""
+        output = []
+        semesterInfoes = self.getSemesterInfo()
+        listDTUSemesterScore = self.getDTUSemesterScores()
+        for i in range(len(semesterInfoes)):
+            info = {"nameSemester":semesterInfoes[i], "semesterScore":listDTUSemesterScore[i]}
+            output.append(info)
         return output
+        
 
 
 
@@ -429,8 +442,8 @@ if __name__ == "__main__":
     # app = QApplication(sys.argv)
     # thread = thread_getSessionIdDTU.ThreadGetSessionIdDTU()
 
-    # def getInfo(sessionID):
-    #     dtu = DTUInfoStudent(sessionID)
+    # def getInfo(ASPNETSessionIdDict):
+    #     dtu = DTUInfoStudent(ASPNETSessionIdDict)
     #     print(dtu.getMajor())
     #     app.exit()
 
@@ -446,6 +459,6 @@ if __name__ == "__main__":
 
     # app.exec()
 
-    dtu = DTUStudentScore('điền sessionid','điền specialnumber')
+    dtu = DTUStudentScore('điền ASPNETSessionIdDict','điền specialnumber')
     scores = dtu.getDTUSemesterScores()
     scores[0].getDTUSubjectScore('COM 101').showSubjectScore()
