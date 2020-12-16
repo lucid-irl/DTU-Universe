@@ -228,17 +228,18 @@ class DTUSubjectSCore:
 
     def getJson(self):
         return {
-            "maMon": self.__maMon,      
-            "maLop": self.__maLop,
-            "hinhThuc": self.__hinhThuc,
-            "tenMon": self.__tenMon,
-            "soDonViHocTap": self.__soDonViHocTap,
-            "loaiDonViHocTap": self.__loaiDonViHocTap,
-            "diemGoc": self.__diemGoc,
-            "diemChu": self.__diemChu,
-            "diemQuyDoi": self.__diemQuyDoi,
-            "diemTichLuy": self.__diemTichLuy
-        }
+                self.__maMon:{
+                    "maLop": self.__maLop,
+                    "hinhThuc": self.__hinhThuc,
+                    "tenMon": self.__tenMon,
+                    "soDonViHocTap": self.__soDonViHocTap,
+                    "loaiDonViHocTap": self.__loaiDonViHocTap,
+                    "diemGoc": self.__diemGoc,
+                    "diemChu": self.__diemChu,
+                    "diemQuyDoi": self.__diemQuyDoi,
+                    "diemTichLuy": self.__diemTichLuy
+                    }
+                }
     
     def showSubjectScore(self):
         """In thông tin điểm số của môn này ra màn hình."""
@@ -252,20 +253,27 @@ class DTUSubjectSCore:
 class DTUSemesterScore:
     """Bảng điểm trong một kỳ học."""
 
-    def __init__(self, html) -> None:
+    def __init__(self, html, id, description) -> None:
         """Nhận vào HTML Page tương ứng với học kỳ đó."""
+        self.__id = id
+        self.__description = description
         self.__soup = BeautifulSoup(html, 'lxml')
         self.__listTrTagsWithClassDiem = self.__soup.find_all('tr', class_='diem')
         self.__listTrTagsWithClassFooter = self.__soup.find_all('tr', class_='footer')
 
     def getJson(self):
         """Nhận về một json chứa toàn bộ thông tin điểm số của một học kỳ."""
-        detailScore = [subjectScore.getJson() for subjectScore in self.getAllDTUSubjectScore()]
+        detailScore = {}
+        for subjectScore in self.getAllDTUSubjectScore():
+            detailScore.update(subjectScore.getJson())
         summaryScore = self.getSummaryScore().getJson()
         return {
-            "detailScore":detailScore,
-            "summaryScore":summaryScore
-        }
+                self.__id: {
+                    "detail":detailScore,
+                    "summary":summaryScore,
+                    "description":self.__description
+                    }
+                }
 
     def getSujectAt(self, index) -> DTUSubjectSCore:
         """Trả về một DTUSubjectScore tại hàng chỉ định. Nếu không trả về None."""
@@ -313,7 +321,10 @@ class DTUSemesterScore:
             subjectScore = DTUSubjectSCore()
             subjectScore.maMon = str(trTag.td.div.text).strip()
             subjectScore.maLop = str(trTag('td')[1].div.div.text).strip()
-            subjectScore.hinhThuc = str(trTag('td')[2].div.text).strip()
+            if str(trTag('td')[2].div.text).strip():
+                subjectScore.hinhThuc = str(trTag('td')[2].div.text).strip()
+            else:
+                subjectScore.hinhThuc = 'NaN'
             subjectScore.tenMon = str(trTag('td')[3].div.text).strip()
             subjectScore.soDonViHocTap = int(str(trTag('td')[4].div.text).strip())
             subjectScore.loaiDonViHocTap = str(trTag('td')[5].div.text).strip()
@@ -382,10 +393,12 @@ class DTUStudentScore(DTUSession):
 
     def getDTUSemesterScores(self) -> List[DTUSemesterScore]:
         """Trả về một list chứa các DTUSemesterScore."""
+        infoes = self.getSemesterInfo()
         self.output = []
-        for listParam in self.__listSemesterParam:
-            html = self.__getScoreTableHTMLPage(listParam[1], listParam[2], self.specialNumber)
-            self.output.append(DTUSemesterScore(html))
+        for i in range(len(self.__listSemesterParam)):
+            description = infoes[i]
+            html = self.__getScoreTableHTMLPage(self.__listSemesterParam[i][1], self.__listSemesterParam[i][2], self.specialNumber)
+            self.output.append(DTUSemesterScore(html, i, description))
         return self.output
 
     def getSummary(self) -> Dict[str,str]:
@@ -414,10 +427,12 @@ class DTUStudentScore(DTUSession):
         rootMeanForAllSemester = {
             'description':str(listTrTagWithClassFooter[4].td.b.text).strip(),
             'number': float(str(listTrTagWithClassFooter[4]('td')[1].div.b.text)),
+            'unit':'NaN'
         }
         accumulateMeanForAllSemester = {
             'description':str(listTrTagWithClassFooter[5].td.b.text).strip(),
             'number': float(str(listTrTagWithClassFooter[5]('td')[1].div.b.text)),
+            'unit':'NaN'
         }
         totalCreditPassNotScored = {
             'description':str(listTrTagWithClassFooter[6].td.text).strip(),
@@ -449,14 +464,13 @@ class DTUStudentScore(DTUSession):
 
     def getJson(self):
         """Trả về cấu trúc JSON của toàn bộ bảng điểm."""
-        semesters = []
-        semesterInfoes = self.getSemesterInfo()
-        semesterInfoes.pop(-1)
-        listDTUSemesterScore = self.getDTUSemesterScores()
-        for i in range(len(semesterInfoes)):
-            info = {"nameSemester":semesterInfoes[i], "semesterScore":listDTUSemesterScore[i].getScoreJson()}
-            semesters.append(info)
+        semesters = {}
+        for semesterScore in self.getDTUSemesterScores():
+            semesters.update(semesterScore.getJson())
+        self.getSummary()
         return {
-            'semesters':semesters,
-            'summary':self.getSummary()
-        }
+                "score_table": {
+                    "semesters":semesters,
+                    "summary":self.getSummary()
+                }
+                }
