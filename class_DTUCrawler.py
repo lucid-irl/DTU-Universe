@@ -317,10 +317,19 @@ class DTUSemesterScore:
             subjectScore.tenMon = str(trTag('td')[3].div.text).strip()
             subjectScore.soDonViHocTap = int(str(trTag('td')[4].div.text).strip())
             subjectScore.loaiDonViHocTap = str(trTag('td')[5].div.text).strip()
-            subjectScore.diemGoc = float(str(trTag('td')[6].div.text).strip())
+            if str(trTag('td')[6].div.text).strip():
+                subjectScore.diemGoc = float(str(trTag('td')[6].div.text).strip())
+            else:
+                subjectScore.diemGoc = 'NaN'
             subjectScore.diemChu = str(trTag('td')[7].div.text).strip()
-            subjectScore.diemQuyDoi = float(str(trTag('td')[8].div.text).strip())
-            subjectScore.diemTichLuy = float(str(trTag('td')[9].div.text).strip())
+            if str(trTag('td')[8].div.text).strip():
+                subjectScore.diemQuyDoi = float(str(trTag('td')[8].div.text).strip())
+            else:
+                subjectScore.diemQuyDoi = 'NaN'
+            if str(trTag('td')[9].div.text).strip():
+                subjectScore.diemTichLuy = float(str(trTag('td')[9].div.text).strip())
+            else:
+                subjectScore.diemTichLuy = 'NaN'
             output.append(subjectScore)
         return output
     
@@ -379,22 +388,77 @@ class DTUStudentScore(DTUSession):
             self.output.append(DTUSemesterScore(html))
         return self.output
 
+    def getSummary(self) -> Dict[str,str]:
+        listTrTagWithClassFooter = self.__soup.find_all('tr', class_='footer')
+        totalCreditIsScored = {
+            'description':str(listTrTagWithClassFooter[0].td.text).strip(),
+            'number': int(str(listTrTagWithClassFooter[0]('td')[1].div.text)),
+            'unit': str(listTrTagWithClassFooter[0]('td')[2].div.text).strip()
+            }
+        totalCreditFailButAgainAndPass = {
+            'description':str(listTrTagWithClassFooter[1].td.text).strip(),
+            'number': int(str(listTrTagWithClassFooter[1]('td')[1].div.text)),
+            'unit': str(listTrTagWithClassFooter[1]('td')[2].div.text).strip()
+        }
+        totalCreditIsNotScored = {
+            'description':str(listTrTagWithClassFooter[2].td.text).strip(),
+            'number': int(str(listTrTagWithClassFooter[2]('td')[1].div.text)),
+            'unit': str(listTrTagWithClassFooter[2]('td')[2].div.text).strip()
+        }
+        totalCreditForAllSemester = {
+            'description':str(listTrTagWithClassFooter[3].td.b.text).strip(),
+            'number': int(str(listTrTagWithClassFooter[3]('td')[1].div.b.text)),
+            'unit': str(listTrTagWithClassFooter[3]('td')[2].div.b.text).strip()
+        }
+        rootMeanForAllSemester = {
+            'description':str(listTrTagWithClassFooter[4].td.b.text).strip(),
+            'number': float(str(listTrTagWithClassFooter[4]('td')[1].div.b.text)),
+        }
+        accumulateMeanForAllSemester = {
+            'description':str(listTrTagWithClassFooter[5].td.b.text).strip(),
+            'number': float(str(listTrTagWithClassFooter[5]('td')[1].div.b.text)),
+        }
+        totalCreditPassNotScored = {
+            'description':str(listTrTagWithClassFooter[6].td.text).strip(),
+            'number': int(str(listTrTagWithClassFooter[6]('td')[1].div.text)),
+            'unit': str(listTrTagWithClassFooter[6]('td')[2].div.text).strip()
+        }
+        totalCreditFailNotScored = {
+            'description':str(listTrTagWithClassFooter[7].td.text).strip(),
+            'number': int(str(listTrTagWithClassFooter[7]('td')[1].div.text)),
+            'unit': str(listTrTagWithClassFooter[7]('td')[2].div.text).strip()
+        }
+        return {
+            'totalCreditIsScored':totalCreditIsScored,
+            'totalCreditFailButAgainAndPass':totalCreditFailButAgainAndPass,
+            'totalCreditIsNotScored':totalCreditIsNotScored,
+            'totalCreditForAllSemester':totalCreditForAllSemester,
+            'rootMeanForAllSemester':rootMeanForAllSemester,
+            'accumulateMeanForAllSemester':accumulateMeanForAllSemester,
+            'totalCreditPassNotScored':totalCreditPassNotScored,
+            'totalCreditFailNotScored':totalCreditFailNotScored
+        }
+        
     def getSemesterInfo(self) -> List[str]:
         """Trả về một list chưa thông tin tên học kỳ."""
         def __mapGetSemesterName(trtag):
             return str(trtag.td.text).strip()
         listTrTag = self.__soup.find_all('tr', class_='hocky')
-        return [map(__mapGetSemesterName, listTrTag)]
+        return list(map(__mapGetSemesterName, listTrTag))
 
     def getJson(self):
         """Trả về cấu trúc JSON của toàn bộ bảng điểm."""
-        output = []
+        semesters = []
         semesterInfoes = self.getSemesterInfo()
+        semesterInfoes.pop(-1)
         listDTUSemesterScore = self.getDTUSemesterScores()
         for i in range(len(semesterInfoes)):
-            info = {"nameSemester":semesterInfoes[i], "semesterScore":listDTUSemesterScore[i]}
-            output.append(info)
-        return output
+            info = {"nameSemester":semesterInfoes[i], "semesterScore":listDTUSemesterScore[i].getScoreJson()}
+            semesters.append(info)
+        return {
+            'semesters':semesters,
+            'summary':self.getSummary()
+        }
         
 
 
@@ -423,5 +487,5 @@ if __name__ == "__main__":
 
     dtu = DTUStudentScore({'ASP.NET_SessionId':'gdk2myfu14k1md0xoarsita3'},'ppxdPtQCkOX2+rc5tqBFhg==')
     scores = dtu.getJson()
-    j = json.dumps(scores, indent=2)
-    print(j)
+    with open('info.json','w', encoding='utf-8') as f:
+        json.dump(scores,f, indent=4, ensure_ascii=False)
