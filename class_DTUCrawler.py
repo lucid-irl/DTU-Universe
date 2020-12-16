@@ -23,43 +23,49 @@ class DTUInfoStudent(DTUSession):
         Sau khi đăng nhập xong, tự động chạy phương thức `getSpecialStudentID()` lấy
         specialNumber."""
         super().__init__(ASPNETSessionIdDict)
+        self.__soup = BeautifulSoup(self.__getPage(), 'lxml')
         self.specialNumber = self.getSpecialStudentID()
+
+    def __getPage(self):
+        return self.get(self.page_studyingwarning).text
+
+    def getMentor(self):
+        return str(self.__soup.find('div', class_='mentorname').text).split(':')[1].strip()
 
     def getSpecialStudentID(self):
         """Trả về chuỗi đặc biệt được hash bởi một phương thức đặc biệt từ mã sinh viên."""
         logging.info('get special id')
-        html = self.get(self.page_studyingwarning)
-        soup = BeautifulSoup(html, 'lxml')
-        warningTable = soup.find(class_='tbresult')
+        warningTable = self.__soup.find(class_='tbresult')
         tdHaveSpecialID = warningTable('td')[2]
         onClickValue = tdHaveSpecialID.span['onclick']
         return str(onClickValue).split("'")[1]
 
-    def getStudentInfo(self) -> Dict:
-        """Trả về một dict chứa thông tin cơ bản của sinh viên."""
+    def getJson(self) -> Dict:
+        """Trả về JSON chứa thông tin sinh viên."""
         logging.info('get student infomation')
         specialStudentID = self.getSpecialStudentID()
-        html = self.get(self.page_warningDetail, params={'stid':specialStudentID})
+        html = self.get(self.page_warningDetail, params={'stid':specialStudentID}).text
         soup = BeautifulSoup(html, 'lxml')
         warningTable = soup.find('table')
         tdList = warningTable('td')
         username = tdList[1].strong.text
-        avatarBase64 = tdList[2].img['src']
+        # avatarBase64 = tdList[2].img['src']
         studentID = tdList[4].text
         birthday = str(tdList[6].text).strip()
         cmnd = tdList[8].text
         dtuMail = tdList[10].a.text
         numberPhone = tdList[12].text
-        location = tdList[15].text
-        output = {
+        location = str(tdList[15].text).strip()
+        output = {studentID:{
             'username':username,
-            'studentID':studentID,
+            'special_number':self.getSpecialStudentID(),
             'birthday':birthday,
             'cmnd':cmnd,
-            'dtuMail':dtuMail,
-            'numberPhone':numberPhone,
-            'location':location
-        }
+            'email':dtuMail,
+            'number_phone':numberPhone,
+            'location':location,
+            'mentor':self.getMentor()
+        }}
         return output
 
     def getMajor(self) -> Dict:
@@ -472,5 +478,5 @@ class DTUStudentScore(DTUSession):
                 "score_table": {
                     "semesters":semesters,
                     "summary":self.getSummary()
-                }
+                    }
                 }
