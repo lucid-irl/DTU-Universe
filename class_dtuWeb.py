@@ -6,8 +6,6 @@ import os
 import requests
 import logging
 
-from requests.api import request
-
 
 logging.basicConfig(level=logging.INFO)
 
@@ -96,9 +94,13 @@ class DTUSession:
         self.dtuSession.headers = CHROME_HEADER
 
     def post(self, url, data=None, params=None):
+        loggingString = 'POST request to {0}'.format(url)
+        logging.info(loggingString)
         return self.dtuSession.post(url, data=data, params=params, cookies=self.cookies)
 
     def get(self, url, params=None):
+        loggingString = 'GET request to {0}'.format(url)
+        logging.info(loggingString)
         return self.dtuSession.get(url, params=params, cookies=self.cookies)
 
 
