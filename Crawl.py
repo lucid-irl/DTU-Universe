@@ -21,8 +21,6 @@ def Get_Url(discipline: str, keyword1: str) -> str:
     soup = BeautifulSoup(r.text, 'html.parser')
 
     def XuLyUrlSub(url_sub: str) -> str:
-        # http://courses.duytan.edu.vn/Sites/Home_ChuongTrinhDaoTao.aspx?p=home_listcoursedetail&courseid=55&timespan=70&t=s
-        # http://courses.duytan.edu.vn/Modules/academicprogram/CourseClassResult.aspx?courseid=55&semesterid=70&timespan=70
         url = "http://courses.duytan.edu.vn/Modules/academicprogram/CourseClassResult.aspx?courseid=55&semesterid=70&timespan=70"
         courseid = url_sub[73:url_sub.find("×pan")]
         return url.replace(url[85:87], courseid)
