@@ -258,7 +258,7 @@ class DTUSemesterScore:
         self.__listTrTagsWithClassDiem = self.__soup.find_all('tr', class_='diem')
         self.__listTrTagsWithClassFooter = self.__soup.find_all('tr', class_='footer')
 
-    def getScoreJson(self):
+    def getJson(self):
         """Nhận về một json chứa toàn bộ thông tin điểm số của một học kỳ."""
         detailScore = [subjectScore.getJson() for subjectScore in self.getAllDTUSubjectScore()]
         summaryScore = self.getSummaryScore().getJson()
@@ -389,6 +389,7 @@ class DTUStudentScore(DTUSession):
         return self.output
 
     def getSummary(self) -> Dict[str,str]:
+        """Trả về dict chứa thông tin bảng điểm."""
         listTrTagWithClassFooter = self.__soup.find_all('tr', class_='footer')
         totalCreditIsScored = {
             'description':str(listTrTagWithClassFooter[0].td.text).strip(),

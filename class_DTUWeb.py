@@ -1,5 +1,7 @@
 from http.cookiejar import CookieJar
 from bs4 import BeautifulSoup
+from firebase import firebase
+
 import browser_cookie3
 import webbrowser
 import os
@@ -9,15 +11,12 @@ import logging
 
 logging.basicConfig(level=logging.INFO)
 
-CHROME_HEADER = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"}
-
-def toFile(html, name):
-    with open(name, 'w', encoding='utf-8') as f:
-        f.write(html)
-
 
 class DTULogin:
     """Yêu cầu: Google Chrome được cài đặt trên máy tính."""
+
+    CHROME_HEADER = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"}
+
 
     def getCookiesFromChrome(self):
         """Trả về cookies của Google Chrome trong máy tính. Nếu Google Chrome chưa được cài đặt trong máy, trả về None."""
@@ -91,7 +90,7 @@ class DTUSession:
     def __init__(self, ASPNETSessionIdDict: dict):
         self.dtuSession = requests.Session()
         self.cookies = ASPNETSessionIdDict
-        self.dtuSession.headers = CHROME_HEADER
+        self.dtuSession.headers = self.CHROME_HEADER
 
     def post(self, url, data=None, params=None):
         loggingString = 'POST request to {0}'.format(url)
@@ -129,3 +128,17 @@ class OpenBrowser:
                 return browserName, browserPath
         else:
             return None
+
+
+class DTUFirebase:
+
+    URL = 'https://cs4rsa-default-rtdb.firebaseio.com/'
+    FIREBASE_APP = firebase.FirebaseApplication(URL, None)
+
+    def get(self):
+        result = self.FIREBASE_APP.get('/users', None)
+        return type(result)
+        
+if __name__ == "__main__":
+    dtu = DTUFirebase()
+    print(dtu.get())
