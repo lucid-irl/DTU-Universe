@@ -459,33 +459,3 @@ class DTUStudentScore(DTUSession):
             'semesters':semesters,
             'summary':self.getSummary()
         }
-        
-
-
-
-if __name__ == "__main__":
-    # demo get thong tin sinh vien
-    # app = QApplication(sys.argv)
-    # thread = thread_getSessionIdDTU.ThreadGetSessionIdDTU()
-
-    # def getInfo(ASPNETSessionIdDict):
-    #     dtu = DTUInfoStudent(ASPNETSessionIdDict)
-    #     print(dtu.getMajor())
-    #     app.exit()
-
-    # def close(mess):
-    #     print(mess)
-    #     app.exit(1)
-
-    # thread.signal_havedSessionId.connect(getInfo)
-    # thread.signal_somethingError.connect(lambda: close('gap van de ve may chu hoac cookie'))
-    # thread.signal_requestLogin.connect(lambda: close('yeu cau dang nhap'))
-    # thread.signal_chromeIsNotFound.connect(lambda: close('yeu cau cai dat Chrome'))
-    # thread.start()
-
-    # app.exec()
-
-    dtu = DTUStudentScore({'ASP.NET_SessionId':'gdk2myfu14k1md0xoarsita3'},'ppxdPtQCkOX2+rc5tqBFhg==')
-    scores = dtu.getJson()
-    with open('info.json','w', encoding='utf-8') as f:
-        json.dump(scores,f, indent=4, ensure_ascii=False)
