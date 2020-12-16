@@ -129,13 +129,3 @@ class OpenBrowser:
                 return browserName, browserPath
         else:
             return None
-
-if __name__ == "__main__":
-    
-    url = 'https://mydtu.duytan.edu.vn/Modules/portal/ajax/LoadBangDiem.aspx?timespanid=62&studentidnumber=ppxdPtQCkOX2+rc5tqBFhg%3D%3D&curriculumid=605&t=1607914382332'
-    cookies = {
-        "ASP.NET_SessionId":"iywbmlgfytjzvmdffk2zckah"
-    }
-    r = requests.get(url=url, cookies=cookies)
-    toFile(r.text, 'html\\bangdiemhocky1.html')
-    
