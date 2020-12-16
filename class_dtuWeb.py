@@ -41,29 +41,25 @@ class DTULogin:
 
     @staticmethod
     def getDTUSessionIDFromCookies(cookies: CookieJar):
-        """Lấy ra sessionId từ Cookies."""
+        """Lấy ra ASPNETSessionIdDict từ Cookies."""
         logging.info('Get ASP.NET_SessionId from cookies')
         for cookie in cookies:
             if cookie.name == 'ASP.NET_SessionId' and cookie.domain == 'mydtu.duytan.edu.vn':
                 return {'ASP.NET_SessionId':cookie.value}
         return None
 
-    def isCanLoginDTU(self, sessionId):
+    def isCanLoginDTU(self, ASPNETSessionIdDict):
         """#### Phương thức này phụ thuộc hoàn toàn vào tình trạng máy chủ của MyDTU.
         Tham số:
         
-        sessionId -- ASP.NET_SessionId của trang MyDTU.
+        ASPNETSessionIdDict -- ASP.NET_SessionId của trang MyDTU.
 
         Trả về True nếu có thể đăng nhập vào MyDTU, ngược lại trả về False.
-        Tất cả vấn đề về máy chủ, requests, sessionId đều khiến phương thức này trả về False."""
-
+        Tất cả vấn đề về máy chủ, requests, ASPNETSessionIdDict đều khiến phương thức này trả về False."""
         try:
             logging.info('Check request, cookies, server')
-            DTURequest = requests.get(
-                                    'https://mydtu.duytan.edu.vn/Sites/index.aspx?p=home_timetable&functionid=13', 
-                                    cookies=sessionId,
-                                    headers=CHROME_HEADER
-                                    )
+            url = 'https://mydtu.duytan.edu.vn/Sites/index.aspx?p=home_timetable&functionid=13', 
+            DTURequest = requests.get(url, cookies=ASPNETSessionIdDict, headers=CHROME_HEADER)
             if DTURequest.status_code == 200:
                 if self.isHomePageDTU(DTURequest.text):
                     return True
@@ -75,7 +71,7 @@ class DTULogin:
 
 
 class DTUSession:
-    """Đảm nhận việc tạo Session và requests."""
+    """Đảm nhận việc tạo Session và requests. Tham số truyền vào bắt buộc là ASP.NET_SessionId."""
 
     CHROME_HEADER = {
         ':authority': 'mydtu.duytan.edu.vn',
@@ -94,9 +90,9 @@ class DTUSession:
         'x-requested-with': 'XMLHttpRequest'
     }
 
-    def __init__(self, sessionId=None):
+    def __init__(self, ASPNETSessionIdDict: dict):
         self.dtuSession = requests.Session()
-        self.cookies = {"ASP.NET_SessionId":sessionId}
+        self.cookies = ASPNETSessionIdDict
         self.dtuSession.headers = CHROME_HEADER
 
     def post(self, url, data=None, params=None):
