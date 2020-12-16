@@ -11,14 +11,16 @@ class CustomListItemWidget(QWidget):
     """Custom layout cho item trong QListWidget."""
 
     ICON_BUTTON_DELETE = 'Images\\3597038-text-editor\\svg\\007-delete.svg'
-    ICON_BUTTON_COPY_ID = 'Images\\2921119-work-office-files\svg\\010-info.svg'
-    ICON_BUTTON_ADD = 'Images\\2921119-work-office-files\svg\\019-add.svg'
+    ICON_BUTTON_COPY_ID = 'Images\\2921119-work-office-files\\svg\\010-info.svg'
+    ICON_BUTTON_ADD = 'Images\\2921119-work-office-files\\svg\\019-add.svg'
+    ICON_BUTTON_DETAILINFO = 'Images\\2921119-work-office-files\\svg\\010-info.svg'
 
     ICON_IMAGE_VALID = 'Images\\green_dot.png'
     ICON_IMAGE_INVALID = 'Images\\red_dot.png'
 
     signal_buttonAddIsPressed = pyqtSignal('PyQt_PyObject')
     signal_buttonDeleteIsPressed = pyqtSignal('PyQt_PyObject')
+    signal_buttonShowDetailInfo = pyqtSignal('PyQt_PyObject')
 
     def __init__ (self, subject: Subject, parent=None):
         super(CustomListItemWidget, self).__init__(parent)
@@ -78,3 +80,13 @@ class CustomListItemWidget(QWidget):
 
     def deleteThisSubjectToSemeter(self):
         self.signal_buttonDeleteIsPressed.emit(self.subject)
+
+    def addButtonShowDetailInfo(self):
+        self.button_showDetailInfo = QPushButton()
+        self.button_showDetailInfo.setIcon(QIcon())
+        self.button_showDetailInfo.setToolTip('Thông tin chi tiết')
+        self.button_showDetailInfo.clicked.connect(self.showDetailInfo)
+        self.textQVBoxLayout.addWidget(self.button_showDetailInfo, 0, Qt.AlignRight)
+
+    def showDetailInfo(self):
+        self.signal_buttonShowDetailInfo.emit(self.subject)
