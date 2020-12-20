@@ -1,0 +1,342 @@
+[
+    {
+        "semester": "Học Kỳ 1 - Năm 1 - Đại Học",
+        "subjects": [
+            {
+                "id": "PHI 100",
+                "name": "Phương Pháp Luận (gồm Nghiên Cứu Khoa Học)",
+                "credit": "2"
+            },
+            {
+                "id": "COM 101",
+                "name": "Nói & Trình Bày (tiếng Việt)",
+                "credit": "2"
+            },
+            {
+                "id": "CS 101",
+                "name": "Tin Học Đại Cương",
+                "credit": "3"
+            },
+            {
+                "id": "MTH 101",
+                "name": "Toán Cao Cấp C1",
+                "credit": "3"
+            },
+            {
+                "id": "HIS 221",
+                "name": "Lịch Sử Văn Minh Thế Giới 1",
+                "credit": "2"
+            },
+            {
+                "id": "DTE-IT 102",
+                "name": "Hướng Nghiệp 1",
+                "credit": "1"
+            }
+        ]
+    },
+    {
+        "semester": "Học Kỳ 2 - Năm 1 - Đại Học",
+        "subjects": [
+            {
+                "id": "CS 201",
+                "name": "Tin Học Ứng Dụng",
+                "credit": "3"
+            },
+            {
+                "id": "MTH 102",
+                "name": "Toán Cao Cấp C2",
+                "credit": "2"
+            },
+            {
+                "id": "EVR 205",
+                "name": "Sức Khỏe Môi Trường",
+                "credit": "2"
+            },
+            {
+                "id": "CS 100",
+                "name": "Giới Thiệu về Khoa Học Máy Tính",
+                "credit": "1"
+            },
+            {
+                "id": "STA 151",
+                "name": "Lý Thuyết Xác Suất & Thống Kê Toán",
+                "credit": "3"
+            },
+            {
+                "id": "CS 211",
+                "name": "Lập Trình Cơ Sở",
+                "credit": "4"
+            },
+            {
+                "id": "ENG 116",
+                "name": "Reading - Level 1",
+                "credit": "1"
+            },
+            {
+                "id": "ENG 117",
+                "name": "Writing - Level 1",
+                "credit": "1"
+            },
+            {
+                "id": "DTE-IT 152",
+                "name": "Hướng Nghiệp 2",
+                "credit": "1"
+            }
+        ]
+    },
+    {
+        "semester": "Học Kỳ 1 - Năm 2 - Đại Học",
+        "subjects": [
+            {
+                "id": "COM 102",
+                "name": "Viết (tiếng Việt)",
+                "credit": "2"
+            },
+            {
+                "id": "PHI 161",
+                "name": "Những Nguyên Lý Cơ Bản của Chủ Nghĩa Marx - Lenin 1",
+                "credit": "2"
+            },
+            {
+                "id": "CS 311",
+                "name": "Lập Trình Hướng Đối Tượng",
+                "credit": "4"
+            },
+            {
+                "id": "CS 297",
+                "name": "Đồ Án CDIO",
+                "credit": "1"
+            },
+            {
+                "id": "ENG 118",
+                "name": "Listening - Level 1",
+                "credit": "1"
+            },
+            {
+                "id": "ENG 119",
+                "name": "Speaking - Level 1",
+                "credit": "1"
+            },
+            {
+                "id": "ENG 166",
+                "name": "Reading - Level 2",
+                "credit": "1"
+            },
+            {
+                "id": "ENG 167",
+                "name": "Writing - Level 2",
+                "credit": "1"
+            },
+            {
+                "id": "STA 285",
+                "name": "Probability Theory, Random Processes and Statistical\n                                                                Inference",
+                "credit": "4"
+            }
+        ]
+    },
+    {
+        "semester": "Học Kỳ 2 - Năm 2 - Đại Học",
+        "subjects": [
+            {
+                "id": "MTH 254",
+                "name": "Toán Rời Rạc & Ứng Dụng",
+                "credit": "3"
+            },
+            {
+                "id": "CS 316",
+                "name": "Giới Thiệu Cấu Trúc Dữ Liệu & Giải Thuật",
+                "credit": "3"
+            },
+            {
+                "id": "IS 301",
+                "name": "Cơ Sở Dữ Liệu",
+                "credit": "3"
+            },
+            {
+                "id": "CS 226",
+                "name": "Hệ Điều Hành Unix / Linux",
+                "credit": "2"
+            },
+            {
+                "id": "ENG 168",
+                "name": "Listening - Level 2",
+                "credit": "1"
+            },
+            {
+                "id": "ENG 169",
+                "name": "Speaking - Level 2",
+                "credit": "1"
+            },
+            {
+                "id": "ENG 216",
+                "name": "Reading - Level 3",
+                "credit": "1"
+            },
+            {
+                "id": "ENG 217",
+                "name": "Writing - Level 3",
+                "credit": "1"
+            },
+            {
+                "id": "MTH 383",
+                "name": "Linear Algebra for Data Science",
+                "credit": "3"
+            }
+        ]
+    },
+    {
+        "semester": "Học Kỳ 1 - Năm 3 - Đại Học",
+        "subjects": [
+            {
+                "id": "CR 250",
+                "name": "Nền Tảng Hệ Thống Máy Tính",
+                "credit": "3"
+            },
+            {
+                "id": "CS 303",
+                "name": "Phân Tích & Thiết Kế Hệ Thống",
+                "credit": "3"
+            },
+            {
+                "id": "CS 466",
+                "name": "Perl & Python",
+                "credit": "2"
+            },
+            {
+                "id": "ENG 218",
+                "name": "Listening - Level 3",
+                "credit": "1"
+            },
+            {
+                "id": "ENG 219",
+                "name": "Speaking - Level 3",
+                "credit": "1"
+            },
+            {
+                "id": "DS 321",
+                "name": "Machine Learning 1",
+                "credit": "3"
+            },
+            {
+                "id": "DS 303",
+                "name": "Principles of Big Data",
+                "credit": "3"
+            },
+            {
+                "id": "DS 347",
+                "name": "Đồ Án CDIO",
+                "credit": "1"
+            }
+        ]
+    },
+    {
+        "semester": "Học Kỳ 2 - Năm 3 - Đại Học",
+        "subjects": [
+            {
+                "id": "POS 361",
+                "name": "Tư Tưởng Hồ Chí Minh",
+                "credit": "2"
+            },
+            {
+                "id": "CS 252",
+                "name": "Mạng Máy Tính",
+                "credit": "3"
+            },
+            {
+                "id": "IS 384",
+                "name": "Kỹ Thuật Thương Mại Điện Tử (ASP.NET)",
+                "credit": "3"
+            },
+            {
+                "id": "CS 353",
+                "name": "Phân Tích & Thiết Kế Hướng Đối Tượng",
+                "credit": "2"
+            },
+            {
+                "id": "DS 371",
+                "name": "Machine Learning 2",
+                "credit": "3"
+            },
+            {
+                "id": "ENG 337",
+                "name": "Anh Văn Chuyên Ngành Công Nghệ Thông Tin",
+                "credit": "2"
+            },
+            {
+                "id": "DS 397",
+                "name": "Đồ Án CDIO",
+                "credit": "1"
+            }
+        ]
+    },
+    {
+        "semester": "Học Kỳ 1 - Năm 4 - Đại Học",
+        "subjects": [
+            {
+                "id": "DTE 201",
+                "name": "Đạo Đức trong Công Việc",
+                "credit": "2"
+            },
+            {
+                "id": "CS 420",
+                "name": "Hệ Phân Tán (J2EE, .NET)",
+                "credit": "3"
+            },
+            {
+                "id": "CS 414",
+                "name": "Lập Trình Winforms: VB.NET / C#.NET",
+                "credit": "3"
+            },
+            {
+                "id": "DS 423",
+                "name": "Machine Learning with Large Datasets",
+                "credit": "3"
+            },
+            {
+                "id": "DS 441",
+                "name": "Blockchain: Theory & Practices",
+                "credit": "3"
+            },
+            {
+                "id": "DS 447",
+                "name": "Đồ Án CDIO",
+                "credit": "1"
+            }
+        ]
+    },
+    {
+        "semester": "Học Kỳ 2 - Năm 4 - Đại Học",
+        "subjects": [
+            {
+                "id": "PHI 162",
+                "name": "Những Nguyên Lý Cơ Bản của Chủ Nghĩa Marx - Lenin 2",
+                "credit": "3"
+            },
+            {
+                "id": "HIS 361",
+                "name": "Đường Lối Cách Mạng của Đảng Cộng Sản Việt Nam",
+                "credit": "3"
+            },
+            {
+                "id": "CS 448",
+                "name": "Thực Tập Tốt Nghiệp",
+                "credit": "3"
+            },
+            {
+                "id": "CS 417",
+                "name": "Trí Tuệ Nhân Tạo (Biểu Diễn & Giải Thuật)",
+                "credit": "3"
+            },
+            {
+                "id": "CS 434",
+                "name": "Công Cụ & Phương Pháp Thiết Kế - Quản Lý (Phần Mềm)",
+                "credit": "2"
+            },
+            {
+                "id": "DS 445",
+                "name": "Đồ Án Chuyên Ngành: Khoa Học Dữ Liệu",
+                "credit": "1"
+            }
+        ]
+    }
+]
