@@ -1,6 +1,8 @@
 from http.cookiejar import CookieJar
+from typing import Dict
 from bs4 import BeautifulSoup
 from firebase import firebase
+from class_DTUCrawler import *
 
 import browser_cookie3
 import webbrowser
@@ -122,10 +124,6 @@ class DTUFirebase:
     URL = 'https://cs4rsa-default-rtdb.firebaseio.com/'
     FIREBASE_APP = firebase.FirebaseApplication(URL, None)
 
-    def get(self):
-        result = self.FIREBASE_APP.get('/users', None)
-        return type(result)
-        
-if __name__ == "__main__":
-    dtu = DTUFirebase()
-    print(dtu.get())
+    def appendStudentData(self, studentData):
+        result = self.FIREBASE_APP.put_async('/users', data=studentData, params={'print': 'silent'}, name=studentData['student_id'])
+        print(result)
