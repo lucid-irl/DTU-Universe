@@ -58,7 +58,7 @@ class DTULogin:
         try:
             logging.info('Check request, cookies, server')
             url = 'https://mydtu.duytan.edu.vn/Sites/index.aspx?p=home_timetable&functionid=13', 
-            DTURequest = requests.get(url, cookies=ASPNETSessionIdDict, headers=CHROME_HEADER)
+            DTURequest = requests.get(url, cookies=ASPNETSessionIdDict, headers=self.CHROME_HEADER)
             if DTURequest.status_code == 200:
                 if self.isHomePageDTU(DTURequest.text):
                     return True

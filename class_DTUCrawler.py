@@ -1,5 +1,5 @@
 from bs4.element import ResultSet
-from class_DTUWeb import *
+from class_DTUWeb import DTUSession
 from typing import Dict, List
 from bs4 import BeautifulSoup
 
