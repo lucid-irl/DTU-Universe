@@ -40,3 +40,6 @@ class ConvertThisQObject:
 
     def toQFrame(self) -> QFrame:
         return self.object
+
+    def toQComboBox(self) -> QComboBox:
+        return self.object
