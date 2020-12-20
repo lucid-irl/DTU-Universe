@@ -224,6 +224,7 @@ background: transparent;
 
 QPushButton::hover{
 	background-color: rgb(0, 255, 0);
+	border: 1px solid rgb(0, 225, 0);
 }</string>
               </property>
               <property name="text">
@@ -252,7 +253,8 @@ QPushButton::hover{
 }
 
 QPushButton::hover{
-	background-color: yellow;
+	background-color: rgb(255, 255, 0);
+	border: 1px solid rgb(225, 225, 0);
 }</string>
               </property>
               <property name="text">
@@ -291,7 +293,8 @@ QPushButton::hover{
 }
 
 QPushButton::hover {
-	background: red;
+	background: rgb(255, 0, 0);
+	border: 1px solid rgb(225, 0, 0);
 }</string>
               </property>
               <property name="text">
@@ -1103,7 +1106,7 @@ background-color: #ffffff;
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>279</width>
+                       <width>283</width>
                        <height>355</height>
                       </rect>
                      </property>
@@ -1141,6 +1144,12 @@ background-color: #2980b9;
             </item>
             <item>
              <widget class="QFrame" name="frame_center">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="styleSheet">
                <string notr="true">/*scroll bar*/
 QScrollBar:vertical {
@@ -1213,22 +1222,22 @@ background-color: rgb(248, 248, 248);
               <property name="frameShadow">
                <enum>QFrame::Raised</enum>
               </property>
-              <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0,0">
+              <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0">
                <item>
                 <widget class="QTableWidget" name="tableWidget_lichHoc">
                  <property name="enabled">
                   <bool>true</bool>
                  </property>
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
                  <property name="minimumSize">
                   <size>
-                   <width>710</width>
-                   <height>600</height>
+                   <width>0</width>
+                   <height>0</height>
                   </size>
                  </property>
                  <property name="maximumSize">
@@ -1431,63 +1440,6 @@ background-color: rgb(248, 248, 248);
                    <string>Chủ Nhật</string>
                   </property>
                  </column>
-                </widget>
-               </item>
-               <item>
-                <widget class="QFrame" name="frame_2">
-                 <property name="styleSheet">
-                  <string notr="true">QWidget {
-background-color: rgb(255, 255, 255);
-}
-
-
-QFrame#frame_2{
-border: 1px solid #ced6e0;
-}</string>
-                 </property>
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <layout class="QVBoxLayout" name="verticalLayout_4">
-                  <item>
-                   <widget class="QLabel" name="label_info">
-                    <property name="font">
-                     <font>
-                      <family>Segoe UI</family>
-                      <pointsize>9</pointsize>
-                      <weight>50</weight>
-                      <bold>false</bold>
-                     </font>
-                    </property>
-                    <property name="text">
-                     <string>Thông tin thêm</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QTextEdit" name="textEdit_thongtin">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="styleSheet">
-                     <string notr="true">QTextEdit {
-background-color: rgb(243, 243, 243);
-border: 1px solid #ced6e0;
-}
-</string>
-                    </property>
-                    <property name="readOnly">
-                     <bool>true</bool>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
                 </widget>
                </item>
               </layout>
