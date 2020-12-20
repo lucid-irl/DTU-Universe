@@ -1,4 +1,3 @@
-from os.path import basename
 from Crawl import Get_Url
 from PyQt5.QtCore import QThread, pyqtSignal
 from DataToExcel import CreateExcel

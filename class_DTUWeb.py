@@ -1,6 +1,8 @@
 from http.cookiejar import CookieJar
+from typing import Dict
 from bs4 import BeautifulSoup
 from firebase import firebase
+from class_DTUCrawler import *
 
 import browser_cookie3
 import webbrowser
@@ -56,7 +58,7 @@ class DTULogin:
         try:
             logging.info('Check request, cookies, server')
             url = 'https://mydtu.duytan.edu.vn/Sites/index.aspx?p=home_timetable&functionid=13', 
-            DTURequest = requests.get(url, cookies=ASPNETSessionIdDict, headers=CHROME_HEADER)
+            DTURequest = requests.get(url, cookies=ASPNETSessionIdDict, headers=self.CHROME_HEADER)
             if DTURequest.status_code == 200:
                 if self.isHomePageDTU(DTURequest.text):
                     return True
@@ -71,20 +73,7 @@ class DTUSession:
     """Đảm nhận việc tạo Session và requests. Tham số truyền vào bắt buộc là ASP.NET_SessionId."""
 
     CHROME_HEADER = {
-        ':authority': 'mydtu.duytan.edu.vn',
-        ':scheme': 'https',
-        'accept': 'text/html, */*; q=0.01',
-        'accept-encoding': 'gzip, deflate, br',
-        'accept-language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
-        'content-length': '7',
-        'content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-        'dnt': '1',
-        'origin': 'https://mydtu.duytan.edu.vn',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-origin',
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36',
-        'x-requested-with': 'XMLHttpRequest'
     }
 
     def __init__(self, ASPNETSessionIdDict: dict):
@@ -135,10 +124,6 @@ class DTUFirebase:
     URL = 'https://cs4rsa-default-rtdb.firebaseio.com/'
     FIREBASE_APP = firebase.FirebaseApplication(URL, None)
 
-    def get(self):
-        result = self.FIREBASE_APP.get('/users', None)
-        return type(result)
-        
-if __name__ == "__main__":
-    dtu = DTUFirebase()
-    print(dtu.get())
+    def appendStudentData(self, studentData):
+        result = self.FIREBASE_APP.put_async('/users', data=studentData, params={'print': 'silent'}, name=studentData['student_id'])
+        print(result)

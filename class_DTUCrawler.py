@@ -1,8 +1,7 @@
 from bs4.element import ResultSet
-from class_DTUWeb import *
+from class_DTUWeb import DTUSession
 from typing import Dict, List
 from bs4 import BeautifulSoup
-from PyQt5.QtWidgets import *
 
 import logging
 import base64
@@ -23,52 +22,55 @@ class DTUInfoStudent(DTUSession):
         Sau khi đăng nhập xong, tự động chạy phương thức `getSpecialStudentID()` lấy
         specialNumber."""
         super().__init__(ASPNETSessionIdDict)
+        self.__soup = BeautifulSoup(self.__getPage(), 'lxml')
         self.specialNumber = self.getSpecialStudentID()
+
+    def __getPage(self):
+        return self.get(self.page_studyingwarning).text
+
+    def getMentor(self):
+        return str(self.__soup.find('div', class_='mentorname').text).split(':')[1].strip()
 
     def getSpecialStudentID(self):
         """Trả về chuỗi đặc biệt được hash bởi một phương thức đặc biệt từ mã sinh viên."""
         logging.info('get special id')
-        html = self.get(self.page_studyingwarning)
-        soup = BeautifulSoup(html, 'lxml')
-        warningTable = soup.find(class_='tbresult')
+        warningTable = self.__soup.find(class_='tbresult')
         tdHaveSpecialID = warningTable('td')[2]
         onClickValue = tdHaveSpecialID.span['onclick']
         return str(onClickValue).split("'")[1]
 
-    def getStudentInfo(self) -> Dict:
-        """Trả về một dict chứa thông tin cơ bản của sinh viên."""
+    def getJson(self) -> Dict:
+        """Trả về JSON chứa thông tin sinh viên."""
         logging.info('get student infomation')
         specialStudentID = self.getSpecialStudentID()
-        html = self.get(self.page_warningDetail, params={'stid':specialStudentID})
+        html = self.get(self.page_warningDetail, params={'stid':specialStudentID}).text
         soup = BeautifulSoup(html, 'lxml')
         warningTable = soup.find('table')
         tdList = warningTable('td')
         username = tdList[1].strong.text
-        avatarBase64 = tdList[2].img['src']
+        # avatarBase64 = tdList[2].img['src']
         studentID = tdList[4].text
         birthday = str(tdList[6].text).strip()
         cmnd = tdList[8].text
         dtuMail = tdList[10].a.text
         numberPhone = tdList[12].text
-        location = tdList[15].text
-        output = {
-            'username':username,
-            'studentID':studentID,
-            'birthday':birthday,
-            'cmnd':cmnd,
-            'dtuMail':dtuMail,
-            'numberPhone':numberPhone,
-            'location':location
-        }
-        return output
+        location = str(tdList[15].text).strip()
+        return {
+                'student_id':studentID,
+                'username':username,
+                'special_number':self.getSpecialStudentID(),
+                'birthday':birthday,
+                'cmnd':cmnd,
+                'email':dtuMail,
+                'number_phone':numberPhone,
+                'location':location,
+                'mentor':self.getMentor(),
+                'degree':self.getDegree()
+            }
 
-    def getMajor(self) -> Dict:
-        """Trả về một dict là ngành học của sinh viên."""
-        logging.info('get major')
-        html = self.post(self.page_loadChuongTrinhHoc, {'studentidnumber':self.specialNumber})
-        soup = BeautifulSoup(html,'lxml')
-        ul = soup.find('ul',class_='tabNavigation')
-        return str(ul.li.a.text).strip()
+    def getDegree(self):
+        tableTag = self.__soup.find('table', class_='tbresult')
+        return str(tableTag('td')[3].a.text).strip()
 
 
     @staticmethod
@@ -228,17 +230,18 @@ class DTUSubjectSCore:
 
     def getJson(self):
         return {
-            "maMon": self.__maMon,      
-            "maLop": self.__maLop,
-            "hinhThuc": self.__hinhThuc,
-            "tenMon": self.__tenMon,
-            "soDonViHocTap": self.__soDonViHocTap,
-            "loaiDonViHocTap": self.__loaiDonViHocTap,
-            "diemGoc": self.__diemGoc,
-            "diemChu": self.__diemChu,
-            "diemQuyDoi": self.__diemQuyDoi,
-            "diemTichLuy": self.__diemTichLuy
-        }
+                self.__maMon:{
+                    "maLop": self.__maLop,
+                    "hinhThuc": self.__hinhThuc,
+                    "tenMon": self.__tenMon,
+                    "soDonViHocTap": self.__soDonViHocTap,
+                    "loaiDonViHocTap": self.__loaiDonViHocTap,
+                    "diemGoc": self.__diemGoc,
+                    "diemChu": self.__diemChu,
+                    "diemQuyDoi": self.__diemQuyDoi,
+                    "diemTichLuy": self.__diemTichLuy
+                    }
+                }
     
     def showSubjectScore(self):
         """In thông tin điểm số của môn này ra màn hình."""
@@ -252,20 +255,27 @@ class DTUSubjectSCore:
 class DTUSemesterScore:
     """Bảng điểm trong một kỳ học."""
 
-    def __init__(self, html) -> None:
+    def __init__(self, html, id, description) -> None:
         """Nhận vào HTML Page tương ứng với học kỳ đó."""
+        self.__id = id
+        self.__description = description
         self.__soup = BeautifulSoup(html, 'lxml')
         self.__listTrTagsWithClassDiem = self.__soup.find_all('tr', class_='diem')
         self.__listTrTagsWithClassFooter = self.__soup.find_all('tr', class_='footer')
 
     def getJson(self):
         """Nhận về một json chứa toàn bộ thông tin điểm số của một học kỳ."""
-        detailScore = [subjectScore.getJson() for subjectScore in self.getAllDTUSubjectScore()]
+        detailScore = {}
+        for subjectScore in self.getAllDTUSubjectScore():
+            detailScore.update(subjectScore.getJson())
         summaryScore = self.getSummaryScore().getJson()
         return {
-            "detailScore":detailScore,
-            "summaryScore":summaryScore
-        }
+                self.__id: {
+                    "detail":detailScore,
+                    "summary":summaryScore,
+                    "description":self.__description
+                    }
+                }
 
     def getSujectAt(self, index) -> DTUSubjectSCore:
         """Trả về một DTUSubjectScore tại hàng chỉ định. Nếu không trả về None."""
@@ -313,7 +323,10 @@ class DTUSemesterScore:
             subjectScore = DTUSubjectSCore()
             subjectScore.maMon = str(trTag.td.div.text).strip()
             subjectScore.maLop = str(trTag('td')[1].div.div.text).strip()
-            subjectScore.hinhThuc = str(trTag('td')[2].div.text).strip()
+            if str(trTag('td')[2].div.text).strip():
+                subjectScore.hinhThuc = str(trTag('td')[2].div.text).strip()
+            else:
+                subjectScore.hinhThuc = 'NaN'
             subjectScore.tenMon = str(trTag('td')[3].div.text).strip()
             subjectScore.soDonViHocTap = int(str(trTag('td')[4].div.text).strip())
             subjectScore.loaiDonViHocTap = str(trTag('td')[5].div.text).strip()
@@ -336,6 +349,7 @@ class DTUSemesterScore:
     def getSummaryScore(self):
         """Trả về một DTUSummaryScore đại diện cho điểm tổng kết của học kỳ này."""
         return DTUSummaryScore(self.__listTrTagsWithClassFooter)
+
 
 class DTUStudentScore(DTUSession):
     """Crawl thông tin bảng điểm của sinh viên."""
@@ -382,10 +396,12 @@ class DTUStudentScore(DTUSession):
 
     def getDTUSemesterScores(self) -> List[DTUSemesterScore]:
         """Trả về một list chứa các DTUSemesterScore."""
+        infoes = self.getSemesterInfo()
         self.output = []
-        for listParam in self.__listSemesterParam:
-            html = self.__getScoreTableHTMLPage(listParam[1], listParam[2], self.specialNumber)
-            self.output.append(DTUSemesterScore(html))
+        for i in range(len(self.__listSemesterParam)):
+            description = infoes[i]
+            html = self.__getScoreTableHTMLPage(self.__listSemesterParam[i][1], self.__listSemesterParam[i][2], self.specialNumber)
+            self.output.append(DTUSemesterScore(html, i, description))
         return self.output
 
     def getSummary(self) -> Dict[str,str]:
@@ -414,10 +430,12 @@ class DTUStudentScore(DTUSession):
         rootMeanForAllSemester = {
             'description':str(listTrTagWithClassFooter[4].td.b.text).strip(),
             'number': float(str(listTrTagWithClassFooter[4]('td')[1].div.b.text)),
+            'unit':'NaN'
         }
         accumulateMeanForAllSemester = {
             'description':str(listTrTagWithClassFooter[5].td.b.text).strip(),
             'number': float(str(listTrTagWithClassFooter[5]('td')[1].div.b.text)),
+            'unit':'NaN'
         }
         totalCreditPassNotScored = {
             'description':str(listTrTagWithClassFooter[6].td.text).strip(),
@@ -449,14 +467,35 @@ class DTUStudentScore(DTUSession):
 
     def getJson(self):
         """Trả về cấu trúc JSON của toàn bộ bảng điểm."""
-        semesters = []
-        semesterInfoes = self.getSemesterInfo()
-        semesterInfoes.pop(-1)
-        listDTUSemesterScore = self.getDTUSemesterScores()
-        for i in range(len(semesterInfoes)):
-            info = {"nameSemester":semesterInfoes[i], "semesterScore":listDTUSemesterScore[i].getScoreJson()}
-            semesters.append(info)
+        semesters = {}
+        for semesterScore in self.getDTUSemesterScores():
+            semesters.update(semesterScore.getJson())
+        self.getSummary()
         return {
-            'semesters':semesters,
-            'summary':self.getSummary()
-        }
+                "score_table": {
+                    "semesters":semesters,
+                    "summary":self.getSummary()
+                    }
+                }
+
+
+class DTUGetAll:
+
+    def __init__(self, ASPNETSessionIdDict, specialNumber) -> None:
+        self.ASPNETSessionIdDict = ASPNETSessionIdDict
+        self.specialNumber = specialNumber
+
+    def getJson(self):
+        dtusc = DTUStudentScore(ASPNETSessionIdDict=self.ASPNETSessionIdDict,specialNumber=self.specialNumber)
+        dtust = DTUInfoStudent(self.ASPNETSessionIdDict)
+        jsonOut = dtust.getJson()
+        jsonOut.update(dtusc.getJson())
+        return jsonOut
+
+    def toFile(self, JSONFilename: str = 'DTUGetAll_info.json'):
+        try:
+            logging.info('toFile() --> {0}'.format(JSONFilename))
+            with open(JSONFilename, 'w', encoding='utf-8') as f:
+                json.dump(self.getJson(), f)
+        except:
+            print('Can not write info on {0}'.format(JSONFilename))

@@ -36,7 +36,7 @@ class Main(QWidget):
         super(Main, self).__init__()
         self.mainwindow = mainwindow
         self.setWindowTitle('CS4RSA')
-        self.setWindowFlag(Qt.FramelessWindowHint)
+        # self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.semester = Semester()
         uic.loadUi(team_config.FOLDER_UI+'/'+team_config.USE_UI, self)
@@ -69,7 +69,6 @@ class Main(QWidget):
         self.checkBox_phase1 = ConvertThisQObject(self, QCheckBox, 'checkBox_giaiDoan1').toQCheckBox()
         self.checkBox_phase2 = ConvertThisQObject(self, QCheckBox, 'checkBox_giaiDoan2').toQCheckBox()
 
-        self.textEdit_thongtin = ConvertThisQObject(self, QTextEdit, 'textEdit_thongtin').toQTextEdit()
         self.textEdit_thongke = ConvertThisQObject(self, QTextEdit, 'textEdit_thongke').toQTextEdit()
 
         self.table_Semeter = ConvertThisQObject(self, QTableWidget, 'tableWidget_lichHoc').toQTableWidget()
@@ -81,12 +80,13 @@ class Main(QWidget):
         self.scroll_buttonWeek.setWidget(self.widget_buttonWeekContainer)
         self.scroll_buttonWeek.setWidgetResizable(True)
 
-        # center window
-        self.WINDOW_INIT_SIZE = self.size()
+        # resize and center window
+        width = (QDesktopWidget().size().width()/100)*80
+        height = (QDesktopWidget().size().height()/100)*80
         centerPoint = QDesktopWidget().availableGeometry().center()
-        self.hopePointX = centerPoint.x() - self.WINDOW_INIT_SIZE.width()/2
-        self.hopePointY = centerPoint.y() - self.WINDOW_INIT_SIZE.height()/2
-        self.qrect = QRect(self.hopePointX, self.hopePointY, self.WINDOW_INIT_SIZE.width(), self.WINDOW_INIT_SIZE.height())
+        self.hopePointX = centerPoint.x() - width/2
+        self.hopePointY = centerPoint.y() - height/2
+        self.qrect = QRect(self.hopePointX, self.hopePointY, width, height)
         self.setGeometry(self.qrect)
         self.WINDOW_IS_MAXIMIZED = False
 
@@ -104,8 +104,6 @@ class Main(QWidget):
         self.button_maximum.clicked.connect(self.maximum)
         self.button_minimum.clicked.connect(self.minimum)
         self.button_menu.clicked.connect(self.expandNavbar)
-        self.listView_SubjectDownloaded.itemClicked.connect(self.showInfoSubject)
-        self.listView_SubjectChoiced.itemClicked.connect(self.showInfoSubject)
         
         # Các đối tượng dữ liệu
         self.semester.signal_indexChanged.connect(lambda: self.loadButtonWeekContainer(
@@ -333,7 +331,6 @@ class Main(QWidget):
                 'Có vẻ như gặp lỗi trong quá trình cập nhật.')
 
     def fillDataToSubjectFound(self, e):
-        self.textEdit_thongtin.clear()
         wb = xlrd.open_workbook(e)
         sheet = wb.sheet_by_index(0)
         
@@ -357,7 +354,6 @@ class Main(QWidget):
         """Tìm môn học."""
         self.SUBJECT_FOUND.clear()
         self.listView_SubjectDownloaded.clear()
-        self.textEdit_thongtin.clear()
         subject_name = self.line_findSubject.text()
         file_name = team_config.FOLDER_SAVE_EXCEL+'/'+subject_name+'.xls'
 
@@ -447,14 +443,6 @@ class Main(QWidget):
                 output.append(i)
             i+=1
         return output
-
-
-    # Các phương thức phục vụ testing
-    def showInfoSubject(self, e):
-        self.textEdit_thongtin.clear()
-        subject = e.data(Qt.UserRole)
-        self.textEdit_thongtin.setText(subject.getInfo())
-
 
     # Các hộp thoại thông báo, được chúng tôi gọi là message
     def messageError(self):

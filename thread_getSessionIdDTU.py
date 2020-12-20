@@ -6,6 +6,17 @@ from class_DTUWeb import DTULogin
 
 
 class ThreadGetSessionIdDTU(QThread):
+    """Khi triển khai Thread này bạn cần kết nối đầy đủ các signal được mô tả dưới đây với những behavior tương ứng.
+    @signal_havedSessionId: Phát hiện được ASP.NET_SessionId của người dùng. Thứ được emit cùng với signal là
+    sessionId đúng của người dùng là một dict như sau:
+
+    `{'ASP.NET_SessionId':value}`
+    
+    @signal_somethingError: Có lỗi tất cả vấn đề thuộc về máy chủ, mạng mọc hoặc ASP.NET_SessionId.
+    
+    @signal_chromeIsNotFound: Chrome chưa được cài đặt trên máy tính.
+    
+    @signal_requestLogin: Yêu cầu người dùng đăng nhập."""
 
     signal_havedSessionId = pyqtSignal('PyQt_PyObject')
     signal_somethingError = pyqtSignal('PyQt_PyObject')
@@ -29,17 +40,3 @@ class ThreadGetSessionIdDTU(QThread):
                 self.signal_requestLogin.emit(True)
         else:
             self.signal_chromeIsNotFound.emit(True)
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    def close(mess):
-        print(mess)
-        app.exit(1)
-    thread = ThreadGetSessionIdDTU()
-    thread.signal_havedSessionId.connect(lambda s: close('day la session id: {0}'.format(s)))
-    thread.signal_somethingError.connect(lambda: close('gap van de ve may chu hoac cookie'))
-    thread.signal_requestLogin.connect(lambda: close('yeu cau dang nhap'))
-    thread.signal_chromeIsNotFound.connect(lambda: close('yeu cau cai dat Chrome'))
-    thread.start()
-    app.exec()
