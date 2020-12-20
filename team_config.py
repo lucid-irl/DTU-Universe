@@ -9,6 +9,7 @@ FOLDER_SAVE_EXCEL = "Data"
 FOLDER_UI = "GUI"
 USE_UI = "main.ui"
 CALENDAR_CHOICE_UI = 'calendarChoicer.ui'
+PREDICT_SUBJECT = 'predict_subject.ui'
 
 # RELATIVE PATH UI
 USE_UI_PATH = FOLDER_UI+'/'+USE_UI
