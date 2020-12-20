@@ -2,7 +2,6 @@ from bs4.element import ResultSet
 from class_DTUWeb import *
 from typing import Dict, List
 from bs4 import BeautifulSoup
-from PyQt5.QtWidgets import *
 
 import logging
 import base64
@@ -56,25 +55,22 @@ class DTUInfoStudent(DTUSession):
         dtuMail = tdList[10].a.text
         numberPhone = tdList[12].text
         location = str(tdList[15].text).strip()
-        output = {studentID:{
-            'username':username,
-            'special_number':self.getSpecialStudentID(),
-            'birthday':birthday,
-            'cmnd':cmnd,
-            'email':dtuMail,
-            'number_phone':numberPhone,
-            'location':location,
-            'mentor':self.getMentor()
-        }}
-        return output
+        return {
+                'student_id':studentID,
+                'username':username,
+                'special_number':self.getSpecialStudentID(),
+                'birthday':birthday,
+                'cmnd':cmnd,
+                'email':dtuMail,
+                'number_phone':numberPhone,
+                'location':location,
+                'mentor':self.getMentor(),
+                'degree':self.getDegree()
+            }
 
-    def getMajor(self) -> Dict:
-        """Trả về một dict là ngành học của sinh viên."""
-        logging.info('get major')
-        html = self.post(self.page_loadChuongTrinhHoc, {'studentidnumber':self.specialNumber})
-        soup = BeautifulSoup(html,'lxml')
-        ul = soup.find('ul',class_='tabNavigation')
-        return str(ul.li.a.text).strip()
+    def getDegree(self):
+        tableTag = self.__soup.find('table', class_='tbresult')
+        return str(tableTag('td')[3].a.text).strip()
 
 
     @staticmethod
@@ -354,6 +350,7 @@ class DTUSemesterScore:
         """Trả về một DTUSummaryScore đại diện cho điểm tổng kết của học kỳ này."""
         return DTUSummaryScore(self.__listTrTagsWithClassFooter)
 
+
 class DTUStudentScore(DTUSession):
     """Crawl thông tin bảng điểm của sinh viên."""
 
@@ -480,3 +477,25 @@ class DTUStudentScore(DTUSession):
                     "summary":self.getSummary()
                     }
                 }
+
+
+class DTUGetAll:
+
+    def __init__(self, ASPNETSessionIdDict, specialNumber) -> None:
+        self.ASPNETSessionIdDict = ASPNETSessionIdDict
+        self.specialNumber = specialNumber
+
+    def getJson(self):
+        dtusc = DTUStudentScore(ASPNETSessionIdDict=self.ASPNETSessionIdDict,specialNumber=self.specialNumber)
+        dtust = DTUInfoStudent(self.ASPNETSessionIdDict)
+        jsonOut = dtust.getJson()
+        jsonOut.update(dtusc.getJson())
+        return jsonOut
+
+    def toFile(self, JSONFilename: str = 'DTUGetAll_info.json'):
+        try:
+            logging.info('toFile() --> {0}'.format(JSONFilename))
+            with open(JSONFilename, 'w', encoding='utf-8') as f:
+                json.dump(self.getJson(), f)
+        except:
+            print('Can not write info on {0}'.format(JSONFilename))
