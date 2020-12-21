@@ -14,20 +14,20 @@ def Get_Url(discipline: str, keyword1: str) -> str:
         'discipline': discipline, # F = 1 (ENG 116), F = 2 (CS 303)
         'keyword1': keyword1,
         'hocky': '70',
-        't': '1599613145426'
     }
 
     r = requests.get('http://courses.duytan.edu.vn/Modules/academicprogram/CourseResultSearch.aspx', parameters)
     soup = BeautifulSoup(r.text, 'html.parser')
 
     def XuLyUrlSub(url_sub: str) -> str:
+        print('url',url_sub)
         url = "http://courses.duytan.edu.vn/Modules/academicprogram/CourseClassResult.aspx?courseid=55&semesterid=70&timespan=70"
         courseid = url_sub[73:url_sub.find("×pan")]
         return url.replace(url[85:87], courseid)
+
     try:
         url_sub = soup.find_all(class_='hit')[2]['href']  # link sau khi press Search
-        url_sub = XuLyUrlSub(url_sub)
-        return url_sub
+        return XuLyUrlSub(url_sub)
     except:
         return None
 
@@ -191,3 +191,5 @@ def GetTeacher(soup):
 
     return GetListExistId(soup, result)
 
+if __name__ == "__main__":
+    print(Get_Url("PSU-FIN","301"))
