@@ -1,5 +1,5 @@
 from bs4.element import ResultSet
-from class_DTUWeb import DTUSession
+from class_DTUWeb import DTUFirebase, DTUSession
 from typing import Dict, List
 from bs4 import BeautifulSoup
 
@@ -496,6 +496,11 @@ class DTUGetAll:
         try:
             logging.info('toFile() --> {0}'.format(JSONFilename))
             with open(JSONFilename, 'w', encoding='utf-8') as f:
-                json.dump(self.getJson(), f)
+                json.dump(self.getJson(), f, ensure_ascii=False, indent=4)
         except:
             print('Can not write info on {0}'.format(JSONFilename))
+
+if __name__ == "__main__":
+    import me_info
+    js = DTUGetAll({'ASP.NET_SessionId':me_info.ASPNETSessionID}, me_info.specialNumber).getJson()
+    DTUFirebase().appendStudentData(js)
