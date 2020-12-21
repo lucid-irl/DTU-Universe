@@ -463,10 +463,12 @@ class Main(QWidget):
 
     def maximum(self):
         if self.WINDOW_IS_MAXIMIZED:
+            width = (QDesktopWidget().size().width()/100)*80
+            height = (QDesktopWidget().size().height()/100)*80
             centerPoint = QDesktopWidget().availableGeometry().center()
-            self.hopePointX = centerPoint.x() - self.WINDOW_INIT_SIZE.width()/2
-            self.hopePointY = centerPoint.y() - self.WINDOW_INIT_SIZE.height()/2
-            self.qrect = QRect(self.hopePointX, self.hopePointY, self.WINDOW_INIT_SIZE.width(), self.WINDOW_INIT_SIZE.height())
+            self.hopePointX = centerPoint.x() - width/2
+            self.hopePointY = centerPoint.y() - height/2
+            self.qrect = QRect(self.hopePointX, self.hopePointY, width, height)
             self.ani = QPropertyAnimation(self, b'geometry')
             self.ani.setDuration(500)
             self.ani.setEndValue(self.qrect)
