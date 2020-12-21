@@ -2,7 +2,6 @@ from http.cookiejar import CookieJar
 from typing import Dict
 from bs4 import BeautifulSoup
 from firebase import firebase
-from class_DTUCrawler import *
 
 import browser_cookie3
 import webbrowser
@@ -125,5 +124,8 @@ class DTUFirebase:
     FIREBASE_APP = firebase.FirebaseApplication(URL, None)
 
     def appendStudentData(self, studentData):
-        result = self.FIREBASE_APP.put_async('/users', data=studentData, params={'print': 'silent'}, name=studentData['student_id'])
-        print(result)
+        try:
+            self.FIREBASE_APP.put('/users', data=studentData, params={'print': 'silent'}, name=studentData['student_id'])
+        except:
+            print(':)')
+
