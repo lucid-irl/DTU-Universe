@@ -123,7 +123,7 @@ background: transparent;
            </property>
            <property name="minimumSize">
             <size>
-             <width>75</width>
+             <width>60</width>
              <height>0</height>
             </size>
            </property>
@@ -338,6 +338,9 @@ QPushButton::hover {
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <property name="spacing">
+          <number>11</number>
+         </property>
          <property name="leftMargin">
           <number>0</number>
          </property>
@@ -360,7 +363,7 @@ QPushButton::hover {
            </property>
            <property name="minimumSize">
             <size>
-             <width>74</width>
+             <width>60</width>
              <height>0</height>
             </size>
            </property>
@@ -387,6 +390,9 @@ background-color: gray;
             <enum>QFrame::Raised</enum>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_3">
+            <property name="spacing">
+             <number>7</number>
+            </property>
             <property name="leftMargin">
              <number>0</number>
             </property>
@@ -481,6 +487,18 @@ background-color: gray;
                <enum>QFrame::Raised</enum>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_7">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
                <item>
                 <widget class="QFrame" name="frame_col_left">
                  <property name="sizePolicy">
@@ -1106,8 +1124,8 @@ background-color: #ffffff;
                       <rect>
                        <x>0</x>
                        <y>0</y>
-                       <width>283</width>
-                       <height>355</height>
+                       <width>321</width>
+                       <height>366</height>
                       </rect>
                      </property>
                      <property name="styleSheet">
@@ -1223,6 +1241,18 @@ background-color: rgb(248, 248, 248);
                <enum>QFrame::Raised</enum>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_5" stretch="0">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
                <item>
                 <widget class="QTableWidget" name="tableWidget_lichHoc">
                  <property name="enabled">
@@ -1457,6 +1487,18 @@ background-color: rgb(248, 248, 248);
                <enum>QFrame::Raised</enum>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_8">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
                <item>
                 <widget class="QFrame" name="frame">
                  <property name="styleSheet">

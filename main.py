@@ -26,17 +26,15 @@ import sys
 class Main(QWidget):
     """Class này chỉ đảm nhiệm việc xử lý giao diện."""
 
-    CONTEXT_CURRENT_SUBJECT = None
     SUBJECT_FOUND = []
     WINDOW_IS_MAXIMIZED = False
-    WINDOW_INIT_SIZE = None
 
     # Các phương thức setting Giao diện bao gồm kết nối Signal, add Hot key,...
     def __init__(self, mainwindow: QMainWindow=None):
         super(Main, self).__init__()
         self.mainwindow = mainwindow
         self.setWindowTitle('CS4RSA')
-        # self.setWindowFlag(Qt.FramelessWindowHint)
+        self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.semester = Semester()
         uic.loadUi(team_config.FOLDER_UI+'/'+team_config.USE_UI, self)
@@ -470,7 +468,7 @@ class Main(QWidget):
             self.hopePointY = centerPoint.y() - height/2
             self.qrect = QRect(self.hopePointX, self.hopePointY, width, height)
             self.ani = QPropertyAnimation(self, b'geometry')
-            self.ani.setDuration(500)
+            self.ani.setDuration(300)
             self.ani.setEndValue(self.qrect)
             self.ani.setEasingCurve(QEasingCurve.InOutQuad)
             self.ani.start()
@@ -480,7 +478,7 @@ class Main(QWidget):
             self.screenRect = self.desktop.screenGeometry()
             self.screenRect.setHeight(self.screenRect.height()-50)
             self.ani = QPropertyAnimation(self, b'geometry')
-            self.ani.setDuration(500)
+            self.ani.setDuration(300)
             self.ani.setEndValue(self.screenRect)
             self.ani.setEasingCurve(QEasingCurve.InOutQuad)
             self.ani.start()
@@ -497,10 +495,10 @@ class Main(QWidget):
 
     def expandNavbar(self):
         init_frame_navi_width = self.frame_navi.width()
-        if init_frame_navi_width == 74:
+        if init_frame_navi_width == 60:
             newWidth = 200
         else:
-            newWidth = 74
+            newWidth = 60
         self.ani = QPropertyAnimation(self.frame_navi, b'minimumWidth')
         self.ani.setDuration(300)
         self.ani.setStartValue(init_frame_navi_width)
