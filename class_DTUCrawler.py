@@ -143,7 +143,7 @@ class DTUSummaryScore:
         }
 
 
-class DTUSubjectSCore:
+class DTUSubjectScore:
     """Đại diện cho một hàng thể hiện thông tin điểm số của một môn trong bảng điểm."""
 
     def __init__(self, maMon:str = None, maLop:str=None, hinhThuc:str=None, tenMon:str=None, soDonViHocTap:int=None,
@@ -160,7 +160,7 @@ class DTUSubjectSCore:
         self.__diemTichLuy = diemTichLuy
 
     def __str__(self):
-        return '<DTUSubjectSCore {0} {1}>'.format(self.maMon, self.tenMon)
+        return '<DTUSubjectScore {0} {1}>'.format(self.maMon, self.tenMon)
 
     @property
     def maMon(self):
@@ -277,11 +277,11 @@ class DTUSemesterScore:
                     }
                 }
 
-    def getSujectAt(self, index) -> DTUSubjectSCore:
+    def getSujectAt(self, index) -> DTUSubjectScore:
         """Trả về một DTUSubjectScore tại hàng chỉ định. Nếu không trả về None."""
         try:
             trTag = self.__listTrTagsWithClassDiem[index]
-            subjectScore = DTUSubjectSCore()
+            subjectScore = DTUSubjectScore()
             subjectScore.maMon = str(trTag.td.div.text).strip()
             subjectScore.maLop = str(trTag('td')[1].div.div.text).strip()
             subjectScore.hinhThuc = str(trTag('td')[2].div.text).strip()
@@ -296,12 +296,12 @@ class DTUSemesterScore:
         except:
             return None
 
-    def getDTUSubjectScore(self, subjectId: str) -> DTUSubjectSCore:
+    def getDTUSubjectScore(self, subjectId: str) -> DTUSubjectScore:
         """Trả về một DTUSubjectScore object đại diện cho thông tin điểm số của một môn học trong học kỳ này. 
         Nếu subjectId không tồn tại trả về None."""
         for trTag in self.__listTrTagsWithClassDiem:
             if re.search('({})'.format(subjectId),str(self.__listTrTagsWithClassDiem[0].td.div.text).strip()):
-                subjectScore = DTUSubjectSCore()
+                subjectScore = DTUSubjectScore()
                 subjectScore.maMon = str(trTag.td.div.text).strip()
                 subjectScore.maLop = str(trTag('td')[1].div.div.text).strip()
                 subjectScore.hinhThuc = str(trTag('td')[2].div.text).strip()
@@ -316,11 +316,11 @@ class DTUSemesterScore:
             else:
                 return None
 
-    def getAllDTUSubjectScore(self) -> List[DTUSubjectSCore]:
+    def getAllDTUSubjectScore(self) -> List[DTUSubjectScore]:
         """Trả về một list chứa tất cả các DTUSubjectScore có trong học kỳ này."""
         output = []
         for trTag in self.__listTrTagsWithClassDiem:
-            subjectScore = DTUSubjectSCore()
+            subjectScore = DTUSubjectScore()
             subjectScore.maMon = str(trTag.td.div.text).strip()
             subjectScore.maLop = str(trTag('td')[1].div.div.text).strip()
             if str(trTag('td')[2].div.text).strip():
