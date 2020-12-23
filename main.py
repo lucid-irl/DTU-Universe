@@ -109,7 +109,6 @@ class Main(QWidget):
                                                     self.semester.getCurrentSemesterIndex()))
 
         self.semester.singal_addSubject.connect(self.afterAddSubject)
-
         self.semester.signal_deleteSubject.connect(self.afterDeleteSubject)
 
     def addShortcut(self):
@@ -230,7 +229,6 @@ class Main(QWidget):
     def loadButtonWeekContainer(self, maxWeek, currentIndex):
         """Render các button để điều hướng trong các Tuần của Semester."""
         for i in reversed(range(self.flowlayout.count())):
-            # delete(self.flowlayout.itemAt(i).widget())
             self.flowlayout.itemAt(i).widget().deleteLater()
         if maxWeek == 0:
             self.flowlayout.clear()
@@ -238,12 +236,12 @@ class Main(QWidget):
         else:
             for index in range(maxWeek):
                 self.weekButton = QPushButton(str(index+1), self)
+                if index == self.semester.getCurrentSemesterIndex():
+                    self.weekButton.setStyleSheet('background-color: #2980b9; color: white;')
                 self.weekButton.setFixedWidth(40)
                 self.weekButton.setFixedHeight(40)
                 self.weekButton.clicked.connect(lambda b, value=index+1: self.gotoWeek(value))
                 self.flowlayout.addWidget(self.weekButton)
-            if currentIndex >= 0:
-                self.changeBackgroundWeekButton(self.semester.getCurrentSemesterIndex())
 
     def loadLabelWeek(self):
         if self.semester.getSubjects():
@@ -405,10 +403,6 @@ class Main(QWidget):
         for i in range(self.listView_SubjectDownloaded.count()):
             if self.listView_SubjectDownloaded.item(i).data(Qt.UserRole).getID() == subject.getID():
                 self.listView_SubjectDownloaded.item(i).setHidden(False)
-
-    def changeBackgroundWeekButton(self, index):
-        button = self.flowlayout.itemAt(index).widget()
-        button.setStyleSheet('background-color: #2980b9; color: white;')
 
 
     # Navigation in Semester
