@@ -29,7 +29,7 @@ def get_list_schedule_raw_from_html(html: str) -> List:
     return join_schedules
 
 
-def clean_SubTime(raw_sub_time: str):
+def cleanScheduleTime(raw_sub_time: str):
     """
     Hàm này nhận vào <td> element và trả về time có cấu trúc của Subject.
     Bộ datatest ở SubTimeTestHTML.
@@ -59,8 +59,3 @@ def clean_SubTime(raw_sub_time: str):
             index = anchor
             output.append(buoi_hoc)
     return output
-
-
-# if __name__ == "__main__":
-#     print(clean_SubTime(SubTimeTestHTML.markup4.markup))
-
