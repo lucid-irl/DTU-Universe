@@ -1,21 +1,39 @@
+"""Class Subject Crawler
+~~~~~~~~~~~~~~~~~~~~~~~~
+Chuyển dữ liệu từ HTML sang JSON."""
+
 import re
-from typing import List, Set, Text
+from typing import List, Set
 from bs4 import BeautifulSoup
 from bs4.element import Tag
-from cleanSubTime import clean_SubTime, get_list_schedule_raw_from_html
+from cleanSubTime import cleanScheduleTime
 from cs4rsa_helpfulFunctions import *
 
 import requests
-import os
-import sys
 import json
 
-class SubjectPage:
-    """Class này chịu trách nhiệm lấy URL HTML raw của một Subject page nào đó.
-    Ngoài ra nó còn có các phương thức chức năng để giải quyết các vấn đề về lưu file HTML và kiểm tra lịch học."""
 
-    def __init__(self, semester: int) -> None:
+class SubjectPage:
+    """Class này đại diện cho một course detail page bao gồm các thông tin về lịch lớp học.
+    Đảm bảo một request duy nhất tới server DTU.
+    
+    I. Class này ngay sau khi khởi tạo nó sẽ gửi một request tới server DTU để kiểm tra xem:
+    - Mã môn học có tồn tại hay không
+    - Nếu có thì tiếp tục gửi request tới trang HTML raw và kiểm tra xem có lịch lớp học hay không
+    
+    II. Các phương thức sau sẽ có thể được gọi sau đó:
+    - `toFile()` : Đưa SubjectPage thành một file HTML có tên như tên môn học
+    - `getPage()` : Lấy ra chuỗi HTML.
+    - `getSoup()`: Lấy ra soup được parse từ HTML."""
+
+    def __init__(self, semester: int, discipline: str, keyword1: str) -> None:
         self.semester = semester
+        self.discipline = discipline
+        self.keyword1 = keyword1
+        self.url = self.__getSubjectUrl(self.discipline, self.keyword1)
+        self.htmlPage = None
+        self.soup = None
+        self.isHaveSchedule = self.__isHaveSchedule(self.url)
 
     @staticmethod
     def __extractCourseId(url: str):
@@ -23,24 +41,16 @@ class SubjectPage:
         params = re.findall(r'=(.*?)&', url)
         return params[1]
 
-    @staticmethod
-    def toFile(url: str, filename: str):
-        """Lấy HTML của một URL truyền vào và ghi ra một file."""
-        r = requests.get(url)
-        with open(filename, 'w', encoding='utf-8') as f:
-            f.write(r.text)
-
-    @staticmethod
-    def isHaveSchedule(url):
+    def __isHaveSchedule(self, url):
         """Kiểm tra xem một URL tới trang HTML raw của Subject nào đó có lịch lớp học hay không. 
         Nếu có trả về True, ngược lại trả về False."""
-        htmlPage = requests.get(url).text
-        soup = BeautifulSoup(htmlPage, 'lxml')
-        if soup.find('span', {'class':'title','style':'color: #990000'}):
+        self.htmlPage = requests.get(url).text
+        self.soup = BeautifulSoup(self.htmlPage, 'lxml')
+        if self.soup.find('span', {'class':'title','style':'color: #990000'}):
             return False
         return True
 
-    def getSubjectUrl(self, discipline: str, keyword1: str):
+    def __getSubjectUrl(self, discipline: str, keyword1: str):
         """Trả về đường dẫn tới trang HTML raw của Subject.
         
         >>> sp = SubjectPage(70)
@@ -54,11 +64,43 @@ class SubjectPage:
         courseResultSearchUrl = 'http://courses.duytan.edu.vn/Modules/academicprogram/CourseResultSearch.aspx'
         page = requests.get(courseResultSearchUrl, params).text
         soup = BeautifulSoup(page,'lxml')
-        urlSub = soup.find_all(class_='hit')[2]['href'] 
-        courseId = SubjectPage.__extractCourseId(urlSub)
+        try:
+            urlSub = soup.find_all(class_='hit')[2]['href'] 
+            courseId = SubjectPage.__extractCourseId(urlSub)
 
-        urlOutput = "http://courses.duytan.edu.vn/Modules/academicprogram/CourseClassResult.aspx?courseid={0}&semesterid={1}&timespan={2}"
-        return urlOutput.format(courseId, self.semester, self.semester)
+            urlOutput = "http://courses.duytan.edu.vn/Modules/academicprogram/CourseClassResult.aspx?courseid={0}&semesterid={1}&timespan={2}"
+            return urlOutput.format(courseId, self.semester, self.semester)
+        except:
+            raise Exception('The subject code is wrong!!!')
+
+    def getSoup(self) -> BeautifulSoup:
+        return self.soup
+
+    def getPage(self) -> str:
+        """Trả về HTML của trang Class Raw."""
+        if self.isHaveSchedule:
+            return requests.get(self.url).text
+        else:
+            return None
+
+    def toFile(self, filename: str=None):
+        """Lấy HTML của một URL truyền vào và ghi ra một file."""
+        r = requests.get(self.url)
+        if filename:
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write(r.text)
+        else:
+            with open(self.getName()+'.html', 'w', encoding='utf-8') as f:
+                f.write(r.text)
+
+    def getUrl(self):
+        return self.url
+
+    def getSubjectCode(self) -> str:
+        return self.discipline +' '+ self.keyword1
+
+    def getName(self) -> str:
+        return toStringAndCleanSpace(self.soup.find('span').text)
 
 
 class RawClass:
@@ -84,24 +126,19 @@ class RawClass:
         self.__registrationStatus = registrationStatus
         self.__implementationStatus = implementationStatus
     
-    @property
-    def className(self):
+    def getClassName(self) -> str:
         return self.__className
 
-    @property
-    def registerCode(self):
+    def getRegisterCode(self):
         return self.__registerCode
 
-    @property
-    def type(self):
+    def getType(self):
         return self.__type
 
-    @property
-    def teachers(self):
+    def getTeachers(self):
         return self.__teachers
 
-    @teachers.setter
-    def teachers(self, teachers: List[str]):
+    def setTeachers(self, teachers: Set[str]):
         self.__teachers = teachers
 
     def __str__(self) -> str:
@@ -111,7 +148,7 @@ class RawClass:
         return '<RawClass {0}>'.format(self.__className)
 
     def getJson(self):
-        return {
+        return {self.__className:{
             "class_name" : self.__className,
             "register_code" : self.__registerCode,
             "type" : self.__type,
@@ -126,11 +163,11 @@ class RawClass:
             "teacher" : self.__teachers,
             "registration_status" : self.__registrationStatus,
             "implementation_status" : self.__implementationStatus
-        }
+        }}
 
     def isHaveRegisterCode(self):
         """Trả về True nếu môn này có register code, ngược lại trả về False."""
-        return True if self.__registerCode != "" else False
+        return True if self.__registerCode else False
 
     def setRegisterCode(self, registerCode:str):
         self.__registerCode = registerCode
@@ -148,8 +185,8 @@ class ClassGroup:
         @rawClasses: List các RawClasses."""
         self.__name = name
         self.__rawClasses = rawClasses
-        self.shareRegisterCode()
         self.mergeTeacherRawClassAndSet()
+        self.shareRegisterCode()
 
     def __len__(self):
         return len(self.__rawClasses)
@@ -167,7 +204,7 @@ class ClassGroup:
         for i in range(len(rawClasses)):
             if i == len(rawClasses)-1:
                 return True
-            if rawClasses[i].className == rawClasses[i+1].className:
+            if rawClasses[i].getClassName() == rawClasses[i+1].getClassName():
                 continue
         return False
 
@@ -177,21 +214,29 @@ class ClassGroup:
     def getRawClasses(self) -> List[RawClass]:
         return self.__rawClasses
 
-    def howMuchRawClass(self, className: str):
-        """"""
+    def getRawClassNames(self) -> Set[str]:
+        return set(rawClass.getClassName() for rawClass in self.__rawClasses)
 
-    def getRawClassNames(self):
-        return set(rawClass.className for rawClass in self.__rawClasses)
+    def getJson(self):
+        jsonOut = {}
+        for rawClass in self.__rawClasses:
+            jsonOut.update(rawClass.getJson())
+        return {self.__name:jsonOut}
 
-    def mergeTeacherRawClass(self, rawClasses: List[RawClass]) -> RawClass:
+    def getRegisterCodes(self):
+        """Trả về một list chứa register code của group này."""
+        return [rawClass.getRegisterCode() for rawClass in self.__rawClasses if rawClass.isHaveRegisterCode()]
+
+    @staticmethod
+    def mergeTeacherRawClass(rawClasses: List[RawClass]) -> RawClass:
         if ClassGroup.__isSameName(rawClasses):
             teachers = []
             for rawClass in rawClasses:
-                teachers.extend(rawClass.teachers)
-            rawClasses[0].teachers = teachers
+                teachers.extend(rawClass.getTeachers())
+            rawClasses[0].setTeachers(teachers)
             return rawClasses[0]
         else:
-            print("Can not merge")
+            print("Can not merge: each item in list of rawclass must same name one by one!!!")
 
     def mergeTeacherRawClassAndSet(self):
         """Trả về một danh sách các RawClass đã được gộp.
@@ -199,27 +244,17 @@ class ClassGroup:
         Trong một nhóm lớp sẽ có khả năng có những lớp với nhiều giảng viên dạy vì thế việc gộp là cần thiết."""
         listRawClassSet = []
         for rawClassName in self.getRawClassNames():
-            listRawClass = [rawClass for rawClass in self.getRawClasses() if rawClass.className == rawClassName]
-            rawClass = self.mergeTeacherRawClass(listRawClass)
+            listRawClass = [rawClass for rawClass in self.getRawClasses() if rawClass.getClassName() == rawClassName]
+            rawClass = ClassGroup.mergeTeacherRawClass(listRawClass)
             listRawClassSet.append(rawClass)
         self.__rawClasses = listRawClassSet
 
     def shareRegisterCode(self):
         """Đổ register code cho toàn bộ RawClass có trong Nhóm lớp."""
-        if self.isHaveManyRegisterCode():
-            print('Can not share')
-        else:
+        if not self.isHaveManyRegisterCode():
             registerCode = self.getRegisterCodes()[0]
             for rawClass in self.__rawClasses:
                 rawClass.setRegisterCode(registerCode)
-
-
-    def getJson(self):
-        pass
-
-    def getRegisterCodes(self):
-        """Trả về một list chứa register code của group này."""
-        return [rawClass.registerCode for rawClass in self.__rawClasses if rawClass.isHaveRegisterCode()]
 
     def addRawClass(self, rawClass: RawClass):
         """Thêm một RaWClass vào ClassGroup."""
@@ -237,18 +272,10 @@ class ClassGroup:
 class SubjectData:
     """Class này sẽ tách data từ một HTML page ra thành một cây JSON có cấu trúc."""
 
-    def __init__(self, htmlPage: str):
+    def __init__(self, htmlPage: str, subjectCode: str, name: str):
+        self.__subjectCode = subjectCode 
+        self.__name = name
         self.__soup = BeautifulSoup(htmlPage, 'lxml')
-
-    def getListClassGroupName(self):
-        """Trả về một list là tên các nhóm lớp."""
-        table = self.__soup.find_all('table', class_='tb-calendar')
-        listTdGroupClass = table[0]('tbody')[0]('td', class_='nhom-lop')
-        listClassGroup = []
-        for tdTag in listTdGroupClass:
-            groupClassName = str(tdTag.div.text).strip()
-            listClassGroup.append(groupClassName)
-        return listClassGroup
 
     @staticmethod
     def __cleanFilterRoom(item):
@@ -266,7 +293,7 @@ class SubjectData:
             return int(toStringAndCleanSpace(tdTag.div.text))
         return int(toStringAndCleanSpace(tdTag.text))
 
-    def getRawClass(self, trTag: Tag) -> RawClass:
+    def __getRawClass(self, trTag: Tag) -> RawClass:
         """Nhận vào một <tr class='lop'> và trả về một RawClass."""
         listTdTagInTrTag = trTag('td')
         name = toStringAndCleanSpace(trTag.td.a.text)
@@ -277,18 +304,34 @@ class SubjectData:
         registrationTermEnd = toStringAndCleanSpace(listTdTagInTrTag[4]('div')[1].text)
         weekStart = toStringAndCleanSpace(listTdTagInTrTag[5].text).split('--')[0]
         weekEnd = toStringAndCleanSpace(listTdTagInTrTag[5].text).split('--')[1]
-        hours = clean_SubTime(str(listTdTagInTrTag[6]))
+        hours = cleanScheduleTime(str(listTdTagInTrTag[6]))
         rooms = list(filter(self.__cleanFilterRoom,[toStringAndCleanSpace(i) for i in listTdTagInTrTag[7].contents]))
         locations = list(set(filter(self.__cleanFilterRoom,[toStringAndCleanSpace(i) for i in listTdTagInTrTag[8].contents])))
-        teachers = [toStringAndCleanSpace(listTdTagInTrTag[9].text)]
+        teachers = {toStringAndCleanSpace(listTdTagInTrTag[9].text)}
         registrationStatus = toStringAndCleanSpace(listTdTagInTrTag[10].font.text)
         implementationStatus = toStringAndCleanSpace(listTdTagInTrTag[11].div.text)
         return RawClass(name, registerCode, type, emptySeat, registrationTermStart, 
                         registrationTermEnd, weekStart, weekEnd, hours, rooms, locations,
                         teachers, registrationStatus, implementationStatus)
         
-    def getListRawClass(self, listTrTag:List[Tag]) -> List[RawClass]:
-        return [self.getRawClass(trTag) for trTag in listTrTag]
+    def __getListRawClass(self, listTrTag:List[Tag]) -> List[RawClass]:
+        return [self.__getRawClass(trTag) for trTag in listTrTag]
+
+    def getSubjectCode(self) -> str:
+        return self.__subjectCode
+
+    def getName(self) -> str:
+        return self.__name
+
+    def getListClassGroupName(self) -> List[str]:
+        """Trả về một list là tên các nhóm lớp."""
+        table = self.__soup.find_all('table', class_='tb-calendar')
+        listTdGroupClass = table[0]('tbody')[0]('td', class_='nhom-lop')
+        listClassGroup = []
+        for tdTag in listTdGroupClass:
+            groupClassName = str(tdTag.div.text).strip()
+            listClassGroup.append(groupClassName)
+        return listClassGroup
 
     def getListClassGroup(self) -> List[ClassGroup]:
         """Trả về một list các ClassGroup."""
@@ -296,16 +339,22 @@ class SubjectData:
         listTrTag = table[0]('tr',class_='lop')
         listClassGroup = []
         for groupName in self.getListClassGroupName():
-            ListRawClassPass = list(rawClass for rawClass in self.getListRawClass(listTrTag) if rawClass.className[0: len(groupName)] == groupName)
+            ListRawClassPass = list(rawClass for rawClass in self.__getListRawClass(listTrTag) if rawClass.getClassName()[0: len(groupName)] == groupName)
             classGroup = ClassGroup(groupName, ListRawClassPass)
             listClassGroup.append(classGroup)
         return listClassGroup
 
     def getJson(self):
-        if self.isNormalSubject():
-            pass
+        jsonOut = {}
+        for classGroup in self.getListClassGroup():
+            jsonOut.update(classGroup.getJson())
+        return jsonOut
 
-    def isNormalSubject(self):
+    def toJsonFile(self):
+        with open(self.getSubjectCode()+'.json', 'w', encoding='utf-8') as f:
+            json.dump(self.getJson(),f, ensure_ascii=False, indent=4)    
+
+    def isNormalSubject(self) -> bool:
         """Kiểm tra xem môn học này có phải là một môn học bình thường không.
         
         Một môn được xem là một môn học bình thương sẽ chỉ có một mã đăng ký trong một nhóm lớp."""
@@ -316,8 +365,8 @@ class SubjectData:
         
 
 
-
-with open('me_PMY_302.html','r', encoding='utf-8') as f:
-    gr = SubjectData(f.read()).getListClassGroup()[0]
-
-    print(gr.getRawClasses()[0].teachers)
+if __name__ == "__main__":
+    sp = SubjectPage(70,'PSU-FIN', '301')
+    page = sp.getPage()
+    sd = SubjectData(page, sp.getSubjectCode(), sp.getName())
+    sd.toJsonFile()
