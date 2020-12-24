@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import json
 
-from cleanSubTime import clean_SubTime
+from cleanSubTime import cleanScheduleTime
 
 
 def Get_Url(discipline: str, keyword1: str) -> str:
@@ -127,7 +127,7 @@ def GetSchedule(soup):
 
     tr_list = soup.find_all("tr", class_='lop')
     for tr_tag in tr_list:
-        lst.append(json.dumps(clean_SubTime(str(tr_tag('td')[6]))))
+        lst.append(json.dumps(cleanScheduleTime(str(tr_tag('td')[6]))))
     return GetListExistId(soup, lst)
 
 def GetWeekRange(soup):
