@@ -10,7 +10,7 @@ from typing import List
 
 def toStringAndCleanSpace(text):
     """Trả về một chuỗi đã được làm sạch space ở hai bên."""
-    return str(text).strip()
+    return ' '.join(str(text).strip().split())
 
 def clustering(listCondition: List, funcClustering, iter):
     """Hàm xử lý gom cụm dữ liệu.
