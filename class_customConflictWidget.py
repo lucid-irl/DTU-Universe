@@ -14,9 +14,9 @@ class CustomConflictWidget(QWidget):
 
     def setupUI(self):
         self.hboxlayout = QHBoxLayout()
-        self.label_subjectName1 = QLabel(self.subject1.getName(), self)
+        self.label_subjectName1 = QLabel(self.subject1.getSubjectCode(), self)
         self.label_subjectName1.setAlignment(Qt.AlignCenter)
-        self.label_subjectName2 = QLabel(self.subject2.getName(), self)
+        self.label_subjectName2 = QLabel(self.subject2.getSubjectCode(), self)
         self.label_subjectName2.setAlignment(Qt.AlignCenter)
         self.pixmap_icon = QPixmap(r'Images\red_dot.png')
         self.label_image = QLabel(self)
