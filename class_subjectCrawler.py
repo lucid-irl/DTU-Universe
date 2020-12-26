@@ -2,8 +2,10 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~
 Chuyển dữ liệu từ HTML sang JSON."""
 
+from class_schedule import Schedule
+from class_subject import Subject
 import re
-from typing import List, Set
+from typing import Dict, List, Set
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 from cleanSubTime import cleanScheduleTime
@@ -74,6 +76,7 @@ class SubjectPage:
             raise Exception('The subject code is wrong!!!')
 
     def getSoup(self) -> BeautifulSoup:
+        """Trả về một BeautifulSoup object được parse từ môn học này."""
         return self.soup
 
     def getPage(self) -> str:
@@ -97,11 +100,19 @@ class SubjectPage:
         return self.url
 
     def getSubjectCode(self) -> str:
+        """Trả về mã môn."""
         return self.discipline +' '+ self.keyword1
 
     def getName(self) -> str:
+        """Trả về tên môn."""
         return toStringAndCleanSpace(self.soup.find('span').text)
 
+    def getCredit(self) -> int:
+        """//*[@id="ResultCourseClass"]/table/tbody/tr[2]/td/table/tbody/tr[2]/td[2]"""
+        table = self.soup.find('table', class_='tb_coursedetail')
+        tdTag = table('table')[0]('tr')[1]('td')[1]
+        credit = str(tdTag.text).split(' ')[0]
+        return credit
 
 class RawClass:
     """Class này đại diện cho một hàng trong bảng lịch học bao gồm các thông tin."""
@@ -109,7 +120,7 @@ class RawClass:
     def __init__(self, className, registerCode, type, emptySeat,
                 registrationTermStart, registrationTermEnd, 
                 weekStart, weekEnd,
-                hour, rooms, locations, 
+                hour: List[Dict[str, List]], rooms, locations, 
                 teachers:Set[str], registrationStatus, implementationStatus) -> None:
         self.__className = className
         self.__registerCode = registerCode
@@ -155,12 +166,12 @@ class RawClass:
             "empty_seat" : self.__emptySeat,
             "registration_term_start" : self.__registrationTermStart,
             "registration_term_end" : self.__registrationTermEnd,
-            "week_start" : self.__weekStart,
-            "week_end" : self.__weekEnd,
+            "week_start" : int(self.__weekStart),
+            "week_end" : int(self.__weekEnd),
             "hour" : self.__hour,
-            "room" : self.__rooms,
-            "location" : self.__locations,
-            "teacher" : self.__teachers,
+            "rooms" : self.__rooms,
+            "locations" : self.__locations,
+            "teachers" : self.__teachers,
             "registration_status" : self.__registrationStatus,
             "implementation_status" : self.__implementationStatus
         }}
@@ -175,6 +186,20 @@ class RawClass:
     def addTeacher(self, teacher: str):
         self.__teachers.add(teacher)
 
+    def toSubject(self, name: str, credit: int) -> Subject:
+        """
+        Bản thân RawClass đại diện cho một row trong bảng danh sách lớp đăng ký
+        nên nó sẽ còn thiếu một số trường sau.
+        @name: Tên môn học, ví dụ Lập trình hướng đối tượng.
+        
+        @credit: Số tín chỉ"""
+        return Subject(
+            self.__registerCode, self.__className, name,
+            credit, self.__emptySeat, self.__type, Schedule(self.__hour),
+            self.__teachers, self.__locations, self.__rooms, int(self.__weekStart),
+            int(self.__weekEnd), self.__registrationTermStart, self.__registrationTermEnd,
+            self.__registrationStatus, self.__implementationStatus
+        )
 
 class ClassGroup:
     """Đại diện cho một Nhóm lớp chứa các lớp có cùng mã đăng ký."""
@@ -272,10 +297,11 @@ class ClassGroup:
 class SubjectData:
     """Class này sẽ tách data từ một HTML page ra thành một cây JSON có cấu trúc."""
 
-    def __init__(self, htmlPage: str, subjectCode: str, name: str):
-        self.__subjectCode = subjectCode 
-        self.__name = name
-        self.__soup = BeautifulSoup(htmlPage, 'lxml')
+    def __init__(self, subjectPage: SubjectPage):
+        self.__subjectCode = subjectPage.getSubjectCode() 
+        self.__name = subjectPage.getName()
+        self.__credit = subjectPage.getCredit()
+        self.__soup = subjectPage.getSoup()
 
     @staticmethod
     def __cleanFilterRoom(item):
@@ -345,10 +371,17 @@ class SubjectData:
         return listClassGroup
 
     def getJson(self):
-        jsonOut = {}
+        jsonOut = {'name':self.__name}
         for classGroup in self.getListClassGroup():
             jsonOut.update(classGroup.getJson())
         return jsonOut
+
+    def getJsonNonIncludeName(self):
+        """Lấy ra JSON không bao gồm tên môn học."""
+        jsonOut = {}
+        for classGroup in self.getListClassGroup():
+            jsonOut.update(classGroup.getJson())
+        return jsonOut 
 
     def toJsonFile(self):
         with open(self.getSubjectCode()+'.json', 'w', encoding='utf-8') as f:
@@ -363,10 +396,16 @@ class SubjectData:
                 return False
         return True
         
-
+    def getSubjects(self) -> List[Subject]:
+        """Trả về một list các Subject."""
+        subjectsOut = []
+        for classGroup in self.getListClassGroup():
+            rawClasses = classGroup.getRawClasses()
+            subjectsInClassGroup = [rawClass.toSubject(self.__name, self.__credit) for rawClass in rawClasses]
+            subjectsOut.extend(subjectsInClassGroup)
+        return subjectsOut
 
 if __name__ == "__main__":
     sp = SubjectPage(70,'PSU-FIN', '301')
-    page = sp.getPage()
-    sd = SubjectData(page, sp.getSubjectCode(), sp.getName())
-    sd.toJsonFile()
+    sd = SubjectData(sp)
+    print(len(sd.getSubjects()))
