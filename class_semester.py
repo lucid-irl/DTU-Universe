@@ -1,25 +1,16 @@
-"""Class này triển khai những chức năng liên quan để việc xếp lịch.
-Các chức năng phải được triển khai thành một class, và một phương thức emit() một signal.
-Các xử lý logic của các chức năng được triển khai trong semester."""
-
-
 from PyQt5.QtCore import QObject, pyqtSignal
 
 from class_subject import Subject
 from class_schedule import *
 from class_conflict import *
-from color import *
+from cs4rsa_color import *
 
 
 class Semester(QObject):
     """
     Class này là class trung gian giữa Subject và Table
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Class này chịu trách nhiệm hiển thị trực quan lịch của một Subject lên Table. Các thao tác liên quan đến Table
-    có trên giao diện đều phải thông qua class này và các phương thức của nó.
-    
-    Trong Class này triển khai các xử lý logic và trả về cho giao diện.
-    Nhiệm vụ của giao diện là bắt signal và cập nhật UI.
+    Bao gồm tìm lịch, thêm lịch và xử lý xung đột.
     """
 
     TIME_CHAINS = {
@@ -54,7 +45,7 @@ class Semester(QObject):
         }
     
     # subject mà người dùng chọn sẽ nằm ở đây
-    SUBJECTS = []
+    SUBJECTS: List[Subject] = []
     CONFLICT = []
     # list of week do initSemester sẽ nằm ở đây
     SEMESTER = []
@@ -91,7 +82,7 @@ class Semester(QObject):
         """
         self.SEMESTER = [[] for i in range(self.getMaxWeekInSemester())]
         for subject in self.SUBJECTS:
-            for i in range(subject.getWeekRange()[0]-1, subject.getWeekRange()[1]):
+            for i in range(subject.getWeekStart()-1, subject.getWeekEnd()):
                 self.SEMESTER[i].append(subject)
         return self.SEMESTER
 
@@ -128,8 +119,8 @@ class Semester(QObject):
         """Trả về số Tuần kéo dài tối đa mà Semester có thể có."""
         max = 0
         for subject in self.SUBJECTS:
-            if subject.getWeekRange()[1] > max:
-                max = subject.getWeekRange()[1]
+            if subject.getWeekEnd() > max:
+                max = subject.getWeekEnd()
         return max
 
     def scanSubjectConflict(self) -> List[List[Dict[str,Tuple[str]]]]:
