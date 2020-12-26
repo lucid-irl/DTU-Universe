@@ -2,8 +2,6 @@ from typing import List
 from class_schedule import Schedule
 import re
 
-def cmp(a, b):
-    return (a > b) - (a < b) 
 
 class ColorError(Exception):
 
@@ -13,49 +11,68 @@ class ColorError(Exception):
         super().__init__(message=self.message)
 
 class Subject:
-    """
-    Đại diện cho một môn học trong một học kỳ có một ID nhất định.
-    
-    @info
-    
-    http://courses.duytan.edu.vn/Sites/Home_ChuongTrinhDaoTao.aspx?p=home_coursesearch
+    """Đại diện cho một môn học trong một học kỳ."""
 
-    @parameters
+    def __init__(self, registerCode: str, subjectCode: str, name: str, credits: int, emptySeat: int, type:str,
+                schedule: Schedule, teachers: List[str], locations: List[str], rooms:List[str],
+                weekStart: int, weekEnd: int, 
+                registrationTermStart: str, registrationTermEnd:str, 
+                registrationStatus: str, implementationStatus:str):
+        """
+        @registerCode: Mã đăng ký lớp học.
 
-    `id`: Mã lớp học.
+        @subjectCode: Mã lớp học.
 
-    `name`: Tên lớp học.
+        @number_of_seats_left: Số chỗ còn lại.
 
-    `number_of_seats_left`: Số chỗ còn lại.
+        @credits: Số tín chỉ.
 
-    `credits`: Số tín chỉ.
+        @schedule: Một Schedule object đại diện cho thời gian của môn đó trong một Tuần học.
 
-    `schedule`: Một Schedule object đại diện cho thời gian của môn đó trong một Tuần học.
+        @teachers: Một list các tên giảng viên.
 
-    `teacher`: Tên giảng viên.
+        @places: Nơi học.
 
-    `place`: Nơi học.
+        @rooms: Phòng học.
 
-    `week_range`: Tuần học.
+        @week_start: Tuần bắt đầu.
 
-    `status`: Tình trạng đăng ký.
+        @week_end: Tuần kết thúc.
 
-    `full_name`: Tên đầy đủ của môn học.
-    """
+        @registration_status: Tình trạng đăng ký.
 
-    def __init__(self, id: str, name: str, number_of_seats_left: int, credits: int, schedule: Schedule, 
-                teacher: str, place: str, week_range: list, status: int, full_name: str):
-        self.id = id
+        @implementation_status: Tình trạng triển khai.
+
+        @name: Tên của môn học.
+        
+        @type: Loại hình môn học LEC/LAB/DEM/...
+        
+        @registration_term_start: Ngày bắt đầu đăng ký
+
+        @registration_term_end: Ngày kết thúc đăng ký"""
+
+        self.registerCode = registerCode
+        self.subjectCode = subjectCode
         self.name = name
-        self.full_name = full_name
-        self.number_of_seats_left = number_of_seats_left  
+        self.emptySeat = emptySeat  
         self.credits = credits
+        self.type = type
+
         self.schedule = schedule
-        self.teacher = teacher
-        self.place = place
-        self.week_range = week_range
-        self.status = status
+        self.teachers = teachers
+        self.locations = locations
+        self.rooms = rooms
+        self.weekStart = weekStart
+        self.weekEnd = weekEnd
+
+        self.registrationTermStart = registrationTermStart
+        self.registrationTermEnd = registrationTermEnd
+
+        self.registration_status = registrationStatus
+        self.implementation_status = implementationStatus
+        
         self.color = None
+
 
     def __str__(self):
         return "<Subject {0}>".format(self.name)
@@ -70,11 +87,7 @@ class Subject:
             return False
 
     def __cmp__(self, o: object):
-        return cmp(self.id, o.id)
-
-    def getInfo(self):
-        info = """Môn học: {0} | {5}\nHọc từ tuần {6} đến tuần {7}\nGiảng viên: {1} | Số tín chỉ: {2} | Số chỗ: {3}\nMôn này học tại {4}.""".format(self.name, self.teacher, self.credits, self.number_of_seats_left, self.place, self.full_name, self.week_range[0], self.week_range[1])
-        return info
+        return cmp(self.registerCode, o.registerCode)
 
     def setColor(self, color: str):
         if re.match(r'^#(?:[0-9a-f]{3}){1,2}$', color):
@@ -91,14 +104,17 @@ class Subject:
     def getName(self) -> str:
         return self.name
     
-    def getStatus(self) -> int:
-        return self.status
+    def getRegistrationStatus(self) -> str:
+        return self.registration_status
 
-    def getID(self) -> str:
-        return self.id
+    def getRegisterCode(self) -> str:
+        return self.registerCode
 
-    def getFullName(self) -> str:
-        return self.full_name
+    def getSubjectCode(self):
+        return self.subjectCode
 
-    def getWeekRange(self) -> List[int]:
-        return [int(i) for i in self.week_range]
+    def getWeekStart(self):
+        return self.weekStart
+
+    def getWeekEnd(self):
+        return self.weekEnd
