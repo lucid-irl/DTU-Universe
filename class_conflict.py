@@ -1,7 +1,5 @@
-from datetime import time, timedelta
-from time import sleep
+from datetime import timedelta
 from typing import List, Tuple
-from unittest.signals import removeResult
 
 from class_subject import *
 from class_schedule import *
@@ -83,7 +81,7 @@ class Conflict:
         [{Monday: ('07:00:00','8:00:00')}, {Tuseday: ('07:00:00','8:00:00')}]
         """
         output = []
-        if self.subject1.getID() == self.subject2.getID():
+        if self.subject1.getRegisterCode() == self.subject2.getRegisterCode():
             return output
         for day in self.getGenericDate():
 
