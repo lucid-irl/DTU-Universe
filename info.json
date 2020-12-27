@@ -1727,6 +1727,219 @@
     },
     {
         "id": 5,
+        "major": "Quản Trị Khách Sạn & Nhà Hàng (Đại Học)",
+        "semester_info": [
+            {
+                "keyid": 0,
+                "semester": "Học Kỳ 1 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 100",
+                        "name": "Phương Pháp Luận (gồm Nghiên Cứu Khoa Học)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "COM 102",
+                        "name": "Viết (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 101",
+                        "name": "Tin Học Đại Cương",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MTH 101",
+                        "name": "Toán Cao Cấp C1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "TOU 151",
+                        "name": "Tổng Quan Du Lịch",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DTE-HT 102",
+                        "name": "Hướng Nghiệp 1",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 1,
+                "semester": "Học Kỳ 2 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "CS 201",
+                        "name": "Tin Học Ứng Dụng",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MTH 102",
+                        "name": "Toán Cao Cấp C2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PHI 161",
+                        "name": "Những Nguyên Lý Cơ Bản của Chủ Nghĩa Marx - Lenin 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "STA 151",
+                        "name": "Lý Thuyết Xác Suất & Thống Kê Toán",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "HOS 151",
+                        "name": "Tổng Quan Ngành Lưu Trú",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DTE-HT 152",
+                        "name": "Hướng Nghiệp 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 126",
+                        "name": "Reading - Level 1 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 127",
+                        "name": "Writing - Level 1 (International School)",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 2,
+                "semester": "Học Kỳ 1 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "LAW 201",
+                        "name": "Pháp Luật Đại Cương",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 3,
+                "semester": "Học Kỳ 1 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "FIN 301",
+                        "name": "Quản Trị Tài Chính 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "OB 253",
+                        "name": "Tổng Quan Hành Vi Tổ Chức trong Du Lịch",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 226",
+                        "name": "Reading - Level 2 (International School)",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 4,
+                "semester": "Học Kỳ 2 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "ECO 303",
+                        "name": "Kinh Tế Trong Quản Trị Dịch Vụ",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "HOS 371",
+                        "name": "Giới Thiệu Nghiệp Vụ Khách Sạn",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "HOS 374",
+                        "name": "Nghiệp Vụ Buồng Phòng",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "HOS 396",
+                        "name": "Tranh Tài Giải Pháp PBL",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 227",
+                        "name": "Writing - Level 2 (International School)",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 5,
+                "semester": "Học Kỳ 1 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "HIS 361",
+                        "name": "Đường Lối Cách Mạng của Đảng Cộng Sản Việt Nam",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "LAW 403",
+                        "name": "Cơ Sở Luật Kinh Tế",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "HOS 401",
+                        "name": "Quản Trị Nhà Hàng",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "HOS 403",
+                        "name": "Quản Trị Cơ Sở Vật Chất Khách Sạn",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "FIN 413",
+                        "name": "Quản Trị Tài Chính Khách Sạn",
+                        "credit": "3"
+                    }
+                ]
+            },
+            {
+                "keyid": 6,
+                "semester": "Học Kỳ 2 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "HIS 222",
+                        "name": "Lịch Sử Văn Minh Thế Giới 2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "POS 361",
+                        "name": "Tư Tưởng Hồ Chí Minh",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "HOS 448",
+                        "name": "Thực Tập Nghiệp Vụ Trong Khách Sạn / Nhà Hàng (3 tháng)",
+                        "credit": "5"
+                    },
+                    {
+                        "id": "TOU 411",
+                        "name": "Quản Trị Sự Kiện",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 229",
+                        "name": "Speaking - Level 2 (International School)",
+                        "credit": "2"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 6,
         "major": "Truyền Thông Đa Phương Tiện (Đại Học)",
         "semester_info": [
             {
@@ -2120,7 +2333,7 @@
         ]
     },
     {
-        "id": 6,
+        "id": 7,
         "major": "Điều Dưỡng (Đại Học)",
         "semester_info": [
             {
