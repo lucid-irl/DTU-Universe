@@ -1,24 +1,21 @@
+from class_dialogNotification import NotificationWindow
+from class_subjectCrawler import SubjectData, SubjectPage, getSchoolYear, getSemester
 from PyQt5.QtWidgets import (QWidget, QApplication, QPushButton, QListWidget, QListWidgetItem,
                              QTableWidget, QTableWidgetItem, QMessageBox, QLineEdit, QCheckBox, QTextEdit, QLabel)
 from PyQt5.QtCore import Qt
 from PyQt5 import uic
-from PyQt5.sip import delete
 
 from class_custom_list_item_widget import CustomListItemWidget
 from class_customConflictWidget import CustomConflictWidget
-from class_custom_window import CustomDialogWindow
 from class_semester import *
 from class_subject import Subject
 from class_schedule import StringToSchedule
 from class_convertType import *
 from class_flow_layout import FlowLayout
 
-from thread_getSubject import ThreadGetSubject
-
 import sys
 import os
-import xlrd
-import color
+import cs4rsa_color
 import team_config
 import sys
 
@@ -26,14 +23,14 @@ import sys
 class Main(QWidget):
     """Class này chỉ đảm nhiệm việc xử lý giao diện."""
 
-    SUBJECT_FOUND = []
+    SUBJECT_FOUND:List[Subject] = []
+    CURRENT_SUBJECT:str = ''
     WINDOW_IS_MAXIMIZED = False
 
-    # Các phương thức setting Giao diện bao gồm kết nối Signal, add Hot key,...
+# Các phương thức setting Giao diện bao gồm kết nối Signal, add Hot key,...
     def __init__(self, mainwindow: QMainWindow=None):
         super(Main, self).__init__()
         self.mainwindow = mainwindow
-        self.setWindowTitle('CS4RSA')
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.semester = Semester()
@@ -61,13 +58,24 @@ class Main(QWidget):
         self.listView_SubjectConflict = ConvertThisQObject(self, QListWidget, 'listWidget_lopXungDot').toQListWidget()
 
         self.label_week = ConvertThisQObject(self, QLabel, 'label_week').toQLabel()
+        self.label_windowTitle = ConvertThisQObject(self, QLabel, 'label_windowTitle').toQLabel()
+        self.currentSchoolYearList = getSchoolYear()
+        self.currentSchoolYearValue: str = list(self.currentSchoolYearList[-1].keys())[0]
+        self.currentSchoolYearInfo: str = list(self.currentSchoolYearList[-1].values())[0]
+
+        # set title base on school year and semester
+        self.currentSemesterList = getSemester(self.currentSchoolYearValue)
+        self.currentSemesterValue: str = list(self.currentSemesterList[-1].keys())[0]
+        self.currentSemesterInfo: str = list(self.currentSemesterList[-1].values())[0]
+        self.dynamicTitle = team_config.TITLE+' • <b>{0}</b> • {1}'.format(self.currentSchoolYearInfo, self.currentSemesterInfo)
+        self.label_windowTitle.setText(self.dynamicTitle)
+
 
         self.line_findSubject = ConvertThisQObject(self, QLineEdit, 'lineEdit_tenMon').toQLineEdit()
-
-        self.checkBox_phase1 = ConvertThisQObject(self, QCheckBox, 'checkBox_giaiDoan1').toQCheckBox()
-        self.checkBox_phase2 = ConvertThisQObject(self, QCheckBox, 'checkBox_giaiDoan2').toQCheckBox()
-
-        self.textEdit_thongke = ConvertThisQObject(self, QTextEdit, 'textEdit_thongke').toQTextEdit()
+        allSubject=["Apple", "Alps", "Berry", "Cherry" ]
+        completer = QCompleter(allSubject)
+        self.line_findSubject.setCompleter(completer)
+        self.line_findSubject.mousePressEvent = lambda _ : self.line_findSubject.selectAll()
 
         self.table_Semeter = ConvertThisQObject(self, QTableWidget, 'tableWidget_lichHoc').toQTableWidget()
 
@@ -93,7 +101,7 @@ class Main(QWidget):
 
     def connectSignals(self):
         """Phương thức này kết nối signal với slot tương ứng."""
-        self.button_findSubject.clicked.connect(self.findSubject)
+        self.button_findSubject.clicked.connect(self.actionFindSubject)
         self.button_register.clicked.connect(self.register)
         self.button_updateSubject.clicked.connect(self.updateSubject)
         self.button_previousWeek.clicked.connect(self.actionGoToPreviousWeek)
@@ -119,9 +127,8 @@ class Main(QWidget):
         # shortcut for button here
         self.button_findSubject.setShortcut('Return')
 
-
-    # IMPORTANT!!!
-    # Các phương thức này chuẩn bị đủ đúng context trước khi thao tác, ta gọi chúng là Action
+# IMPORTANT!!!
+# Các phương thức này chuẩn bị đủ đúng context trước khi thao tác, ta gọi chúng là Action
     def actionDeleteSubject(self):
         """Action này được gọi khi người dùng định xoá một Subject ra khỏi Semester."""
         item = self.listView_SubjectChoiced.currentItem()
@@ -132,16 +139,14 @@ class Main(QWidget):
             self.messageError()
 
     def actionFindSubject(self):
-        if self.line_findSubject.text().strip() == "":
-            mess = QMessageBox()
-            mess.setIcon(QMessageBox.Warning)
-            mess.setText('Có vẻ như bạn quên nhập môn học. Hãy nhập vào đi bạn nhé!')
-            mess.setWindowTitle('Một cảnh báo dễ thương')
-            mess.setStandardButtons(QMessageBox.Ok)
-            mess.exec()
-            self.line_findSubject.setFocus()
+        subjectName = self.line_findSubject.text()
+        if re.search('^[A-Za-z-]*[ ][0-9]*$',subjectName):
+            discipline = subjectName.upper().split(' ')[0]
+            keyword1 = subjectName.split(' ')[1]
+            self.findSubject(discipline, keyword1)
         else:
-            self.findSubject()
+            NotificationWindow('Thông báo','Có vẻ như có gì đó sai sai trong tên bạn vừa nhập 😢😢😢', self).exec_()
+            
 
     def actionGoToPreviousWeek(self):
         if self.semester.getCurrentSemesterIndex() == None:
@@ -153,9 +158,8 @@ class Main(QWidget):
             return
         self.gotoNextWeek()
 
-
-    # IMPORTANT!!!
-    # Các phương thức load giao diện quan trọng
+# IMPORTANT!!!
+# Các phương thức load giao diện quan trọng
     def loadTable(self, subjects: List[Subject]):
         self.resetColorTable()
         if subjects == []:
@@ -174,9 +178,9 @@ class Main(QWidget):
                     column = WEEK.index(day)
                     for pen in range(start_row, end_row+1):
                         item = QTableWidgetItem()
-                        item.setText(subject.getName())
+                        item.setText(subject.getSubjectCode())
                         item.setBackground(color)
-                        item.setToolTip(subject.getFullName())
+                        item.setToolTip(subject.getSubjectCode() +'•'+ subject.getName())
                         self.table_Semeter.setItem(pen, column, item)
         self.paintConflict()
 
@@ -249,27 +253,26 @@ class Main(QWidget):
         else:
             self.label_week.setText('Tuần ?')
 
-
-    # IMPORTANT!!!
-    # Các phương thức thao tác trên Subject
+# IMPORTANT!!!
+# Các phương thức thao tác trên Subject
     def deleteSubject(self, subject: Subject):
         """Xoá Subject (cả LEC và LAB của nó) ra khỏi semester."""
         if self.isHaveLecOrLab(subject, self.semester.getSubjects()):
             i = 0
             while i < len(self.semester.getSubjects()):
-                if subject.getID() == self.semester.getSubjects()[i].getID():
+                if subject.getRegisterCode() == self.semester.getSubjects()[i].getRegisterCode():
                     cl = self.semester.getSubjects()[i].getColor()
-                    color.remove_color(cl)
+                    cs4rsa_color.remove_color(cl)
                     self.semester.deleteSubject(self.semester.getSubjects()[i])
                     continue
                 i+=1
         else:
-            color.remove_color(subject.getColor())
+            cs4rsa_color.remove_color(subject.getColor())
             self.semester.deleteSubject(subject)
             self.removeSel()
 
     def addSubject(self, subject: Subject):
-        cl = color.hex_code_colors()
+        cl = cs4rsa_color.hex_code_colors()
         if self.isHaveLecOrLab(subject, self.SUBJECT_FOUND):
             for i in self.isHaveLecOrLab(subject, self.SUBJECT_FOUND):
                 self.SUBJECT_FOUND[i].setColor(cl)
@@ -298,12 +301,9 @@ class Main(QWidget):
         self.loadLabelWeek()
         self.unableItemInListFound()
 
-    # Register
     def register(self):
         print('Run register window')
 
-
-    # Các phương thức thao tác trên kho dữ liệu
     def updateSubject(self):
         # tạm thời update mình sẽ xoá tất cả mọi file trong thư mục data để nó tải lại mọi thứ.
         try:
@@ -326,43 +326,49 @@ class Main(QWidget):
                 team_config.MESSAGE_WARNING,
                 'Có vẻ như gặp lỗi trong quá trình cập nhật.')
 
-    def fillDataToSubjectFound(self, e):
-        wb = xlrd.open_workbook(e)
-        sheet = wb.sheet_by_index(0)
-        
-        for i in range(1, sheet.nrows):
-            id = sheet.cell_value(i, 1)
-            name = sheet.cell_value(i, 2)
-            schedule = StringToSchedule(sheet.cell_value(i, 3))
-            place = sheet.cell_value(i, 4)
-            teacher = sheet.cell_value(i, 5)
-            credit = int(sheet.cell_value(i, 6))
-            seats = sheet.cell_value(i, 7)
-            week_range = sheet.cell_value(i, 8).split('--')
-            status = int(sheet.cell_value(i, 9))
-            fullname = sheet.cell_value(i, 10)
-            subject = Subject(id, name, seats, credit, schedule, teacher, place, week_range, status, fullname)
-            self.SUBJECT_FOUND.append(subject)
+    def fillDataToSubjectFoundFromJson(self, subjects: List[Subject]):
+        """Phương thức này nhận vào một JSON và render ra UI trên phần 
+        Subject found."""
+        self.SUBJECT_FOUND = subjects
         self.loadListSubjectFound()
         self.unableItemInListFound()
+        
+    def fillDataToSubjectFoundFromJsonFile(self, filename):
+        """Phương thức này nhận vào một JSON file path và render ra UI trên phần 
+        Subject found."""
+        pass
 
-    def findSubject(self):
-        """Tìm môn học."""
-        self.SUBJECT_FOUND.clear()
-        self.listView_SubjectDownloaded.clear()
-        subject_name = self.line_findSubject.text()
-        file_name = team_config.FOLDER_SAVE_EXCEL+'/'+subject_name+'.xls'
-
-        self.thread_getsubject = ThreadGetSubject(subject_name)
-        self.thread_getsubject.signal_foundExcel.connect(self.fillDataToSubjectFound)
-        self.thread_getsubject.signal_nonFoundExcel.connect(self.messageError)
-        if os.path.exists(file_name):
-            self.fillDataToSubjectFound(file_name)
+    def findSubject(self, discipline, keyword1):
+        """Tìm kiếm môn học."""
+        self.changeWindowTitle('🔍Đang tìm kiếm...')
+        subjectPage = SubjectPage(self.currentSemesterValue, discipline, keyword1)
+        if subjectPage.run():
+            self.changeWindowTitle(subjectPage.getName())
+            if subjectPage.getIsHaveSchedule():
+                subjectData = SubjectData(subjectPage)
+                subjects = subjectData.getSubjects()
+                if subjects:
+                    self.SUBJECT_FOUND.clear()
+                    self.listView_SubjectDownloaded.clear()
+                    self.CURRENT_SUBJECT = discipline+' '+keyword1
+                    self.fillDataToSubjectFoundFromJson(subjects)
+                else:
+                    NotificationWindow('Thông báo', 'Có vẻ {0} là một môn học đặc biệt, app của bọn mình sẽ không xử lý những môn học như này.'.format(subjectPage.getName()), self).exec_()
+                    self.label_windowTitle.setText(self.dynamicTitle)
+                    self.line_findSubject.setFocus()
+                    self.line_findSubject.selectAll()
+            else:
+                NotificationWindow('Thông báo', 'Không có lịch của môn {} trong học kỳ này.'.format(subjectPage.getName()), self).exec_()
+                self.label_windowTitle.setText(self.dynamicTitle)
+                self.line_findSubject.setFocus()
+                self.line_findSubject.selectAll()
         else:
-            self.thread_getsubject.start()
+            NotificationWindow('Thông báo', 'Có vẻ như mã môn bạn nhập không tồn tại 😢😢😢', self).exec_()
 
 
-    # Các phương thức thao tác trên Table và các thành phần giao diện khác
+     
+
+# Các phương thức thao tác trên Table và các thành phần giao diện khác
     def resetColorTable(self):
         for i in range(self.table_Semeter.rowCount()):
             for c in range(self.table_Semeter.columnCount()):
@@ -393,19 +399,18 @@ class Main(QWidget):
 
     def unableItemInListFound(self):
         """Ẩn hoặc vô hiệu Subject đã thêm vào bảng."""
-        setSubjectChoicedIDs = {i.getID() for i in self.semester.getSubjects()}
+        setSubjectChoicedIDs = {subject.getRegisterCode() for subject in self.semester.getSubjects()}
         for i in range(self.listView_SubjectDownloaded.count()):
-            if self.listView_SubjectDownloaded.item(i).data(Qt.UserRole).getID() in setSubjectChoicedIDs:
+            if self.listView_SubjectDownloaded.item(i).data(Qt.UserRole).getRegisterCode() in setSubjectChoicedIDs:
                 self.listView_SubjectDownloaded.item(i).setHidden(True)
 
     def enableItemInListFound(self, subject: Subject):
         """Hiển thị Subject đã thêm vào bảng."""
         for i in range(self.listView_SubjectDownloaded.count()):
-            if self.listView_SubjectDownloaded.item(i).data(Qt.UserRole).getID() == subject.getID():
+            if self.listView_SubjectDownloaded.item(i).data(Qt.UserRole).getRegisterCode() == subject.getRegisterCode():
                 self.listView_SubjectDownloaded.item(i).setHidden(False)
 
-
-    # Navigation in Semester
+# Navigation in Semester
     def gotoPreviousWeek(self):
         """Điều hướng tới Tuần trước của Semester."""
         self.semester.previousWeek()
@@ -423,20 +428,19 @@ class Main(QWidget):
         self.loadTable(self.semester.getCurrentSubjects())
         self.loadLabelWeek()
 
-
-    # Các phương thức kiểm tra và logic
+# Các phương thức kiểm tra và logic
     def isHaveLecOrLab(self, subject: Subject, inList: list) -> List:
         """Kiểm tra List of Subject truyền vào có Môn LEC hay LAB hay không. 
         Nếu có trả về list index của Subject LEC hoặc LAB tương ứng. Nếu không trả về None."""
         output = []
         i = 0
         while i<len(inList):
-            if subject.getID() == inList[i].getID():
+            if subject.getRegisterCode() == inList[i].getRegisterCode():
                 output.append(i)
             i+=1
         return output
 
-    # Các hộp thoại thông báo, được chúng tôi gọi là message
+# Các hộp thoại thông báo, được chúng tôi gọi là message
     def messageError(self):
         QMessageBox.warning(
             self, 
@@ -445,8 +449,10 @@ class Main(QWidget):
             QMessageBox.Ok
         )
 
+    def showMessage(self, title: str, content: str):
+        print(title, content)
 
-    # Giao diện
+# Giao diện
     def closeWindow(self):
         self.close()
 
@@ -500,6 +506,9 @@ class Main(QWidget):
         self.ani.setEasingCurve(QEasingCurve.InOutQuart)
         self.ani.start()
 
+    def changeWindowTitle(self, title):
+        newTitle = self.dynamicTitle+' • <i>{0}</i>'.format(title)
+        self.label_windowTitle.setText(newTitle)
 
 app = QApplication(sys.argv)
 window = Main()

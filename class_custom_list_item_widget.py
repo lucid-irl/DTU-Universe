@@ -26,12 +26,12 @@ class CustomListItemWidget(QWidget):
         super(CustomListItemWidget, self).__init__(parent)
         self.master = parent
         self.subject = subject
-        status = self.subject.getStatus()
+        status = self.subject.getRegistrationStatus()
 
         self.textQVBoxLayout = QHBoxLayout()
-        self.text_subjectname = QLabel(subject.name, self.master)
+        self.text_subjectname = QLabel(subject.getSubjectCode(), self.master)
         self.label_status = QLabel(self.master)
-        if status == 0:
+        if not status == 'Còn Hạn Đăng Ký':
             self.pixmap_status = QPixmap(CustomListItemWidget.ICON_IMAGE_INVALID)
             self.label_status.setPixmap(self.pixmap_status)
             self.label_status.setToolTip('Không thể đăng ký')
@@ -57,9 +57,11 @@ class CustomListItemWidget(QWidget):
     def copyID(self):
         clipboard = QApplication.clipboard()
         clipboard.clear(mode=clipboard.Clipboard)
-        clipboard.setText(self.subject.getID())
+        clipboard.setText(self.subject.getRegisterCode())
         toastCopied = ToastNotifier()
-        toastCopied.show_toast("CS4RSA - Thông báo", "Bạn đã copy mã {0} vào Clipboard".format(self.subject.getID()), duration = 5, icon_path = "Images\logo.ico", threaded=True)
+        title = "CS4RSA - Thông báo"
+        textNoti = "Bạn đã copy mã {0} vào Clipboard".format(self.subject.getRegisterCode())
+        toastCopied.show_toast(title, textNoti, duration = 5, icon_path = "Images\logo.ico", threaded=True)
 
     def addButtonAddToSemeter(self):
         self.button_add = QPushButton()

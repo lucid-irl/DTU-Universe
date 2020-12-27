@@ -43,3 +43,6 @@ class ConvertThisQObject:
 
     def toQComboBox(self) -> QComboBox:
         return self.object
+
+    def toQProgressBar(self) -> QProgressBar:
+        return self.object

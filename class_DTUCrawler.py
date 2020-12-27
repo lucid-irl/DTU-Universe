@@ -13,9 +13,9 @@ logging.basicConfig(level=logging.INFO)
 class DTUInfoStudent(DTUSession):
     """Class này chịu trách nhiệm lấy thông tin của sinh viên DTU."""
 
-    page_studyingwarning = 'https://mydtu.duytan.edu.vn/sites/index.aspx?p=home_studyingwarning&functionid=113'
-    page_warningDetail = 'https://mydtu.duytan.edu.vn/Modules/mentor/WarningDetail.aspx?'
-    page_loadChuongTrinhHoc = 'https://mydtu.duytan.edu.vn/Modules/curriculuminportal/ajax/LoadChuongTrinhHoc.aspx?'
+    PAGE_STUDYING_WARNING = 'https://mydtu.duytan.edu.vn/sites/index.aspx?p=home_studyingwarning&functionid=113'
+    PAGE_WARNING_DETAIL = 'https://mydtu.duytan.edu.vn/Modules/mentor/WarningDetail.aspx?'
+    PAGE_STUDYING_PROGRAM = 'https://mydtu.duytan.edu.vn/Modules/curriculuminportal/ajax/LoadChuongTrinhHoc.aspx?'
 
     def __init__(self, ASPNETSessionIdDict):
         """Khởi tạo một Session cho phép đăng nhập vào DTU thông qua ASPNETSessionIdDict.
@@ -26,7 +26,7 @@ class DTUInfoStudent(DTUSession):
         self.specialNumber = self.getSpecialStudentID()
 
     def __getPage(self):
-        return self.get(self.page_studyingwarning).text
+        return self.get(self.PAGE_STUDYING_WARNING).text
 
     def getMentor(self):
         return str(self.__soup.find('div', class_='mentorname').text).split(':')[1].strip()
@@ -43,7 +43,7 @@ class DTUInfoStudent(DTUSession):
         """Trả về JSON chứa thông tin sinh viên."""
         logging.info('get student infomation')
         specialStudentID = self.getSpecialStudentID()
-        html = self.get(self.page_warningDetail, params={'stid':specialStudentID}).text
+        html = self.get(self.PAGE_WARNING_DETAIL, params={'stid':specialStudentID}).text
         soup = BeautifulSoup(html, 'lxml')
         warningTable = soup.find('table')
         tdList = warningTable('td')
