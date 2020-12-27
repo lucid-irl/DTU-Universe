@@ -7,15 +7,45 @@ from class_subject import Subject
 import re
 from typing import Dict, List, Set
 from bs4 import BeautifulSoup
-from bs4.element import Tag
+from bs4.element import ResultSet, Tag
 from cleanSubTime import cleanScheduleTime
 from cs4rsa_helpfulFunctions import *
+from PyQt5.QtCore import QObject, pyqtSignal
 
 import requests
 import json
 
 
-class SubjectPage:
+def getSchoolYear():
+    """Trả về một list chứa thông tin về giá trị năm học và thông tin năm học có dạng như sau.
+    >>> [{'45': 'Năm Học 2014-2015'}, {'49': 'Năm Học 2015-2016'}]
+    """
+    url = 'http://courses.duytan.edu.vn/Modules/academicprogram/ajax/LoadNamHoc.aspx?namhocname=cboNamHoc2&id=2&t=1609038051887'
+    requestCourseSearch = requests.get(url)
+    soup = BeautifulSoup(requestCourseSearch.text,'lxml')
+    optionTags:ResultSet = soup.body.select('option')
+    optionTags.pop(0)
+    return [{optionTag['value']: toStringAndCleanSpace(optionTag.text)} for optionTag in optionTags]
+
+def getSemester(namhoc: str):
+    """Hàm này nhận vào một chuỗi là giá trị năm học được lấy từ hàm shcoolYear(). Và trả về một list học kỳ hiện có của
+    năm học đó.
+    
+    >>> years = [{`'45'`: 'Năm Học 2014-2015'}, {'49': 'Năm Học 2015-2016'}]
+
+    >>> yearValue = list(years[-1].keys())[0]
+
+    >>> getSemester(yearValue)
+
+    @namhoc: Giá trị năm học"""
+    url ='http://courses.duytan.edu.vn/Modules/academicprogram/ajax/LoadHocKy.aspx?namhoc={0}&hockyname=cboHocKy1'.format(namhoc)
+    requestCourseSearch = requests.get(url)
+    soup = BeautifulSoup(requestCourseSearch.text,'lxml')
+    optionTags:ResultSet = soup.body.select('option')
+    optionTags.pop(0)
+    return [{optionTag['value']: toStringAndCleanSpace(optionTag.text)} for optionTag in optionTags]
+
+class SubjectPage(QObject):
     """Class này đại diện cho một course detail page bao gồm các thông tin về lịch lớp học.
     Đảm bảo một request duy nhất tới server DTU.
     
@@ -23,19 +53,57 @@ class SubjectPage:
     - Mã môn học có tồn tại hay không
     - Nếu có thì tiếp tục gửi request tới trang HTML raw và kiểm tra xem có lịch lớp học hay không
     
-    II. Các phương thức sau sẽ có thể được gọi sau đó:
-    - `toFile()` : Đưa SubjectPage thành một file HTML có tên như tên môn học
-    - `getPage()` : Lấy ra chuỗi HTML.
-    - `getSoup()`: Lấy ra soup được parse từ HTML."""
+    II. Các signal sau cần được connect để xử lý cho từng behavior tương ứng:
+    - `signal_foundName`: Tìm thấy tên của môn học nhập vào, signal này đi cùng một chuỗi là tên của môn học đó.
+    - `signal_isHaveSchedule`: Có lịch học của lớp này trong năm học và học kỳ hiện tại, signal này đi cùng với một giá trị True.
+    - `signal_isNotHaveSchedule`: Không lịch học của lớp này trong năm học và học kỳ hiện tại, signal này đi cùng với một giá trị True."""
 
-    def __init__(self, semester: int, discipline: str, keyword1: str) -> None:
+    signal_foundName = pyqtSignal('PyQt_PyObject')
+    signal_isHaveSchedule = pyqtSignal('PyQt_PyObject')
+    signal_isNotHaveSchedule = pyqtSignal('PyQt_PyObject')
+
+    def __init__(self, semester: str, discipline: str, keyword1: str):
+        super(SubjectPage, self).__init__()
         self.semester = semester
         self.discipline = discipline
         self.keyword1 = keyword1
-        self.url = self.__getSubjectUrl(self.discipline, self.keyword1)
+        self.url = None
         self.htmlPage = None
         self.soup = None
-        self.isHaveSchedule = self.__isHaveSchedule(self.url)
+        self.isHaveSchedule = None
+
+    def run(self):
+        """Chạy bộ cào dữ liệu.
+        
+        - Phương thức này trả về đường dẫn tới trang HTML Raw của môn học. Nếu mã môn không tồn tại, nó trả về `None`.
+        - Phương thức này trả về khác `None` là cơ sở để có thể truyền `SubjectPage` vào `SubjectData` để tiếp tục trích xuát dữ liệu."""
+        self.url = self.__getSubjectUrl(self.discipline, self.keyword1)
+        if self.url:
+            self.htmlPage = requests.get(self.url).text
+            self.soup = BeautifulSoup(self.htmlPage, 'lxml')
+            self.isHaveSchedule = self.__isHaveSchedule()
+            return self.url
+        else:
+            return self.url
+
+    def getUrl(self):
+        if self.url:
+            return self.url
+        else:
+            raise Exception("You need to run SubjectPage's run() method before run this getter.")
+    
+    def getSoup(self):
+        if self.soup:
+            return self.soup
+        else:
+            raise Exception("You need to run SubjectPage's run() method before run this getter.")
+    
+    def getIsHaveSchedule(self):
+        if self.isHaveSchedule:
+            return self.isHaveSchedule
+        else:
+            print(self.isHaveSchedule)
+            raise Exception("You need to run SubjectPage's run() method before run this getter.")
 
     @staticmethod
     def __extractCourseId(url: str):
@@ -43,18 +111,15 @@ class SubjectPage:
         params = re.findall(r'=(.*?)&', url)
         return params[1]
 
-    def __isHaveSchedule(self, url):
+    def __isHaveSchedule(self):
         """Kiểm tra xem một URL tới trang HTML raw của Subject nào đó có lịch lớp học hay không. 
         Nếu có trả về True, ngược lại trả về False."""
-        self.htmlPage = requests.get(url).text
-        self.soup = BeautifulSoup(self.htmlPage, 'lxml')
         if self.soup.find('span', {'class':'title','style':'color: #990000'}):
             return False
         return True
 
     def __getSubjectUrl(self, discipline: str, keyword1: str):
         """Trả về đường dẫn tới trang HTML raw của Subject.
-        
         >>> sp = SubjectPage(70)
         >>> sp.getSubjectUrl('CS','414')
         """
@@ -66,23 +131,12 @@ class SubjectPage:
         courseResultSearchUrl = 'http://courses.duytan.edu.vn/Modules/academicprogram/CourseResultSearch.aspx'
         page = requests.get(courseResultSearchUrl, params).text
         soup = BeautifulSoup(page,'lxml')
-        try:
-            urlSub = soup.find_all(class_='hit')[2]['href'] 
+        tdHitTag = soup.find_all(class_='hit')
+        if tdHitTag:
+            urlSub = tdHitTag[2]['href']
             courseId = SubjectPage.__extractCourseId(urlSub)
-
             urlOutput = "http://courses.duytan.edu.vn/Modules/academicprogram/CourseClassResult.aspx?courseid={0}&semesterid={1}&timespan={2}"
             return urlOutput.format(courseId, self.semester, self.semester)
-        except:
-            raise Exception('The subject code is wrong!!!')
-
-    def getSoup(self) -> BeautifulSoup:
-        """Trả về một BeautifulSoup object được parse từ môn học này."""
-        return self.soup
-
-    def getPage(self) -> str:
-        """Trả về HTML của trang Class Raw."""
-        if self.isHaveSchedule:
-            return requests.get(self.url).text
         else:
             return None
 
@@ -96,20 +150,18 @@ class SubjectPage:
             with open(self.getName()+'.html', 'w', encoding='utf-8') as f:
                 f.write(r.text)
 
-    def getUrl(self):
-        return self.url
-
     def getSubjectCode(self) -> str:
         """Trả về mã môn."""
         return self.discipline +' '+ self.keyword1
 
     def getName(self) -> str:
         """Trả về tên môn."""
-        return toStringAndCleanSpace(self.soup.find('span').text)
+        name = self.getSoup().find('span').text
+        return toStringAndCleanSpace(name)
 
     def getCredit(self) -> int:
         """//*[@id="ResultCourseClass"]/table/tbody/tr[2]/td/table/tbody/tr[2]/td[2]"""
-        table = self.soup.find('table', class_='tb_coursedetail')
+        table = self.getSoup().find('table', class_='tb_coursedetail')
         tdTag = table('table')[0]('tr')[1]('td')[1]
         credit = str(tdTag.text).split(' ')[0]
         return credit
@@ -178,7 +230,7 @@ class RawClass:
 
     def isHaveRegisterCode(self):
         """Trả về True nếu môn này có register code, ngược lại trả về False."""
-        return True if self.__registerCode else False
+        return True if len(self.__registerCode)>0 else False
 
     def setRegisterCode(self, registerCode:str):
         self.__registerCode = registerCode
@@ -280,10 +332,8 @@ class ClassGroup:
             registerCode = self.getRegisterCodes()[0]
             for rawClass in self.__rawClasses:
                 rawClass.setRegisterCode(registerCode)
-
-    def addRawClass(self, rawClass: RawClass):
-        """Thêm một RaWClass vào ClassGroup."""
-        self.__rawClasses.append(rawClass)
+        else:
+            raise Exception('Can not share register code in this class group because it have many one.')
 
     def isHaveManyRegisterCode(self):
         """Nếu một nhóm lớp có nhiều hơn một mã đăng ký thì mặc định ứng dụng sẽ cho đây là một
@@ -291,13 +341,26 @@ class ClassGroup:
         
         Phương thức này để kiểm tra môn học có phải là môn học đặc biệt hay không thông qua số lượng
         mã đăng ký mà một nhóm lớp chứa."""
-        return True if len(self.getRegisterCodes()) >= 2 else False
+        return True if len(self.getRegisterCodes()) > 1 else False
 
+    def addRawClass(self, rawClass: RawClass):
+        """Thêm một RaWClass vào ClassGroup."""
+        self.__rawClasses.append(rawClass)
 
-class SubjectData:
-    """Class này sẽ tách data từ một HTML page ra thành một cây JSON có cấu trúc."""
+class SubjectData(QObject):
+    """Class này sẽ trích xuất data có trong một SubjectPage để lấy ra thông tin của môn học.
+
+    Class này có các signal sau cần được connect với các slot để xử lý các behavior tương ứng.
+    
+    - `signal_getSubjects`: Hoàn thành việc lấy list các Subject object, đi cùng với một list of Subject.
+    - `signal_thisIsASpecialSubject`: Subject hiện tại là một Subject đặc biệt, ứng dụng sẽ bỏ qua môn học này, giá trị đi cùng là True."""
+
+    signal_getSubjects = pyqtSignal('PyQt_PyObject')
+    signal_thisIsASpecialSubject = pyqtSignal('PyQt_PyObject')
 
     def __init__(self, subjectPage: SubjectPage):
+        """@subjectPage: Một SubjectPage đã thực hiện phương thức run() của nó."""
+        super().__init__()
         self.__subjectCode = subjectPage.getSubjectCode() 
         self.__name = subjectPage.getName()
         self.__credit = subjectPage.getCredit()
@@ -365,9 +428,15 @@ class SubjectData:
         listTrTag = table[0]('tr',class_='lop')
         listClassGroup = []
         for groupName in self.getListClassGroupName():
-            ListRawClassPass = list(rawClass for rawClass in self.__getListRawClass(listTrTag) if rawClass.getClassName()[0: len(groupName)] == groupName)
-            classGroup = ClassGroup(groupName, ListRawClassPass)
-            listClassGroup.append(classGroup)
+            listRawClassPass = []
+            for rawClass in self.__getListRawClass(listTrTag):
+                if rawClass.getClassName()[0: len(groupName)] == groupName:
+                    listRawClassPass.append(rawClass)
+            try:
+                classGroup = ClassGroup(groupName, listRawClassPass)
+                listClassGroup.append(classGroup)
+            except:
+                raise Exception('{0} is a special subject'.format(self.__name))
         return listClassGroup
 
     def getJson(self):
@@ -386,26 +455,19 @@ class SubjectData:
     def toJsonFile(self):
         with open(self.getSubjectCode()+'.json', 'w', encoding='utf-8') as f:
             json.dump(self.getJson(),f, ensure_ascii=False, indent=4)    
-
-    def isNormalSubject(self) -> bool:
-        """Kiểm tra xem môn học này có phải là một môn học bình thường không.
-        
-        Một môn được xem là một môn học bình thương sẽ chỉ có một mã đăng ký trong một nhóm lớp."""
-        for classGroup in self.getListClassGroup():
-            if classGroup.isHaveManyRegisterCode():
-                return False
-        return True
         
     def getSubjects(self) -> List[Subject]:
         """Trả về một list các Subject."""
-        subjectsOut = []
-        for classGroup in self.getListClassGroup():
-            rawClasses = classGroup.getRawClasses()
-            subjectsInClassGroup = [rawClass.toSubject(self.__name, self.__credit) for rawClass in rawClasses]
-            subjectsOut.extend(subjectsInClassGroup)
-        return subjectsOut
+        try:
+            subjectsOut = []
+            for classGroup in self.getListClassGroup():
+                rawClasses = classGroup.getRawClasses()
+                subjectsInClassGroup = [rawClass.toSubject(self.__name, self.__credit) for rawClass in rawClasses]
+                subjectsOut.extend(subjectsInClassGroup)
+            return subjectsOut
+        except:
+            return []
 
 if __name__ == "__main__":
-    sp = SubjectPage(70,'PSU-FIN', '301')
-    sd = SubjectData(sp)
-    print(len(sd.getSubjects()))
+    print(list(getSchoolYear()[-1].keys())[0])
+    print(getSemester(list(getSchoolYear()[-1].keys())[0]))
