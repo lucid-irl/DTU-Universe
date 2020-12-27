@@ -10,9 +10,9 @@ FOLDER_UI = "guis"
 USE_UI = "main.ui"
 CALENDAR_CHOICE_UI = 'calendarChoicer.ui'
 PREDICT_SUBJECT = 'predict_subject.ui'
-DOWNLOAD_SUBJECT = 'window_load_subject.ui'
+WINDOW_NOTIFICATION = 'window_notify.ui'
 
-UI_DOWNLOAD_SUJECT = FOLDER_UI+'/'+DOWNLOAD_SUBJECT
+UI_NOTIFICATION = FOLDER_UI+'/'+WINDOW_NOTIFICATION
 
 
 FOLDER_FONT = 'fonts'
