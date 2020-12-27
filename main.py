@@ -70,8 +70,13 @@ class Main(QWidget):
         self.dynamicTitle = team_config.TITLE+' • <b>{0}</b> • {1}'.format(self.currentSchoolYearInfo, self.currentSemesterInfo)
         self.label_windowTitle.setText(self.dynamicTitle)
 
+
         self.line_findSubject = ConvertThisQObject(self, QLineEdit, 'lineEdit_tenMon').toQLineEdit()
+        allSubject=["Apple", "Alps", "Berry", "Cherry" ]
+        completer = QCompleter(allSubject)
+        self.line_findSubject.setCompleter(completer)
         self.line_findSubject.mousePressEvent = lambda _ : self.line_findSubject.selectAll()
+
         self.table_Semeter = ConvertThisQObject(self, QTableWidget, 'tableWidget_lichHoc').toQTableWidget()
 
         self.scroll_buttonWeek = ConvertThisQObject(self, QScrollArea, 'scrollArea').toQScrollArea()
