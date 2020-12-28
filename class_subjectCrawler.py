@@ -85,9 +85,10 @@ class SubjectPage(QObject):
         
         - Phương thức này trả về đường dẫn tới trang HTML Raw của môn học. Nếu mã môn không tồn tại, nó trả về `None`.
         - Phương thức này trả về khác `None` là cơ sở để có thể truyền `SubjectPage` vào `SubjectData` để tiếp tục trích xuát dữ liệu."""
-        print('run')
-        self.url = self.__getSubjectUrl(self.discipline, self.keyword1)
-        print(self.url)
+        try:
+            self.url = self.__getSubjectUrl(self.discipline, self.keyword1)
+        except ExceptionCantFoundThisSubject:
+            return None
         if self.url:
             self.htmlPage = requests.get(self.url).text
             self.soup = BeautifulSoup(self.htmlPage, 'lxml')
@@ -506,7 +507,7 @@ class SubjectData:
                 subjectsInClassGroup = [rawClass.toSubject(self.__name, self.__credit) for rawClass in rawClasses]
                 subjectsOut.extend(subjectsInClassGroup)
             return subjectsOut
-        except ExceptionSpecialSubject as e:
+        except ExceptionSpecialSubject:
             return []
 
 
