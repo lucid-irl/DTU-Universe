@@ -1,5 +1,3 @@
-
-import sys
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtWidgets import *
 from class_DTUWeb import DTULogin
