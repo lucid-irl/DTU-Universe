@@ -1,7 +1,7 @@
 from class_dialogNotification import NotificationWindow
-from class_subjectCrawler import SubjectData, SubjectPage, getSchoolYear, getSemester
+from class_subjectCrawler import getDisciplines, getSchoolYear, getSemester
 from PyQt5.QtWidgets import (QWidget, QApplication, QPushButton, QListWidget, QListWidgetItem,
-                             QTableWidget, QTableWidgetItem, QMessageBox, QLineEdit, QCheckBox, QTextEdit, QLabel)
+                             QTableWidget, QTableWidgetItem, QMessageBox, QLineEdit, QLabel)
 from PyQt5.QtCore import Qt
 from PyQt5 import uic
 
@@ -9,9 +9,9 @@ from class_custom_list_item_widget import CustomListItemWidget
 from class_customConflictWidget import CustomConflictWidget
 from class_semester import *
 from class_subject import Subject
-from class_schedule import StringToSchedule
 from class_convertType import *
 from class_flow_layout import FlowLayout
+from thread_downloadSubject import ThreadDownloadSubject, ThreadShowLoading
 
 import sys
 import os
@@ -19,6 +19,11 @@ import cs4rsa_color
 import team_config
 import sys
 
+
+class ValidatorFindLineEdit(QValidator):
+    """In hoa mọi ký tự nhập vào QLineEdit."""
+    def validate(self, string, pos):
+        return QValidator.Acceptable, string.upper(), pos
 
 class Main(QWidget):
     """Class này chỉ đảm nhiệm việc xử lý giao diện."""
@@ -72,10 +77,11 @@ class Main(QWidget):
 
 
         self.line_findSubject = ConvertThisQObject(self, QLineEdit, 'lineEdit_tenMon').toQLineEdit()
-        allSubject=["Apple", "Alps", "Berry", "Cherry" ]
+        allSubject = getDisciplines()
         completer = QCompleter(allSubject)
         self.line_findSubject.setCompleter(completer)
         self.line_findSubject.mousePressEvent = lambda _ : self.line_findSubject.selectAll()
+        self.line_findSubject.setValidator(ValidatorFindLineEdit())
 
         self.table_Semeter = ConvertThisQObject(self, QTableWidget, 'tableWidget_lichHoc').toQTableWidget()
 
@@ -326,9 +332,10 @@ class Main(QWidget):
                 team_config.MESSAGE_WARNING,
                 'Có vẻ như gặp lỗi trong quá trình cập nhật.')
 
-    def fillDataToSubjectFoundFromJson(self, subjects: List[Subject]):
+    def fillDataToSubjectFound(self, subjects: List[Subject]):
         """Phương thức này nhận vào một JSON và render ra UI trên phần 
         Subject found."""
+        self.listView_SubjectDownloaded.clear()
         self.SUBJECT_FOUND = subjects
         self.loadListSubjectFound()
         self.unableItemInListFound()
@@ -340,33 +347,48 @@ class Main(QWidget):
 
     def findSubject(self, discipline, keyword1):
         """Tìm kiếm môn học."""
-        self.changeWindowTitle('🔍Đang tìm kiếm...')
-        subjectPage = SubjectPage(self.currentSemesterValue, discipline, keyword1)
-        if subjectPage.run():
-            self.changeWindowTitle(subjectPage.getName())
-            if subjectPage.getIsHaveSchedule():
-                subjectData = SubjectData(subjectPage)
-                subjects = subjectData.getSubjects()
-                if subjects:
-                    self.SUBJECT_FOUND.clear()
-                    self.listView_SubjectDownloaded.clear()
-                    self.CURRENT_SUBJECT = discipline+' '+keyword1
-                    self.fillDataToSubjectFoundFromJson(subjects)
-                else:
-                    NotificationWindow('Thông báo', 'Có vẻ {0} là một môn học đặc biệt, app của bọn mình sẽ không xử lý những môn học như này.'.format(subjectPage.getName()), self).exec_()
-                    self.label_windowTitle.setText(self.dynamicTitle)
-                    self.line_findSubject.setFocus()
-                    self.line_findSubject.selectAll()
-            else:
-                NotificationWindow('Thông báo', 'Không có lịch của môn {} trong học kỳ này.'.format(subjectPage.getName()), self).exec_()
-                self.label_windowTitle.setText(self.dynamicTitle)
-                self.line_findSubject.setFocus()
-                self.line_findSubject.selectAll()
-        else:
-            NotificationWindow('Thông báo', 'Có vẻ như mã môn bạn nhập không tồn tại 😢😢😢', self).exec_()
+        loadingContents = ['🔍Đang tìm kiếm',
+                            '🔎Đang tìm kiếm.',
+                            '🔍Đang tìm kiếm..',
+                            '🔎Đang tìm kiếm...',
+                            '🔍Đang tìm kiếm....',
+                            '🔎Đang tìm kiếm.....']
+        self.loading = ThreadShowLoading(0.3, loadingContents)
+        self.loading.signal_changeTitle.connect(lambda content: self.changeWindowTitle(content))
+        self.loading.signal_stopLoading.connect(lambda content: self.changeWindowTitle('<i>{0}</i>'.format(content)))
+        self.loading.start()
 
+        contentSpecialSubject = """Có vẻ {0} là một môn học đặc biệt, app của bọn mình sẽ không xử lý những môn học như này.
+                    <br>
+                    <br>
+                    <b>Môn học đặc biệt</b> là một môn mà có các nhóm lớp, trong mỗi nhóm lớp
+                    như thế lại có nhiều mã đăng ký lớp học, những môn như thế sẽ được bọn mình bỏ qua vì thông thường
+                    để đăng ký một lớp (hay đúng hơn là một nhóm lớp) các bạn chỉ cần 1 mã đăng ký.
+                    <br>
+                    <br>
+                    <i style="font-size: 18px;">*Nguồn donate từ các bạn sẽ tạo động lực cho team nghiên cứu những môn như này. Cảm ơn.</i>"""
+        contentNotFoundSubject = 'Có vẻ như {0} không tồn tại 😢😢😢'
+        contentHaveNotSchedule = 'Không có lịch của môn {0} trong học kỳ này.'
 
-     
+        notiSpecialSubject = lambda subjectCode: NotificationWindow('Thông báo',contentSpecialSubject.format(subjectCode), self).exec_()
+        notiNotFoundSubject = lambda subjectCode: NotificationWindow('Thông báo',contentNotFoundSubject.format(subjectCode), self).exec_()
+        notiHaveNotSchedule = lambda subjectCode: NotificationWindow('Thông báo',contentHaveNotSchedule.format(subjectCode), self).exec_()   
+        
+        def innerCleanWindowTitleAndNoti(noti, contentNoti: str):
+            self.loading.stopLoading(contentNoti)
+            noti(contentNoti)
+            self.resetWindowTitle()
+            self.line_findSubject.clear()
+            self.line_findSubject.setFocus()
+
+        self.threadDownloadSubject = ThreadDownloadSubject(self.currentSemesterValue, discipline, keyword1)
+        self.threadDownloadSubject.signal_foundSubject.connect(self.fillDataToSubjectFound)
+        self.threadDownloadSubject.signal_subjectName.connect(lambda content: self.loading.stopLoading(content))
+        self.threadDownloadSubject.signal_notFoundSubject.connect(lambda content: innerCleanWindowTitleAndNoti(notiNotFoundSubject, content))
+        self.threadDownloadSubject.signal_notHaveSchedule.connect(lambda content: innerCleanWindowTitleAndNoti(notiHaveNotSchedule, content))
+        self.threadDownloadSubject.signal_specialSubject.connect(lambda content: innerCleanWindowTitleAndNoti(notiSpecialSubject, content))
+        self.threadDownloadSubject.start()
+        
 
 # Các phương thức thao tác trên Table và các thành phần giao diện khác
     def resetColorTable(self):
@@ -507,8 +529,15 @@ class Main(QWidget):
         self.ani.start()
 
     def changeWindowTitle(self, title):
-        newTitle = self.dynamicTitle+' • <i>{0}</i>'.format(title)
+        newTitle = self.dynamicTitle+' • {0}'.format(title)
         self.label_windowTitle.setText(newTitle)
+
+    def resetWindowTitle(self):
+        self.label_windowTitle.setText(self.dynamicTitle)
+
+    def selectAllAndFocusFindQLineEdit(self):
+        self.line_findSubject.setFocus()
+        self.line_findSubject.selectAll()
 
 app = QApplication(sys.argv)
 window = Main()
