@@ -1,7 +1,7 @@
 from class_dialogNotification import NotificationWindow
-from class_subjectCrawler import SubjectData, SubjectPage, getSchoolYear, getSemester
+from class_subjectCrawler import getDisciplines, getSchoolYear, getSemester
 from PyQt5.QtWidgets import (QWidget, QApplication, QPushButton, QListWidget, QListWidgetItem,
-                             QTableWidget, QTableWidgetItem, QMessageBox, QLineEdit, QCheckBox, QTextEdit, QLabel)
+                             QTableWidget, QTableWidgetItem, QMessageBox, QLineEdit, QLabel)
 from PyQt5.QtCore import Qt
 from PyQt5 import uic
 
@@ -9,7 +9,6 @@ from class_custom_list_item_widget import CustomListItemWidget
 from class_customConflictWidget import CustomConflictWidget
 from class_semester import *
 from class_subject import Subject
-from class_schedule import StringToSchedule
 from class_convertType import *
 from class_flow_layout import FlowLayout
 from thread_downloadSubject import ThreadDownloadSubject, ThreadShowLoading
@@ -20,6 +19,11 @@ import cs4rsa_color
 import team_config
 import sys
 
+
+class ValidatorFindLineEdit(QValidator):
+    """In hoa mọi ký tự nhập vào QLineEdit."""
+    def validate(self, string, pos):
+        return QValidator.Acceptable, string.upper(), pos
 
 class Main(QWidget):
     """Class này chỉ đảm nhiệm việc xử lý giao diện."""
@@ -73,10 +77,11 @@ class Main(QWidget):
 
 
         self.line_findSubject = ConvertThisQObject(self, QLineEdit, 'lineEdit_tenMon').toQLineEdit()
-        allSubject=["Apple", "Alps", "Berry", "Cherry" ]
+        allSubject = getDisciplines()
         completer = QCompleter(allSubject)
         self.line_findSubject.setCompleter(completer)
         self.line_findSubject.mousePressEvent = lambda _ : self.line_findSubject.selectAll()
+        self.line_findSubject.setValidator(ValidatorFindLineEdit())
 
         self.table_Semeter = ConvertThisQObject(self, QTableWidget, 'tableWidget_lichHoc').toQTableWidget()
 
