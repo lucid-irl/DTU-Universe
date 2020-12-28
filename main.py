@@ -12,6 +12,7 @@ from class_subject import Subject
 from class_schedule import StringToSchedule
 from class_convertType import *
 from class_flow_layout import FlowLayout
+from thread_downloadSubject import ThreadDownloadSubject
 
 import sys
 import os
@@ -353,7 +354,16 @@ class Main(QWidget):
                     self.CURRENT_SUBJECT = discipline+' '+keyword1
                     self.fillDataToSubjectFoundFromJson(subjects)
                 else:
-                    NotificationWindow('Thông báo', 'Có vẻ {0} là một môn học đặc biệt, app của bọn mình sẽ không xử lý những môn học như này.'.format(subjectPage.getName()), self).exec_()
+                    noti = """Có vẻ {0} là một môn học đặc biệt, app của bọn mình sẽ không xử lý những môn học như này.
+                    <br>
+                    <br>
+                    <b>Môn học đặc biệt</b> là một môn mà có các nhóm lớp, trong mỗi nhóm lớp
+                    như thế lại có nhiều mã đăng ký lớp học, những môn như thế sẽ được bọn mình bỏ qua vì thông thường
+                    để đăng ký một lớp (hay đúng hơn là một nhóm lớp) các bạn chỉ cần 1 mã đăng ký.
+                    <br>
+                    <br>
+                    <i style="font-size: 18px;">*Nguồn donate từ các bạn sẽ tạo động lực cho team nghiên cứu những môn như này. Cảm ơn.</i>""".format(subjectPage.getName())
+                    NotificationWindow('Thông báo', noti, self).exec_()
                     self.label_windowTitle.setText(self.dynamicTitle)
                     self.line_findSubject.setFocus()
                     self.line_findSubject.selectAll()
@@ -364,9 +374,9 @@ class Main(QWidget):
                 self.line_findSubject.selectAll()
         else:
             NotificationWindow('Thông báo', 'Có vẻ như mã môn bạn nhập không tồn tại 😢😢😢', self).exec_()
-
-
-     
+            self.label_windowTitle.setText(self.dynamicTitle)
+            self.line_findSubject.setFocus()
+            self.line_findSubject.selectAll()
 
 # Các phương thức thao tác trên Table và các thành phần giao diện khác
     def resetColorTable(self):
@@ -507,7 +517,7 @@ class Main(QWidget):
         self.ani.start()
 
     def changeWindowTitle(self, title):
-        newTitle = self.dynamicTitle+' • <i>{0}</i>'.format(title)
+        newTitle = self.dynamicTitle+' • {0}'.format(title)
         self.label_windowTitle.setText(newTitle)
 
 app = QApplication(sys.argv)
