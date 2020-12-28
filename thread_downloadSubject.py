@@ -1,9 +1,8 @@
 import time
 from typing import List
 
-from PyQt5.QtWidgets import QApplication
 from class_subjectCrawler import SubjectData, SubjectPage
-from PyQt5.QtCore import QObject, QThread, pyqtSignal
+from PyQt5.QtCore import QThread, pyqtSignal
 
 
 class ThreadShowLoading(QThread):
