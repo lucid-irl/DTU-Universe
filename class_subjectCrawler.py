@@ -33,6 +33,24 @@ class ExceptionCantFoundThisSubject(Exception):
         self.message = 'Could not find this subject {0}'.format(subjectName)
         super().__init__(self.message)
 
+def getDisciplines():
+    url = 'http://courses.duytan.edu.vn/Modules/academicprogram/ajax/LoadCourses.aspx?t=1609171317852'
+    requestCourseSearch = requests.get(url)
+    soup = BeautifulSoup(requestCourseSearch.text,'lxml')
+    soup = BeautifulSoup(requestCourseSearch.text,'lxml')
+    optionTags:ResultSet = soup.body.select('option')[1:-1]
+    return [optionTag['value'] for optionTag in optionTags]
+
+def getFullSubjectCode(discipline, semester, getName=False) -> List:
+    url = 'http://courses.duytan.edu.vn/Modules/academicprogram/CourseResultSearch.aspx?discipline={0}&keyword1=*&hocky={1}'.format(discipline, semester)
+    r = requests.get(url)
+    soup = BeautifulSoup(r.text,'lxml')
+    trTags:ResultSet = soup.tbody('tr')
+    if getName:
+        return [{toStringAndCleanSpace(trTag.td.text):toStringAndCleanSpace(trTags('td')[1].text)} for trTag in trTags]
+    else:
+        return [toStringAndCleanSpace(trTag.td.text) for trTag in trTags]
+
 def getSchoolYear():
     """Trả về một list chứa thông tin về giá trị năm học và thông tin năm học có dạng như sau.
     >>> [{'45': 'Năm Học 2014-2015'}, {'49': 'Năm Học 2015-2016'}]
@@ -40,8 +58,7 @@ def getSchoolYear():
     url = 'http://courses.duytan.edu.vn/Modules/academicprogram/ajax/LoadNamHoc.aspx?namhocname=cboNamHoc2&id=2&t=1609038051887'
     requestCourseSearch = requests.get(url)
     soup = BeautifulSoup(requestCourseSearch.text,'lxml')
-    optionTags:ResultSet = soup.body.select('option')
-    optionTags.pop(0)
+    optionTags:ResultSet = soup.body.select('option')[1:-1]
     return [{optionTag['value']: toStringAndCleanSpace(optionTag.text)} for optionTag in optionTags]
 
 def getSemester(namhoc: str):
@@ -58,8 +75,7 @@ def getSemester(namhoc: str):
     url ='http://courses.duytan.edu.vn/Modules/academicprogram/ajax/LoadHocKy.aspx?namhoc={0}&hockyname=cboHocKy1'.format(namhoc)
     requestCourseSearch = requests.get(url)
     soup = BeautifulSoup(requestCourseSearch.text,'lxml')
-    optionTags:ResultSet = soup.body.select('option')
-    optionTags.pop(0)
+    optionTags:ResultSet = soup.body.select('option')[1:-1]
     return [{optionTag['value']: toStringAndCleanSpace(optionTag.text)} for optionTag in optionTags]
 
 class SubjectPage(QObject):
@@ -512,8 +528,14 @@ class SubjectData:
 
 
 if __name__ == "__main__":
-    sp = SubjectPage('70', 'pmy','302')
-    sp.run()
-    print(sp.getName())
-    sd = SubjectData(sp)
-    print(sd.getListClassGroup())
+    # sp = SubjectPage('70', 'pmy','302')
+    # sp.run()
+    # print(sp.getName())
+    # sd = SubjectData(sp)
+    # print(sd.getListClassGroup())
+    l = getDisciplines()
+    output = []
+    for i in l:
+        output.extend(getFullSubjectCode(i, 70))
+    ok = sorted(list(set(output)))
+    print(len(ok))
