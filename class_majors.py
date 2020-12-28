@@ -50,5 +50,5 @@ def main():
 
 
 js = main()
-with open('info.json','w',encoding='utf-8') as g:
+with open('major_info.json','w',encoding='utf-8') as g:
     json.dump(js, g, indent=4, ensure_ascii=False)
