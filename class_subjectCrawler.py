@@ -16,6 +16,23 @@ import requests
 import json
 
 
+class ExceptionNotHaveRegisterCode(Exception):
+
+    def __init__(self, name) -> None:
+        super().__init__('ClassGroup {0} have not register code')
+
+class ExceptionSpecialSubject(Exception):
+
+    def __init__(self, name) -> None:
+        self.message = """{0} is a special subject. Can not share register code in this class group because it have many one."""
+        super().__init__(self.message.format(name))
+
+class ExceptionCantFoundThisSubject(Exception):
+
+    def __init__(self, subjectName: str) -> None:
+        self.message = 'Could not find this subject {0}'.format(subjectName)
+        super().__init__(self.message)
+
 def getSchoolYear():
     """Trả về một list chứa thông tin về giá trị năm học và thông tin năm học có dạng như sau.
     >>> [{'45': 'Năm Học 2014-2015'}, {'49': 'Năm Học 2015-2016'}]
@@ -51,16 +68,7 @@ class SubjectPage(QObject):
     
     I. Class này ngay sau khi khởi tạo nó sẽ gửi một request tới server DTU để kiểm tra xem:
     - Mã môn học có tồn tại hay không
-    - Nếu có thì tiếp tục gửi request tới trang HTML raw và kiểm tra xem có lịch lớp học hay không
-    
-    II. Các signal sau cần được connect để xử lý cho từng behavior tương ứng:
-    - `signal_foundName`: Tìm thấy tên của môn học nhập vào, signal này đi cùng một chuỗi là tên của môn học đó.
-    - `signal_isHaveSchedule`: Có lịch học của lớp này trong năm học và học kỳ hiện tại, signal này đi cùng với một giá trị True.
-    - `signal_isNotHaveSchedule`: Không lịch học của lớp này trong năm học và học kỳ hiện tại, signal này đi cùng với một giá trị True."""
-
-    signal_foundName = pyqtSignal('PyQt_PyObject')
-    signal_isHaveSchedule = pyqtSignal('PyQt_PyObject')
-    signal_isNotHaveSchedule = pyqtSignal('PyQt_PyObject')
+    - Nếu có thì tiếp tục gửi request tới trang HTML raw và kiểm tra xem có lịch lớp học hay không."""
 
     def __init__(self, semester: str, discipline: str, keyword1: str):
         super(SubjectPage, self).__init__()
@@ -77,7 +85,9 @@ class SubjectPage(QObject):
         
         - Phương thức này trả về đường dẫn tới trang HTML Raw của môn học. Nếu mã môn không tồn tại, nó trả về `None`.
         - Phương thức này trả về khác `None` là cơ sở để có thể truyền `SubjectPage` vào `SubjectData` để tiếp tục trích xuát dữ liệu."""
+        print('run')
         self.url = self.__getSubjectUrl(self.discipline, self.keyword1)
+        print(self.url)
         if self.url:
             self.htmlPage = requests.get(self.url).text
             self.soup = BeautifulSoup(self.htmlPage, 'lxml')
@@ -131,14 +141,14 @@ class SubjectPage(QObject):
         courseResultSearchUrl = 'http://courses.duytan.edu.vn/Modules/academicprogram/CourseResultSearch.aspx'
         page = requests.get(courseResultSearchUrl, params).text
         soup = BeautifulSoup(page,'lxml')
-        tdHitTag = soup.find_all(class_='hit')
-        if tdHitTag:
-            urlSub = tdHitTag[2]['href']
+        hitTag = soup.find_all(class_='hit')
+        if hitTag:
+            urlSub = hitTag[1]['href']
             courseId = SubjectPage.__extractCourseId(urlSub)
             urlOutput = "http://courses.duytan.edu.vn/Modules/academicprogram/CourseClassResult.aspx?courseid={0}&semesterid={1}&timespan={2}"
             return urlOutput.format(courseId, self.semester, self.semester)
         else:
-            return None
+            raise ExceptionCantFoundThisSubject(discipline+' '+keyword1)
 
     def toFile(self, filename: str=None):
         """Lấy HTML của một URL truyền vào và ghi ra một file."""
@@ -169,7 +179,7 @@ class SubjectPage(QObject):
 class RawClass:
     """Class này đại diện cho một hàng trong bảng lịch học bao gồm các thông tin."""
 
-    def __init__(self, className, registerCode, type, emptySeat,
+    def __init__(self, className, registerCode: str, type, emptySeat,
                 registrationTermStart, registrationTermEnd, 
                 weekStart, weekEnd,
                 hour: List[Dict[str, List]], rooms, locations, 
@@ -230,7 +240,7 @@ class RawClass:
 
     def isHaveRegisterCode(self):
         """Trả về True nếu môn này có register code, ngược lại trả về False."""
-        return True if len(self.__registerCode)>0 else False
+        return True if self.__registerCode else False
 
     def setRegisterCode(self, registerCode:str):
         self.__registerCode = registerCode
@@ -262,8 +272,10 @@ class ClassGroup:
         @rawClasses: List các RawClasses."""
         self.__name = name
         self.__rawClasses = rawClasses
-        self.mergeTeacherRawClassAndSet()
-        self.shareRegisterCode()
+        if self.isHaveManyRegisterCode():
+            raise ExceptionSpecialSubject(self.__name)
+        else:
+            self.mergeTeacherRawClassAndSet()
 
     def __len__(self):
         return len(self.__rawClasses)
@@ -313,7 +325,7 @@ class ClassGroup:
             rawClasses[0].setTeachers(teachers)
             return rawClasses[0]
         else:
-            print("Can not merge: each item in list of rawclass must same name one by one!!!")
+            raise Exception("Can not merge: each item in list of rawclass must same name one by one!!!")
 
     def mergeTeacherRawClassAndSet(self):
         """Trả về một danh sách các RawClass đã được gộp.
@@ -328,39 +340,37 @@ class ClassGroup:
 
     def shareRegisterCode(self):
         """Đổ register code cho toàn bộ RawClass có trong Nhóm lớp."""
-        if not self.isHaveManyRegisterCode():
+        if self.isHaveOnlyOneRegisterCode():
             registerCode = self.getRegisterCodes()[0]
             for rawClass in self.__rawClasses:
                 rawClass.setRegisterCode(registerCode)
-        else:
-            raise Exception('Can not share register code in this class group because it have many one.')
 
     def isHaveManyRegisterCode(self):
-        """Nếu một nhóm lớp có nhiều hơn một mã đăng ký thì mặc định ứng dụng sẽ cho đây là một
-        môn học đặc biệt và không sử dụng môn này.
-        
-        Phương thức này để kiểm tra môn học có phải là môn học đặc biệt hay không thông qua số lượng
-        mã đăng ký mà một nhóm lớp chứa."""
+        """Nếu nhóm lớp này có nhiều mã đăng ký nó sẽ trả về True ngược lại trả về False."""
         return True if len(self.getRegisterCodes()) > 1 else False
+
+    def isNotHaveRegisterCode(self):
+        """Nếu môn này không có mã đăng ký nào nó sẽ trả về True ngược lại trả về False."""
+        return True if len(self.getRegisterCodes()) == 0 else False
+
+    def isHaveOnlyOneRegisterCode(self):
+        """Trả về True nếu Nhóm Lớp này có đúng một mã đăng ký."""
+        return True if len(self.getRegisterCodes()) == 1 else False
+
+    def isHaveRegisterCode(self):
+        return True if len(self.getRegisterCodes()) >= 1 else False
 
     def addRawClass(self, rawClass: RawClass):
         """Thêm một RaWClass vào ClassGroup."""
         self.__rawClasses.append(rawClass)
 
-class SubjectData(QObject):
+class SubjectData:
     """Class này sẽ trích xuất data có trong một SubjectPage để lấy ra thông tin của môn học.
 
-    Class này có các signal sau cần được connect với các slot để xử lý các behavior tương ứng.
-    
-    - `signal_getSubjects`: Hoàn thành việc lấy list các Subject object, đi cùng với một list of Subject.
-    - `signal_thisIsASpecialSubject`: Subject hiện tại là một Subject đặc biệt, ứng dụng sẽ bỏ qua môn học này, giá trị đi cùng là True."""
-
-    signal_getSubjects = pyqtSignal('PyQt_PyObject')
-    signal_thisIsASpecialSubject = pyqtSignal('PyQt_PyObject')
+    Class này có các signal sau cần được connect với các slot để xử lý các behavior tương ứng."""
 
     def __init__(self, subjectPage: SubjectPage):
         """@subjectPage: Một SubjectPage đã thực hiện phương thức run() của nó."""
-        super().__init__()
         self.__subjectCode = subjectPage.getSubjectCode() 
         self.__name = subjectPage.getName()
         self.__credit = subjectPage.getCredit()
@@ -426,18 +436,49 @@ class SubjectData(QObject):
         """Trả về một list các ClassGroup."""
         table = self.__soup.find_all('table', class_='tb-calendar')
         listTrTag = table[0]('tr',class_='lop')
+        listRawClassNonFilter = self.__getListRawClass(listTrTag)
+
         listClassGroup = []
         for groupName in self.getListClassGroupName():
-            listRawClassPass = []
-            for rawClass in self.__getListRawClass(listTrTag):
-                if rawClass.getClassName()[0: len(groupName)] == groupName:
-                    listRawClassPass.append(rawClass)
-            try:
-                classGroup = ClassGroup(groupName, listRawClassPass)
-                listClassGroup.append(classGroup)
-            except:
-                raise Exception('{0} is a special subject'.format(self.__name))
+            classGroupNotYetSharingRegisterCode = SubjectData.filterAClassGroup(groupName, listRawClassNonFilter)
+            if classGroupNotYetSharingRegisterCode.isHaveRegisterCode():
+                try:
+                    if classGroupNotYetSharingRegisterCode.isHaveOnlyOneRegisterCode():
+                        listClassGroup.append(classGroupNotYetSharingRegisterCode)
+                        # important !!!
+                        classGroupNotYetSharingRegisterCode.shareRegisterCode()
+                except ExceptionSpecialSubject as e:
+                    raise e
         return listClassGroup
+
+    @staticmethod
+    def filterAClassGroup(classGroupName: str, rawClasses: List[RawClass]) -> ClassGroup:
+        """Trả về một ClassGroup có sỡ hữu các RawClass có tên giống tên của nó. 
+        #### ClassGroup này chưa thực hiện sharing Register Code.
+        Nếu không có RawClass nào thoả mãn sẽ trả về một list rỗng.
+        
+        @classGroupName: Tên của một ClassGroup.
+        @rawClasses: Danh sách các RawClass chưa được lọc."""
+        def cleanFilterClassGroup(rawClass: RawClass):
+            pattern = '^({0}[0-9]*)$'.format(classGroupName)
+            if re.search(pattern, rawClass.getClassName()):
+                return True
+            return False
+
+        listRawClassPass = list(filter(cleanFilterClassGroup, rawClasses))
+        return ClassGroup(classGroupName, listRawClassPass)
+
+    @staticmethod
+    def isHaveRegisterCode(rawClassPasses: List[RawClass]):
+        """Kiểm tra xem list chứa các RawClass có mã đăng ký hay không.
+        
+        Khi nào tìm thấy một mã đăng ký trong list này trả về True, ngược lại trả về False.
+        
+        @rawClassPasses: List of RawClass. Will be used in getListClassGroup() method."""
+        for rawClass in rawClassPasses:
+            if rawClass.isHaveRegisterCode():
+                return True
+        return False
 
     def getJson(self):
         jsonOut = {'name':self.__name}
@@ -465,9 +506,13 @@ class SubjectData(QObject):
                 subjectsInClassGroup = [rawClass.toSubject(self.__name, self.__credit) for rawClass in rawClasses]
                 subjectsOut.extend(subjectsInClassGroup)
             return subjectsOut
-        except:
+        except ExceptionSpecialSubject as e:
             return []
 
+
 if __name__ == "__main__":
-    print(list(getSchoolYear()[-1].keys())[0])
-    print(getSemester(list(getSchoolYear()[-1].keys())[0]))
+    sp = SubjectPage('70', 'pmy','302')
+    sp.run()
+    print(sp.getName())
+    sd = SubjectData(sp)
+    print(sd.getListClassGroup())
