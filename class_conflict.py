@@ -1,5 +1,5 @@
 from datetime import timedelta
-from typing import List, Tuple
+from typing import List, Set, Tuple
 
 from class_subject import *
 from class_schedule import *

@@ -1,27 +1,28 @@
-from class_dialogNotification import NotificationWindow
-from class_subjectCrawler import HomeCourseSearch
-from PyQt5.QtWidgets import (QWidget, QApplication, QPushButton, QListWidget, QListWidgetItem,
-                             QTableWidget, QTableWidgetItem, QMessageBox, QLineEdit, QLabel)
-from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import (QShortcut, QWidget, QApplication, QPushButton, QListWidget, QListWidgetItem,
+                            QTableWidget, QTableWidgetItem, QMessageBox, QLineEdit, QLabel, 
+                            QMainWindow, QFrame, QScrollArea, QCompleter, QDesktopWidget)
+from PyQt5.QtCore import QEasingCurve, QPropertyAnimation, QRect, Qt
+from PyQt5.QtGui import QColor, QKeySequence, QValidator 
 from PyQt5 import uic
 
 from class_custom_list_item_widget import CustomListItemWidget
 from class_customConflictWidget import CustomConflictWidget
-from class_semester import *
+from class_semester import Semester, WEEK
 from class_subject import Subject
-from class_convertType import *
+from class_convertType import ConvertThisQObject
 from class_flow_layout import FlowLayout
 from class_subjectCrawler import HomeCourseSearch
+from class_dialogNotification import NotificationWindow
 from thread_downloadSubject import ThreadDownloadSubject, ThreadShowLoading
+
+from typing import List
 
 import sys
 import os
 import cs4rsa_color
 import team_config
 import sys
-import logging
-
-logging.basicConfig(level=logging.INFO)
+import re
 
 class ValidatorFindLineEdit(QValidator):
     """In hoa mọi ký tự nhập vào QLineEdit."""
@@ -36,9 +37,9 @@ class Main(QWidget):
     WINDOW_IS_MAXIMIZED = False
 
 # Các phương thức setting Giao diện bao gồm kết nối Signal, add Hot key,...
-    def __init__(self, mainwindow: QMainWindow=None):
-        super(Main, self).__init__()
-        self.mainwindow = mainwindow
+    def __init__(self):
+        super(Main, self).__init__() #Main, self
+        print('call init')
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.semester = Semester()
@@ -80,7 +81,7 @@ class Main(QWidget):
 
 
         self.line_findSubject = ConvertThisQObject(self, QLineEdit, 'lineEdit_tenMon').toQLineEdit()
-        allSubject = self.homeCourseSearch.getDisciplineFromFile('subjectCode.json')
+        allSubject = HomeCourseSearch.getDisciplineFromFile('subjectCode.json')
         completer = QCompleter(allSubject)
         self.line_findSubject.setCompleter(completer)
         self.line_findSubject.mousePressEvent = lambda _ : self.line_findSubject.selectAll()
@@ -132,31 +133,21 @@ class Main(QWidget):
         """Phương thức này chịu trách nhiệm gán Shortcut cho các chức năng trong ứng dụng."""
         self.quitSc = QShortcut(QKeySequence('Esc'), self)
         self.quitSc.activated.connect(QApplication.instance().quit)
-        
+
         # shortcut for button here
         self.button_findSubject.setShortcut('Return')
 
 # IMPORTANT!!!
 # Các phương thức này chuẩn bị đủ đúng context trước khi thao tác, ta gọi chúng là Action
-    def actionDeleteSubject(self):
-        """Action này được gọi khi người dùng định xoá một Subject ra khỏi Semester."""
-        item = self.listView_SubjectChoiced.currentItem()
-        if item:
-            subject = item.data(Qt.UserRole)
-            self.deleteSubject(subject)
-        else:
-            self.messageError()
 
     def actionFindSubject(self):
         subjectName = self.line_findSubject.text()
         if re.search('^[A-Za-z-]*[ ][0-9]*$',subjectName):
             discipline = subjectName.upper().split(' ')[0]
             keyword1 = subjectName.split(' ')[1]
-            logging.info('actionFindSubject:'+discipline+keyword1)
             self.findSubject(discipline, keyword1)
         else:
             NotificationWindow('Thông báo','Có vẻ như có gì đó sai sai trong tên bạn vừa nhập 😢😢😢', self).exec_()
-            
 
     def actionGoToPreviousWeek(self):
         if self.semester.getCurrentSemesterIndex() == None:
@@ -385,7 +376,6 @@ class Main(QWidget):
             self.line_findSubject.clear()
             self.line_findSubject.setFocus()
 
-        logging.info('main:findSubject:'+self.currentSemesterValue + discipline + keyword1)
         self.threadDownloadSubject = ThreadDownloadSubject(self.currentSemesterValue, discipline, keyword1)
         self.threadDownloadSubject.signal_foundSubject.connect(self.fillDataToSubjectFound)
         self.threadDownloadSubject.signal_subjectName.connect(lambda content: self.loading.stopLoading(content))
@@ -466,17 +456,6 @@ class Main(QWidget):
             i+=1
         return output
 
-# Các hộp thoại thông báo, được chúng tôi gọi là message
-    def messageError(self):
-        QMessageBox.warning(
-            self, 
-            team_config.MESSAGE_ABOUT,
-            team_config.MESSAGE_DONATE_CONTENT,
-            QMessageBox.Ok
-        )
-
-    def showMessage(self, title: str, content: str):
-        print(title, content)
 
 # Giao diện
     def closeWindow(self):
@@ -542,9 +521,9 @@ class Main(QWidget):
     def selectAllAndFocusFindQLineEdit(self):
         self.line_findSubject.setFocus()
         self.line_findSubject.selectAll()
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = Main()
-    window.show()
-    sys.exit(app.exec_())
+    
+# if __name__ == "__main__":
+app = QApplication(sys.argv)
+window = Main()
+window.show()
+sys.exit(app.exec_())

@@ -15,10 +15,6 @@ from class_DTUWeb import DTUSession
 import re
 import requests
 import json
-import logging
-
-logging.basicConfig(level=logging.INFO)
-
 
 class ExceptionNotHaveRegisterCode(Exception):
 
@@ -38,6 +34,7 @@ class ExceptionCantFoundThisSubject(Exception):
         super().__init__(self.message)
 
 class HomeCourseSearch:
+    """Nó đại diện cho tất cả mọi thứ ở trang này."""
 
     def __init__(self):
         self.currentYears = HomeCourseSearch.getSchoolYear()[-1]
@@ -83,7 +80,8 @@ class HomeCourseSearch:
         optionTags:ResultSet = soup.body.select('option')[1:]
         return [optionTag['value'] for optionTag in optionTags]
 
-    def getDisciplineFromFile(self, filename: str):
+    @staticmethod
+    def getDisciplineFromFile(filename: str):
         with open(filename, 'r', encoding='utf-8') as f:
             jsonData:List[Dict] = json.load(f)
         output = []
@@ -101,7 +99,6 @@ class HomeCourseSearch:
         }
         url = 'http://courses.duytan.edu.vn/Modules/academicprogram/CourseResultSearch.aspx'
         r = requests.get(url, params=params)
-        logging.info('HomeCourseSearch:getFullSubjectCode:'+r.url)
         soup = BeautifulSoup(r.text,'lxml')
         trTags = soup.tbody('tr', class_='lop')
         if getName:
@@ -129,7 +126,6 @@ class HomeCourseSearch:
         }
         url = 'http://courses.duytan.edu.vn/Modules/academicprogram/ajax/LoadNamHoc.aspx?namhocname=cboNamHoc2&id=2'
         requestCourseSearch = requests.get(url, params=params)
-        logging.info(requestCourseSearch.url)
         soup = BeautifulSoup(requestCourseSearch.text,'lxml')
         optionTags:ResultSet = soup.body.select('option')[1:]
         return [{optionTag['value']: toStringAndCleanSpace(optionTag.text)} for optionTag in optionTags]
@@ -150,7 +146,6 @@ class HomeCourseSearch:
             'namhoc':namhoc
         }
         url ='http://courses.duytan.edu.vn/Modules/academicprogram/ajax/LoadHocKy.aspx?hockyname=cboHocKy1'
-        logging.info(url)
         requestCourseSearch = requests.get(url, params=params)
         soup = BeautifulSoup(requestCourseSearch.text,'lxml')
         optionTags:ResultSet = soup.body.select('option')[1:]
@@ -181,14 +176,15 @@ class SubjectPage(QObject):
         - Phương thức này trả về khác `None` là cơ sở để có thể truyền `SubjectPage` vào `SubjectData` để tiếp tục trích xuát dữ liệu."""
         try:
             self.url = self.__getSubjectUrl(self.discipline, self.keyword1)
+            if self.url:
+                self.htmlPage = requests.get(self.url).text
+                self.soup = BeautifulSoup(self.htmlPage, 'lxml')
+                self.isHaveSchedule = self.__isHaveSchedule()
+                return self.url
+            return None
         except ExceptionCantFoundThisSubject:
             return None
-        if self.url:
-            self.htmlPage = requests.get(self.url).text
-            self.soup = BeautifulSoup(self.htmlPage, 'lxml')
-            self.isHaveSchedule = self.__isHaveSchedule()
-        else:
-            return self.url
+
 
     def getUrl(self):
         if self.url:
@@ -206,7 +202,6 @@ class SubjectPage(QObject):
         if self.isHaveSchedule:
             return self.isHaveSchedule
         else:
-            print(self.isHaveSchedule)
             raise Exception("You need to run SubjectPage's run() method before run this getter.")
 
     @staticmethod
@@ -233,9 +228,7 @@ class SubjectPage(QObject):
             'hocky': self.semester,
         }
         courseResultSearchUrl = 'http://courses.duytan.edu.vn/Modules/academicprogram/CourseResultSearch.aspx'
-        logging.info(courseResultSearchUrl)
         r = requests.get(courseResultSearchUrl, params)
-        logging.info(r.url)
         page = r.text
         soup = BeautifulSoup(page,'lxml')
         hitTag = soup.find_all(class_='hit')
@@ -243,7 +236,6 @@ class SubjectPage(QObject):
             urlSub = hitTag[1]['href']
             courseId = SubjectPage.__extractCourseId(urlSub)
             urlOutput = "http://courses.duytan.edu.vn/Modules/academicprogram/CourseClassResult.aspx?courseid={0}&semesterid={1}&timespan={2}"
-            logging.info(urlOutput.format(courseId, self.semester, self.semester))
             return urlOutput.format(courseId, self.semester, self.semester)
         else:
             raise ExceptionCantFoundThisSubject(discipline+' '+keyword1)

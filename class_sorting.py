@@ -2,7 +2,6 @@ from DataToExcel import *
 
 from PyQt5.QtWidgets import QWidget, QComboBox, QPushButton, QListWidget, QApplication, QDialog
 from PyQt5 import uic
-import sys
 from class_convertType import ConvertThisQObject
 
 import json

@@ -11,9 +11,6 @@ import requests
 import logging
 
 
-logging.basicConfig(level=logging.INFO)
-
-
 class DTULogin:
     """Yêu cầu: Google Chrome được cài đặt trên máy tính."""
 
