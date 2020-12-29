@@ -1,5 +1,5 @@
 from class_dialogNotification import NotificationWindow
-from class_subjectCrawler import getDisciplines, getSchoolYear, getSemester
+from class_subjectCrawler import HomeCourseSearch
 from PyQt5.QtWidgets import (QWidget, QApplication, QPushButton, QListWidget, QListWidgetItem,
                              QTableWidget, QTableWidgetItem, QMessageBox, QLineEdit, QLabel)
 from PyQt5.QtCore import Qt
@@ -11,6 +11,7 @@ from class_semester import *
 from class_subject import Subject
 from class_convertType import *
 from class_flow_layout import FlowLayout
+from class_subjectCrawler import HomeCourseSearch
 from thread_downloadSubject import ThreadDownloadSubject, ThreadShowLoading
 
 import sys
@@ -18,7 +19,9 @@ import os
 import cs4rsa_color
 import team_config
 import sys
+import logging
 
+logging.basicConfig(level=logging.INFO)
 
 class ValidatorFindLineEdit(QValidator):
     """In hoa mọi ký tự nhập vào QLineEdit."""
@@ -64,20 +67,20 @@ class Main(QWidget):
 
         self.label_week = ConvertThisQObject(self, QLabel, 'label_week').toQLabel()
         self.label_windowTitle = ConvertThisQObject(self, QLabel, 'label_windowTitle').toQLabel()
-        self.currentSchoolYearList = getSchoolYear()
-        self.currentSchoolYearValue: str = list(self.currentSchoolYearList[-1].keys())[0]
-        self.currentSchoolYearInfo: str = list(self.currentSchoolYearList[-1].values())[0]
-
+        
         # set title base on school year and semester
-        self.currentSemesterList = getSemester(self.currentSchoolYearValue)
-        self.currentSemesterValue: str = list(self.currentSemesterList[-1].keys())[0]
-        self.currentSemesterInfo: str = list(self.currentSemesterList[-1].values())[0]
+        self.homeCourseSearch = HomeCourseSearch()
+        self.currentSchoolYearValue = self.homeCourseSearch.getSchoolYearValue()
+        self.currentSchoolYearInfo = self.homeCourseSearch.getSchoolYearInfo()
+        self.currentSemesterValue = self.homeCourseSearch.getSemesterValue()
+        self.currentSemesterInfo = self.homeCourseSearch.getSemesterInfo()
+
         self.dynamicTitle = team_config.TITLE+' • <b>{0}</b> • {1}'.format(self.currentSchoolYearInfo, self.currentSemesterInfo)
         self.label_windowTitle.setText(self.dynamicTitle)
 
 
         self.line_findSubject = ConvertThisQObject(self, QLineEdit, 'lineEdit_tenMon').toQLineEdit()
-        allSubject = getDisciplines()
+        allSubject = self.homeCourseSearch.getDisciplineFromFile('subjectCode.json')
         completer = QCompleter(allSubject)
         self.line_findSubject.setCompleter(completer)
         self.line_findSubject.mousePressEvent = lambda _ : self.line_findSubject.selectAll()
@@ -149,6 +152,7 @@ class Main(QWidget):
         if re.search('^[A-Za-z-]*[ ][0-9]*$',subjectName):
             discipline = subjectName.upper().split(' ')[0]
             keyword1 = subjectName.split(' ')[1]
+            logging.info('actionFindSubject:'+discipline+keyword1)
             self.findSubject(discipline, keyword1)
         else:
             NotificationWindow('Thông báo','Có vẻ như có gì đó sai sai trong tên bạn vừa nhập 😢😢😢', self).exec_()
@@ -381,6 +385,7 @@ class Main(QWidget):
             self.line_findSubject.clear()
             self.line_findSubject.setFocus()
 
+        logging.info('main:findSubject:'+self.currentSemesterValue + discipline + keyword1)
         self.threadDownloadSubject = ThreadDownloadSubject(self.currentSemesterValue, discipline, keyword1)
         self.threadDownloadSubject.signal_foundSubject.connect(self.fillDataToSubjectFound)
         self.threadDownloadSubject.signal_subjectName.connect(lambda content: self.loading.stopLoading(content))
@@ -388,7 +393,6 @@ class Main(QWidget):
         self.threadDownloadSubject.signal_notHaveSchedule.connect(lambda content: innerCleanWindowTitleAndNoti(notiHaveNotSchedule, content))
         self.threadDownloadSubject.signal_specialSubject.connect(lambda content: innerCleanWindowTitleAndNoti(notiSpecialSubject, content))
         self.threadDownloadSubject.start()
-        
 
 # Các phương thức thao tác trên Table và các thành phần giao diện khác
     def resetColorTable(self):
@@ -539,7 +543,8 @@ class Main(QWidget):
         self.line_findSubject.setFocus()
         self.line_findSubject.selectAll()
 
-app = QApplication(sys.argv)
-window = Main()
-window.show()
-sys.exit(app.exec_())
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = Main()
+    window.show()
+    sys.exit(app.exec_())
