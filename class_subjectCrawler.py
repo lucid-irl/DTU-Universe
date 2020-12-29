@@ -4,16 +4,20 @@ Chuyển dữ liệu từ HTML sang JSON."""
 
 from class_schedule import Schedule
 from class_subject import Subject
-import re
 from typing import Dict, List, Set
 from bs4 import BeautifulSoup
 from bs4.element import ResultSet, Tag
 from cleanSubTime import cleanScheduleTime
 from cs4rsa_helpfulFunctions import *
-from PyQt5.QtCore import QObject, pyqtSignal
+from PyQt5.QtCore import QObject
+from class_DTUWeb import DTUSession
 
+import re
 import requests
 import json
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 
 class ExceptionNotHaveRegisterCode(Exception):
@@ -33,50 +37,124 @@ class ExceptionCantFoundThisSubject(Exception):
         self.message = 'Could not find this subject {0}'.format(subjectName)
         super().__init__(self.message)
 
-def getDisciplines():
-    url = 'http://courses.duytan.edu.vn/Modules/academicprogram/ajax/LoadCourses.aspx?t=1609171317852'
-    requestCourseSearch = requests.get(url)
-    soup = BeautifulSoup(requestCourseSearch.text,'lxml')
-    soup = BeautifulSoup(requestCourseSearch.text,'lxml')
-    optionTags:ResultSet = soup.body.select('option')[1:-1]
-    return [optionTag['value'] for optionTag in optionTags]
+class HomeCourseSearch:
 
-def getFullSubjectCode(discipline, semester, getName=False) -> List:
-    url = 'http://courses.duytan.edu.vn/Modules/academicprogram/CourseResultSearch.aspx?discipline={0}&keyword1=*&hocky={1}'.format(discipline, semester)
-    r = requests.get(url)
-    soup = BeautifulSoup(r.text,'lxml')
-    trTags:ResultSet = soup.tbody('tr')
-    if getName:
-        return [{toStringAndCleanSpace(trTag.td.text):toStringAndCleanSpace(trTags('td')[1].text)} for trTag in trTags]
-    else:
-        return [toStringAndCleanSpace(trTag.td.text) for trTag in trTags]
+    def __init__(self):
+        self.currentYears = HomeCourseSearch.getSchoolYear()[-1]
+        self.currentSemesters = HomeCourseSearch.getSemester(self.getSchoolYearValue())
 
-def getSchoolYear():
-    """Trả về một list chứa thông tin về giá trị năm học và thông tin năm học có dạng như sau.
-    >>> [{'45': 'Năm Học 2014-2015'}, {'49': 'Năm Học 2015-2016'}]
-    """
-    url = 'http://courses.duytan.edu.vn/Modules/academicprogram/ajax/LoadNamHoc.aspx?namhocname=cboNamHoc2&id=2&t=1609038051887'
-    requestCourseSearch = requests.get(url)
-    soup = BeautifulSoup(requestCourseSearch.text,'lxml')
-    optionTags:ResultSet = soup.body.select('option')[1:-1]
-    return [{optionTag['value']: toStringAndCleanSpace(optionTag.text)} for optionTag in optionTags]
+    def getSchoolYearValue(self) -> str:
+        return list(self.currentYears.keys())[0]
 
-def getSemester(namhoc: str):
-    """Hàm này nhận vào một chuỗi là giá trị năm học được lấy từ hàm shcoolYear(). Và trả về một list học kỳ hiện có của
-    năm học đó.
+    def getSchoolYearInfo(self) -> str:
+        return list(self.currentYears.values())[0]
+
+    def getSemesterValue(self) -> str:
+        return list(self.currentSemesters[-1].keys())[0]
     
-    >>> years = [{`'45'`: 'Năm Học 2014-2015'}, {'49': 'Năm Học 2015-2016'}]
+    def getSemesterInfo(self) -> str:
+        return list(self.currentSemesters[-1].values())[0]
 
-    >>> yearValue = list(years[-1].keys())[0]
+    @staticmethod
+    def filterDuplicatesInDisciplines(disciplines: List[str]):
+        output = disciplines.copy()
+        i = 0
+        while not i == len(output)-1:
+            j=i+1
+            pattern = '({0})'.format(output[i])
+            while not j == len(output)-1:
+                if re.search(pattern, output[j]):
+                    output.pop(j)
+                else:
+                    j+=1
+            i+=1
+        return output
 
-    >>> getSemester(yearValue)
+    @staticmethod
+    def getDisciplines() -> List[str]:
+        """Trả về list mã ngành"""
+        params = {
+            't':DTUSession.getTime()
+        }
+        url = 'http://courses.duytan.edu.vn/Modules/academicprogram/ajax/LoadCourses.aspx?'
+        requestCourseSearch = requests.get(url, params=params)
+        soup = BeautifulSoup(requestCourseSearch.text,'lxml')
+        soup = BeautifulSoup(requestCourseSearch.text,'lxml')
+        optionTags:ResultSet = soup.body.select('option')[1:]
+        return [optionTag['value'] for optionTag in optionTags]
 
-    @namhoc: Giá trị năm học"""
-    url ='http://courses.duytan.edu.vn/Modules/academicprogram/ajax/LoadHocKy.aspx?namhoc={0}&hockyname=cboHocKy1'.format(namhoc)
-    requestCourseSearch = requests.get(url)
-    soup = BeautifulSoup(requestCourseSearch.text,'lxml')
-    optionTags:ResultSet = soup.body.select('option')[1:-1]
-    return [{optionTag['value']: toStringAndCleanSpace(optionTag.text)} for optionTag in optionTags]
+    def getDisciplineFromFile(self, filename: str):
+        with open(filename, 'r', encoding='utf-8') as f:
+            jsonData:List[Dict] = json.load(f)
+        output = []
+        for item in jsonData:
+            output.append(list(item.keys())[0])
+        return output
+
+    @staticmethod
+    def getFullSubjectCode(discipline, semester, getName=False) -> List:
+        params = {
+            'discipline': discipline,
+            'keyword1': '*',
+            'hocky': semester,
+            't': DTUSession.getTime()
+        }
+        url = 'http://courses.duytan.edu.vn/Modules/academicprogram/CourseResultSearch.aspx'
+        r = requests.get(url, params=params)
+        logging.info('HomeCourseSearch:getFullSubjectCode:'+r.url)
+        soup = BeautifulSoup(r.text,'lxml')
+        trTags = soup.tbody('tr', class_='lop')
+        if getName:
+            output = []
+            for trTag in trTags:
+                output.append({toStringAndCleanSpace(trTag.td.text):toStringAndCleanSpace(trTag('td')[1].text)})
+            return output
+        else:
+            return [toStringAndCleanSpace(trTag.td.text) for trTag in trTags]
+
+    def getSubjectCodeFile(self, disciplines, filename: str='subjectCode.json'):
+        output = []
+        for i in disciplines:
+            output.extend(HomeCourseSearch.getFullSubjectCode(i, self.currentSemesterValue, True))
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(output, f, ensure_ascii=False)
+
+    @staticmethod
+    def getSchoolYear():
+        """Trả về một list chứa thông tin về giá trị năm học và thông tin năm học có dạng như sau.
+        >>> [{'45': 'Năm Học 2014-2015'}, {'49': 'Năm Học 2015-2016'}]
+        """
+        params = {
+            't': DTUSession.getTime()
+        }
+        url = 'http://courses.duytan.edu.vn/Modules/academicprogram/ajax/LoadNamHoc.aspx?namhocname=cboNamHoc2&id=2'
+        requestCourseSearch = requests.get(url, params=params)
+        logging.info(requestCourseSearch.url)
+        soup = BeautifulSoup(requestCourseSearch.text,'lxml')
+        optionTags:ResultSet = soup.body.select('option')[1:]
+        return [{optionTag['value']: toStringAndCleanSpace(optionTag.text)} for optionTag in optionTags]
+
+    @staticmethod
+    def getSemester(namhoc: str):
+        """Hàm này nhận vào một chuỗi là giá trị năm học được lấy từ hàm shcoolYear(). Và trả về một list học kỳ hiện có của
+        năm học đó.
+        
+        >>> years = [{`'45'`: 'Năm Học 2014-2015'}, {'49': 'Năm Học 2015-2016'}]
+
+        >>> yearValue = list(years[-1].keys())[0]
+
+        >>> getSemester(yearValue)
+
+        @namhoc: Giá trị năm học"""
+        params = {
+            'namhoc':namhoc
+        }
+        url ='http://courses.duytan.edu.vn/Modules/academicprogram/ajax/LoadHocKy.aspx?hockyname=cboHocKy1'
+        logging.info(url)
+        requestCourseSearch = requests.get(url, params=params)
+        soup = BeautifulSoup(requestCourseSearch.text,'lxml')
+        optionTags:ResultSet = soup.body.select('option')[1:]
+        return [{optionTag['value']: toStringAndCleanSpace(optionTag.text)} for optionTag in optionTags]
 
 class SubjectPage(QObject):
     """Class này đại diện cho một course detail page bao gồm các thông tin về lịch lớp học.
@@ -109,7 +187,6 @@ class SubjectPage(QObject):
             self.htmlPage = requests.get(self.url).text
             self.soup = BeautifulSoup(self.htmlPage, 'lxml')
             self.isHaveSchedule = self.__isHaveSchedule()
-            return self.url
         else:
             return self.url
 
@@ -156,13 +233,17 @@ class SubjectPage(QObject):
             'hocky': self.semester,
         }
         courseResultSearchUrl = 'http://courses.duytan.edu.vn/Modules/academicprogram/CourseResultSearch.aspx'
-        page = requests.get(courseResultSearchUrl, params).text
+        logging.info(courseResultSearchUrl)
+        r = requests.get(courseResultSearchUrl, params)
+        logging.info(r.url)
+        page = r.text
         soup = BeautifulSoup(page,'lxml')
         hitTag = soup.find_all(class_='hit')
         if hitTag:
             urlSub = hitTag[1]['href']
             courseId = SubjectPage.__extractCourseId(urlSub)
             urlOutput = "http://courses.duytan.edu.vn/Modules/academicprogram/CourseClassResult.aspx?courseid={0}&semesterid={1}&timespan={2}"
+            logging.info(urlOutput.format(courseId, self.semester, self.semester))
             return urlOutput.format(courseId, self.semester, self.semester)
         else:
             raise ExceptionCantFoundThisSubject(discipline+' '+keyword1)
@@ -269,6 +350,7 @@ class RawClass:
         """
         Bản thân RawClass đại diện cho một row trong bảng danh sách lớp đăng ký
         nên nó sẽ còn thiếu một số trường sau.
+
         @name: Tên môn học, ví dụ Lập trình hướng đối tượng.
         
         @credit: Số tín chỉ"""
@@ -528,14 +610,12 @@ class SubjectData:
 
 
 if __name__ == "__main__":
-    # sp = SubjectPage('70', 'pmy','302')
-    # sp.run()
-    # print(sp.getName())
-    # sd = SubjectData(sp)
-    # print(sd.getListClassGroup())
-    l = getDisciplines()
-    output = []
-    for i in l:
-        output.extend(getFullSubjectCode(i, 70))
-    ok = sorted(list(set(output)))
-    print(len(ok))
+    hp = HomeCourseSearch()
+    # dcl = hp.getDisciplines()
+    # print(dcl)
+    # print(len(dcl))
+    # dclf = hp.filterDuplicatesInDisciplines(dcl)
+
+    # hp.getSubjectCodeFile(dclf)
+    print(hp.getSchoolYearValue())
+    print(hp.getSemesterValue())

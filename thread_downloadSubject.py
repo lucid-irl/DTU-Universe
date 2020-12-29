@@ -5,6 +5,9 @@ from class_subjectCrawler import SubjectData, SubjectPage
 from PyQt5.QtCore import QThread, pyqtSignal
 
 
+import logging
+
+logging.basicConfig(level=logging.INFO)
 class ThreadShowLoading(QThread):
     """Hiệu ứng loading dễ thương 😃😃😃."""
     signal_changeTitle = pyqtSignal(str)
@@ -37,6 +40,7 @@ class ThreadDownloadSubject(QThread):
 
     def __init__(self, semester: str, discipline: str, keyword1: str):
         QThread.__init__(self)
+        logging.info('ThreadDownloadSubject:__init__:'+semester+ discipline+ keyword1)
         self.semester = semester
         self.discipline = discipline
         self.keyword1 = keyword1
