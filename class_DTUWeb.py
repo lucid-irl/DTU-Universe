@@ -2,6 +2,7 @@ from http.cookiejar import CookieJar
 from typing import Dict
 from bs4 import BeautifulSoup
 from firebase import firebase
+from time import time
 
 import browser_cookie3
 import webbrowser
@@ -89,6 +90,11 @@ class DTUSession:
         loggingString = 'GET request to {0}'.format(url)
         logging.info(loggingString)
         return self.dtuSession.get(url, params=params, cookies=self.cookies)
+
+    @staticmethod
+    def getTime() -> str:
+        """Trả về số milisecond bắt đầu từ Unix Epoch bao gồm một chuỗi 13 chữ số nguyên."""
+        return str(int(time()))
 
 
 class OpenBrowser:
