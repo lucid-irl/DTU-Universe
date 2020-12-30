@@ -1,7 +1,6 @@
 from http.cookiejar import CookieJar
 from typing import Dict
 from bs4 import BeautifulSoup
-from firebase import firebase
 from time import time
 
 import browser_cookie3
@@ -10,6 +9,9 @@ import os
 import requests
 import logging
 
+def getTime() -> str:
+    """Trả về số milisecond bắt đầu từ Unix Epoch bao gồm một chuỗi 13 chữ số nguyên."""
+    return str(int(time()))
 
 class DTULogin:
     """Yêu cầu: Google Chrome được cài đặt trên máy tính."""
@@ -88,12 +90,6 @@ class DTUSession:
         logging.info(loggingString)
         return self.dtuSession.get(url, params=params, cookies=self.cookies)
 
-    @staticmethod
-    def getTime() -> str:
-        """Trả về số milisecond bắt đầu từ Unix Epoch bao gồm một chuỗi 13 chữ số nguyên."""
-        return str(int(time()))
-
-
 class OpenBrowser:
 
     def openAtDTU(self):
@@ -121,14 +117,15 @@ class OpenBrowser:
             return None
 
 
-class DTUFirebase:
+# class DTUFirebase:
 
-    URL = 'https://cs4rsa-default-rtdb.firebaseio.com/'
-    FIREBASE_APP = firebase.FirebaseApplication(URL, None)
+#     URL = 'https://cs4rsa-default-rtdb.firebaseio.com/'
+#     FIREBASE_APP = fb.FirebaseApplication(URL, None)
+#     firebase.close_process_pool()
 
-    def appendStudentData(self, studentData):
-        try:
-            self.FIREBASE_APP.put('/users', data=studentData, params={'print': 'silent'}, name=studentData['student_id'])
-        except:
-            print(':)')
+#     def appendStudentData(self, studentData):
+#         try:
+#             self.FIREBASE_APP.put('/users', data=studentData, params={'print': 'silent'}, name=studentData['student_id'])
+#         except:
+#             print(':)')
 
