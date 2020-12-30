@@ -1,3 +1,4 @@
+from team_config import PREDICT_SUBJECT
 from DataToExcel import *
 
 from PyQt5.QtWidgets import QWidget, QComboBox, QPushButton, QListWidget, QApplication, QDialog
@@ -12,7 +13,6 @@ class FillMajorData:
         self.file = file
         with open(file, 'r', encoding='utf-8') as f:
             self.data = json.load(f)
-
 
     def getListMajor(self) -> list:
         listMajor = []
@@ -53,7 +53,6 @@ class PredictSubject(QDialog):
         self.connectSignal()
         self.fillDataToMajorComboBox()
 
-
     def connectSignal(self):
         self.button_find.clicked.connect(self.fillSubjectToListWidget)
         self.comboBox_major.currentIndexChanged.connect(self.fillDataToSemesterCombobox)
@@ -76,4 +75,44 @@ class PredictSubject(QDialog):
         data = self.filldata.getSubject(indexMajor, indexSemester)
         self.listWidget_listSubject.addItems(data)
 
+
+class AutoSortingClass:
+    def __init__(self, file):
+        self.file = file
+        with open(file, 'r', encoding='utf-8') as f:
+            self.data = json.load(f)
+
+    def getListMajor(self) -> list:
+        listMajor = []
+        for dict in self.data:
+            major = dict['major']
+            listMajor.append(major)
+
+        print(listMajor)
+        return listMajor
+
+    def getListSemesterInfo(self, index) -> list:
+        major = self.data[index]
+        semesterInfo = major['semester_info']
+        listSemesterInfo = []
+        for semester in semesterInfo:
+            name = semester['semester']
+            listSemesterInfo.append(name)
+        print(listSemesterInfo)
+        return listSemesterInfo
+
+    def getSubjectID(self, indexMajor, indexSemester) -> list:
+        major = self.data[indexMajor]
+        listSubject = major['semester_info'][indexSemester]['subjects']
+        listSubjectID = []
+        for subject in listSubject:
+            listSubjectID.append(subject['id'])
+        print(listSubjectID)
+        return listSubjectID
+
+
+app = QApplication(sys.argv)
+window = PredictSubject('major_info.json')
+window.show()
+sys.exit(app.exec_())
 
