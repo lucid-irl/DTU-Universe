@@ -2,12 +2,13 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~
 Chuyển dữ liệu từ HTML sang JSON."""
 
+from PyQt5.QtCore import pyqtSignal
 from class_schedule import Schedule
 from class_subject import Subject
 from typing import Dict, List, Set
 from bs4 import BeautifulSoup
 from bs4.element import Tag
-from cleanSubTime import cleanScheduleTime
+from cs4rsa_cleanSubTime import cleanScheduleTime
 from cs4rsa_helpfulFunctions import *
 
 import re
@@ -16,8 +17,8 @@ import json
 
 
 class ExceptionNotHaveSchedule(Exception):
-    def __init__(self, name) -> None:
-        self.message = '{0} have not schedule in this semester.'.format(name)
+    def __init__(self, subjectCode) -> None:
+        self.message = '{0} have not schedule in this semester.'.format(subjectCode)
         super().__init__(self.message)
 
 class ExceptionNotHaveRegisterCode(Exception):
@@ -43,36 +44,23 @@ class SubjectPage:
     """Class này đại diện cho một course detail page bao gồm các thông tin về lịch lớp học.
     Đảm bảo một request duy nhất tới server DTU.
     
-    I. Class này ngay sau khi khởi tạo nó sẽ gửi một request tới server DTU để kiểm tra xem:
-    - Mã môn học có tồn tại hay không
-    - Nếu có thì tiếp tục gửi request tới trang HTML raw và kiểm tra xem có lịch lớp học hay không."""
+    - Kiểm tra tồn tại môn và có lịch."""
 
-    def __init__(self, semester: str, discipline: str, keyword1: str):
+    def __init__(self, schoolYear: str, discipline: str, keyword1: str):
         super(SubjectPage, self).__init__()
-        self.semester = semester
+        self.schoolYear = schoolYear
         self.discipline = discipline
         self.keyword1 = keyword1
-        self.url = None
-        self.htmlPage = None
-        self.soup = None
-        self.isHaveSchedule = None
+        self.subjectCode = discipline+' '+keyword1
+        # check here
+        self.url = self.getSubjectUrl(self.discipline, self.keyword1)
+        print('init subject page', self.url)
+        self.htmlPage = requests.get(self.url).text
+        self.soup = BeautifulSoup(self.htmlPage, 'lxml')
+        self.haveSchedule = self.isHaveSchedule()
 
-    def run(self):
-        """Chạy bộ cào dữ liệu.
-        
-        - Phương thức này trả về đường dẫn tới trang HTML Raw của môn học. Nếu mã môn không tồn tại, nó trả về `None`.
-        - Phương thức này trả về khác `None` là cơ sở để có thể truyền `SubjectPage` vào `SubjectData` để tiếp tục trích xuát dữ liệu."""
-        try:
-            self.url = self.__getSubjectUrl(self.discipline, self.keyword1)
-            if self.url:
-                self.htmlPage = requests.get(self.url).text
-                self.soup = BeautifulSoup(self.htmlPage, 'lxml')
-                self.isHaveSchedule = self.__isHaveSchedule()
-                return self.url
-            return None
-        except ExceptionCantFoundThisSubject:
-            return None
-
+    def __str__(self):
+        return '<SubjectPage SemesterID: {2} {0} {1}>'.format(self.discipline, self.keyword1, self.schoolYear)
 
     def getUrl(self):
         if self.url:
@@ -81,31 +69,26 @@ class SubjectPage:
             raise Exception("You need to run SubjectPage's run() method before run this getter.")
     
     def getSoup(self):
-        if self.soup:
-            return self.soup
-        else:
-            raise Exception("You need to run SubjectPage's run() method before run this getter.")
+        return self.soup
+
     
     def getIsHaveSchedule(self):
-        if self.isHaveSchedule:
-            return self.isHaveSchedule
-        else:
-            raise Exception("You need to run SubjectPage's run() method before run this getter.")
+        return self.haveSchedule
 
     @staticmethod
-    def __extractCourseId(url: str):
+    def extractCourseId(url: str):
         """Tách course id từ url."""
         params = re.findall(r'=(.*?)&', url)
         return params[1]
 
-    def __isHaveSchedule(self):
+    def isHaveSchedule(self):
         """Kiểm tra xem một URL tới trang HTML raw của Subject nào đó có lịch lớp học hay không. 
         Nếu có trả về True, ngược lại trả về False."""
         if self.soup.find('span', {'class':'title','style':'color: #990000'}):
-            return False
+            raise ExceptionNotHaveSchedule(self.subjectCode)
         return True
 
-    def __getSubjectUrl(self, discipline: str, keyword1: str):
+    def getSubjectUrl(self, discipline: str, keyword1: str):
         """Trả về đường dẫn tới trang HTML raw của Subject.
         >>> sp = SubjectPage(70)
         >>> sp.getSubjectUrl('CS','414')
@@ -113,7 +96,7 @@ class SubjectPage:
         params = {
             'discipline': discipline,
             'keyword1': keyword1,
-            'hocky': self.semester,
+            'hocky': self.schoolYear,
         }
         courseResultSearchUrl = 'http://courses.duytan.edu.vn/Modules/academicprogram/CourseResultSearch.aspx'
         r = requests.get(courseResultSearchUrl, params)
@@ -122,9 +105,9 @@ class SubjectPage:
         hitTag = soup.find_all(class_='hit')
         if hitTag:
             urlSub = hitTag[1]['href']
-            courseId = SubjectPage.__extractCourseId(urlSub)
+            courseId = SubjectPage.extractCourseId(urlSub)
             urlOutput = "http://courses.duytan.edu.vn/Modules/academicprogram/CourseClassResult.aspx?courseid={0}&semesterid={1}&timespan={2}"
-            return urlOutput.format(courseId, self.semester, self.semester)
+            return urlOutput.format(courseId, self.schoolYear, self.schoolYear)
         else:
             raise ExceptionCantFoundThisSubject(discipline+' '+keyword1)
 
@@ -421,13 +404,10 @@ class SubjectData:
         for groupName in self.getListClassGroupName():
             classGroupNotYetSharingRegisterCode = SubjectData.filterAClassGroup(groupName, listRawClassNonFilter)
             if classGroupNotYetSharingRegisterCode.isHaveRegisterCode():
-                try:
-                    if classGroupNotYetSharingRegisterCode.isHaveOnlyOneRegisterCode():
-                        listClassGroup.append(classGroupNotYetSharingRegisterCode)
-                        # important !!!
-                        classGroupNotYetSharingRegisterCode.shareRegisterCode()
-                except ExceptionSpecialSubject as e:
-                    raise e
+                if classGroupNotYetSharingRegisterCode.isHaveOnlyOneRegisterCode():
+                    listClassGroup.append(classGroupNotYetSharingRegisterCode)
+                    # important !!!
+                    classGroupNotYetSharingRegisterCode.shareRegisterCode()
         return listClassGroup
 
     @staticmethod
@@ -478,12 +458,15 @@ class SubjectData:
         
     def getSubjects(self) -> List[Subject]:
         """Trả về một list các Subject."""
-        try:
-            subjectsOut = []
-            for classGroup in self.getListClassGroup():
-                rawClasses = classGroup.getRawClasses()
-                subjectsInClassGroup = [rawClass.toSubject(self.__name, self.__credit) for rawClass in rawClasses]
-                subjectsOut.extend(subjectsInClassGroup)
-            return subjectsOut
-        except ExceptionSpecialSubject:
-            return []
+        subjectsOut = []
+        for classGroup in self.getListClassGroup():
+            rawClasses = classGroup.getRawClasses()
+            subjectsInClassGroup = [rawClass.toSubject(self.__name, self.__credit) for rawClass in rawClasses]
+            subjectsOut.extend(subjectsInClassGroup)
+        return subjectsOut
+
+if __name__ == "__main__":
+    sp = SubjectPage('69','CS','414')
+    print(sp)
+    sd = SubjectData(sp)
+    print(sd.getName())

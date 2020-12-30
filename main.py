@@ -39,11 +39,10 @@ class Main(QWidget):
     # Các phương thức setting Giao diện bao gồm kết nối Signal, add Hot key,...
     def __init__(self):
         super(Main, self).__init__() #Main, self
-        print('call init')
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.semester = Semester()
-        self.currentSemesterValue = HomeCourseSearch.getCurrentSemesterValue()
+        self.currentSchoolYearValue = HomeCourseSearch.getCurrentSchoolYearValue()
         uic.loadUi(team_config.FOLDER_UI+'/'+team_config.USE_UI, self)
 
         self.button_findSubject = ConvertThisQObject(self, QPushButton, 'pushButton_timKiem').toQPushButton()
@@ -117,9 +116,7 @@ class Main(QWidget):
         self.button_menu.clicked.connect(self.expandNavbar)
         
         # Các đối tượng dữ liệu
-        self.semester.signal_indexChanged.connect(lambda: self.loadButtonWeekContainer(
-                                                    self.semester.getMaxWeekInSemester(), 
-                                                    self.semester.getCurrentSemesterIndex()))
+        self.semester.signal_indexChanged.connect(lambda: self.loadButtonWeekContainer(self.semester.getMaxWeekInSemester()))
 
         self.semester.singal_addSubject.connect(self.afterAddSubject)
         self.semester.signal_deleteSubject.connect(self.afterDeleteSubject)
@@ -130,19 +127,22 @@ class Main(QWidget):
         self.quitSc.activated.connect(self.close)
 
         # shortcut for button here
-        self.button_findSubject.setShortcut('Return')
+        self.button_findSubject.setShortcut('Ctrl+F')
 
     # IMPORTANT!!!
     # Các phương thức này chuẩn bị đủ đúng context trước khi thao tác, ta gọi chúng là Action
 
     def actionFindSubject(self):
-        subjectName = self.line_findSubject.text()
-        if re.search('^[A-Za-z-]*[ ][0-9]*$',subjectName):
+        disciplineData = HomeCourseSearch.getDisciplineFromFile('allDiscipline.json')
+        subjectName = toStringAndCleanSpace(self.line_findSubject.text())
+        if not subjectName in disciplineData:
+            NotificationWindow('Thông báo','Nhập sai mã môn rồi bạn gì đó ơi','Cảm ơn đã nhắc mình', self).exec_()
+        else:
             discipline = subjectName.upper().split(' ')[0]
             keyword1 = subjectName.split(' ')[1]
             self.findSubject(discipline, keyword1)
-        else:
-            NotificationWindow('Thông báo','Có vẻ như có gì đó sai sai trong tên bạn vừa nhập 😢😢😢', self).exec_()
+        
+
 
     def actionGoToPreviousWeek(self):
         if self.semester.getCurrentSemesterIndex() == None:
@@ -291,7 +291,7 @@ class Main(QWidget):
     def afterAddSubject(self):
         self.loadListSubjectChoiced()
         self.loadListConflict()
-        self.loadButtonWeekContainer(self.semester.getMaxWeekInSemester(), self.semester.getCurrentSemesterIndex())
+        self.loadButtonWeekContainer(self.semester.getMaxWeekInSemester())
         self.loadTable(self.semester.getCurrentSubjects())
         self.loadLabelWeek()
         self.unableItemInListFound()
@@ -371,7 +371,8 @@ class Main(QWidget):
             self.line_findSubject.setFocus()
 
         currentSemesterValue = HomeCourseSearch.getCurrentSemesterValue()
-        self.threadDownloadSubject = ThreadDownloadSubject('70', discipline, keyword1)
+        print('find', currentSemesterValue)
+        self.threadDownloadSubject = ThreadDownloadSubject(currentSemesterValue, discipline, keyword1)
         self.threadDownloadSubject.signal_foundSubject.connect(self.fillDataToSubjectFound)
         self.threadDownloadSubject.signal_subjectName.connect(lambda content: self.loading.stopLoading(content))
         self.threadDownloadSubject.signal_notFoundSubject.connect(lambda content: innerCleanWindowTitleAndNoti(notiNotFoundSubject, content))

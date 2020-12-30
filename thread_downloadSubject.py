@@ -1,7 +1,7 @@
 import time
 from typing import List
 
-from class_subjectCrawler import SubjectData, SubjectPage
+from class_subjectCrawler import ExceptionCantFoundThisSubject, ExceptionNotHaveRegisterCode, ExceptionNotHaveSchedule, ExceptionSpecialSubject, SubjectData, SubjectPage
 from PyQt5.QtCore import QThread, pyqtSignal
 
 
@@ -43,17 +43,20 @@ class ThreadDownloadSubject(QThread):
         self.subjectCode = discipline+' '+keyword1
 
     def run(self):
-        subjectPage = SubjectPage(self.semester, self.discipline, self.keyword1)
-        if subjectPage.run():
-            if subjectPage.getIsHaveSchedule():
-                subjectData = SubjectData(subjectPage)
-                self.signal_subjectName.emit(subjectPage.getName())
-                subjects = subjectData.getSubjects()
-                if subjects:
+        try:
+            try:
+                subjectPage = SubjectPage(self.semester, self.discipline, self.keyword1)
+                try:
+                    subjectData = SubjectData(subjectPage)
+                    self.signal_subjectName.emit(subjectPage.getName())
+                    subjects = subjectData.getSubjects()
                     self.signal_foundSubject.emit(subjects)
-                else:
+                except ExceptionSpecialSubject:
+                    print('mon dac biet')
                     self.signal_specialSubject.emit(subjectPage.getName())
-            else:
+            except ExceptionNotHaveSchedule:
+                print('ko co lich')
                 self.signal_notHaveSchedule.emit(self.subjectCode)
-        else:
+        except ExceptionCantFoundThisSubject:
+            print('ko tim thay')
             self.signal_notFoundSubject.emit(self.subjectCode)
