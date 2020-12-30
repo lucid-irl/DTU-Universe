@@ -1,15 +1,5 @@
-# Triển khai tất cả các hàm dùng để làm sạch data ở đây
-# Hàm phải luôn nhận vào dữ liệu thô và trả về dữ liệu đã được clean dưới dạng string hoặc
-# các dạng có cấu trúc như list hoặc dict dễ dàng cho việc thao tác và truy xuất.
-
-# Hàm làm sạch luôn có tên bắt đầu bằng clean_<name define>
-
 import re
 from typing import List
-# import SubTimeTestHTML.markup1
-# import SubTimeTestHTML.markup2
-# import SubTimeTestHTML.markup3
-# import SubTimeTestHTML.markup4
 import re
 
 

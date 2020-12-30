@@ -226,6 +226,8 @@ border-radius: 6px;
 background-color: #26de81;
 min-width: 140px;
 min-height: 38px;
+padding-left: 10px;
+padding-right: 10px;
 color: white;
 }
 

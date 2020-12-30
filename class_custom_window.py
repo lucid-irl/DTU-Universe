@@ -1,4 +1,3 @@
-from typing import List
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
@@ -6,7 +5,6 @@ from PyQt5 import uic
 
 from class_convertType import ConvertThisQObject
 
-import sys
 import os
 
 
@@ -72,11 +70,3 @@ class CustomDialogWindow(QDialog):
     def mouseMoveEvent(self,event):
         if self.moving:
             self.move(event.globalPos()-self.offset)
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = CustomDialogWindow('thong bao', 'ok', 'Images\\loading1.gif')
-    window.signal_OK_is_pressed.connect(lambda: print('ok'))
-    window.show()
-    sys.exit(app.exec())

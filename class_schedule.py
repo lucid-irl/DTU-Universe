@@ -14,7 +14,7 @@ Hàm này được viết nhằm mục đích nhanh chóng xử lý đống data
 mà bạn đã lấy về được.
 """
 
-from typing import List, Dict, Set
+from typing import List, Dict
 import json
 from datetime import timedelta
 

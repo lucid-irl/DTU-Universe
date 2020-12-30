@@ -2,9 +2,6 @@ from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtWidgets import *
 from class_DTUWeb import DTULogin
 
-import logging
-
-logging.basicConfig(level=logging.INFO)
 
 class ThreadGetSessionIdDTU(QThread):
     """Khi triển khai Thread này bạn cần kết nối đầy đủ các signal được mô tả dưới đây với những behavior tương ứng.

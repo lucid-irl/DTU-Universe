@@ -218,5 +218,3 @@ class Semester(QObject):
                     self.signal_indexChanged.emit(self.SEMESTER_INDEX)
                     return week
 
-
-    # Các phương thức về test sẽ nằm ở đây

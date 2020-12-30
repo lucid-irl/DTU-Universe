@@ -9,12 +9,13 @@ from PyQt5 import uic
 
 class NotificationWindow(QDialog):
 
-    def __init__(self, title: str, content: str, parent):
+    def __init__(self, title: str, content: str, buttonContent='Mình hiểu rồi huhu', parent=None):
         super(NotificationWindow, self).__init__(parent)
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.content = content
         self.title = title
+        self.buttonContent = buttonContent
         uic.loadUi(team_config.UI_NOTIFICATION, self)
         self.label_title = ConvertThisQObject(self, QLabel, 'labelTitle').toQLabel()
         self.label_content = ConvertThisQObject(self, QLabel, 'labelContent').toQLabel()
@@ -25,6 +26,7 @@ class NotificationWindow(QDialog):
     def setupUI(self):
         self.label_title.setText(self.title)
         self.label_content.setText(self.content)
+        self.button_ok.setText(self.buttonContent)
 
     def mousePressEvent(self,event):
         if event.button() == Qt.LeftButton:
