@@ -10,10 +10,10 @@ from win10toast import ToastNotifier
 class CustomListItemWidget(QWidget):
     """Custom layout cho item trong QListWidget."""
 
-    ICON_BUTTON_DELETE = 'Images\\3597038-text-editor\\svg\\007-delete.svg'
-    ICON_BUTTON_COPY_ID = 'Images\\2921119-work-office-files\\svg\\010-info.svg'
-    ICON_BUTTON_ADD = 'Images\\2921119-work-office-files\\svg\\019-add.svg'
-    ICON_BUTTON_DETAILINFO = 'Images\\2921119-work-office-files\\svg\\010-info.svg'
+    ICON_BUTTON_DELETE = 'resources/007-delete.svg'
+    ICON_BUTTON_COPY_ID = 'resources/icons8-paste-96.png'
+    ICON_BUTTON_ADD = 'resources/icons8-add-new-96.png'
+    ICON_BUTTON_DETAILINFO = 'resources/icons8-info.svg'
 
     ICON_IMAGE_VALID = 'Images\\green_dot.png'
     ICON_IMAGE_INVALID = 'Images\\red_dot.png'

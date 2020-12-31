@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import (QShortcut, QWidget, QApplication, QPushButton, QListWidget, QListWidgetItem,
+from PyQt5.QtWidgets import (QShortcut, QStackedWidget, QWidget, QApplication, QPushButton, QListWidget, QListWidgetItem,
                             QTableWidget, QTableWidgetItem, QMessageBox, QLineEdit, QLabel, 
-                            QMainWindow, QFrame, QScrollArea, QCompleter, QDesktopWidget)
+                            QFrame, QScrollArea, QCompleter, QDesktopWidget)
 from PyQt5.QtCore import QEasingCurve, QPropertyAnimation, QRect, Qt
 from PyQt5.QtGui import QColor, QKeySequence, QValidator 
 from PyQt5 import uic
@@ -14,6 +14,7 @@ from class_flow_layout import FlowLayout
 from class_subjectCrawler import *
 from class_dialogNotification import NotificationWindow
 from class_homeCourseSearch import HomeCourseSearch
+from class_setting import Setting
 from thread_downloadSubject import ThreadDownloadSubject, ThreadShowLoading
 
 from typing import List
@@ -22,7 +23,7 @@ import sys
 import os
 import cs4rsa_color
 import team_config
-import re
+
 
 class ValidatorFindLineEdit(QValidator):
     """In hoa mọi ký tự nhập vào QLineEdit."""
@@ -42,6 +43,7 @@ class Main(QWidget):
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.semester = Semester()
+        self.setting = Setting('cs4rsa_settings.json')
         self.currentSchoolYearValue = HomeCourseSearch.getCurrentSchoolYearValue()
         uic.loadUi(team_config.FOLDER_UI+'/'+team_config.USE_UI, self)
 
@@ -59,8 +61,15 @@ class Main(QWidget):
         self.button_minimum = ConvertThisQObject(self, QPushButton, 'pushButton_minimum').toQPushButton()
 
         # navigation bar
-        self.button_menu = ConvertThisQObject(self, QPushButton, 'pushButton_menu').toQPushButton()
+        self.stackedWidget = ConvertThisQObject(self, QStackedWidget, 'stackedWidget').toQStackedWidget()
+        self.stackedWidget.setCurrentIndex(0)
+
         self.frame_navi = ConvertThisQObject(self, QFrame, 'frame_navbar').toQFrame()
+        self.button_menu = ConvertThisQObject(self, QPushButton, 'pushButton_menu').toQPushButton()
+        self.button_nav_setting = ConvertThisQObject(self, QPushButton, 'button_nav_setting').toQPushButton()
+        self.button_nav_predict = ConvertThisQObject(self, QPushButton, 'button_nav_predict').toQPushButton()
+        self.button_nav_home = ConvertThisQObject(self, QPushButton, 'button_nav_home').toQPushButton()
+        self.button_nav_info = ConvertThisQObject(self, QPushButton, 'button_nav_info').toQPushButton()
 
         self.listView_SubjectDownloaded = ConvertThisQObject(self, QListWidget, 'listWidget_tenLop').toQListWidget()
         self.listView_SubjectChoiced = ConvertThisQObject(self, QListWidget, 'listWidget_lopDaChon').toQListWidget()
@@ -73,7 +82,6 @@ class Main(QWidget):
         self.currentSemesterInfo = HomeCourseSearch.getCurrentSemesterInfo()
         self.dynamicTitle = team_config.TITLE+' • <b>{0}</b> • {1}'.format(self.currentSchoolYearInfo, self.currentSemesterInfo)
         self.label_windowTitle.setText(self.dynamicTitle)
-
 
         self.line_findSubject = ConvertThisQObject(self, QLineEdit, 'lineEdit_tenMon').toQLineEdit()
         self.line_findSubject.mousePressEvent = lambda _ : self.line_findSubject.selectAll()
@@ -110,14 +118,19 @@ class Main(QWidget):
         self.button_updateSubject.clicked.connect(self.updateSubject)
         self.button_previousWeek.clicked.connect(self.actionGoToPreviousWeek)
         self.button_nextWeek.clicked.connect(self.actionGoToNextWeek)
+
         self.button_close.clicked.connect(self.closeWindow)
         self.button_maximum.clicked.connect(self.maximum)
         self.button_minimum.clicked.connect(self.minimum)
         self.button_menu.clicked.connect(self.expandNavbar)
+
+        self.button_nav_home.clicked.connect(lambda _: self.actionChangeFrame(0))
+        self.button_nav_predict.clicked.connect(lambda _: self.actionChangeFrame(1))
+        self.button_nav_setting.clicked.connect(lambda _: self.actionChangeFrame(2))
+        self.button_nav_info.clicked.connect(lambda _: self.actionChangeFrame(3))
         
         # Các đối tượng dữ liệu
         self.semester.signal_indexChanged.connect(lambda: self.loadButtonWeekContainer(self.semester.getMaxWeekInSemester()))
-
         self.semester.singal_addSubject.connect(self.afterAddSubject)
         self.semester.signal_deleteSubject.connect(self.afterDeleteSubject)
 
@@ -128,6 +141,7 @@ class Main(QWidget):
 
         # shortcut for button here
         self.button_findSubject.setShortcut('Ctrl+F')
+        self.button_maximum.setShortcut('F')
 
     # IMPORTANT!!!
     # Các phương thức này chuẩn bị đủ đúng context trước khi thao tác, ta gọi chúng là Action
@@ -135,24 +149,28 @@ class Main(QWidget):
     def actionFindSubject(self):
         disciplineData = HomeCourseSearch.getDisciplineFromFile('allDiscipline.json')
         subjectName = toStringAndCleanSpace(self.line_findSubject.text())
-        if not subjectName in disciplineData:
-            NotificationWindow('Thông báo','Nhập sai mã môn rồi bạn gì đó ơi','Cảm ơn đã nhắc mình', self).exec_()
+        if subjectName:
+            if not subjectName in disciplineData:
+                NotificationWindow('Thông báo','Nhập sai mã môn rồi bạn gì đó ơi','Cảm ơn đã nhắc mình').exec_()
+            else:
+                discipline = subjectName.upper().split(' ')[0]
+                keyword1 = subjectName.split(' ')[1]
+                self.findSubject(discipline, keyword1)
         else:
-            discipline = subjectName.upper().split(' ')[0]
-            keyword1 = subjectName.split(' ')[1]
-            self.findSubject(discipline, keyword1)
-        
-
+            NotificationWindow('Thông báo','Chưa nhập mã môn kìa bạn','Cảm ơn đã nhắc mình').exec_()
 
     def actionGoToPreviousWeek(self):
-        if self.semester.getCurrentSemesterIndex() == None:
-            return
-        self.gotoPreviousWeek()
+        if self.semester.getCurrentSemesterIndex():
+            self.gotoPreviousWeek()
 
     def actionGoToNextWeek(self):
-        if self.semester.getCurrentSemesterIndex() == None:
-            return
-        self.gotoNextWeek()
+        if self.semester.getCurrentSemesterIndex():
+            self.gotoNextWeek()
+
+    def actionChangeFrame(self, frameIndex):
+        print('Change frame')
+        self.stackedWidget.setCurrentIndex(frameIndex)
+        
 
     # IMPORTANT!!!
     # Các phương thức load giao diện quan trọng
@@ -280,7 +298,7 @@ class Main(QWidget):
     def afterDeleteSubject(self, subject: Subject):
         self.loadListSubjectChoiced()
         self.loadListConflict()
-        self.loadButtonWeekContainer(self.semester.getMaxWeekInSemester(), self.semester.getCurrentSemesterIndex())
+        self.loadButtonWeekContainer(self.semester.getMaxWeekInSemester())
         if self.semester.getSubjects():
             self.loadTable(self.semester.getCurrentSubjects())
         else:
@@ -359,9 +377,9 @@ class Main(QWidget):
         contentNotFoundSubject = 'Có vẻ như {0} không tồn tại 😢😢😢'
         contentHaveNotSchedule = 'Không có lịch của môn {0} trong học kỳ này.'
 
-        notiSpecialSubject = lambda subjectCode: NotificationWindow('Thông báo',contentSpecialSubject.format(subjectCode), self).exec_()
-        notiNotFoundSubject = lambda subjectCode: NotificationWindow('Thông báo',contentNotFoundSubject.format(subjectCode), self).exec_()
-        notiHaveNotSchedule = lambda subjectCode: NotificationWindow('Thông báo',contentHaveNotSchedule.format(subjectCode), self).exec_()   
+        notiSpecialSubject = lambda subjectCode: NotificationWindow('Thông báo',contentSpecialSubject.format(subjectCode)).exec_()
+        notiNotFoundSubject = lambda subjectCode: NotificationWindow('Thông báo',contentNotFoundSubject.format(subjectCode)).exec_()
+        notiHaveNotSchedule = lambda subjectCode: NotificationWindow('Thông báo',contentHaveNotSchedule.format(subjectCode)).exec_()   
         
         def innerCleanWindowTitleAndNoti(noti, contentNoti: str):
             self.loading.stopLoading(contentNoti)
@@ -500,12 +518,13 @@ class Main(QWidget):
             newWidth = 200
         else:
             newWidth = 60
-        self.ani = QPropertyAnimation(self.frame_navi, b'minimumWidth')
-        self.ani.setDuration(300)
-        self.ani.setStartValue(init_frame_navi_width)
-        self.ani.setEndValue(newWidth)
-        self.ani.setEasingCurve(QEasingCurve.InOutQuart)
-        self.ani.start()
+        self.aniNav = QPropertyAnimation(self.frame_navi, b'minimumWidth')
+        self.aniNav.setDuration(300)
+        self.aniNav.setStartValue(init_frame_navi_width)
+        self.aniNav.setEndValue(newWidth)
+        self.aniNav.setEasingCurve(QEasingCurve.InOutQuart)
+        self.aniNav.start()
+
 
     def changeWindowTitle(self, title):
         newTitle = self.dynamicTitle+' • {0}'.format(title)
