@@ -46,3 +46,6 @@ class ConvertThisQObject:
 
     def toQProgressBar(self) -> QProgressBar:
         return self.object
+
+    def toQStackedWidget(self) -> QStackedWidget:
+        return self.object
