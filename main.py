@@ -47,25 +47,25 @@ class Main(QWidget):
         self.currentSchoolYearValue = HomeCourseSearch.getCurrentSchoolYearValue()
         uic.loadUi(team_config.FOLDER_UI+'/'+team_config.USE_UI, self)
 
-        self.button_findSubject = ConvertThisQObject(self, QPushButton, 'pushButton_timKiem').toQPushButton()
-        self.button_updateSubject = ConvertThisQObject(self, QPushButton, 'pushButton_capNhat').toQPushButton()
-        self.button_register = ConvertThisQObject(self, QPushButton, 'pushButton_dangKy').toQPushButton()
-        self.button_saveExcel = ConvertThisQObject(self, QPushButton, 'pushButton_luuText').toQPushButton()
-        self.button_nextWeek = ConvertThisQObject(self, QPushButton, 'pushButton_nextWeek').toQPushButton()
-        self.button_previousWeek = ConvertThisQObject(self, QPushButton, 'pushButton_previousWeek').toQPushButton()
-        self.button_gotoWeek = ConvertThisQObject(self, QPushButton, 'pushButton_goto').toQPushButton()
+        self.button_findSubject = ConvertThisQObject(self, QPushButton, 'button_timKiem').toQPushButton()
+        self.button_updateSubject = ConvertThisQObject(self, QPushButton, 'button_capNhat').toQPushButton()
+        self.button_register = ConvertThisQObject(self, QPushButton, 'button_dangKy').toQPushButton()
+        self.button_saveExcel = ConvertThisQObject(self, QPushButton, 'button_luuText').toQPushButton()
+        self.button_nextWeek = ConvertThisQObject(self, QPushButton, 'button_nextWeek').toQPushButton()
+        self.button_previousWeek = ConvertThisQObject(self, QPushButton, 'button_previousWeek').toQPushButton()
+        self.button_gotoWeek = ConvertThisQObject(self, QPushButton, 'button_goto').toQPushButton()
 
         # title bar
-        self.button_close = ConvertThisQObject(self, QPushButton, 'pushButton_close').toQPushButton()
-        self.button_maximum = ConvertThisQObject(self, QPushButton, 'pushButton_maximum').toQPushButton()
-        self.button_minimum = ConvertThisQObject(self, QPushButton, 'pushButton_minimum').toQPushButton()
+        self.button_close = ConvertThisQObject(self, QPushButton, 'button_close').toQPushButton()
+        self.button_maximum = ConvertThisQObject(self, QPushButton, 'button_maximum').toQPushButton()
+        self.button_minimum = ConvertThisQObject(self, QPushButton, 'button_minimum').toQPushButton()
 
         # navigation bar
         self.stackedWidget = ConvertThisQObject(self, QStackedWidget, 'stackedWidget').toQStackedWidget()
         self.stackedWidget.setCurrentIndex(0)
 
         self.frame_navi = ConvertThisQObject(self, QFrame, 'frame_navbar').toQFrame()
-        self.button_menu = ConvertThisQObject(self, QPushButton, 'pushButton_menu').toQPushButton()
+        self.button_menu = ConvertThisQObject(self, QPushButton, 'button_menu').toQPushButton()
         self.button_nav_setting = ConvertThisQObject(self, QPushButton, 'button_nav_setting').toQPushButton()
         self.button_nav_predict = ConvertThisQObject(self, QPushButton, 'button_nav_predict').toQPushButton()
         self.button_nav_home = ConvertThisQObject(self, QPushButton, 'button_nav_home').toQPushButton()
@@ -389,7 +389,6 @@ class Main(QWidget):
             self.line_findSubject.setFocus()
 
         currentSemesterValue = HomeCourseSearch.getCurrentSemesterValue()
-        print('find', currentSemesterValue)
         self.threadDownloadSubject = ThreadDownloadSubject(currentSemesterValue, discipline, keyword1)
         self.threadDownloadSubject.signal_foundSubject.connect(self.fillDataToSubjectFound)
         self.threadDownloadSubject.signal_subjectName.connect(lambda content: self.loading.stopLoading(content))
