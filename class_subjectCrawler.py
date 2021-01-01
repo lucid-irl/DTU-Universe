@@ -54,7 +54,6 @@ class SubjectPage:
         self.subjectCode = discipline+' '+keyword1
         # check here
         self.url = self.getSubjectUrl(self.discipline, self.keyword1)
-        print('init subject page', self.url)
         self.htmlPage = requests.get(self.url).text
         self.soup = BeautifulSoup(self.htmlPage, 'lxml')
         self.haveSchedule = self.isHaveSchedule()
@@ -276,7 +275,7 @@ class ClassGroup:
 
     def getRegisterCodes(self):
         """Trả về một list chứa register code của group này."""
-        return [rawClass.getRegisterCode() for rawClass in self.__rawClasses if rawClass.isHaveRegisterCode()]
+        return list({rawClass.getRegisterCode() for rawClass in self.__rawClasses if rawClass.isHaveRegisterCode()})
 
     @staticmethod
     def mergeTeacherRawClass(rawClasses: List[RawClass]) -> RawClass:

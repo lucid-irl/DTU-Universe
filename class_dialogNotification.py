@@ -9,8 +9,8 @@ from PyQt5 import uic
 
 class NotificationWindow(QDialog):
 
-    def __init__(self, title: str, content: str, buttonContent='Mình hiểu rồi huhu', parent=None):
-        super(NotificationWindow, self).__init__(parent)
+    def __init__(self, title: str, content: str, buttonContent='Mình hiểu rồi huhu'):
+        super(NotificationWindow, self).__init__()
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.content = content
