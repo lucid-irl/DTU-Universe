@@ -12,10 +12,10 @@ class Conflict:
         self.subject2 = subject2
 
     def __str__(self) -> str:
-        return '<Conflict [{0}]--[{1}]>'.format(self.subject1.getName(), self.subject2.getName())
+        return '<Conflict [{0}]--[{1}]>'.format(self.subject1.getSubjectCode(), self.subject2.getSubjectCode())
         
     def __repr__(self):
-        return '<Conflict [{0}]--[{1}]>'.format(self.subject1.getName(), self.subject2.getName())
+        return '<Conflict [{0}]--[{1}]>'.format(self.subject1.getSubjectCode(), self.subject2.getSubjectCode())
 
     def __eq__(self, o: object) -> bool:
         if ((self.subject1 == o.getSubject1() and self.subject2 == o.getSubject2()) or
@@ -23,51 +23,6 @@ class Conflict:
             return True
         else:
             return False
-
-    def isConflict(self) -> bool:
-        """**Không còn được dùng nữa**
-        
-        Kiểm tra xem hai Subject có xung đột về thời gian học hay không. Phương thức này sẽ tự động chạy
-        ngay sau khi bạn khởi tạo một Conflict. Làm cơ sở để class này thực thi các phương thức xử lý nếu
-        thật sự hai Subject conflict.
-        
-        Bạn có thể biết được trạng thái Conflict hay không bằng cách gọi thuộc tính isconflict của class hoặc gọi phương thức
-        isConflict(), nhưng tốt nhất là gọi isConflict() để tránh trường hợp truy cập không cho phép vào isconflict."""
-        setday1 = set(self.subject1.getSchedule().getDatesOfLesson())
-        setday2 = set(self.subject2.getSchedule().getDatesOfLesson())
-        # tim nhung Thu ma hai mon nay co kha nang gap phai
-        self.in_of_day = []
-        for day in Week:
-            if day in setday1.intersection(setday2):
-                self.in_of_day.append(day)
-        
-        for day in self.in_of_day:
-            self.subject1_hours_start = self.subject1.getSchedule().getStartTimeOfDate(day, merge=True)
-            self.subject1_hours_end = self.subject1.getSchedule().getEndTimeOfDate(day, merge=True)
-
-            self.subject2_hours_start = self.subject2.getSchedule().getStartTimeOfDate(day, merge=True)
-            self.subject2_hours_end = self.subject2.getSchedule().getEndTimeOfDate(day, merge=True)
-            for time_start in self.subject1_hours_start:
-                for time_start2 in self.subject2_hours_start:
-                    if time_start == time_start2:
-                        return True
-
-            for time_end2 in self.subject2_hours_end:
-                for time_start1 in self.subject1_hours_start:
-                    if time_end2 > time_start1:
-                        for time_end2 in self.subject2_hours_end:
-                            for time_end1 in self.subject1_hours_end:
-                                if time_end2 < time_end1:
-                                    return True
-
-            for time_end1 in self.subject1_hours_end:
-                for time_start2 in self.subject2_hours_start:
-                    if time_end1 > time_start2:
-                        for time_end1 in self.subject1_hours_end:
-                            for time_end2 in self.subject2_hours_end:
-                                if time_end1 < time_end2:
-                                    return True
-        return False
 
     def getGenericDate(self) -> Set[str]:
         """Trả về một set chứa những Thứ mà hai môn học nằm chung."""

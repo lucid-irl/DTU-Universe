@@ -75,10 +75,10 @@ class Subject:
 
 
     def __str__(self):
-        return "<Subject {0}>".format(self.name)
+        return "<Subject {0}>".format(self.subjectCode)
 
     def __repr__(self) -> str:
-        return "<Subject {0}>".format(self.name)
+        return "<Subject {0}>".format(self.subjectCode)
 
     def __eq__(self, o: object) -> bool:
         if self.name == o.name:
@@ -118,3 +118,5 @@ class Subject:
 
     def getWeekEnd(self):
         return self.weekEnd
+
+

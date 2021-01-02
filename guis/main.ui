@@ -13,7 +13,7 @@
     <x>0</x>
     <y>0</y>
     <width>1523</width>
-    <height>992</height>
+    <height>990</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -114,7 +114,7 @@ background: transparent;
           <number>0</number>
          </property>
          <item alignment="Qt::AlignLeft">
-          <widget class="QPushButton" name="pushButton_menu">
+          <widget class="QPushButton" name="button_menu">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -196,6 +196,13 @@ background: transparent;
              <height>32</height>
             </size>
            </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton{
+	background-color: #f2f2f2f2;
+	border-radius: 16px;
+}
+</string>
+           </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
            </property>
@@ -222,7 +229,7 @@ background: transparent;
              <number>0</number>
             </property>
             <item>
-             <widget class="QPushButton" name="pushButton_minimum">
+             <widget class="QPushButton" name="button_minimum">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -236,14 +243,8 @@ background: transparent;
                </size>
               </property>
               <property name="styleSheet">
-               <string notr="true">QPushButton{
-	background-color: #f2f2f2f2;
-	border-radius: 16px;
-}
-
-QPushButton::hover{
-	background-color: rgb(0, 255, 0);
-	border: 1px solid rgb(0, 225, 0);
+               <string notr="true">QPushButton::hover{
+background-color: rgb(0, 170, 0);
 }</string>
               </property>
               <property name="text">
@@ -252,7 +253,7 @@ QPushButton::hover{
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_maximum">
+             <widget class="QPushButton" name="button_maximum">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -266,14 +267,8 @@ QPushButton::hover{
                </size>
               </property>
               <property name="styleSheet">
-               <string notr="true">QPushButton{
-	background-color: #f2f2f2f2;
-	border-radius: 16px;
-}
-
-QPushButton::hover{
-	background-color: rgb(255, 255, 0);
-	border: 1px solid rgb(225, 225, 0);
+               <string notr="true">QPushButton::hover{
+background-color: rgb(255, 170, 0);
 }</string>
               </property>
               <property name="text">
@@ -282,7 +277,7 @@ QPushButton::hover{
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_close">
+             <widget class="QPushButton" name="button_close">
               <property name="enabled">
                <bool>true</bool>
               </property>
@@ -305,15 +300,9 @@ QPushButton::hover{
                </size>
               </property>
               <property name="styleSheet">
-               <string notr="true">QPushButton {
-	border: none;
-	background: #f2f2f2f2;
-	border-radius: 16px;
-}
-
+               <string notr="true">
 QPushButton::hover {
-	background: rgb(255, 0, 0);
-	border: 1px solid rgb(225, 0, 0);
+background-color: rgb(255, 0, 0);
 }</string>
               </property>
               <property name="text">
@@ -331,9 +320,9 @@ QPushButton::hover {
              </widget>
             </item>
            </layout>
-           <zorder>pushButton_close</zorder>
-           <zorder>pushButton_minimum</zorder>
-           <zorder>pushButton_maximum</zorder>
+           <zorder>button_close</zorder>
+           <zorder>button_minimum</zorder>
+           <zorder>button_maximum</zorder>
           </widget>
          </item>
         </layout>
@@ -395,13 +384,14 @@ QPushButton::hover {
            <property name="styleSheet">
             <string notr="true">QPushButton {
 border-radius: 7px;
-background-color: rgb(218, 218, 218);
+background-color: #95a5a6;
+border-bottom: 5px solid #7f8c8d;
 width: 60px;
 height: 60px;
 }
 
-QPushButton:hover {
-background-color: gray;
+QPushButton:pressed {
+border: none;
 }</string>
            </property>
            <property name="frameShape">
@@ -440,14 +430,22 @@ background-color: gray;
             <item>
              <widget class="QPushButton" name="button_nav_predict">
               <property name="text">
-               <string>predict</string>
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>../resources/icon_book.svg</normaloff>../resources/icon_book.svg</iconset>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QPushButton" name="button_nav_setting">
               <property name="text">
-               <string>setting</string>
+               <string/>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>../resources/icon_setting.svg</normaloff>../resources/icon_setting.svg</iconset>
               </property>
              </widget>
             </item>
@@ -487,7 +485,7 @@ background-color: gray;
             <number>0</number>
            </property>
            <widget class="QWidget" name="page_main">
-            <layout class="QVBoxLayout" name="verticalLayout_4">
+            <layout class="QHBoxLayout" name="horizontalLayout_17">
              <property name="spacing">
               <number>0</number>
              </property>
@@ -512,7 +510,19 @@ background-color: gray;
                 </sizepolicy>
                </property>
                <property name="styleSheet">
-                <string notr="true">background-color: rgb(253, 253, 253);</string>
+                <string notr="true">QFrame{
+background-color: rgb(253, 253, 253);
+}
+QPushButton {
+border-radius: 7px;
+border-bottom: 5px solid #7f8c8d;
+background-color: #95a5a6;
+color: #ffffff;
+}
+
+QPushButton:pressed {
+border: none;
+}</string>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -556,7 +566,7 @@ background-color: gray;
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                        <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
+                       <verstretch>3</verstretch>
                       </sizepolicy>
                      </property>
                      <property name="styleSheet">
@@ -580,52 +590,6 @@ QLineEdit {
 QLabel {
 background-color: #ffffff;
 border: none;
-}
-
-QPushButton {
-border-radius: 7px;
-border: 1px solid #ced6e0;
-background-color: #bdc3c7;
-color: #ffffff;
-}
-
-QPushButton:hover {
-background-color:#34495e;
-}
-
-QPushButton:pressed {
-background-color:#2c3e50;
-}
-/*scroll bar*/
-QScrollBar:vertical {
-width: 12px;
-margin: 15px 0 15px 0;
-}
-QScrollBar::handle:vertical {
-background-color: rgb(205, 205, 205);
-min-height: 20px;
-border-radius: 6px;
-}
-QScrollBar::add-line:vertical {
-background-color: rgb(248, 248, 248);
-height: 20px;
-subcontrol-position: bottom;
-subcontrol-origin: margin;
-}
-
-QScrollBar::sub-line:vertical {
-background-color: rgb(248, 248, 248);
-height: 20px;
-subcontrol-position: top;
-subcontrol-origin: margin;
-}
-
-QScrollBar::add-page:vertical {
-background-color: rgb(248, 248, 248);
-}
-
-QScrollBar::sub-page:vertical {
-background-color: rgb(248, 248, 248);
 }</string>
                      </property>
                      <property name="frameShape">
@@ -657,7 +621,7 @@ background-color: rgb(248, 248, 248);
                           <number>0</number>
                          </property>
                          <item>
-                          <widget class="QPushButton" name="pushButton_capNhat">
+                          <widget class="QPushButton" name="button_capNhat">
                            <property name="sizePolicy">
                             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                              <horstretch>0</horstretch>
@@ -697,7 +661,7 @@ background-color: rgb(248, 248, 248);
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="pushButton_fillter">
+                          <widget class="QPushButton" name="button_fillter">
                            <property name="sizePolicy">
                             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                              <horstretch>0</horstretch>
@@ -769,7 +733,7 @@ background-color: rgb(248, 248, 248);
                        </widget>
                       </item>
                       <item row="2" column="1">
-                       <widget class="QPushButton" name="pushButton_timKiem">
+                       <widget class="QPushButton" name="button_timKiem">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                           <horstretch>0</horstretch>
@@ -984,7 +948,7 @@ QLabel {
                      <property name="sizePolicy">
                       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                        <horstretch>0</horstretch>
-                       <verstretch>0</verstretch>
+                       <verstretch>2</verstretch>
                       </sizepolicy>
                      </property>
                      <property name="styleSheet">
@@ -995,21 +959,6 @@ background-color: rgb(255, 255, 255);
 
 QLabel {
 background-color: rgb(255, 255, 255);
-}
-
-QPushButton {
-border-radius: 7px;
-border: 1px solid #ced6e0;
-background-color: #bdc3c7;
-color: #ffffff;
-}
-
-QPushButton:hover {
-background-color:#34495e;
-}
-
-QPushButton:pressed {
-background-color:#2c3e50;
 }
 </string>
                      </property>
@@ -1053,7 +1002,7 @@ background-color: #ffffff;
                           <number>0</number>
                          </property>
                          <item>
-                          <widget class="QPushButton" name="pushButton_previousWeek">
+                          <widget class="QPushButton" name="button_previousWeek">
                            <property name="sizePolicy">
                             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                              <horstretch>0</horstretch>
@@ -1076,7 +1025,7 @@ background-color: #ffffff;
                             <string notr="true"/>
                            </property>
                            <property name="text">
-                            <string/>
+                            <string>Lùi</string>
                            </property>
                            <property name="icon">
                             <iconset>
@@ -1110,7 +1059,7 @@ background-color: #ffffff;
                           </widget>
                          </item>
                          <item>
-                          <widget class="QPushButton" name="pushButton_nextWeek">
+                          <widget class="QPushButton" name="button_nextWeek">
                            <property name="sizePolicy">
                             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                              <horstretch>0</horstretch>
@@ -1133,7 +1082,7 @@ background-color: #ffffff;
                             <string notr="true"/>
                            </property>
                            <property name="text">
-                            <string/>
+                            <string>Tới</string>
                            </property>
                            <property name="icon">
                             <iconset>
@@ -1174,7 +1123,7 @@ background-color: #ffffff;
                            <x>0</x>
                            <y>0</y>
                            <width>321</width>
-                           <height>374</height>
+                           <height>283</height>
                           </rect>
                          </property>
                          <property name="styleSheet">
@@ -1182,23 +1131,12 @@ background-color: #ffffff;
 background-color: #f2f2f2f2;
 border: 1px solid #ced6e0;
 border-radius: 7px;
-}	
+}
 
 QPushButton {
-background-color: white;
-border-radius: 7px;
-border: none;
-color: #000000;
-}
-
-QPushButton:hover {
-background-color: #3498db;
-color: #fff;
-}
-
-QPushButton:pressed {
-background-color: #2980b9;
-}</string>
+font-family: &quot;Segoe UI&quot;;
+font-size: 18px;
+}	</string>
                          </property>
                         </widget>
                        </widget>
@@ -1568,52 +1506,7 @@ QLabel {
 background-color: #ffffff;
 border: none;
 }
-
-QPushButton {
-border-radius: 7px;
-border: 1px solid #ced6e0;
-background-color: #bdc3c7;
-color: #ffffff;
-}
-
-QPushButton:hover {
-background-color:#34495e;
-}
-
-QPushButton:pressed {
-background-color:#2c3e50;
-}
-/*scroll bar*/
-QScrollBar:vertical {
-width: 12px;
-margin: 15px 0 15px 0;
-}
-QScrollBar::handle:vertical {
-background-color: rgb(205, 205, 205);
-min-height: 20px;
-border-radius: 6px;
-}
-QScrollBar::add-line:vertical {
-background-color: rgb(248, 248, 248);
-height: 20px;
-subcontrol-position: bottom;
-subcontrol-origin: margin;
-}
-
-QScrollBar::sub-line:vertical {
-background-color: rgb(248, 248, 248);
-height: 20px;
-subcontrol-position: top;
-subcontrol-origin: margin;
-}
-
-QScrollBar::add-page:vertical {
-background-color: rgb(248, 248, 248);
-}
-
-QScrollBar::sub-page:vertical {
-background-color: rgb(248, 248, 248);
-}</string>
+</string>
                      </property>
                      <property name="frameShape">
                       <enum>QFrame::StyledPanel</enum>
@@ -1622,7 +1515,40 @@ background-color: rgb(248, 248, 248);
                       <enum>QFrame::Raised</enum>
                      </property>
                      <layout class="QGridLayout" name="gridLayout">
-                      <item row="7" column="0">
+                      <item row="5" column="0">
+                       <widget class="QLabel" name="label_lopxungdot">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                         <size>
+                          <width>0</width>
+                          <height>0</height>
+                         </size>
+                        </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>16777215</width>
+                          <height>30</height>
+                         </size>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <family>Segoe UI</family>
+                          <pointsize>9</pointsize>
+                          <weight>50</weight>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>Lớp xung đột</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="6" column="0">
                        <widget class="QListWidget" name="listWidget_lopXungDot">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -1690,42 +1616,6 @@ QPushButton {
 QLabel {
 	background: transparent;
 }</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="4" column="0">
-                       <widget class="QPushButton" name="pushButton_dangKy">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="minimumSize">
-                         <size>
-                          <width>0</width>
-                          <height>45</height>
-                         </size>
-                        </property>
-                        <property name="maximumSize">
-                         <size>
-                          <width>16777215</width>
-                          <height>16777215</height>
-                         </size>
-                        </property>
-                        <property name="font">
-                         <font>
-                          <family>Segoe UI</family>
-                          <pointsize>9</pointsize>
-                          <weight>50</weight>
-                          <bold>false</bold>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true"/>
-                        </property>
-                        <property name="text">
-                         <string>Đăng ký</string>
                         </property>
                        </widget>
                       </item>
@@ -1800,48 +1690,6 @@ QLabel {
                         </property>
                        </widget>
                       </item>
-                      <item row="5" column="0">
-                       <widget class="QPushButton" name="pushButton_luuText">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="minimumSize">
-                         <size>
-                          <width>0</width>
-                          <height>45</height>
-                         </size>
-                        </property>
-                        <property name="maximumSize">
-                         <size>
-                          <width>16777215</width>
-                          <height>16777215</height>
-                         </size>
-                        </property>
-                        <property name="font">
-                         <font>
-                          <family>Segoe UI</family>
-                          <pointsize>9</pointsize>
-                          <weight>50</weight>
-                          <bold>false</bold>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true"/>
-                        </property>
-                        <property name="text">
-                         <string>Xuất Excel</string>
-                        </property>
-                        <property name="default">
-                         <bool>false</bool>
-                        </property>
-                        <property name="flat">
-                         <bool>false</bool>
-                        </property>
-                       </widget>
-                      </item>
                       <item row="0" column="0">
                        <widget class="QLabel" name="label_lopdachon">
                         <property name="sizePolicy">
@@ -1875,37 +1723,106 @@ QLabel {
                         </property>
                        </widget>
                       </item>
-                      <item row="6" column="0">
-                       <widget class="QLabel" name="label_lopxungdot">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
+                      <item row="3" column="0">
+                       <widget class="QFrame" name="frame_main_right_buttons">
+                        <property name="frameShape">
+                         <enum>QFrame::StyledPanel</enum>
                         </property>
-                        <property name="minimumSize">
-                         <size>
-                          <width>0</width>
-                          <height>0</height>
-                         </size>
+                        <property name="frameShadow">
+                         <enum>QFrame::Raised</enum>
                         </property>
-                        <property name="maximumSize">
-                         <size>
-                          <width>16777215</width>
-                          <height>30</height>
-                         </size>
-                        </property>
-                        <property name="font">
-                         <font>
-                          <family>Segoe UI</family>
-                          <pointsize>9</pointsize>
-                          <weight>50</weight>
-                          <bold>false</bold>
-                         </font>
-                        </property>
-                        <property name="text">
-                         <string>Lớp xung đột</string>
-                        </property>
+                        <layout class="QHBoxLayout" name="horizontalLayout_18">
+                         <property name="leftMargin">
+                          <number>0</number>
+                         </property>
+                         <property name="topMargin">
+                          <number>0</number>
+                         </property>
+                         <property name="rightMargin">
+                          <number>0</number>
+                         </property>
+                         <property name="bottomMargin">
+                          <number>0</number>
+                         </property>
+                         <item>
+                          <widget class="QPushButton" name="button_dangKy">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="minimumSize">
+                            <size>
+                             <width>0</width>
+                             <height>45</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>16777215</width>
+                             <height>16777215</height>
+                            </size>
+                           </property>
+                           <property name="font">
+                            <font>
+                             <family>Segoe UI</family>
+                             <pointsize>9</pointsize>
+                             <weight>50</weight>
+                             <bold>false</bold>
+                            </font>
+                           </property>
+                           <property name="styleSheet">
+                            <string notr="true"/>
+                           </property>
+                           <property name="text">
+                            <string>Đăng ký</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QPushButton" name="button_luuText">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="minimumSize">
+                            <size>
+                             <width>0</width>
+                             <height>45</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>16777215</width>
+                             <height>16777215</height>
+                            </size>
+                           </property>
+                           <property name="font">
+                            <font>
+                             <family>Segoe UI</family>
+                             <pointsize>9</pointsize>
+                             <weight>50</weight>
+                             <bold>false</bold>
+                            </font>
+                           </property>
+                           <property name="styleSheet">
+                            <string notr="true"/>
+                           </property>
+                           <property name="text">
+                            <string>Xuất Excel</string>
+                           </property>
+                           <property name="default">
+                            <bool>false</bool>
+                           </property>
+                           <property name="flat">
+                            <bool>false</bool>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
                        </widget>
                       </item>
                      </layout>
@@ -2053,7 +1970,6 @@ background-color: rgb(253, 253, 253);
 
 QCheckBox {
 spacing: 7px;
-font-size: 20px;
 }
 
 QCheckBox::indicator {
@@ -2064,42 +1980,24 @@ height: 27px;
 }
 
 QCheckBox::indicator:checked {
-image: url(./Images/new-logo.png);
+image: url(./resources/tick.png);
 }
 
 QGroupBox {
 border: 1px solid gray;
 border-radius: 5px;
 font-size: 20px;
-font-weight: bold;
 margin-top: 4ex;
 padding: 11px 20px;
 }
 
 QGroupBox::title {
 subcontrol-origin: margin;
-subcontrol-position: top; /* position at the top center */
+top: -6px;
+left: 10px;
 padding: 0 3px;
 }
-
-QPushButton {
-min-width: 170px;
-min-height: 48px;
-border-radius: 7px;
-background-color: #7f8c8d;
-border-bottom: 5px solid #636e72;
-font-size: 16px;
-color: white;
-}
-
-QPushButton::hover {
-background-color: #2ecc71;
-border-bottom: 5px solid #27ae60;
-}
-
-QPushButton::pressed {
-border: none;
-}</string>
+</string>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -2151,7 +2049,13 @@ border: none;
                         </property>
                         <layout class="QVBoxLayout" name="verticalLayout_10">
                          <item>
-                          <widget class="QCheckBox" name="checkBox">
+                          <widget class="QCheckBox" name="checkBox_setting_save_class">
+                           <property name="font">
+                            <font>
+                             <family>Segoe UI</family>
+                             <pointsize>9</pointsize>
+                            </font>
+                           </property>
                            <property name="text">
                             <string>Lưu những lớp học đã chọn sau khi thoát ứng dụng</string>
                            </property>
@@ -2161,7 +2065,13 @@ border: none;
                           </widget>
                          </item>
                          <item>
-                          <widget class="QCheckBox" name="checkBox_2">
+                          <widget class="QCheckBox" name="checkBox_setting_auto_import_class">
+                           <property name="font">
+                            <font>
+                             <family>Segoe UI</family>
+                             <pointsize>9</pointsize>
+                            </font>
+                           </property>
                            <property name="text">
                             <string>Tự động nhập tệp tin lớp học đã lưu khi mở ứng dụng</string>
                            </property>
@@ -2177,7 +2087,13 @@ border: none;
                         </property>
                         <layout class="QVBoxLayout" name="verticalLayout_11">
                          <item>
-                          <widget class="QCheckBox" name="checkBox_3">
+                          <widget class="QCheckBox" name="checkBox_setting_darkmode">
+                           <property name="font">
+                            <font>
+                             <family>Segoe UI</family>
+                             <pointsize>9</pointsize>
+                            </font>
+                           </property>
                            <property name="text">
                             <string>Dảk-Mốt</string>
                            </property>
@@ -2205,14 +2121,26 @@ border: none;
                         </property>
                         <layout class="QVBoxLayout" name="verticalLayout_13">
                          <item>
-                          <widget class="QCheckBox" name="checkBox_4">
+                          <widget class="QCheckBox" name="checkBox_setting_show_info_when_hover">
+                           <property name="font">
+                            <font>
+                             <family>Segoe UI</family>
+                             <pointsize>9</pointsize>
+                            </font>
+                           </property>
                            <property name="text">
                             <string>Hiển thị thông tin sương sương khi rê chuột vào lớp</string>
                            </property>
                           </widget>
                          </item>
                          <item>
-                          <widget class="QCheckBox" name="checkBox_5">
+                          <widget class="QCheckBox" name="checkBox_setting_show_teacher_name">
+                           <property name="font">
+                            <font>
+                             <family>Segoe UI</family>
+                             <pointsize>9</pointsize>
+                            </font>
+                           </property>
                            <property name="text">
                             <string>Hiện tên giáo viên nhỏ nhỏ bên cạnh</string>
                            </property>
@@ -2228,7 +2156,13 @@ border: none;
                         </property>
                         <layout class="QVBoxLayout" name="verticalLayout_14">
                          <item>
-                          <widget class="QCheckBox" name="checkBox_6">
+                          <widget class="QCheckBox" name="checkBox_setting_show_date_conflict">
+                           <property name="font">
+                            <font>
+                             <family>Segoe UI</family>
+                             <pointsize>9</pointsize>
+                            </font>
+                           </property>
                            <property name="text">
                             <string>Hiển thị Thứ xung đột</string>
                            </property>
@@ -2256,7 +2190,13 @@ border: none;
                         </property>
                         <layout class="QVBoxLayout" name="verticalLayout_15">
                          <item>
-                          <widget class="QCheckBox" name="checkBox_7">
+                          <widget class="QCheckBox" name="checkBox_setting_highlight_conflict">
+                           <property name="font">
+                            <font>
+                             <family>Segoe UI</family>
+                             <pointsize>9</pointsize>
+                            </font>
+                           </property>
                            <property name="text">
                             <string>Nổi bật tuần có xung đột</string>
                            </property>
@@ -2291,14 +2231,44 @@ border: none;
                        </spacer>
                       </item>
                       <item>
-                       <widget class="QPushButton" name="pushButton_2">
+                       <widget class="QPushButton" name="button_setting_default">
+                        <property name="styleSheet">
+                         <string notr="true">QPushButton {
+min-width: 170px;
+min-height: 48px;
+border-radius: 7px;
+background-color: #e74c3c;
+border-bottom: 5px solid #c0392b;
+font-size: 16px;
+color: white;
+}
+
+QPushButton::pressed {
+border: none;
+}</string>
+                        </property>
                         <property name="text">
                          <string>Trở về quá khứ</string>
                         </property>
                        </widget>
                       </item>
                       <item>
-                       <widget class="QPushButton" name="pushButton">
+                       <widget class="QPushButton" name="button_setting_save">
+                        <property name="styleSheet">
+                         <string notr="true">QPushButton {
+min-width: 170px;
+min-height: 48px;
+border-radius: 7px;
+background-color: #2ecc71;
+border-bottom: 5px solid #27ae60;
+font-size: 16px;
+color: white;
+}
+
+QPushButton::pressed {
+border: none;
+}</string>
+                        </property>
                         <property name="text">
                          <string>Nhấn vào em để lưu</string>
                         </property>
@@ -2343,7 +2313,10 @@ border: none;
               <number>0</number>
              </property>
              <item>
-              <widget class="QFrame" name="frame_2">
+              <widget class="QFrame" name="frame_info">
+               <property name="styleSheet">
+                <string notr="true"/>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
                </property>
@@ -2351,6 +2324,19 @@ border: none;
                 <enum>QFrame::Raised</enum>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_17">
+                <item>
+                 <spacer name="verticalSpacer_4">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
                 <item alignment="Qt::AlignHCenter">
                  <widget class="QLabel" name="label_3">
                   <property name="sizePolicy">
@@ -2377,7 +2363,7 @@ border: none;
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                     <horstretch>0</horstretch>
-                    <verstretch>3</verstretch>
+                    <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
                   <property name="styleSheet">
@@ -2404,66 +2390,159 @@ border: none;
                     </spacer>
                    </item>
                    <item>
-                    <widget class="QScrollArea" name="scrollArea_2">
+                    <widget class="QLabel" name="label_4">
                      <property name="sizePolicy">
-                      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                        <horstretch>0</horstretch>
                        <verstretch>0</verstretch>
                       </sizepolicy>
                      </property>
-                     <property name="widgetResizable">
+                     <property name="minimumSize">
+                      <size>
+                       <width>0</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QLabel {
+padding: 100px 60px;
+border: 1px solid gray;
+border-radius: 7px;
+background-color: #ecf0f1;
+}</string>
+                     </property>
+                     <property name="text">
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; font-style:italic;&quot;&gt;*** Sống vì Donate ***&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Cảm ơn các bạn sinh viên Duy Tân đã tin tưởng sử dụng ứng dụng của bọn mình để thay thế cho Excel truyền thống trước đây. Thấy mấy bạn nữ chăm chỉ ngồi vẽ đống lịch học trên Excel mình thật sự nhìn thấy thương lắm.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Cảm ơn những người có đóng góp vào repo này. Ngoài những thành viên sáng lập của Start-up Sống Vì Donate cùng với đó là các cột mốc quan trọng 14:30, 19:32, 21:59, căn phòng chừng 8 mét vuông và con mèo đen tên Tôm.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;5I0wlij |)35tr0ij fr0m In5id3 !!! We R 4nti|)tuCl4n&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                     </property>
+                     <property name="wordWrap">
                       <bool>true</bool>
                      </property>
-                     <widget class="QWidget" name="scrollAreaWidgetContents">
-                      <property name="geometry">
-                       <rect>
-                        <x>0</x>
-                        <y>0</y>
-                        <width>481</width>
-                        <height>856</height>
-                       </rect>
-                      </property>
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">background-color: white;</string>
-                      </property>
-                      <layout class="QVBoxLayout" name="verticalLayout_18">
-                       <item>
-                        <widget class="QLabel" name="label_4">
-                         <property name="sizePolicy">
-                          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                           <horstretch>0</horstretch>
-                           <verstretch>0</verstretch>
-                          </sizepolicy>
-                         </property>
-                         <property name="minimumSize">
-                          <size>
-                           <width>0</width>
-                           <height>0</height>
-                          </size>
-                         </property>
-                         <property name="styleSheet">
-                          <string notr="true"/>
-                         </property>
-                         <property name="text">
-                          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; font-style:italic;&quot;&gt;*** Sống vì Donate ***&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Cảm ơn các bạn sinh viên Duy Tân đã tin tưởng sử dụng ứng dụng của bọn mình để thay thế cho Excel truyền thống trước đây. Thấy mấy bạn nữ chăm chỉ ngồi vẽ đống lịch học trên Excel mình thật sự nhìn thấy thương lắm.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Còn với những ai dân Duy Tân nói chung và dân CNTT Duy Tân nói riêng tò mò tìm bug của con app này thì xin các bạn nếu giỏi một trong số những cái này hãy tham gia cùng tụi mình:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;* Python thành thạo hướng đối tượng, hiểu rõ cách Web App hoạt động.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;* Viết tài liệu, tư duy siêu việt, khả năng đi &amp;quot;kiến trúc&amp;quot; tốt.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;* Photoshop và khả năng PR cực mạnh.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;Từ một ý tưởng đơn giản&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;App này được hình thành từ một ý tưởng sơ khai nhất là lấy lịch học trên trang Course của DTU và lịch thi trên phòng đào tạo DTU. Ứng dụng được viết bằng Python, giao diện được dựng trên PyQt5.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;Đến một ứng dụng thật sự&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Từ những ý tưởng sơ khai bọn mình đã vẽ ra một loạt các chức năng râu ria khác. Nhưng ý tưởng chính vẫn là một ứng dụng cho phép người dùng Xếp một bản xem trước của lịch học, phục vụ cho những kỳ đăng ký tín chỉ đầy chật vật và đầy đau khổ. Những ý tưởng râu ria đằng sau như cho phép chèn lịch cá nhân, tìm lịch thi, xem lịch học, dự đoán tương lai bằng AI đều được team mình ấp ủ trước khi thực hiện dự án này và sẽ cập nhật dần dần.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;Ghi nhận công lao&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Cảm ơn những người có đóng góp vào repo này. Ngoài những thành viên sáng lập của Start-up Sống Vì Donate cùng với đó là các cột mốc quan trọng 14:30, 19:32, 21:59, căn phòng chừng 8 mét vuông và con mèo đen tên Tôm.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;Slogan&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;5I0wlij |)35tr0ij fr0m In5id3 !!! We R 4nti|)tuCl4n&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                         </property>
-                         <property name="wordWrap">
-                          <bool>true</bool>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
                     </widget>
                    </item>
                    <item>
                     <spacer name="horizontalSpacer_5">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_info_buttons">
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton {
+min-width: 300px;
+min-height: 50px;
+}</string>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_16">
+                   <item>
+                    <spacer name="horizontalSpacer_7">
+                     <property name="orientation">
+                      <enum>Qt::Horizontal</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>40</width>
+                       <height>20</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="button_info_donate_green">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>300</width>
+                       <height>55</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QPushButton{
+border-radius: 7px;
+background-color: #2ecc71;
+border-bottom: 5px solid #27ae60;
+color: #fff;
+}
+
+QPushButton::pressed {
+border: none;
+}</string>
+                     </property>
+                     <property name="text">
+                      <string>Mình muốn donate huhu</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QPushButton" name="button_info_donate_red">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="minimumSize">
+                      <size>
+                       <width>300</width>
+                       <height>55</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI</family>
+                       <pointsize>9</pointsize>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QPushButton{
+border-radius: 7px;
+background-color: #e74c3c;
+border-bottom: 5px solid #c0392b;
+color: #fff;
+}
+
+QPushButton::pressed {
+border: none;
+}</string>
+                     </property>
+                     <property name="text">
+                      <string>Cũng là muốn donate nhưng màu đỏ</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <spacer name="horizontalSpacer_6">
                      <property name="orientation">
                       <enum>Qt::Horizontal</enum>
                      </property>

@@ -221,9 +221,9 @@ border: 1px solid #ced6e0;
            </property>
            <property name="styleSheet">
             <string notr="true">QPushButton {
-border-bottom: 5px solid #43B051;
+border-bottom: 5px solid #27ae60;
 border-radius: 6px;
-background-color: #26de81;
+background-color: #2ecc71;
 min-width: 140px;
 min-height: 38px;
 padding-left: 10px;
@@ -232,8 +232,7 @@ color: white;
 }
 
 QPushButton:pressed {
-    background-color: #20bf6b;
-	border: none;
+border: none;
 }
 </string>
            </property>
