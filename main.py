@@ -26,7 +26,9 @@ import os
 import cs4rsa_color
 import team_config
 
-logging.basicConfig(level=logging.INFO)
+# logging.basicConfig(filename='me_cs4rsa_log.log', 
+# level=logging.DEBUG, 
+# format='%(asctime)s | %(name)s | %(levelname)s | %(message)s')
 
 
 class ValidatorFindLineEdit(QValidator):
@@ -151,6 +153,7 @@ class Main(QWidget):
     # Các phương thức này chuẩn bị đủ đúng context trước khi thao tác, ta gọi chúng là Action
 
     def actionFindSubject(self):
+        logging.info('Tôi nhấn Tìm môn học!')
         disciplineData = HomeCourseSearch.getDisciplineFromFile('allDiscipline.json')
         subjectName = toStringAndCleanSpace(self.line_findSubject.text())
         if subjectName:
@@ -164,19 +167,22 @@ class Main(QWidget):
             NotificationWindow('Thông báo','Chưa nhập mã môn kìa bạn','Cảm ơn đã nhắc mình').exec_()
 
     def actionGoToPreviousWeek(self):
+        logging.info('Tôi nhấn đi Lùi!')
         self.gotoPreviousWeek()
 
     def actionGoToNextWeek(self):
+        logging.info('Tôi nhấn đi tới!')
         self.gotoNextWeek()
 
     def actionChangeFrame(self, frameIndex):
+        logging.info('Tôi nhấn điều hướng tới trang {0}'.format(frameIndex))
         self.stackedWidget.setCurrentIndex(frameIndex)
         
 
     # IMPORTANT!!!
     # Các phương thức load giao diện quan trọng
     def loadTable(self, subjects: List[Subject]):
-        logging.info('LoadTable run subjects {0}'.format(subjects))
+        logging.debug('Table load {0}'.format(subjects))
         self.resetColorTable()
         if subjects:
             for subject in subjects:
@@ -202,6 +208,7 @@ class Main(QWidget):
 
     def loadListConflict(self, conflicts: List[Conflict]):
         """Load List Widget chứa thông tin Subject Conflict."""
+        logging.debug('List Conflict load {0}'.format(conflicts))
         self.listView_SubjectConflict.clear()
         if conflicts:
             for conflict in conflicts:
@@ -219,7 +226,7 @@ class Main(QWidget):
 
     def loadListSubjectChoiced(self, subjects: List[Subject]):
         """Phương thức này sẽ làm sạch danh sách môn đã chọn và tải lại nó từ list môn học hiện có trong Semester."""
-        logging.info('loadListSubjectChoiced --> {0}'.format(subjects))
+        logging.info('Load list widget choiced subjects--> {0}'.format(subjects))
         self.listView_SubjectChoiced.clear()
         for subject in subjects:
 
@@ -236,6 +243,7 @@ class Main(QWidget):
             self.listView_SubjectChoiced.addItem(self.myQListWidgetItem)
 
     def loadListSubjectFound(self):
+        logging.info('Load list widget found subjects--> {0}'.format(self.SUBJECT_FOUND))
         for subject in self.SUBJECT_FOUND:
             self.custom_widget_subject = CustomListItemWidget(subject, self)
             self.custom_widget_subject.addButtonAddToSemeter()
@@ -250,7 +258,6 @@ class Main(QWidget):
 
     def loadButtonWeekContainer(self, maxWeek):
         """Render các button để điều hướng trong các Tuần của Semester."""
-        logging.info('index change')
         for i in reversed(range(self.flowlayout.count())):
             self.flowlayout.itemAt(i).widget().deleteLater()
         if maxWeek == 0:
@@ -259,8 +266,9 @@ class Main(QWidget):
             for index in range(maxWeek):
                 self.weekButton = QPushButton(str(index+1), self)
                 if index == self.semester.getCurrentSemesterIndex():
-                    logging.info('change highlight')
-                    self.weekButton.setStyleSheet('background-color: #2980b9; color: white;')
+                    stylingString = """QPushButton {background-color: #2980b9;border-bottom: 5px solid #0a3d62;color: white;}
+                    QPushButton:pressed {border:none;}"""
+                    self.weekButton.setStyleSheet(stylingString)
                 self.weekButton.setFixedWidth(40)
                 self.weekButton.setFixedHeight(40)
                 self.weekButton.clicked.connect(lambda b, value=index+1: self.gotoWeek(value))
@@ -273,7 +281,6 @@ class Main(QWidget):
             self.label_week.setText('Tuần ?')
 
     def loadIndexChange(self):
-        logging.info('signal-->loadIndexChange')
         self.loadButtonWeekContainer(self.semester.getMaxWeekInSemester())
         logging.info('loadTable --> {0}'.format(self.semester.getCurrentSubjects()))
         self.loadTable(self.semester.getCurrentSubjects())
@@ -351,7 +358,6 @@ class Main(QWidget):
                     self.listView_SubjectDownloaded.item(j).setHidden(True)
 
     def showItemInListDownloadedAfterDelInListChoiced(self, subject: Subject):
-        logging.info('showItemInListDownloadedAfterDelInListChoiced run --> {0}'.format(subject.getSubjectCode()))
         for i in range(self.listView_SubjectDownloaded.count()):
             downloadedSubject = Main.getSubjectInListWidgetAtIndex(self.listView_SubjectDownloaded, i)
             if subject.getSubjectCode() == downloadedSubject.getSubjectCode():

@@ -1131,23 +1131,12 @@ background-color: #ffffff;
 background-color: #f2f2f2f2;
 border: 1px solid #ced6e0;
 border-radius: 7px;
-}	
+}
 
 QPushButton {
-background-color: white;
-border-radius: 7px;
-border: none;
-color: #000000;
-}
-
-QPushButton:hover {
-background-color: #3498db;
-color: #fff;
-}
-
-QPushButton:pressed {
-background-color: #2980b9;
-}</string>
+font-family: &quot;Segoe UI&quot;;
+font-size: 18px;
+}	</string>
                          </property>
                         </widget>
                        </widget>
@@ -1526,7 +1515,40 @@ border: none;
                       <enum>QFrame::Raised</enum>
                      </property>
                      <layout class="QGridLayout" name="gridLayout">
-                      <item row="7" column="0">
+                      <item row="5" column="0">
+                       <widget class="QLabel" name="label_lopxungdot">
+                        <property name="sizePolicy">
+                         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                          <horstretch>0</horstretch>
+                          <verstretch>0</verstretch>
+                         </sizepolicy>
+                        </property>
+                        <property name="minimumSize">
+                         <size>
+                          <width>0</width>
+                          <height>0</height>
+                         </size>
+                        </property>
+                        <property name="maximumSize">
+                         <size>
+                          <width>16777215</width>
+                          <height>30</height>
+                         </size>
+                        </property>
+                        <property name="font">
+                         <font>
+                          <family>Segoe UI</family>
+                          <pointsize>9</pointsize>
+                          <weight>50</weight>
+                          <bold>false</bold>
+                         </font>
+                        </property>
+                        <property name="text">
+                         <string>Lớp xung đột</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item row="6" column="0">
                        <widget class="QListWidget" name="listWidget_lopXungDot">
                         <property name="sizePolicy">
                          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -1594,42 +1616,6 @@ QPushButton {
 QLabel {
 	background: transparent;
 }</string>
-                        </property>
-                       </widget>
-                      </item>
-                      <item row="4" column="0">
-                       <widget class="QPushButton" name="button_dangKy">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="minimumSize">
-                         <size>
-                          <width>0</width>
-                          <height>45</height>
-                         </size>
-                        </property>
-                        <property name="maximumSize">
-                         <size>
-                          <width>16777215</width>
-                          <height>16777215</height>
-                         </size>
-                        </property>
-                        <property name="font">
-                         <font>
-                          <family>Segoe UI</family>
-                          <pointsize>9</pointsize>
-                          <weight>50</weight>
-                          <bold>false</bold>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true"/>
-                        </property>
-                        <property name="text">
-                         <string>Đăng ký</string>
                         </property>
                        </widget>
                       </item>
@@ -1704,48 +1690,6 @@ QLabel {
                         </property>
                        </widget>
                       </item>
-                      <item row="5" column="0">
-                       <widget class="QPushButton" name="button_luuText">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
-                        </property>
-                        <property name="minimumSize">
-                         <size>
-                          <width>0</width>
-                          <height>45</height>
-                         </size>
-                        </property>
-                        <property name="maximumSize">
-                         <size>
-                          <width>16777215</width>
-                          <height>16777215</height>
-                         </size>
-                        </property>
-                        <property name="font">
-                         <font>
-                          <family>Segoe UI</family>
-                          <pointsize>9</pointsize>
-                          <weight>50</weight>
-                          <bold>false</bold>
-                         </font>
-                        </property>
-                        <property name="styleSheet">
-                         <string notr="true"/>
-                        </property>
-                        <property name="text">
-                         <string>Xuất Excel</string>
-                        </property>
-                        <property name="default">
-                         <bool>false</bool>
-                        </property>
-                        <property name="flat">
-                         <bool>false</bool>
-                        </property>
-                       </widget>
-                      </item>
                       <item row="0" column="0">
                        <widget class="QLabel" name="label_lopdachon">
                         <property name="sizePolicy">
@@ -1779,37 +1723,106 @@ QLabel {
                         </property>
                        </widget>
                       </item>
-                      <item row="6" column="0">
-                       <widget class="QLabel" name="label_lopxungdot">
-                        <property name="sizePolicy">
-                         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                          <horstretch>0</horstretch>
-                          <verstretch>0</verstretch>
-                         </sizepolicy>
+                      <item row="3" column="0">
+                       <widget class="QFrame" name="frame_main_right_buttons">
+                        <property name="frameShape">
+                         <enum>QFrame::StyledPanel</enum>
                         </property>
-                        <property name="minimumSize">
-                         <size>
-                          <width>0</width>
-                          <height>0</height>
-                         </size>
+                        <property name="frameShadow">
+                         <enum>QFrame::Raised</enum>
                         </property>
-                        <property name="maximumSize">
-                         <size>
-                          <width>16777215</width>
-                          <height>30</height>
-                         </size>
-                        </property>
-                        <property name="font">
-                         <font>
-                          <family>Segoe UI</family>
-                          <pointsize>9</pointsize>
-                          <weight>50</weight>
-                          <bold>false</bold>
-                         </font>
-                        </property>
-                        <property name="text">
-                         <string>Lớp xung đột</string>
-                        </property>
+                        <layout class="QHBoxLayout" name="horizontalLayout_18">
+                         <property name="leftMargin">
+                          <number>0</number>
+                         </property>
+                         <property name="topMargin">
+                          <number>0</number>
+                         </property>
+                         <property name="rightMargin">
+                          <number>0</number>
+                         </property>
+                         <property name="bottomMargin">
+                          <number>0</number>
+                         </property>
+                         <item>
+                          <widget class="QPushButton" name="button_dangKy">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="minimumSize">
+                            <size>
+                             <width>0</width>
+                             <height>45</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>16777215</width>
+                             <height>16777215</height>
+                            </size>
+                           </property>
+                           <property name="font">
+                            <font>
+                             <family>Segoe UI</family>
+                             <pointsize>9</pointsize>
+                             <weight>50</weight>
+                             <bold>false</bold>
+                            </font>
+                           </property>
+                           <property name="styleSheet">
+                            <string notr="true"/>
+                           </property>
+                           <property name="text">
+                            <string>Đăng ký</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
+                          <widget class="QPushButton" name="button_luuText">
+                           <property name="sizePolicy">
+                            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                             <horstretch>0</horstretch>
+                             <verstretch>0</verstretch>
+                            </sizepolicy>
+                           </property>
+                           <property name="minimumSize">
+                            <size>
+                             <width>0</width>
+                             <height>45</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>16777215</width>
+                             <height>16777215</height>
+                            </size>
+                           </property>
+                           <property name="font">
+                            <font>
+                             <family>Segoe UI</family>
+                             <pointsize>9</pointsize>
+                             <weight>50</weight>
+                             <bold>false</bold>
+                            </font>
+                           </property>
+                           <property name="styleSheet">
+                            <string notr="true"/>
+                           </property>
+                           <property name="text">
+                            <string>Xuất Excel</string>
+                           </property>
+                           <property name="default">
+                            <bool>false</bool>
+                           </property>
+                           <property name="flat">
+                            <bool>false</bool>
+                           </property>
+                          </widget>
+                         </item>
+                        </layout>
                        </widget>
                       </item>
                      </layout>

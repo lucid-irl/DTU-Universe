@@ -53,7 +53,7 @@ class Semester(QObject):
     CONFLICT = []
     # list of week do initSemester sẽ nằm ở đây
     SEMESTER = []
-    SEMESTER_INDEX = None
+    SEMESTER_INDEX = 0
 
     # signal
     signal_indexChanged = pyqtSignal('PyQt_PyObject')
