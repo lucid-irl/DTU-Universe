@@ -1,3 +1,4 @@
+from typing import Mapping
 from PyQt5.QtCore import QObject, pyqtSignal
 
 from class_subject import Subject
@@ -5,6 +6,9 @@ from class_schedule import *
 from class_conflict import *
 from cs4rsa_color import *
 
+import logging
+
+# logging.basicConfig(level=logging.INFO)
 
 class Semester(QObject):
     """
@@ -50,171 +54,140 @@ class Semester(QObject):
     # list of week do initSemester sẽ nằm ở đây
     SEMESTER = []
     SEMESTER_INDEX = None
-    SEMESTER_PAST_INDEX = 0
 
+    # signal
     signal_indexChanged = pyqtSignal('PyQt_PyObject')
-    singal_addSubject = pyqtSignal('PyQt_PyObject')
+    signal_addSubject = pyqtSignal('PyQt_PyObject')
     signal_deleteSubject = pyqtSignal('PyQt_PyObject')
 
 
     # IMPORTANT!!!
     def addSubject(self, subject: Subject):
         """Thêm một Subject vào Semester."""
-        self.SUBJECTS.append(subject)
-        self.__initSemester()
-        self.__setSemesterIndex(0)
-        self.singal_addSubject.emit(subject)
+        logging.info('addSubject run')
+        Semester.SUBJECTS.append(subject)
+        self.initSemester()
+        self.setSemesterIndex(0)
+        self.signal_addSubject.emit(subject)
 
     def deleteSubject(self, subject: Subject):
         """Xoá một Subject khỏi Semester dựa theo ID."""
-        self.SUBJECTS.remove(subject)
-        self.__initSemester()
-        self.__setSemesterIndex(0)
+        logging.info('deleteSubject run --> {0}'.format(subject))
+        for i in range(len(Semester.SUBJECTS)):
+            logging.info('in deleteSubject --> i = {0}'.format(i))
+            if Semester.SUBJECTS[i].getSubjectCode() == subject.getSubjectCode():
+                sb = Semester.SUBJECTS.pop(i)
+                logging.info('DELETED --> {0}'.format(sb))
+                break
+        self.initSemester()
+        self.setSemesterIndex(0)
         self.signal_deleteSubject.emit(subject)
 
-
     # IMPORTANT!!!
-    def __initSemester(self):
+    def initSemester(self) -> List[List[Subject]]:
         """
-        Phương thức này được tự động thực thi mỗi khi bạn thêm hoặc xoá Subject của Semester.\n
-        Mỗi Subject sẽ có số Tuần học cụ thể từ Tuần nào tới Tuần nào. Vì thế lấy số Tuần tối đa mà Subject có thể chiếm. 
-        Sau đó thực hiện đổ từ Subject tương ứng vào các List. Mỗi List sẽ đại diện cho một Tuần học.
+        Khởi tạo lại danh sách tuần học mỗi lần Thêm, Xoá.
         """
-        self.SEMESTER = [[] for i in range(self.getMaxWeekInSemester())]
-        for subject in self.SUBJECTS:
+        logging.info('initSemester run')
+        Semester.SEMESTER: List[List[Subject]] = [[] for i in range(self.getMaxWeekInSemester())]
+        for subject in Semester.SUBJECTS:
             for i in range(subject.getWeekStart()-1, subject.getWeekEnd()):
-                self.SEMESTER[i].append(subject)
-        return self.SEMESTER
+                Semester.SEMESTER[i].append(subject)
 
     def getSubjects(self) -> List[Subject]:
-        return self.SUBJECTS
+        """Trả về danh sách tất cả các Subject có trong một học kỳ."""
+        logging.info('getSubjects run')
+        return Semester.SUBJECTS
     
     def getCurrentSubjects(self) -> List[Subject]:
-        if len(self.SEMESTER) >0:
-            return self.SEMESTER[self.SEMESTER_INDEX]
+        """Trả về danh sách các Subject có trong tuần hiện tại."""
+        logging.info('getCurrentSubjects run')
+        if len(Semester.SEMESTER):
+            return Semester.SEMESTER[Semester.SEMESTER_INDEX]
+        else:
+            return []
         
-
     def getWeek(self, week):
         """Phương thức này trả về một list các Subject trong một Tuần cụ thể của Semester. Nếu tuần đó không tồn tại
         phương thức này trả về một list rỗng."""
-        if week < 0 or week >= self.SEMESTER_INDEX:
+        logging.info('getWeek run')
+        if week < 0 or week >= Semester.SEMESTER_INDEX:
             return []
         else:
-            return self.SEMESTER[week]
-
-    def getConflicts(self) -> List[Conflict]:
-        return self.__scanConflicts()
-
-    def getPastIndex(self):
-        return self.SEMESTER_PAST_INDEX
+            return Semester.SEMESTER[week]
 
     # Các thao tác trên Semester
-    def getCurrentSemesterIndex(self):
-        return self.SEMESTER_INDEX
+    @staticmethod
+    def getCurrentSemesterIndex():
+        """Trả về index hiện tại của Semester, tương ứng với tuần thứ `index+1`."""
+        return Semester.SEMESTER_INDEX
 
-    def getTimeChains(self):
-        return self.TIME_CHAINS
+    @staticmethod
+    def getTimeChains():
+        return Semester.TIME_CHAINS
     
     def getMaxWeekInSemester(self) -> int:
         """Trả về số Tuần kéo dài tối đa mà Semester có thể có."""
+        logging.info('getMaxWeekInSemester run')
         max = 0
-        for subject in self.SUBJECTS:
+        for subject in Semester.SUBJECTS:
             if subject.getWeekEnd() > max:
                 max = subject.getWeekEnd()
         return max
 
-    def scanSubjectConflict(self) -> List[List[Dict[str,Tuple[str]]]]:
-        """
-        **Không còn được dùng nữa**
-
-        Bắt cặp tất cả Subject có trong danh sách trả về List chứa Conflicts.
-
-        [[{'T6': ('9:15:00', '10:15:00')}, {'T6': ('7:00:00', '9:00:00')}, {'T6': ('7:00:00', '10:15:00')}]]
-        """
-        conflicts = []
-        output = []
-        tempSubjectsList = self.getCurrentSubjects().copy()
-        while len(tempSubjectsList) > 1:
-            baseSubject = tempSubjectsList[0]
-            for i in range(1,len(tempSubjectsList)):
-                if i==len(tempSubjectsList):
+    def pairingSubjectInWeek(self) -> List[Tuple[Subject]]:
+        """Bắt cặp các Subject có trong danh sách Subject được thêm vào Semester."""
+        logging.info('pairingSubjectInWeek run')
+        pairedSubjects = []
+        tempSubjects = Semester.SUBJECTS.copy()
+        while len(tempSubjects) != 1:
+            baseSubject = tempSubjects[0]
+            for i in range(1,len(tempSubjects)):
+                if i==len(tempSubjects):
                     break
-                conflict = Conflict(baseSubject, tempSubjectsList[i])
-                if conflict.isConflict() and Semester.__isInConflict(conflict, conflicts) == False:
-                    conflicts.append(conflict)
-            tempSubjectsList.pop(0)
-        for conflict in conflicts:
-            output.append(conflict.getConflictTime())
-        return output
+                pairedSubjects.append((baseSubject, tempSubjects[i]))
+            tempSubjects.pop(0)
+        return pairedSubjects
 
-    def __scanConflicts(self) -> List[Conflict]:
-        """Trả về một list các Conflict có trong Semester."""
-        conflicts = []
-        for week in self.SEMESTER:
-            tempSubjectsList = week.copy()
-            while len(tempSubjectsList) > 1:
-                baseSubject = tempSubjectsList[0]
-                for i in range(1,len(tempSubjectsList)):
-                    if i==len(tempSubjectsList):
-                        break
-                    conflict = Conflict(baseSubject, tempSubjectsList[i])
-                    if conflict.getConflictTime() and Semester.__isInConflict(conflict, conflicts) == False:
-                        conflicts.append(conflict)
-                tempSubjectsList.pop(0)
-        return conflicts
+    def getConflicts(self) -> List[Conflict]:
+        """Trả về list conflict của tuần hiện tại."""
+        logging.info('getConflicts run')
+        if len(Semester.SUBJECTS) < 2:
+            return []
+        conflictsOutput = []
+        pairedSubjects: List[Tuple[Subject]] = self.pairingSubjectInWeek()
+        for pairedSubject in pairedSubjects:
+            conflict = Conflict(pairedSubject[0], pairedSubject[1])
+            if conflict.getConflictTime():
+                conflictsOutput.append(conflict)
+        return conflictsOutput
 
-    def __setSemesterPastIndex(self, index: int):
-        """Set giá trị cho biến giữ index trước đó của Semester."""
-        self.SEMESTER_PAST_INDEX = index
-
-    def __setSemesterIndex(self, index: int):
-        self.SEMESTER_INDEX = index
-        self.signal_indexChanged.emit(self.SEMESTER_INDEX)
-
-    # Các phương thức về kiểm tra
-    @staticmethod
-    def __isInConflict(con: Conflict, listConflict: list) -> bool:
-        for conflict in listConflict:
-            if conflict == con:
-                return True
-        return False
-
-    def __isValidIndex(self) -> bool:
-        if self.SEMESTER_INDEX < len(self.SEMESTER) and self.SEMESTER_INDEX >= 0:
-            return True
-        else:
-            return False
-
+    def setSemesterIndex(self, index: int):
+        logging.info('setSemesterIndex run')
+        Semester.SEMESTER_INDEX = index
+        self.signal_indexChanged.emit(Semester.SEMESTER_INDEX)
 
     # Điều khiển Week Context của Semester
     def nextWeek(self):
         """Phương thức này sẽ tăng index của Semester lên 1. Thao tác trên biến SEMESTER_INDEX."""
-        if self.SEMESTER_INDEX >= 0 and self.SEMESTER_INDEX+1 < len(self.SEMESTER):
-            self.__setSemesterPastIndex(self.SEMESTER_INDEX)
-            if self.SEMESTER_INDEX < self.getMaxWeekInSemester():
-                self.SEMESTER_INDEX+=1
-                self.signal_indexChanged.emit(self.SEMESTER_INDEX)
-                return self.SEMESTER_INDEX
-            else:
-                return -1
+        logging.info('nextWeek run')
+        if Semester.SEMESTER_INDEX >= 0 and Semester.SEMESTER_INDEX+1 < len(Semester.SEMESTER):
+            if Semester.SEMESTER_INDEX < self.getMaxWeekInSemester():
+                Semester.SEMESTER_INDEX+=1
+                self.signal_indexChanged.emit(Semester.SEMESTER_INDEX)
 
     def previousWeek(self):
         """Phương thức này sẽ giảm index của Semester xuống 1. Thao tác trên biến SEMESTER_INDEX."""
-        if self.SEMESTER_INDEX-1 >= 0 and self.SEMESTER_INDEX < len(self.SEMESTER):
-            self.__setSemesterPastIndex(self.SEMESTER_INDEX)
-            if self.SEMESTER_INDEX > 0:
-                self.SEMESTER_INDEX-=1
-                self.signal_indexChanged.emit(self.SEMESTER_INDEX)
-                return self.SEMESTER_INDEX
-            else:
-                return -1
+        logging.info('previousWeek run')
+        if Semester.SEMESTER_INDEX-1 >= 0 and Semester.SEMESTER_INDEX < len(Semester.SEMESTER):
+            if Semester.SEMESTER_INDEX > 0:
+                Semester.SEMESTER_INDEX-=1
+                self.signal_indexChanged.emit(Semester.SEMESTER_INDEX)
 
     def gotoWeek(self, week: int) -> bool:
-        if len(self.SEMESTER) > 0:
-            if self.SEMESTER_INDEX >= 0 and self.SEMESTER_INDEX < len(self.SEMESTER):
-                self.__setSemesterPastIndex(self.SEMESTER_INDEX)
+        logging.info('gotoWeek run')
+        if len(Semester.SEMESTER) > 0:
+            if Semester.SEMESTER_INDEX >= 0 and Semester.SEMESTER_INDEX < len(Semester.SEMESTER):
                 if week <= self.getMaxWeekInSemester():
-                    self.SEMESTER_INDEX = week-1
-                    self.signal_indexChanged.emit(self.SEMESTER_INDEX)
-                    return week
-
+                    Semester.SEMESTER_INDEX = week-1
+                    self.signal_indexChanged.emit(Semester.SEMESTER_INDEX)

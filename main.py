@@ -1,3 +1,5 @@
+import logging
+from class_conflict import Conflict
 from PyQt5.QtWidgets import (QShortcut, QStackedWidget, QWidget, QApplication, QPushButton, QListWidget, QListWidgetItem,
                             QTableWidget, QTableWidgetItem, QMessageBox, QLineEdit, QLabel, 
                             QFrame, QScrollArea, QCompleter, QDesktopWidget)
@@ -23,6 +25,8 @@ import sys
 import os
 import cs4rsa_color
 import team_config
+
+logging.basicConfig(level=logging.INFO)
 
 
 class ValidatorFindLineEdit(QValidator):
@@ -130,8 +134,8 @@ class Main(QWidget):
         self.button_nav_info.clicked.connect(lambda _: self.actionChangeFrame(3))
         
         # Các đối tượng dữ liệu
-        self.semester.signal_indexChanged.connect(lambda: self.loadButtonWeekContainer(self.semester.getMaxWeekInSemester()))
-        self.semester.singal_addSubject.connect(self.afterAddSubject)
+        self.semester.signal_indexChanged.connect(self.loadIndexChange)
+        self.semester.signal_addSubject.connect(self.afterAddSubject)
         self.semester.signal_deleteSubject.connect(self.afterDeleteSubject)
 
     def addShortcut(self):
@@ -160,64 +164,64 @@ class Main(QWidget):
             NotificationWindow('Thông báo','Chưa nhập mã môn kìa bạn','Cảm ơn đã nhắc mình').exec_()
 
     def actionGoToPreviousWeek(self):
-        if self.semester.getCurrentSemesterIndex():
-            self.gotoPreviousWeek()
+        self.gotoPreviousWeek()
 
     def actionGoToNextWeek(self):
-        if self.semester.getCurrentSemesterIndex():
-            self.gotoNextWeek()
+        self.gotoNextWeek()
 
     def actionChangeFrame(self, frameIndex):
-        print('Change frame')
         self.stackedWidget.setCurrentIndex(frameIndex)
         
 
     # IMPORTANT!!!
     # Các phương thức load giao diện quan trọng
     def loadTable(self, subjects: List[Subject]):
+        logging.info('LoadTable run subjects {0}'.format(subjects))
         self.resetColorTable()
-        if subjects == []:
-            return
-        for subject in subjects:
-            days = subject.getSchedule().getDatesOfLesson()
-            color = QColor(subject.getColor())
-            for day in days:
-                start_time_subjects = subject.getSchedule().getStartTimeOfDate(day)
-                end_time_subjects = subject.getSchedule().getEndTimeOfDate(day)
-                for i in range(len(start_time_subjects)):
-                    start = str(start_time_subjects[i])
-                    end = str(end_time_subjects[i])
-                    start_row = self.semester.getTimeChains()[start]
-                    end_row = self.semester.getTimeChains()[end]
-                    column = WEEK.index(day)
-                    for pen in range(start_row, end_row+1):
-                        item = QTableWidgetItem()
-                        item.setText(subject.getSubjectCode())
-                        item.setBackground(color)
-                        item.setToolTip(subject.getSubjectCode() +'•'+ subject.getName())
-                        self.table_Semeter.setItem(pen, column, item)
-        self.paintConflict()
+        if subjects:
+            for subject in subjects:
+                days = subject.getSchedule().getDatesOfLesson()
+                color = QColor(subject.getColor())
+                for day in days:
+                    start_time_subjects = subject.getSchedule().getStartTimeOfDate(day)
+                    end_time_subjects = subject.getSchedule().getEndTimeOfDate(day)
+                    for i in range(len(start_time_subjects)):
+                        start = str(start_time_subjects[i])
+                        end = str(end_time_subjects[i])
+                        start_row = self.semester.getTimeChains()[start]
+                        end_row = self.semester.getTimeChains()[end]
+                        column = WEEK.index(day)
+                        for pen in range(start_row, end_row+1):
+                            item = QTableWidgetItem()
+                            item.setText(subject.getSubjectCode())
+                            item.setBackground(color)
+                            item.setToolTip(subject.getSubjectCode() +' • '+ subject.getName())
+                            self.table_Semeter.setItem(pen, column, item)
+            if len(self.semester.getCurrentSubjects()) > 1:
+                self.paintAllConflict(self.semester.getConflicts())
 
-    def loadListConflict(self):
+    def loadListConflict(self, conflicts: List[Conflict]):
         """Load List Widget chứa thông tin Subject Conflict."""
         self.listView_SubjectConflict.clear()
-        for conflict in self.semester.getConflicts():
-            sub1 = conflict.getSubject1()
-            sub2 = conflict.getSubject2()
+        if conflicts:
+            for conflict in conflicts:
+                sub1 = conflict.getSubject1()
+                sub2 = conflict.getSubject2()
 
-            self.custom_conflict_widget = CustomConflictWidget(sub1, sub2)
+                self.custom_conflict_widget = CustomConflictWidget(sub1, sub2)
 
-            self.myQListWidgetItem = QListWidgetItem(self.listView_SubjectConflict)
-            self.myQListWidgetItem.setData(Qt.UserRole, conflict)
-            self.myQListWidgetItem.setSizeHint(self.custom_conflict_widget.sizeHint())
+                self.myQListWidgetItem = QListWidgetItem(self.listView_SubjectConflict)
+                self.myQListWidgetItem.setData(Qt.UserRole, conflict)
+                self.myQListWidgetItem.setSizeHint(self.custom_conflict_widget.sizeHint())
 
-            self.listView_SubjectConflict.setItemWidget(self.myQListWidgetItem, self.custom_conflict_widget)
-            self.listView_SubjectConflict.addItem(self.myQListWidgetItem)
+                self.listView_SubjectConflict.setItemWidget(self.myQListWidgetItem, self.custom_conflict_widget)
+                self.listView_SubjectConflict.addItem(self.myQListWidgetItem)
 
-    def loadListSubjectChoiced(self):
+    def loadListSubjectChoiced(self, subjects: List[Subject]):
         """Phương thức này sẽ làm sạch danh sách môn đã chọn và tải lại nó từ list môn học hiện có trong Semester."""
+        logging.info('loadListSubjectChoiced --> {0}'.format(subjects))
         self.listView_SubjectChoiced.clear()
-        for subject in self.semester.getSubjects():
+        for subject in subjects:
 
             self.custom_widget_subject = CustomListItemWidget(subject)
             self.custom_widget_subject.addButtonCopyIDSubject()
@@ -246,6 +250,7 @@ class Main(QWidget):
 
     def loadButtonWeekContainer(self, maxWeek):
         """Render các button để điều hướng trong các Tuần của Semester."""
+        logging.info('index change')
         for i in reversed(range(self.flowlayout.count())):
             self.flowlayout.itemAt(i).widget().deleteLater()
         if maxWeek == 0:
@@ -254,6 +259,7 @@ class Main(QWidget):
             for index in range(maxWeek):
                 self.weekButton = QPushButton(str(index+1), self)
                 if index == self.semester.getCurrentSemesterIndex():
+                    logging.info('change highlight')
                     self.weekButton.setStyleSheet('background-color: #2980b9; color: white;')
                 self.weekButton.setFixedWidth(40)
                 self.weekButton.setFixedHeight(40)
@@ -266,86 +272,91 @@ class Main(QWidget):
         else:
             self.label_week.setText('Tuần ?')
 
+    def loadIndexChange(self):
+        logging.info('signal-->loadIndexChange')
+        self.loadButtonWeekContainer(self.semester.getMaxWeekInSemester())
+        logging.info('loadTable --> {0}'.format(self.semester.getCurrentSubjects()))
+        self.loadTable(self.semester.getCurrentSubjects())
+        self.loadLabelWeek()
+
     # IMPORTANT!!!
     # Các phương thức thao tác trên Subject
     def deleteSubject(self, subject: Subject):
         """Xoá Subject (cả LEC và LAB của nó) ra khỏi semester."""
-        if self.isHaveLecOrLab(subject, self.semester.getSubjects()):
-            i = 0
-            while i < len(self.semester.getSubjects()):
-                if subject.getRegisterCode() == self.semester.getSubjects()[i].getRegisterCode():
-                    cl = self.semester.getSubjects()[i].getColor()
-                    cs4rsa_color.remove_color(cl)
-                    self.semester.deleteSubject(self.semester.getSubjects()[i])
-                    continue
-                i+=1
-        else:
-            cs4rsa_color.remove_color(subject.getColor())
-            self.semester.deleteSubject(subject)
-            self.removeSel()
+        logging.info('DELETE --> {0}'.format(subject))
+        cs4rsa_color.remove_color(subject.getColor())
+        self.semester.deleteSubject(subject)
+        # self.removeSel()
 
     def addSubject(self, subject: Subject):
+        """Thêm một Subject vào Semester."""
+        logging.info('ADD --> {0}'.format(subject))
         cl = cs4rsa_color.hex_code_colors()
-        if self.isHaveLecOrLab(subject, self.SUBJECT_FOUND):
-            for i in self.isHaveLecOrLab(subject, self.SUBJECT_FOUND):
-                self.SUBJECT_FOUND[i].setColor(cl)
-                sub = self.SUBJECT_FOUND[i]
-                self.semester.addSubject(sub)
-        else:
-            subject.setColor(cl)
-            self.semester.addSubject(subject)
+        subject.setColor(cl)
+        self.semester.addSubject(subject)
 
     def afterDeleteSubject(self, subject: Subject):
-        self.loadListSubjectChoiced()
-        self.loadListConflict()
-        self.loadButtonWeekContainer(self.semester.getMaxWeekInSemester())
-        if self.semester.getSubjects():
-            self.loadTable(self.semester.getCurrentSubjects())
-        else:
-            self.resetColorTable()
-        self.loadLabelWeek()
-        self.enableItemInListFound(subject)
-
-    def afterAddSubject(self):
-        self.loadListSubjectChoiced()
-        self.loadListConflict()
+        logging.info('after delete --> {0}'.format(subject))
+        self.loadListSubjectChoiced(self.semester.getSubjects())
+        self.loadListConflict(self.semester.getConflicts())
         self.loadButtonWeekContainer(self.semester.getMaxWeekInSemester())
         self.loadTable(self.semester.getCurrentSubjects())
         self.loadLabelWeek()
-        self.unableItemInListFound()
+        self.showItemInListDownloadedAfterDelInListChoiced(subject)
+
+    def afterAddSubject(self, subject: Subject):
+        self.loadListSubjectChoiced(self.semester.getSubjects())
+        self.loadListConflict(self.semester.getConflicts())
+        self.loadButtonWeekContainer(self.semester.getMaxWeekInSemester())
+        self.loadTable(self.semester.getCurrentSubjects())
+        self.loadLabelWeek()
+        self.hideItemIsHavedInListChoiced()
+
 
     def register(self):
         print('Run register window')
 
     def updateSubject(self):
         # tạm thời update mình sẽ xoá tất cả mọi file trong thư mục data để nó tải lại mọi thứ.
-        try:
-            mss = QMessageBox.warning(
-                self,
-                team_config.MESSAGE_WARNING,
-                team_config.MESSAGE_UPDATE_CONTENT,
-                QMessageBox.Ok |
-                QMessageBox.Cancel,
-                defaultButton=QMessageBox.Cancel
-            )
-            if mss == QMessageBox.Ok:
-                filelist = [ f for f in os.listdir(team_config.FOLDER_SAVE_EXCEL) if f.endswith(".xls") ]
-                for f in filelist:
-                    os.remove(os.path.join(team_config.FOLDER_SAVE_EXCEL, f))
-                self.listView_SubjectDownloaded.clear()
-        except:
-            QMessageBox.warning(
-                self,
-                team_config.MESSAGE_WARNING,
-                'Có vẻ như gặp lỗi trong quá trình cập nhật.')
+        pass
+
+    @staticmethod
+    def getSubjectsInListWidget(listWidget: QListWidget) -> List[Subject]:
+        subjects = []
+        for i in range(listWidget.count()):
+            subject: Subject = listWidget.item(i).data(Qt.UserRole)
+            subjects.append(subject)
+        return subjects
+
+    @staticmethod
+    def getSubjectInListWidgetAtIndex(listWidget: QListWidget, index: int) -> Subject:
+        return listWidget.item(index).data(Qt.UserRole)
 
     def fillDataToSubjectFound(self, subjects: List[Subject]):
-        """Phương thức này nhận vào một JSON và render ra UI trên phần 
+        """Phương thức này nhận vào một list các Subject và render ra UI trên phần 
         Subject found."""
         self.listView_SubjectDownloaded.clear()
         self.SUBJECT_FOUND = subjects
         self.loadListSubjectFound()
-        self.unableItemInListFound()
+        self.hideItemIsHavedInListChoiced()
+
+    def hideItemIsHavedInListChoiced(self):
+        """Quét tất cả các phần từ có trong danh sách đã chọn, ẩn những phần tử có cùng mã môn với chúng."""
+        logging.info('hideItemIsHavedInListChoiced run')
+        for i in range(self.listView_SubjectChoiced.count()):
+            subjectChoied:Subject = self.listView_SubjectChoiced.item(i).data(Qt.UserRole)
+            for j in range(self.listView_SubjectDownloaded.count()):
+                subjectDownloaded: Subject = self.listView_SubjectDownloaded.item(j).data(Qt.UserRole)
+                if subjectChoied.getSubjectCode() == subjectDownloaded.getSubjectCode():
+                    self.listView_SubjectDownloaded.item(j).setHidden(True)
+
+    def showItemInListDownloadedAfterDelInListChoiced(self, subject: Subject):
+        logging.info('showItemInListDownloadedAfterDelInListChoiced run --> {0}'.format(subject.getSubjectCode()))
+        for i in range(self.listView_SubjectDownloaded.count()):
+            downloadedSubject = Main.getSubjectInListWidgetAtIndex(self.listView_SubjectDownloaded, i)
+            if subject.getSubjectCode() == downloadedSubject.getSubjectCode():
+                self.listView_SubjectDownloaded.item(i).setHidden(False)
+
         
     def fillDataToSubjectFoundFromJsonFile(self, filename):
         """Phương thức này nhận vào một JSON file path và render ra UI trên phần 
@@ -399,12 +410,13 @@ class Main(QWidget):
 
     # Các phương thức thao tác trên Table và các thành phần giao diện khác
     def resetColorTable(self):
+        """Xoá tất cả mọi thứ trên bảng."""
         for i in range(self.table_Semeter.rowCount()):
             for c in range(self.table_Semeter.columnCount()):
                 self.table_Semeter.setItem(i, c, QTableWidgetItem())
                 self.table_Semeter.item(i, c).setBackground(QColor(255,255,255))
 
-    def paintConflict(self) -> List[str]:
+    def paintConflict(self):
         """Vẽ Conflict lên bảng."""
         if len(self.semester.getCurrentSubjects()) >= 2:
             for conflictsASubject in self.semester.scanSubjectConflict():
@@ -418,6 +430,26 @@ class Main(QWidget):
                         item.setText('Conflict')
                         item.setBackground(QColor('#FF0000'))
                         self.table_Semeter.setItem(row, col, item)
+    
+    #TODO
+    def paintAConflict(self, conflict: Conflict):
+        """Vẽ một Conflict lên bảng."""
+        for time in conflict.getConflictTime():
+            key = next(iter(time))
+            col = self.semester.DATE_CHAINS[key]
+            startConflict = self.semester.TIME_CHAINS[time[key][0]]
+            endConflict = self.semester.TIME_CHAINS[time[key][1]]
+            for row in range(startConflict, endConflict+1):
+                item = QTableWidgetItem()
+                item.setText('Conflict')
+                item.setBackground(QColor('#FF0000'))
+                self.table_Semeter.setItem(row, col, item)
+
+    def paintAllConflict(self, listConflict: List[Conflict]):
+        """Vẽ tất cả Conflict lên bảng."""
+        for conflict in listConflict:
+            self.paintAConflict(conflict)
+
 
     def removeSel(self):
         """Xoá Subject đã chọn khỏi listView_SubjectChoiced"""
@@ -426,36 +458,20 @@ class Main(QWidget):
         for item in listItems:
             self.listView_SubjectChoiced.takeItem(self.listView_SubjectChoiced.row(item))
 
-    def unableItemInListFound(self):
-        """Ẩn hoặc vô hiệu Subject đã thêm vào bảng."""
-        setSubjectChoicedIDs = {subject.getRegisterCode() for subject in self.semester.getSubjects()}
-        for i in range(self.listView_SubjectDownloaded.count()):
-            if self.listView_SubjectDownloaded.item(i).data(Qt.UserRole).getRegisterCode() in setSubjectChoicedIDs:
-                self.listView_SubjectDownloaded.item(i).setHidden(True)
-
-    def enableItemInListFound(self, subject: Subject):
-        """Hiển thị Subject đã thêm vào bảng."""
-        for i in range(self.listView_SubjectDownloaded.count()):
-            if self.listView_SubjectDownloaded.item(i).data(Qt.UserRole).getRegisterCode() == subject.getRegisterCode():
-                self.listView_SubjectDownloaded.item(i).setHidden(False)
-
     # Navigation in Semester
     def gotoPreviousWeek(self):
         """Điều hướng tới Tuần trước của Semester."""
+        logging.info('gotoPreviousWeek run')
         self.semester.previousWeek()
-        self.loadTable(self.semester.getCurrentSubjects())
-        self.loadLabelWeek()
 
     def gotoNextWeek(self):
         """Điều hướng tới Tuần kế tiếp của Semester."""
+        logging.info('gotoNextWeek run')
         self.semester.nextWeek()
-        self.loadTable(self.semester.getCurrentSubjects())
-        self.loadLabelWeek()
 
     def gotoWeek(self, week):
+        logging.info('gotoWeek {0} run'.format(week))
         self.semester.gotoWeek(week)
-        self.loadTable(self.semester.getCurrentSubjects())
-        self.loadLabelWeek()
 
     # Các phương thức kiểm tra và logic
     def isHaveLecOrLab(self, subject: Subject, inList: list) -> List:
