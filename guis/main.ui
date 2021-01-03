@@ -481,7 +481,7 @@ border: none;
          <item>
           <widget class="QStackedWidget" name="stackedWidget">
            <property name="currentIndex">
-            <number>2</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="page_main">
             <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -833,12 +833,12 @@ QListView::item:selected {
 
 QListView::item:selected:!active {
     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                stop: 0 #ABAFE5, stop: 1 #8588B2);
+                                stop: 0 #7bffeb, stop: 1 #d2fff8);
 }
 
 QListView::item:selected:active {
     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                stop: 0 #4bffd2, stop: 1 #fffd61);
+                                stop: 0 #4bffd2, stop: 1 #a3ff9c);
 }
 
 QListView::item:hover {
@@ -1122,7 +1122,7 @@ background-color: #ffffff;
                            <x>0</x>
                            <y>0</y>
                            <width>321</width>
-                           <height>283</height>
+                           <height>280</height>
                           </rect>
                          </property>
                          <property name="styleSheet">

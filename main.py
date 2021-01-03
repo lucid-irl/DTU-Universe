@@ -1,3 +1,4 @@
+from class_dialogDonate import DonateWindow
 import logging
 from re import T
 from class_conflict import Conflict
@@ -23,13 +24,8 @@ from thread_downloadSubject import ThreadDownloadSubject, ThreadShowLoading
 from typing import List
 
 import sys
-import os
 import cs4rsa_color
 import team_config
-
-# logging.basicConfig(filename='me_cs4rsa_log.log', 
-# level=logging.DEBUG, 
-# format='%(asctime)s | %(name)s | %(levelname)s | %(message)s')
 
 logging.basicConfig(level=logging.DEBUG)
 class ValidatorFindLineEdit(QValidator):
@@ -51,7 +47,7 @@ class Main(QWidget):
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.semester = Semester()
         self.currentSchoolYearValue = HomeCourseSearch.getCurrentSchoolYearValue()
-        uic.loadUi(team_config.FOLDER_UI+'/'+team_config.USE_UI, self)
+        uic.loadUi(team_config.UI_MAIN, self)
 
         self.button_findSubject = ConvertThisQObject(self, QPushButton, 'button_timKiem').toQPushButton()
         self.button_updateSubject = ConvertThisQObject(self, QPushButton, 'button_capNhat').toQPushButton()
@@ -130,6 +126,11 @@ class Main(QWidget):
         self.connectSetting.whichIsSaveButton(self.button_setting_save)
         self.connectSetting.run()
 
+        #frame info
+        self.button_info_donate_green = ConvertThisQObject(self, QPushButton, 'button_info_donate_green').toQPushButton()
+        self.button_info_donate_red = ConvertThisQObject(self, QPushButton, 'button_info_donate_red').toQPushButton()
+
+
         width = (QDesktopWidget().size().width()/100)*80
         height = (QDesktopWidget().size().height()/100)*80
         centerPoint = QDesktopWidget().availableGeometry().center()
@@ -169,6 +170,10 @@ class Main(QWidget):
         self.connectSetting.signal_settingChange.connect(lambda value: self.changeSettingTitle(value))
         self.connectSetting.signal_settingSave.connect(lambda value: self.changeSettingTitle(value))
 
+        # info
+        self.button_info_donate_red.clicked.connect(self.showDonateDialog)
+        self.button_info_donate_green.clicked.connect(self.showDonateDialog)
+
 
     def addShortcut(self):
         """Phương thức này chịu trách nhiệm gán Shortcut cho các chức năng trong ứng dụng."""
@@ -180,8 +185,7 @@ class Main(QWidget):
         self.button_maximum.setShortcut('F')
 
     # IMPORTANT!!!
-    # Các action được gọi khi người dùng thao tác với giao diện trước khi giao diện thực sự
-    # xử lý logic.
+    # chứa action
 
     def actionFindSubject(self):
         logging.info('Click find subject')
@@ -603,6 +607,10 @@ class Main(QWidget):
             self.label_setting.setText('<html><head/><body><p>Cài đặt</p></body></html>')
         else:
             self.label_setting.setText('<html><head/><body><p>Cài đặt<span style=" vertical-align:super;">*</span></p></body></html>')
+
+    # Giao diện phần info
+    def showDonateDialog(self):
+        DonateWindow().exec()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

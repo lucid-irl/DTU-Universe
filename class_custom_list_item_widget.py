@@ -68,10 +68,7 @@ class CustomListItemWidget(QWidget):
 
     def addRightClickToRemove(self, event):
         if event.button() == Qt.RightButton:
-            print('right click')
             self.deleteThisSubjectToSemeter()
-        else:
-            self.mousePressEvent(event)
 
     def removeWhenRightClick(self):
         self.mousePressEvent = lambda e: self.addRightClickToRemove(e)
