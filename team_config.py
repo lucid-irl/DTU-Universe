@@ -11,8 +11,11 @@ USE_UI = "main.ui"
 CALENDAR_CHOICE_UI = 'calendarChoicer.ui'
 PREDICT_SUBJECT = 'predict_subject.ui'
 WINDOW_NOTIFICATION = 'window_notify.ui'
+WINDOW_DETAIL_INFO = 'window_class_info.ui'
+
 
 UI_NOTIFICATION = FOLDER_UI+'/'+WINDOW_NOTIFICATION
+UI_DETAILCLASSINFO = FOLDER_UI+'/'+WINDOW_DETAIL_INFO
 
 
 FOLDER_FONT = 'fonts'

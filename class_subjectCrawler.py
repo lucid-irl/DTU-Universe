@@ -465,7 +465,7 @@ class SubjectData:
         return subjectsOut
 
 if __name__ == "__main__":
-    sp = SubjectPage('69','CS','414')
+    sp = SubjectPage('70','CS','414')
     print(sp)
     sd = SubjectData(sp)
-    print(sd.getName())
+    sd.toJsonFile()

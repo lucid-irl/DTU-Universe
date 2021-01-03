@@ -13,7 +13,7 @@
     <x>0</x>
     <y>0</y>
     <width>1523</width>
-    <height>990</height>
+    <height>983</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -56,7 +56,6 @@
       <string notr="true">QFrame{
 background: #ffffff;
 border-radius: 7px;
-
 }
 
 #frame_window {
@@ -482,7 +481,7 @@ border: none;
          <item>
           <widget class="QStackedWidget" name="stackedWidget">
            <property name="currentIndex">
-            <number>0</number>
+            <number>2</number>
            </property>
            <widget class="QWidget" name="page_main">
             <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -839,7 +838,7 @@ QListView::item:selected:!active {
 
 QListView::item:selected:active {
     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                stop: 0 #6a6ea9, stop: 1 #888dd9);
+                                stop: 0 #4bffd2, stop: 1 #fffd61);
 }
 
 QListView::item:hover {
@@ -1980,7 +1979,7 @@ height: 27px;
 }
 
 QCheckBox::indicator:checked {
-image: url(./resources/tick.png);
+image: url(./resources/icon_tick_black.svg);
 }
 
 QGroupBox {
@@ -2010,7 +2009,7 @@ padding: 0 3px;
                  <number>33</number>
                 </property>
                 <item>
-                 <widget class="QLabel" name="label">
+                 <widget class="QLabel" name="label_setting">
                   <property name="font">
                    <font>
                     <family>Segoe UI</family>
@@ -2020,7 +2019,7 @@ padding: 0 3px;
                    </font>
                   </property>
                   <property name="text">
-                   <string>Cài đặt</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Cài đặt&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -2081,7 +2080,7 @@ padding: 0 3px;
                        </widget>
                       </item>
                       <item>
-                       <widget class="QGroupBox" name="groupBox_find">
+                       <widget class="QGroupBox" name="groupBoxdisplay">
                         <property name="title">
                          <string>Hiển thị</string>
                         </property>
@@ -2412,7 +2411,7 @@ background-color: #ecf0f1;
 }</string>
                      </property>
                      <property name="text">
-                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; font-style:italic;&quot;&gt;*** Sống vì Donate ***&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Cảm ơn các bạn sinh viên Duy Tân đã tin tưởng sử dụng ứng dụng của bọn mình để thay thế cho Excel truyền thống trước đây. Thấy mấy bạn nữ chăm chỉ ngồi vẽ đống lịch học trên Excel mình thật sự nhìn thấy thương lắm.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Cảm ơn những người có đóng góp vào repo này. Ngoài những thành viên sáng lập của Start-up Sống Vì Donate cùng với đó là các cột mốc quan trọng 14:30, 19:32, 21:59, căn phòng chừng 8 mét vuông và con mèo đen tên Tôm.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;5I0wlij |)35tr0ij fr0m In5id3 !!! We R 4nti|)tuCl4n&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;***&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; font-style:italic;&quot;&gt;Sống vì Donate&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-style:italic;&quot;/&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;***&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Cảm ơn các bạn sinh viên Duy Tân đã tin tưởng sử dụng ứng dụng của bọn mình để thay thế cho Excel truyền thống trước đây. Thấy mấy bạn nữ chăm chỉ ngồi vẽ đống lịch học trên Excel mình thật sự nhìn thấy thương lắm.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;Cảm ơn những người có đóng góp vào repo này. Ngoài những thành viên sáng lập của Start-up Sống Vì Donate cùng với đó là các cột mốc quan trọng 14:30, 19:32, 21:59, căn phòng chừng 8 mét vuông và con mèo đen tên Tôm.&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;5I0wlij |)35tr0ij fr0m In5id3!!!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                      </property>
                      <property name="wordWrap">
                       <bool>true</bool>

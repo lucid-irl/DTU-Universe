@@ -1,19 +1,19 @@
 {
     "system": {
-        "saveChoicedSubject": 1,
-        "autoImportSubjectFile": 1
+        "saveChoicedSubject": true,
+        "autoImportSubjectFile": true
     },
     "appearance": {
-        "darkMode": 0
+        "darkMode": true
     },
     "itemListWidget": {
-        "showInfoWhenHover": 1,
-        "showTeacherNameBySide": 1
+        "showInfoWhenHover": true,
+        "showTeacherNameBySide": true
     },
     "itemConflictListWidget": {
-        "showDayConflict": 1
+        "showDayConflict": true
     },
     "buttonWeekContainer": {
-        "highlightConflictWeekButton": 1
+        "highlightConflictWeekButton": true
     }
 }

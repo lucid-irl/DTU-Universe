@@ -31,7 +31,7 @@ class Subject:
 
         @teachers: Một list các tên giảng viên.
 
-        @places: Nơi học.
+        @locations: Nơi học.
 
         @rooms: Phòng học.
 
@@ -68,8 +68,8 @@ class Subject:
         self.registrationTermStart = registrationTermStart
         self.registrationTermEnd = registrationTermEnd
 
-        self.registration_status = registrationStatus
-        self.implementation_status = implementationStatus
+        self.registrationStatus = registrationStatus
+        self.implementationStatus = implementationStatus
         
         self.color = None
 
@@ -88,6 +88,9 @@ class Subject:
 
     def __cmp__(self, o: object):
         return cmp(self.registerCode, o.registerCode)
+
+    def getLocations(self):
+        return self.locations
 
     def setColor(self, color: str):
         if re.match(r'^#(?:[0-9a-f]{3}){1,2}$', color):
@@ -119,4 +122,26 @@ class Subject:
     def getWeekEnd(self):
         return self.weekEnd
 
+    def getRooms(self):
+        return self.rooms
 
+    def getTeachers(self):
+        return self.teachers
+
+    def getType(self):
+        return self.type
+
+    def getEmptySeat(self):
+        return self.emptySeat
+
+    def getRegistrationTermStart(self):
+        return self.registrationTermStart
+
+    def getRegistrationTermEnd(self):
+        return self.registrationTermEnd
+
+    def getRegistrationStatus(self):
+        return self.registrationStatus
+
+    def getImplementationStatus(self):
+        return self.implementationStatus
