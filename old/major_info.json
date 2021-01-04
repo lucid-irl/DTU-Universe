@@ -1,0 +1,4353 @@
+[
+    {
+        "id": 0,
+        "major": "Big Data & Machine Learning (Đại Học - HP)",
+        "semester_info": [
+            {
+                "keyid": 0,
+                "semester": "Học Kỳ 1 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 100",
+                        "name": "Phương Pháp Luận (gồm Nghiên Cứu Khoa Học)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "COM 101",
+                        "name": "Nói & Trình Bày (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 101",
+                        "name": "Tin Học Đại Cương",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MTH 101",
+                        "name": "Toán Cao Cấp C1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "HIS 221",
+                        "name": "Lịch Sử Văn Minh Thế Giới 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DTE-IT 102",
+                        "name": "Hướng Nghiệp 1",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 1,
+                "semester": "Học Kỳ 2 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "CS 201",
+                        "name": "Tin Học Ứng Dụng",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MTH 102",
+                        "name": "Toán Cao Cấp C2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "EVR 205",
+                        "name": "Sức Khỏe Môi Trường",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 100",
+                        "name": "Giới Thiệu về Khoa Học Máy Tính",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "STA 151",
+                        "name": "Lý Thuyết Xác Suất & Thống Kê Toán",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 211",
+                        "name": "Lập Trình Cơ Sở",
+                        "credit": "4"
+                    },
+                    {
+                        "id": "ENG 116",
+                        "name": "Reading - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 117",
+                        "name": "Writing - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "DTE-IT 152",
+                        "name": "Hướng Nghiệp 2",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 2,
+                "semester": "Học Kỳ 1 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "COM 102",
+                        "name": "Viết (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PHI 161",
+                        "name": "Những Nguyên Lý Cơ Bản của Chủ Nghĩa Marx - Lenin 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 311",
+                        "name": "Lập Trình Hướng Đối Tượng",
+                        "credit": "4"
+                    },
+                    {
+                        "id": "CS 297",
+                        "name": "Đồ Án CDIO",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 118",
+                        "name": "Listening - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 119",
+                        "name": "Speaking - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 166",
+                        "name": "Reading - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 167",
+                        "name": "Writing - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "STA 285",
+                        "name": "Probability Theory, Random Processes and Statistical\n                                                                Inference",
+                        "credit": "4"
+                    }
+                ]
+            },
+            {
+                "keyid": 3,
+                "semester": "Học Kỳ 2 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "MTH 254",
+                        "name": "Toán Rời Rạc & Ứng Dụng",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 316",
+                        "name": "Giới Thiệu Cấu Trúc Dữ Liệu & Giải Thuật",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "IS 301",
+                        "name": "Cơ Sở Dữ Liệu",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 226",
+                        "name": "Hệ Điều Hành Unix / Linux",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 168",
+                        "name": "Listening - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 169",
+                        "name": "Speaking - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 216",
+                        "name": "Reading - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 217",
+                        "name": "Writing - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "MTH 383",
+                        "name": "Linear Algebra for Data Science",
+                        "credit": "3"
+                    }
+                ]
+            },
+            {
+                "keyid": 4,
+                "semester": "Học Kỳ 1 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "CR 250",
+                        "name": "Nền Tảng Hệ Thống Máy Tính",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 303",
+                        "name": "Phân Tích & Thiết Kế Hệ Thống",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 466",
+                        "name": "Perl & Python",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 218",
+                        "name": "Listening - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 219",
+                        "name": "Speaking - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "DS 321",
+                        "name": "Machine Learning 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "DS 303",
+                        "name": "Principles of Big Data",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "DS 347",
+                        "name": "Đồ Án CDIO",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 5,
+                "semester": "Học Kỳ 2 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "POS 361",
+                        "name": "Tư Tưởng Hồ Chí Minh",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 252",
+                        "name": "Mạng Máy Tính",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "IS 384",
+                        "name": "Kỹ Thuật Thương Mại Điện Tử (ASP.NET)",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 353",
+                        "name": "Phân Tích & Thiết Kế Hướng Đối Tượng",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DS 371",
+                        "name": "Machine Learning 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 337",
+                        "name": "Anh Văn Chuyên Ngành Công Nghệ Thông Tin",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DS 397",
+                        "name": "Đồ Án CDIO",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 6,
+                "semester": "Học Kỳ 1 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "DTE 201",
+                        "name": "Đạo Đức trong Công Việc",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 420",
+                        "name": "Hệ Phân Tán (J2EE, .NET)",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 414",
+                        "name": "Lập Trình Winforms: VB.NET / C#.NET",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "DS 423",
+                        "name": "Machine Learning with Large Datasets",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "DS 441",
+                        "name": "Blockchain: Theory & Practices",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "DS 447",
+                        "name": "Đồ Án CDIO",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 7,
+                "semester": "Học Kỳ 2 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 162",
+                        "name": "Những Nguyên Lý Cơ Bản của Chủ Nghĩa Marx - Lenin 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "HIS 361",
+                        "name": "Đường Lối Cách Mạng của Đảng Cộng Sản Việt Nam",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 448",
+                        "name": "Thực Tập Tốt Nghiệp",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 417",
+                        "name": "Trí Tuệ Nhân Tạo (Biểu Diễn & Giải Thuật)",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 434",
+                        "name": "Công Cụ & Phương Pháp Thiết Kế - Quản Lý (Phần Mềm)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DS 445",
+                        "name": "Đồ Án Chuyên Ngành: Khoa Học Dữ Liệu",
+                        "credit": "1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 1,
+        "major": "Công Nghệ Phần Mềm (Đại Học)",
+        "semester_info": [
+            {
+                "keyid": 0,
+                "semester": "Học Kỳ 1 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 100",
+                        "name": "Phương Pháp Luận (gồm Nghiên Cứu Khoa Học)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "COM 101",
+                        "name": "Nói & Trình Bày (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 101",
+                        "name": "Tin Học Đại Cương",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MTH 103",
+                        "name": "Toán Cao Cấp A1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "HIS 221",
+                        "name": "Lịch Sử Văn Minh Thế Giới 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DTE-IT 102",
+                        "name": "Hướng Nghiệp 1",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 1,
+                "semester": "Học Kỳ 2 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "COM 102",
+                        "name": "Viết (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 201",
+                        "name": "Tin Học Ứng Dụng",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MTH 104",
+                        "name": "Toán Cao Cấp A2",
+                        "credit": "4"
+                    },
+                    {
+                        "id": "CHE 101",
+                        "name": "Hóa Học Đại Cương",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "EVR 205",
+                        "name": "Sức Khỏe Môi Trường",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 100",
+                        "name": "Giới Thiệu về Khoa Học Máy Tính",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "DTE-IT 152",
+                        "name": "Hướng Nghiệp 2",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 2,
+                "semester": "Học Kỳ 1 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHY 101",
+                        "name": "Vật Lý Đại Cương 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 116",
+                        "name": "Reading - Level 1",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 3,
+                "semester": "Học Kỳ 2 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "MTH 254",
+                        "name": "Toán Rời Rạc & Ứng Dụng",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 311",
+                        "name": "Lập Trình Hướng Đối Tượng",
+                        "credit": "4"
+                    },
+                    {
+                        "id": "IS 301",
+                        "name": "Cơ Sở Dữ Liệu",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CR 210",
+                        "name": "Lắp Ráp & Bảo Trì Hệ Thống",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 226",
+                        "name": "Hệ Điều Hành Unix / Linux",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 118",
+                        "name": "Listening - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 166",
+                        "name": "Reading - Level 2",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 4,
+                "semester": "Học Kỳ 1 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "CS 316",
+                        "name": "Giới Thiệu Cấu Trúc Dữ Liệu & Giải Thuật",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CR 250",
+                        "name": "Nền Tảng Hệ Thống Máy Tính",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 252",
+                        "name": "Mạng Máy Tính",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 303",
+                        "name": "Phân Tích & Thiết Kế Hệ Thống",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CR 424",
+                        "name": "Lập Trình Ứng Dụng cho các Thiết Bị Di Động",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 167",
+                        "name": "Writing - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "SE 347",
+                        "name": "Đồ Án CDIO",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 5,
+                "semester": "Học Kỳ 2 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "DTE 201",
+                        "name": "Đạo Đức trong Công Việc",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "POS 361",
+                        "name": "Tư Tưởng Hồ Chí Minh",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "IS 384",
+                        "name": "Kỹ Thuật Thương Mại Điện Tử (ASP.NET)",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "IS 401",
+                        "name": "Hệ Quản Trị Cơ Sở Dữ Liệu",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 169",
+                        "name": "Speaking - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 216",
+                        "name": "Reading - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "POS 151",
+                        "name": "Kinh Tế Chính Trị Marx - Lenin",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "SE 397",
+                        "name": "Đồ Án CDIO",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 6,
+                "semester": "Học Kỳ 1 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "CS 420",
+                        "name": "Hệ Phân Tán (J2EE, .NET)",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 414",
+                        "name": "Lập Trình Winforms: VB.NET / C#.NET",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 353",
+                        "name": "Phân Tích & Thiết Kế Hướng Đối Tượng",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 403",
+                        "name": "Công Nghệ Phần Mềm",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 217",
+                        "name": "Writing - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "POS 351",
+                        "name": "Chủ Nghĩa Xã Hội Khoa Học",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "HIS 362",
+                        "name": "Lịch Sử Đảng Cộng Sản Việt Nam",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "SE 447",
+                        "name": "Đồ Án CDIO",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 7,
+                "semester": "Học Kỳ 2 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "CS 448",
+                        "name": "Thực Tập Tốt Nghiệp",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 445",
+                        "name": "Đồ Án Chuyên Ngành: Tích Hợp Hệ Thống (COTS)",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "CS 417",
+                        "name": "Trí Tuệ Nhân Tạo (Biểu Diễn & Giải Thuật)",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 434",
+                        "name": "Công Cụ & Phương Pháp Thiết Kế - Quản Lý (Phần Mềm)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 462",
+                        "name": "Kiểm Thử & Đảm Bảo Chất Lượng Phần Mềm",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "SE 445",
+                        "name": "Tích Hợp Hệ Thống",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 218",
+                        "name": "Listening - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 219",
+                        "name": "Speaking - Level 3",
+                        "credit": "1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "major": "Dược Sĩ (Đại Học)",
+        "semester_info": [
+            {
+                "keyid": 0,
+                "semester": "Học Kỳ 1 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "MTH 103",
+                        "name": "Toán Cao Cấp A1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CHE 101",
+                        "name": "Hóa Học Đại Cương",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "BIO 101",
+                        "name": "Sinh Học Đại Cương",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "STA 151",
+                        "name": "Lý Thuyết Xác Suất & Thống Kê Toán",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 116",
+                        "name": "Reading - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 119",
+                        "name": "Speaking - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "DTE-PHM 102",
+                        "name": "Hướng Nghiệp 1",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 1,
+                "semester": "Học Kỳ 2 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 100",
+                        "name": "Phương Pháp Luận (gồm Nghiên Cứu Khoa Học)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "COM 101",
+                        "name": "Nói & Trình Bày (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 101",
+                        "name": "Tin Học Đại Cương",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PHY 101",
+                        "name": "Vật Lý Đại Cương 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CHE 203",
+                        "name": "Hóa Hữu Cơ",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 117",
+                        "name": "Writing - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 118",
+                        "name": "Listening - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "DTE-PHM 152",
+                        "name": "Hướng Nghiệp 2",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 2,
+                "semester": "Học Kỳ 1 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "CS 201",
+                        "name": "Tin Học Ứng Dụng",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ANA 201",
+                        "name": "Giải Phẫu Học 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CHE 215",
+                        "name": "Hóa Phân Tích",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MCC 201",
+                        "name": "Thực Vật Dược",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CHE 273",
+                        "name": "Hóa Hữu Cơ cho Dược",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CHE 274",
+                        "name": "Hóa Lý cho Dược",
+                        "credit": "3"
+                    }
+                ]
+            },
+            {
+                "keyid": 3,
+                "semester": "Học Kỳ 2 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "COM 102",
+                        "name": "Viết (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "BCH 201",
+                        "name": "Hóa Sinh Căn Bản",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MIB 251",
+                        "name": "Căn Bản Vi Sinh Học",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "BIO 213",
+                        "name": "Sinh Lý Học",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CHE 265",
+                        "name": "Hóa Phân Tích Nâng Cao",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PHM 296",
+                        "name": "Tranh Tài Giải Pháp PBL",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "CHE 260",
+                        "name": "Phức Chất và Gốc Tự Do trong Y Dược",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 166",
+                        "name": "Reading - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 169",
+                        "name": "Speaking - Level 2",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 4,
+                "semester": "Học Kỳ 1 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "IMN 250",
+                        "name": "Sinh Lý Bệnh - Miễn Dịch",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "SPM 302",
+                        "name": "Dịch Tể Học",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "MIB 253",
+                        "name": "Ký Sinh Trùng",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "CHE 371",
+                        "name": "Hóa Dược 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PMY 302",
+                        "name": "Dược Lý Căn Bản 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "SOC 322",
+                        "name": "Dược Xã Hội Học",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "MED 268",
+                        "name": "Y Đức",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "MIB 254",
+                        "name": "Ký Sinh Trùng",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 167",
+                        "name": "Writing - Level 2",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 5,
+                "semester": "Học Kỳ 2 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "TOX 301",
+                        "name": "Căn Bản về Độc Học",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PTH 350",
+                        "name": "Bệnh Lý Học",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CHE 373",
+                        "name": "Hóa Dược 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PMY 304",
+                        "name": "Dược Lý Căn Bản 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MCC 351",
+                        "name": "Dược Liệu 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PHM 396",
+                        "name": "Tranh Tài Giải Pháp PBL",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 168",
+                        "name": "Listening - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 219",
+                        "name": "Speaking - Level 3",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 6,
+                "semester": "Học Kỳ 1 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 161",
+                        "name": "Những Nguyên Lý Cơ Bản của Chủ Nghĩa Marx - Lenin 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "MCC 401",
+                        "name": "Dược Liệu 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PHC 351",
+                        "name": "Bào Chế & Sinh Dược Học 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PHM 402",
+                        "name": "Dược Lâm Sàng 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "LAW 392",
+                        "name": "Pháp Chế Dược",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "SPM 300",
+                        "name": "Chăm Sóc Sức Khỏe Cộng Đồng",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 216",
+                        "name": "Reading - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 217",
+                        "name": "Writing - Level 3",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 7,
+                "semester": "Học Kỳ 2 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 162",
+                        "name": "Những Nguyên Lý Cơ Bản của Chủ Nghĩa Marx - Lenin 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "POS 361",
+                        "name": "Tư Tưởng Hồ Chí Minh",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PHC 406",
+                        "name": "Bào Chế & Sinh Dược Học 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PHM 407",
+                        "name": "Dược Lâm Sàng 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PHC 402",
+                        "name": "Kiểm Nghiệm Dược Phẩm",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PHM 404",
+                        "name": "Dược Học Cổ Truyền",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PHC 422",
+                        "name": "Thực Hành Kiểm Nghiệm Dược Phẩm",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 218",
+                        "name": "Listening - Level 3",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 8,
+                "semester": "Học Kỳ 1 - Năm 5 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "EVR 205",
+                        "name": "Sức Khỏe Môi Trường",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PHC 401",
+                        "name": "Công Nghệ Sản Xuất Dược Phẩm 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MGT 392",
+                        "name": "Quản Trị Kinh Doanh Dược Phẩm",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "NTR 431",
+                        "name": "Thực Phẩm Chức Năng",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "PHM 447",
+                        "name": "Thực Hành Dược Khoa I",
+                        "credit": "4"
+                    },
+                    {
+                        "id": "PHM 496",
+                        "name": "Tranh Tài Giải Pháp PBL",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 266",
+                        "name": "Reading - Level 4",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 267",
+                        "name": "Writing - Level 4",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 268",
+                        "name": "Listening - Level 4",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 9,
+                "semester": "Học Kỳ 2 - Năm 5 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "HIS 361",
+                        "name": "Đường Lối Cách Mạng của Đảng Cộng Sản Việt Nam",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PHC 451",
+                        "name": "Công Nghệ Sản Xuất Dược Phẩm 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "IS 437",
+                        "name": "Hệ Thống Thông Tin Quản Lý Dược Khoa",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PHM 410",
+                        "name": "Nhóm GP (GDP, GSP, GPP)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PMY 443",
+                        "name": "Mỹ Phẩm",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 269",
+                        "name": "Speaking - Level 4",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "PHM 499",
+                        "name": "Khóa Luận Tốt Nghiệp",
+                        "credit": "6"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "major": "Hệ Thống Thông Tin Kinh Tế (Đại Học)",
+        "semester_info": [
+            {
+                "keyid": 0,
+                "semester": "Học Kỳ 1 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 100",
+                        "name": "Phương Pháp Luận (gồm Nghiên Cứu Khoa Học)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "COM 101",
+                        "name": "Nói & Trình Bày (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 101",
+                        "name": "Tin Học Đại Cương",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MTH 101",
+                        "name": "Toán Cao Cấp C1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "HIS 221",
+                        "name": "Lịch Sử Văn Minh Thế Giới 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DTE-IT 102",
+                        "name": "Hướng Nghiệp 1",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 1,
+                "semester": "Học Kỳ 2 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "COM 102",
+                        "name": "Viết (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 201",
+                        "name": "Tin Học Ứng Dụng",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MTH 102",
+                        "name": "Toán Cao Cấp C2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DTE 201",
+                        "name": "Đạo Đức trong Công Việc",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PHI 161",
+                        "name": "Những Nguyên Lý Cơ Bản của Chủ Nghĩa Marx - Lenin 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "STA 151",
+                        "name": "Lý Thuyết Xác Suất & Thống Kê Toán",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 116",
+                        "name": "Reading - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 117",
+                        "name": "Writing - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "DTE-IT 152",
+                        "name": "Hướng Nghiệp 2",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 2,
+                "semester": "Học Kỳ 1 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "POS 361",
+                        "name": "Tư Tưởng Hồ Chí Minh",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 211",
+                        "name": "Lập Trình Cơ Sở",
+                        "credit": "4"
+                    },
+                    {
+                        "id": "ACC 201",
+                        "name": "Nguyên Lý Kế Toán 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ECO 151",
+                        "name": "Căn Bản Kinh Tế Vi Mô",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ECO 152",
+                        "name": "Căn Bản Kinh Tế Vĩ Mô",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 118",
+                        "name": "Listening - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "DTE-IT 202",
+                        "name": "Hướng Nghiệp 3",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 3,
+                "semester": "Học Kỳ 2 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "HIS 222",
+                        "name": "Lịch Sử Văn Minh Thế Giới 2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PHI 162",
+                        "name": "Những Nguyên Lý Cơ Bản của Chủ Nghĩa Marx - Lenin 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "IS 301",
+                        "name": "Cơ Sở Dữ Liệu",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 252",
+                        "name": "Mạng Máy Tính",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "IS 251",
+                        "name": "Hệ Thống Thông Tin Quản Lý",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 297",
+                        "name": "Đồ Án CDIO",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 119",
+                        "name": "Speaking - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 166",
+                        "name": "Reading - Level 2",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 4,
+                "semester": "Học Kỳ 1 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "CS 311",
+                        "name": "Lập Trình Hướng Đối Tượng",
+                        "credit": "4"
+                    },
+                    {
+                        "id": "CS 303",
+                        "name": "Phân Tích & Thiết Kế Hệ Thống",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MKT 251",
+                        "name": "Tiếp Thị Căn Bản",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "FIN 301",
+                        "name": "Quản Trị Tài Chính 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 347",
+                        "name": "Đồ Án CDIO",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 167",
+                        "name": "Writing - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 168",
+                        "name": "Listening - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 169",
+                        "name": "Speaking - Level 2",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 5,
+                "semester": "Học Kỳ 2 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "HIS 361",
+                        "name": "Đường Lối Cách Mạng của Đảng Cộng Sản Việt Nam",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "IS 401",
+                        "name": "Hệ Quản Trị Cơ Sở Dữ Liệu",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "HRM 301",
+                        "name": "Quản Trị Nhân Lực",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "IS 381",
+                        "name": "Thương Mại Điện Tử",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 397",
+                        "name": "Đồ Án CDIO",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 216",
+                        "name": "Reading - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 217",
+                        "name": "Writing - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 218",
+                        "name": "Listening - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 219",
+                        "name": "Speaking - Level 3",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 6,
+                "semester": "Học Kỳ 1 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "CS 376",
+                        "name": "Giới Thiệu An Ninh Mạng",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "IS 384",
+                        "name": "Kỹ Thuật Thương Mại Điện Tử (ASP.NET)",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MGO 403",
+                        "name": "Các Mô Hình Ra Quyết Định",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "IS 433",
+                        "name": "Phân Tích Thông Tin",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "IS 402",
+                        "name": "Hệ Hỗ Trợ Ra Quyết Định",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 447",
+                        "name": "Đồ Án CDIO",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 266",
+                        "name": "Reading - Level 4",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 267",
+                        "name": "Writing - Level 4",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 7,
+                "semester": "Học Kỳ 2 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "CR 424",
+                        "name": "Lập Trình Ứng Dụng cho các Thiết Bị Di Động",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "IS 448",
+                        "name": "Thực Tập Tốt Nghiệp",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 414",
+                        "name": "Lập Trình Winforms: VB.NET / C#.NET",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 434",
+                        "name": "Công Cụ & Phương Pháp Thiết Kế - Quản Lý (Phần Mềm)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "MGT 403",
+                        "name": "Quản Trị Chiến Lược",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 268",
+                        "name": "Listening - Level 4",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 269",
+                        "name": "Speaking - Level 4",
+                        "credit": "1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "major": "Ngoại Thương (Quản Trị Kinh Doanh Quốc Tế) (Đại Học)",
+        "semester_info": [
+            {
+                "keyid": 0,
+                "semester": "Học Kỳ 1 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 100",
+                        "name": "Phương Pháp Luận (gồm Nghiên Cứu Khoa Học)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "COM 101",
+                        "name": "Nói & Trình Bày (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 101",
+                        "name": "Tin Học Đại Cương",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MTH 101",
+                        "name": "Toán Cao Cấp C1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "HIS 221",
+                        "name": "Lịch Sử Văn Minh Thế Giới 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DTE-BA 102",
+                        "name": "Hướng Nghiệp 1",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 1,
+                "semester": "Học Kỳ 2 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "CS 201",
+                        "name": "Tin Học Ứng Dụng",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MTH 102",
+                        "name": "Toán Cao Cấp C2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "STA 151",
+                        "name": "Lý Thuyết Xác Suất & Thống Kê Toán",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ECO 152",
+                        "name": "Căn Bản Kinh Tế Vĩ Mô",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "OB 251",
+                        "name": "Tổng Quan Hành Vi Tổ Chức",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 116",
+                        "name": "Reading - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "DTE-BA 152",
+                        "name": "Hướng Nghiệp 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "PHI 150",
+                        "name": "Triết Học Marx - Lenin",
+                        "credit": "3"
+                    }
+                ]
+            },
+            {
+                "keyid": 2,
+                "semester": "Học Kỳ 1 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "COM 102",
+                        "name": "Viết (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DTE 201",
+                        "name": "Đạo Đức trong Công Việc",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ACC 201",
+                        "name": "Nguyên Lý Kế Toán 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ECO 151",
+                        "name": "Căn Bản Kinh Tế Vi Mô",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "STA 271",
+                        "name": "Nguyên Lý Thống Kê Kinh Tế (với SPSS)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "MGT 201",
+                        "name": "Quản Trị Học",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 117",
+                        "name": "Writing - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 118",
+                        "name": "Listening - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 119",
+                        "name": "Speaking - Level 1",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 3,
+                "semester": "Học Kỳ 2 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "MGO 301",
+                        "name": "Quản Trị Hoạt Động & Sản Xuất",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ACC 202",
+                        "name": "Nguyên Lý Kế Toán 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MKT 251",
+                        "name": "Tiếp Thị Căn Bản",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "IS 251",
+                        "name": "Hệ Thống Thông Tin Quản Lý",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "IB 351",
+                        "name": "Thương Mại Quốc Tế",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MGT 296",
+                        "name": "Tranh Tài Giải Pháp PBL",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 166",
+                        "name": "Reading - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 167",
+                        "name": "Writing - Level 2",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 4,
+                "semester": "Học Kỳ 1 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "POS 361",
+                        "name": "Tư Tưởng Hồ Chí Minh",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ECO 302",
+                        "name": "Kinh Tế Trong Quản Trị",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "HRM 301",
+                        "name": "Quản Trị Nhân Lực",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 431",
+                        "name": "Anh Văn Thương Mại",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "MKT 360",
+                        "name": "Tiếp Thị Quốc Tế",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "GEO 372",
+                        "name": "Địa Lý Kinh Tế Xã Hội Thế Giới",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "BNK 354",
+                        "name": "Thanh Toán Quốc Tế",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 168",
+                        "name": "Listening - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 169",
+                        "name": "Speaking - Level 2",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 5,
+                "semester": "Học Kỳ 2 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "HIS 222",
+                        "name": "Lịch Sử Văn Minh Thế Giới 2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 432",
+                        "name": "Anh Văn Thư Tín Thương Mại",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "FIN 301",
+                        "name": "Quản Trị Tài Chính 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "LAW 403",
+                        "name": "Cơ Sở Luật Kinh Tế",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "FIN 400",
+                        "name": "Tài Chính Quốc Tế",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "IB 404",
+                        "name": "Nghiệp Vụ Xuất Nhập Khẩu",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "MKT 403",
+                        "name": "Điều Nghiên Tiếp Thị",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "MGT 396",
+                        "name": "Tranh Tài Giải Pháp PBL",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 216",
+                        "name": "Reading - Level 3",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 6,
+                "semester": "Học Kỳ 1 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "ENG 434",
+                        "name": "Anh Văn Đàm Phán",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MGT 403",
+                        "name": "Quản Trị Chiến Lược",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "BNK 405",
+                        "name": "Nghiệp Vụ Bảo Hiểm",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 217",
+                        "name": "Writing - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 218",
+                        "name": "Listening - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 219",
+                        "name": "Speaking - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "LAW 376",
+                        "name": "Luật Sở Hữu Trí Tuệ",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "MKT 407",
+                        "name": "Quản Trị Bán Lẻ",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "POS 151",
+                        "name": "Kinh Tế Chính Trị Marx - Lenin",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 7,
+                "semester": "Học Kỳ 2 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "MGT 448",
+                        "name": "Thực Tập Tốt Nghiệp",
+                        "credit": "5"
+                    },
+                    {
+                        "id": "SCM 400",
+                        "name": "Quản Trị Kênh Phân Phối",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MGT 496",
+                        "name": "Tranh Tài Giải Pháp PBL",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "LAW 476",
+                        "name": "Luật Thương Mại Quốc tế",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ACC 382",
+                        "name": "Kế Toán Thuế",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "POS 351",
+                        "name": "Chủ Nghĩa Xã Hội Khoa Học",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "HIS 362",
+                        "name": "Lịch Sử Đảng Cộng Sản Việt Nam",
+                        "credit": "2"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "major": "Quản Trị Du Lịch & Khách Sạn Chuẩn PSU (Đại Học)",
+        "semester_info": [
+            {
+                "keyid": 0,
+                "semester": "Học Kỳ 1 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "MTH 101",
+                        "name": "Toán Cao Cấp C1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PSU-ECO 151",
+                        "name": "Căn Bản Kinh Tế Vi Mô",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "DTE-HT 102",
+                        "name": "Hướng Nghiệp 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 126",
+                        "name": "Reading - Level 1 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 127",
+                        "name": "Writing - Level 1 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 128",
+                        "name": "Listening - Level 1 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 129",
+                        "name": "Speaking - Level 1 (International School)",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 1,
+                "semester": "Học Kỳ 2 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "CS 101",
+                        "name": "Tin Học Đại Cương",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MTH 102",
+                        "name": "Toán Cao Cấp C2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "STA 151",
+                        "name": "Lý Thuyết Xác Suất & Thống Kê Toán",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PSU-HOS 151",
+                        "name": "Tổng Quan Ngành Lưu Trú",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DTE-HT 152",
+                        "name": "Hướng Nghiệp 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 226",
+                        "name": "Reading - Level 2 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 227",
+                        "name": "Writing - Level 2 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 228",
+                        "name": "Listening - Level 2 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 229",
+                        "name": "Speaking - Level 2 (International School)",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 2,
+                "semester": "Học Kỳ 2 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PSU-ACC 202",
+                        "name": "Nguyên Lý Kế Toán 2",
+                        "credit": "3"
+                    }
+                ]
+            },
+            {
+                "keyid": 3,
+                "semester": "Học Kỳ 1 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "POS 361",
+                        "name": "Tư Tưởng Hồ Chí Minh",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PSU-FIN 301",
+                        "name": "Quản Trị Tài Chính 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PSU-CSN 200",
+                        "name": "Vệ Sinh Thực Phẩm trong Quản Lý Nhà Hàng",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 4,
+                "semester": "Học Kỳ 2 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 162",
+                        "name": "Những Nguyên Lý Cơ Bản của Chủ Nghĩa Marx - Lenin 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "HRM 303",
+                        "name": "Quản Trị Nhân Lực Trong Du Lịch",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PSU-ACC 306",
+                        "name": "Kế Toán Quản Trị trong Du Lịch",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PSU-IS 253",
+                        "name": "Hệ Thống Thông Tin Quản Lý trong Du Lịch",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PSU-HOS 374",
+                        "name": "Nghiệp Vụ Khách Sạn",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PSU-HOS 396",
+                        "name": "Tranh Tài Giải Pháp PBL",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "PSU-ENG 333",
+                        "name": "Anh Văn Chuyên Ngành cho Sinh Viên PSU Du Lịch 3",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 5,
+                "semester": "Học Kỳ 1 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "MKT 424",
+                        "name": "Hành Vi Tiêu Dùng Trong Du Lịch",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "LAW 403",
+                        "name": "Cơ Sở Luật Kinh Tế",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PSU-FIN 413",
+                        "name": "Quản Trị Tài Chính trong Du Lịch - Dịch Vụ",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PSU-HOS 403",
+                        "name": "Quản Trị Cơ Sở Vật Chất Khách Sạn",
+                        "credit": "3"
+                    }
+                ]
+            },
+            {
+                "keyid": 6,
+                "semester": "Học Kỳ 2 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "HIS 222",
+                        "name": "Lịch Sử Văn Minh Thế Giới 2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "HIS 361",
+                        "name": "Đường Lối Cách Mạng của Đảng Cộng Sản Việt Nam",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "HOS 448",
+                        "name": "Thực Tập Nghiệp Vụ Trong Khách Sạn / Nhà Hàng (3 tháng)",
+                        "credit": "5"
+                    },
+                    {
+                        "id": "PSU-MGT 403",
+                        "name": "Quản Trị Chiến Lược",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PSU-HOS 402",
+                        "name": "Quản Trị Khách Sạn",
+                        "credit": "3"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "major": "Quản Trị Khách Sạn & Nhà Hàng (Đại Học)",
+        "semester_info": [
+            {
+                "keyid": 0,
+                "semester": "Học Kỳ 1 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 100",
+                        "name": "Phương Pháp Luận (gồm Nghiên Cứu Khoa Học)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "COM 102",
+                        "name": "Viết (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 101",
+                        "name": "Tin Học Đại Cương",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MTH 101",
+                        "name": "Toán Cao Cấp C1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "TOU 151",
+                        "name": "Tổng Quan Du Lịch",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DTE-HT 102",
+                        "name": "Hướng Nghiệp 1",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 1,
+                "semester": "Học Kỳ 2 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "CS 201",
+                        "name": "Tin Học Ứng Dụng",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MTH 102",
+                        "name": "Toán Cao Cấp C2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PHI 161",
+                        "name": "Những Nguyên Lý Cơ Bản của Chủ Nghĩa Marx - Lenin 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "STA 151",
+                        "name": "Lý Thuyết Xác Suất & Thống Kê Toán",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "HOS 151",
+                        "name": "Tổng Quan Ngành Lưu Trú",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DTE-HT 152",
+                        "name": "Hướng Nghiệp 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 126",
+                        "name": "Reading - Level 1 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 127",
+                        "name": "Writing - Level 1 (International School)",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 2,
+                "semester": "Học Kỳ 1 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "LAW 201",
+                        "name": "Pháp Luật Đại Cương",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 3,
+                "semester": "Học Kỳ 1 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "FIN 301",
+                        "name": "Quản Trị Tài Chính 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "OB 253",
+                        "name": "Tổng Quan Hành Vi Tổ Chức trong Du Lịch",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 226",
+                        "name": "Reading - Level 2 (International School)",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 4,
+                "semester": "Học Kỳ 2 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "ECO 303",
+                        "name": "Kinh Tế Trong Quản Trị Dịch Vụ",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "HOS 371",
+                        "name": "Giới Thiệu Nghiệp Vụ Khách Sạn",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "HOS 374",
+                        "name": "Nghiệp Vụ Buồng Phòng",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "HOS 396",
+                        "name": "Tranh Tài Giải Pháp PBL",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 227",
+                        "name": "Writing - Level 2 (International School)",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 5,
+                "semester": "Học Kỳ 1 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "HIS 361",
+                        "name": "Đường Lối Cách Mạng của Đảng Cộng Sản Việt Nam",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "LAW 403",
+                        "name": "Cơ Sở Luật Kinh Tế",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "HOS 401",
+                        "name": "Quản Trị Nhà Hàng",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "HOS 403",
+                        "name": "Quản Trị Cơ Sở Vật Chất Khách Sạn",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "FIN 413",
+                        "name": "Quản Trị Tài Chính Khách Sạn",
+                        "credit": "3"
+                    }
+                ]
+            },
+            {
+                "keyid": 6,
+                "semester": "Học Kỳ 2 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "HIS 222",
+                        "name": "Lịch Sử Văn Minh Thế Giới 2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "POS 361",
+                        "name": "Tư Tưởng Hồ Chí Minh",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "HOS 448",
+                        "name": "Thực Tập Nghiệp Vụ Trong Khách Sạn / Nhà Hàng (3 tháng)",
+                        "credit": "5"
+                    },
+                    {
+                        "id": "TOU 411",
+                        "name": "Quản Trị Sự Kiện",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 229",
+                        "name": "Speaking - Level 2 (International School)",
+                        "credit": "2"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "major": "Thiết kế Đồ họa - Game - Multimedia (Đại Học) - K22",
+        "semester_info": [
+            {
+                "keyid": 0,
+                "semester": "Học Kỳ 1 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "CS 101",
+                        "name": "Tin Học Đại Cương",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MTH 103",
+                        "name": "Toán Cao Cấp A1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ARC 111",
+                        "name": "Hình Họa 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ART 111",
+                        "name": "Foundation Design Studio",
+                        "credit": "4"
+                    },
+                    {
+                        "id": "DTE-ARC 102",
+                        "name": "Hướng Nghiệp 1",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 1,
+                "semester": "Học Kỳ 2 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "CS 201",
+                        "name": "Tin Học Ứng Dụng",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PHY 101",
+                        "name": "Vật Lý Đại Cương 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ART 151",
+                        "name": "Vẽ Mỹ Thuật 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ANA 201",
+                        "name": "Giải Phẫu Học 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 116",
+                        "name": "Reading - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "PSY 111",
+                        "name": "Nguyên Lý Thị Giác",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ART 161",
+                        "name": "Định Luật Xa Gần trong Đồ Họa",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DTE-ARC 152",
+                        "name": "Hướng Nghiệp 2",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 2,
+                "semester": "Học Kỳ 1 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "COM 102",
+                        "name": "Viết (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "MTH 104",
+                        "name": "Toán Cao Cấp A2",
+                        "credit": "4"
+                    },
+                    {
+                        "id": "ART 201",
+                        "name": "Vẽ Mỹ Thuật 2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DMS 221",
+                        "name": "CorelDraw & Adobe Illustrator",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ART 270",
+                        "name": "Hình Khối & Màu Sắc",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 117",
+                        "name": "Writing - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ARC 116",
+                        "name": "Hình Họa Mỹ Thuật 1",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 3,
+                "semester": "Học Kỳ 2 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 100",
+                        "name": "Phương Pháp Luận (gồm Nghiên Cứu Khoa Học)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 211",
+                        "name": "Lập Trình Cơ Sở",
+                        "credit": "4"
+                    },
+                    {
+                        "id": "ART 205",
+                        "name": "Design Creativity & Cognition",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DMS 231",
+                        "name": "Adobe Photoshop",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "DMS 296",
+                        "name": "Đồ Án CDIO",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 118",
+                        "name": "Listening - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ART 213",
+                        "name": "Đạc Họa",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ARC 117",
+                        "name": "Hình Họa Mỹ Thuật 2",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 4,
+                "semester": "Học Kỳ 1 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "COM 101",
+                        "name": "Nói & Trình Bày (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "IS 301",
+                        "name": "Cơ Sở Dữ Liệu",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "AES 251",
+                        "name": "Đại Cương Mỹ Học",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ART 203",
+                        "name": "Typography",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 313",
+                        "name": "Flash, Dreamweaver & CSS/CSS2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 119",
+                        "name": "Speaking - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 166",
+                        "name": "Reading - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ARC 216",
+                        "name": "Hình Họa Mỹ Thuật 3",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 5,
+                "semester": "Học Kỳ 2 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "CS 311",
+                        "name": "Lập Trình Hướng Đối Tượng",
+                        "credit": "4"
+                    },
+                    {
+                        "id": "CS 303",
+                        "name": "Phân Tích & Thiết Kế Hệ Thống",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CUL 251",
+                        "name": "Cơ Sở Văn Hóa Việt Nam",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ART 221",
+                        "name": "Photography",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DMS 271",
+                        "name": "Game Design & Development Studio 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "DMS 396",
+                        "name": "Đồ Án CDIO",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 167",
+                        "name": "Writing - Level 2",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 6,
+                "semester": "Học Kỳ 1 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 161",
+                        "name": "Những Nguyên Lý Cơ Bản của Chủ Nghĩa Marx - Lenin 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "IS 384",
+                        "name": "Kỹ Thuật Thương Mại Điện Tử (ASP.NET)",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "AES 270",
+                        "name": "Di Sản Mỹ Thuật Thế Giới và Việt Nam",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DMS 371",
+                        "name": "Game Design & Development Studio 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "DMS 341",
+                        "name": "3D Modeling & Animations",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "DMS 365",
+                        "name": "Video & Audio Fundamentals",
+                        "credit": "3"
+                    }
+                ]
+            },
+            {
+                "keyid": 7,
+                "semester": "Học Kỳ 2 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "HIS 221",
+                        "name": "Lịch Sử Văn Minh Thế Giới 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PHI 162",
+                        "name": "Những Nguyên Lý Cơ Bản của Chủ Nghĩa Marx - Lenin 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ART 341",
+                        "name": "Brand Design Studio",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CS 466",
+                        "name": "Perl & Python",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 168",
+                        "name": "Listening - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 169",
+                        "name": "Speaking - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "DMS 460",
+                        "name": "Type & Image in Motion (Adobe After Effect)",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "DMS 496",
+                        "name": "Đồ Án CDIO",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 8,
+                "semester": "Học Kỳ 1 - Năm 5 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "DTE 201",
+                        "name": "Đạo Đức trong Công Việc",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "HIS 222",
+                        "name": "Lịch Sử Văn Minh Thế Giới 2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "POS 361",
+                        "name": "Tư Tưởng Hồ Chí Minh",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 216",
+                        "name": "Reading - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 217",
+                        "name": "Writing - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 218",
+                        "name": "Listening - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ART 343",
+                        "name": "Thiết Kế Ấn Phẩm",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DMS 441",
+                        "name": "Advanced 3D Modeling & Animations",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ID 330",
+                        "name": "Thẩm Mỹ Công Nghiệp",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 9,
+                "semester": "Học Kỳ 2 - Năm 5 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "HIS 361",
+                        "name": "Đường Lối Cách Mạng của Đảng Cộng Sản Việt Nam",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 219",
+                        "name": "Speaking - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "POS 371",
+                        "name": "Đường Lối Văn Hóa - Văn Nghệ của Đảng Cộng Sản Việt Nam",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ID 434",
+                        "name": "Thiết Kế Bao Bì",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DMS 464",
+                        "name": "Filmmaking, Video & Media Practices",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DMS 448",
+                        "name": "Thực Tập Tốt Nghiệp",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "DMS 447",
+                        "name": "Đồ Án Tốt Nghiệp",
+                        "credit": "5"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "major": "Thiết kế Đồ họa - Game - Multimedia (Đại Học) - K25",
+        "semester_info": [
+            {
+                "keyid": 0,
+                "semester": "Học Kỳ 1 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "CS 101",
+                        "name": "Tin Học Đại Cương",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MTH 103",
+                        "name": "Toán Cao Cấp A1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "HIS 221",
+                        "name": "Lịch Sử Văn Minh Thế Giới 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ARC 116",
+                        "name": "Hình Họa Mỹ Thuật 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DTE-ARC 102",
+                        "name": "Hướng Nghiệp 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ART 170",
+                        "name": "Cơ Sở Tạo Hình 1",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 1,
+                "semester": "Học Kỳ 2 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "COM 101",
+                        "name": "Nói & Trình Bày (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 201",
+                        "name": "Tin Học Ứng Dụng",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "AES 251",
+                        "name": "Đại Cương Mỹ Học",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "DMS 221",
+                        "name": "CorelDraw & Adobe Illustrator",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 116",
+                        "name": "Reading - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 117",
+                        "name": "Writing - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 118",
+                        "name": "Listening - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ARC 117",
+                        "name": "Hình Họa Mỹ Thuật 2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DTE-ARC 152",
+                        "name": "Hướng Nghiệp 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ART 220",
+                        "name": "Cơ Sở Tạo Hình 2",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 2,
+                "semester": "Học Kỳ 1 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "CS 211",
+                        "name": "Lập Trình Cơ Sở",
+                        "credit": "4"
+                    },
+                    {
+                        "id": "DMS 231",
+                        "name": "Adobe Photoshop",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 119",
+                        "name": "Speaking - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ART 161",
+                        "name": "Định Luật Xa Gần trong Đồ Họa",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ARC 216",
+                        "name": "Hình Họa Mỹ Thuật 3",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ART 224",
+                        "name": "Giải Phẫu Tạo Hình",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PHI 150",
+                        "name": "Triết Học Marx - Lenin",
+                        "credit": "3"
+                    }
+                ]
+            },
+            {
+                "keyid": 3,
+                "semester": "Học Kỳ 2 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 100",
+                        "name": "Phương Pháp Luận (gồm Nghiên Cứu Khoa Học)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "COM 102",
+                        "name": "Viết (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 311",
+                        "name": "Lập Trình Hướng Đối Tượng",
+                        "credit": "4"
+                    },
+                    {
+                        "id": "ART 203",
+                        "name": "Typography",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 166",
+                        "name": "Reading - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 167",
+                        "name": "Writing - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 168",
+                        "name": "Listening - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "PSY 111",
+                        "name": "Nguyên Lý Thị Giác",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ID 330",
+                        "name": "Thẩm Mỹ Công Nghiệp",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 4,
+                "semester": "Học Kỳ 1 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "HIS 222",
+                        "name": "Lịch Sử Văn Minh Thế Giới 2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "IS 301",
+                        "name": "Cơ Sở Dữ Liệu",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ART 205",
+                        "name": "Design Creativity & Cognition",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ART 221",
+                        "name": "Photography",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 313",
+                        "name": "Flash, Dreamweaver & CSS/CSS2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "DMS 296",
+                        "name": "Đồ Án CDIO",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 169",
+                        "name": "Speaking - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ART 343",
+                        "name": "Thiết Kế Ấn Phẩm",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ID 301",
+                        "name": "Thiết Kế Logo",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 5,
+                "semester": "Học Kỳ 2 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "IS 384",
+                        "name": "Kỹ Thuật Thương Mại Điện Tử (ASP.NET)",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "DMS 271",
+                        "name": "Game Design & Development Studio 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ARC 348",
+                        "name": "Thực Tập Nhận Thức",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "DMS 396",
+                        "name": "Đồ Án CDIO",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 216",
+                        "name": "Reading - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ID 434",
+                        "name": "Thiết Kế Bao Bì",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ID 414",
+                        "name": "Thiết Kế Truyện Tranh",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ART 313",
+                        "name": "Storyboarding",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DMS 334",
+                        "name": "Texturing",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 6,
+                "semester": "Học Kỳ 1 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "DMS 341",
+                        "name": "3D Modeling & Animations",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ART 341",
+                        "name": "Brand Design Studio",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "DMS 365",
+                        "name": "Video & Audio Fundamentals",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 217",
+                        "name": "Writing - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "DMS 460",
+                        "name": "Type & Image in Motion (Adobe After Effect)",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "DMS 431",
+                        "name": "Thiết Kế Giao Diện Ứng Dụng cho các Thiết Bị Di Động",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DMS 450",
+                        "name": "Production Pipeline",
+                        "credit": "3"
+                    }
+                ]
+            },
+            {
+                "keyid": 7,
+                "semester": "Học Kỳ 2 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "DTE 201",
+                        "name": "Đạo Đức trong Công Việc",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DMS 371",
+                        "name": "Game Design & Development Studio 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 218",
+                        "name": "Listening - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 219",
+                        "name": "Speaking - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "DMS 464",
+                        "name": "Filmmaking, Video & Media Practices",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DMS 496",
+                        "name": "Đồ Án CDIO",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "HIS 362",
+                        "name": "Lịch Sử Đảng Cộng Sản Việt Nam",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DMS 442",
+                        "name": "Character Animations",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "DMS 342",
+                        "name": "Rigging",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 8,
+                "semester": "Học Kỳ 1 - Năm 5 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "POS 361",
+                        "name": "Tư Tưởng Hồ Chí Minh",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DMS 448",
+                        "name": "Thực Tập Tốt Nghiệp",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "DMS 447",
+                        "name": "Đồ Án Tốt Nghiệp",
+                        "credit": "5"
+                    },
+                    {
+                        "id": "POS 151",
+                        "name": "Kinh Tế Chính Trị Marx - Lenin",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "POS 351",
+                        "name": "Chủ Nghĩa Xã Hội Khoa Học",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DMS 445",
+                        "name": "3D Film Production",
+                        "credit": "3"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "major": "Truyền Thông Đa Phương Tiện (Đại Học)",
+        "semester_info": [
+            {
+                "keyid": 0,
+                "semester": "Học Kỳ 1 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 100",
+                        "name": "Phương Pháp Luận (gồm Nghiên Cứu Khoa Học)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "COM 102",
+                        "name": "Viết (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 101",
+                        "name": "Tin Học Đại Cương",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MTH 100",
+                        "name": "Toán Cao Cấp C",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "HIS 221",
+                        "name": "Lịch Sử Văn Minh Thế Giới 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DTE-HSS 102",
+                        "name": "Hướng Nghiệp 1",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 1,
+                "semester": "Học Kỳ 2 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "COM 101",
+                        "name": "Nói & Trình Bày (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 201",
+                        "name": "Tin Học Ứng Dụng",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "POS 361",
+                        "name": "Tư Tưởng Hồ Chí Minh",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "AES 251",
+                        "name": "Đại Cương Mỹ Học",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PSY 151",
+                        "name": "Đại Cương Tâm Lý Học",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PHI 306",
+                        "name": "Logic Học",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 116",
+                        "name": "Reading - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 117",
+                        "name": "Writing - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "DTE-HSS 152",
+                        "name": "Hướng Nghiệp 2",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 2,
+                "semester": "Học Kỳ 1 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "LIN 150",
+                        "name": "Dẫn Luận Ngôn Ngữ Học",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CUL 251",
+                        "name": "Cơ Sở Văn Hóa Việt Nam",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "COM 435",
+                        "name": "Quan Hệ Công Chúng",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "SOC 151",
+                        "name": "Đại Cương Xã Hội Học",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "JOU 251",
+                        "name": "Cơ Sở Lý Luận Báo Chí",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 118",
+                        "name": "Listening - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 119",
+                        "name": "Speaking - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "COM 201",
+                        "name": "Nhập Môn Truyền Thông",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "COM 250",
+                        "name": "Đại Cương Sản Phẩm Truyền Thông",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 3,
+                "semester": "Học Kỳ 2 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "LAW 201",
+                        "name": "Pháp Luật Đại Cương",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "HIS 222",
+                        "name": "Lịch Sử Văn Minh Thế Giới 2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "LIN 261",
+                        "name": "Ngữ Âm, Từ Vựng, Ngữ Pháp",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "LIT 412",
+                        "name": "Văn Học Việt Nam từ 1945 đến nay",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ART 221",
+                        "name": "Photography",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "JOU 360",
+                        "name": "Lịch Sử Báo Chí (Thế Giới & Việt Nam)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "JOU 373",
+                        "name": "Ngôn Ngữ Báo Chí",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 166",
+                        "name": "Reading - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 167",
+                        "name": "Writing - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "COM 296",
+                        "name": "Tranh tài giải pháp PBL",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 4,
+                "semester": "Học Kỳ 1 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "MKT 251",
+                        "name": "Tiếp Thị Căn Bản",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MKT 364",
+                        "name": "Quảng Cáo & Chiêu Thị",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "LIT 372",
+                        "name": "Văn Học Phương Tây",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "JOU 335",
+                        "name": "Báo In",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 168",
+                        "name": "Listening - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 169",
+                        "name": "Speaking - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ART 343",
+                        "name": "Thiết Kế Ấn Phẩm",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "COM 335",
+                        "name": "Tổ Chức Sự Kiện",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "COM 348",
+                        "name": "Thực Tập Nhận Thức",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "COM 396",
+                        "name": "Tranh Tài Giải Pháp PBL",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 5,
+                "semester": "Học Kỳ 2 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "MKT 404",
+                        "name": "Hành Vi Tiêu Dùng",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "DMS 365",
+                        "name": "Video & Audio Fundamentals",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "JOU 386",
+                        "name": "Báo Nói",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "JOU 439",
+                        "name": "Truyền Hình",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 216",
+                        "name": "Reading - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 217",
+                        "name": "Writing - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "JOU 435",
+                        "name": "Báo Điện Tử",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ID 301",
+                        "name": "Thiết Kế Logo",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "COM 385",
+                        "name": "Nhận Dạng Thương Hiệu",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 6,
+                "semester": "Học Kỳ 1 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 161",
+                        "name": "Những Nguyên Lý Cơ Bản của Chủ Nghĩa Marx - Lenin 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "IS 381",
+                        "name": "Thương Mại Điện Tử",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 218",
+                        "name": "Listening - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 219",
+                        "name": "Speaking - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "DMS 464",
+                        "name": "Filmmaking, Video & Media Practices",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ID 354",
+                        "name": "Thiết Kế Sách",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "COM 483",
+                        "name": "Xử Lý Khủng Hoảng Truyền Thông",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "COM 423",
+                        "name": "Điều Tra và Phóng Sự",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "COM 496",
+                        "name": "Tranh Tài Giải Pháp PBL",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 7,
+                "semester": "Học Kỳ 2 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 162",
+                        "name": "Những Nguyên Lý Cơ Bản của Chủ Nghĩa Marx - Lenin 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "HIS 361",
+                        "name": "Đường Lối Cách Mạng của Đảng Cộng Sản Việt Nam",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "LAW 305",
+                        "name": "Luật Báo Chí",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ID 413",
+                        "name": "Thiết Kế Poster 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "COM 413",
+                        "name": "Kỹ Năng Dẫn Chương Trình",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "COM 449",
+                        "name": "Khóa Luận Tốt Nghiệp",
+                        "credit": "5"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "major": "Tài Chính Doanh Nghiệp (Đại Học)",
+        "semester_info": [
+            {
+                "keyid": 0,
+                "semester": "Học Kỳ 1 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 100",
+                        "name": "Phương Pháp Luận (gồm Nghiên Cứu Khoa Học)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "COM 102",
+                        "name": "Viết (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 101",
+                        "name": "Tin Học Đại Cương",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MTH 101",
+                        "name": "Toán Cao Cấp C1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "LAW 201",
+                        "name": "Pháp Luật Đại Cương",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DTE-BA 102",
+                        "name": "Hướng Nghiệp 1",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 1,
+                "semester": "Học Kỳ 2 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "COM 101",
+                        "name": "Nói & Trình Bày (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 201",
+                        "name": "Tin Học Ứng Dụng",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MTH 102",
+                        "name": "Toán Cao Cấp C2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "STA 151",
+                        "name": "Lý Thuyết Xác Suất & Thống Kê Toán",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ECO 152",
+                        "name": "Căn Bản Kinh Tế Vĩ Mô",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MGT 201",
+                        "name": "Quản Trị Học",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 116",
+                        "name": "Reading - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 117",
+                        "name": "Writing - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "DTE-BA 152",
+                        "name": "Hướng Nghiệp 2",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 2,
+                "semester": "Học Kỳ 1 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "HIS 221",
+                        "name": "Lịch Sử Văn Minh Thế Giới 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PHI 161",
+                        "name": "Những Nguyên Lý Cơ Bản của Chủ Nghĩa Marx - Lenin 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ACC 201",
+                        "name": "Nguyên Lý Kế Toán 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ECO 151",
+                        "name": "Căn Bản Kinh Tế Vi Mô",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "STA 271",
+                        "name": "Nguyên Lý Thống Kê Kinh Tế (với SPSS)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "OB 251",
+                        "name": "Tổng Quan Hành Vi Tổ Chức",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 118",
+                        "name": "Listening - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 119",
+                        "name": "Speaking - Level 1",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 3,
+                "semester": "Học Kỳ 2 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "HIS 222",
+                        "name": "Lịch Sử Văn Minh Thế Giới 2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PHI 162",
+                        "name": "Những Nguyên Lý Cơ Bản của Chủ Nghĩa Marx - Lenin 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ACC 202",
+                        "name": "Nguyên Lý Kế Toán 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "IS 251",
+                        "name": "Hệ Thống Thông Tin Quản Lý",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "FIN 271",
+                        "name": "Nhập Môn Tài Chính Tiền Tệ 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ECO 251",
+                        "name": "Kinh Tế Lượng",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "FIN 296",
+                        "name": "Tranh Tài Giải Pháp PBL",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 166",
+                        "name": "Reading - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 167",
+                        "name": "Writing - Level 2",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 4,
+                "semester": "Học Kỳ 1 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "ECO 302",
+                        "name": "Kinh Tế Trong Quản Trị",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "MGO 301",
+                        "name": "Quản Trị Hoạt Động & Sản Xuất",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ACC 301",
+                        "name": "Kế Toán Quản Trị 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "MKT 251",
+                        "name": "Tiếp Thị Căn Bản",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "FIN 301",
+                        "name": "Quản Trị Tài Chính 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "FIN 272",
+                        "name": "Nhập Môn Tài Chính Tiền Tệ 2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 168",
+                        "name": "Listening - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 169",
+                        "name": "Speaking - Level 2",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 5,
+                "semester": "Học Kỳ 2 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "POS 361",
+                        "name": "Tư Tưởng Hồ Chí Minh",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "HRM 301",
+                        "name": "Quản Trị Nhân Lực",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "FIN 302",
+                        "name": "Quản Trị Tài Chính 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "FIN 400",
+                        "name": "Tài Chính Quốc Tế",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ACC 302",
+                        "name": "Kế Toán Tài Chính 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "FIN 396",
+                        "name": "Tranh Tài Giải Pháp PBL",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 216",
+                        "name": "Reading - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 217",
+                        "name": "Writing - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "FIN 380",
+                        "name": "Tài Chính Công",
+                        "credit": "3"
+                    }
+                ]
+            },
+            {
+                "keyid": 6,
+                "semester": "Học Kỳ 1 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "LAW 403",
+                        "name": "Cơ Sở Luật Kinh Tế",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ACC 303",
+                        "name": "Kế Toán Quản Trị 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "FIN 402",
+                        "name": "Tài Chính Đầu Tư",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "BNK 405",
+                        "name": "Nghiệp Vụ Bảo Hiểm",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 218",
+                        "name": "Listening - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 219",
+                        "name": "Speaking - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "FIN 383",
+                        "name": "Thị Trường Chứng Khoán",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "FIN 424",
+                        "name": "Tài Chính Vi Mô",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 7,
+                "semester": "Học Kỳ 2 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "HIS 361",
+                        "name": "Đường Lối Cách Mạng của Đảng Cộng Sản Việt Nam",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MGT 403",
+                        "name": "Quản Trị Chiến Lược",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MGT 448",
+                        "name": "Thực Tập Tốt Nghiệp",
+                        "credit": "5"
+                    },
+                    {
+                        "id": "FIN 496",
+                        "name": "Tranh Tài Giải Pháp PBL",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "FIN 473",
+                        "name": "Quản Trị Rủi Ro",
+                        "credit": "3"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 11,
+        "major": "Điều Dưỡng (Đại Học)",
+        "semester_info": [
+            {
+                "keyid": 0,
+                "semester": "Học Kỳ 1 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "CS 101",
+                        "name": "Tin Học Đại Cương",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MTH 103",
+                        "name": "Toán Cao Cấp A1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CHE 101",
+                        "name": "Hóa Học Đại Cương",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "BIO 101",
+                        "name": "Sinh Học Đại Cương",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "DTE-NUR 102",
+                        "name": "Hướng Nghiệp 1",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 1,
+                "semester": "Học Kỳ 2 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "COM 101",
+                        "name": "Nói & Trình Bày (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "COM 102",
+                        "name": "Viết (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 201",
+                        "name": "Tin Học Ứng Dụng",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PSY 151",
+                        "name": "Đại Cương Tâm Lý Học",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CHE 203",
+                        "name": "Hóa Hữu Cơ",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ANA 201",
+                        "name": "Giải Phẫu Học 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 116",
+                        "name": "Reading - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 117",
+                        "name": "Writing - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "DTE-NUR 152",
+                        "name": "Hướng Nghiệp 2",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 2,
+                "semester": "Học Kỳ 1 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 100",
+                        "name": "Phương Pháp Luận (gồm Nghiên Cứu Khoa Học)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PHY 101",
+                        "name": "Vật Lý Đại Cương 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "BCH 201",
+                        "name": "Hóa Sinh Căn Bản",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MIB 251",
+                        "name": "Căn Bản Vi Sinh Học",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "BIO 213",
+                        "name": "Sinh Lý Học",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "NTR 151",
+                        "name": "Dinh Dưỡng Học",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "BIO 220",
+                        "name": "Cơ Sở Di Truyền Học",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 118",
+                        "name": "Listening - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "JAP 116",
+                        "name": "Nhật Ngữ Cơ Sở 1",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 3,
+                "semester": "Học Kỳ 2 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "ANA 202",
+                        "name": "Giải Phẫu Học 2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ANA 203",
+                        "name": "Mô Phôi",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "IMN 250",
+                        "name": "Sinh Lý Bệnh - Miễn Dịch",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "MIB 253",
+                        "name": "Ký Sinh Trùng",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "NUR 251",
+                        "name": "Điều Dưỡng Cơ Bản 1",
+                        "credit": "4"
+                    },
+                    {
+                        "id": "NUR 248",
+                        "name": "Thực Tập Điều Dưỡng I",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PMY 300",
+                        "name": "Dược Lý Học cho Y",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "NUR 296",
+                        "name": "Tranh Tài Giải Pháp PBL",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 119",
+                        "name": "Speaking - Level 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "JAP 117",
+                        "name": "Nhật Ngữ Cơ Sở 2",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 4,
+                "semester": "Học Kỳ 1 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 161",
+                        "name": "Những Nguyên Lý Cơ Bản của Chủ Nghĩa Marx - Lenin 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "STA 151",
+                        "name": "Lý Thuyết Xác Suất & Thống Kê Toán",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "IMD 251",
+                        "name": "Nội Cơ Sở 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "SUR 251",
+                        "name": "Ngoại Cơ Sở 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "MCH 250",
+                        "name": "Sản & Nhi Cơ Sở",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "NTR 413",
+                        "name": "Tiết chế",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "MED 268",
+                        "name": "Y Đức",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "NUR 300",
+                        "name": "Điều Dưỡng Cơ Bản 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 166",
+                        "name": "Reading - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "JAP 118",
+                        "name": "Nhật Ngữ Cơ Sở 3",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 5,
+                "semester": "Học Kỳ 2 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 162",
+                        "name": "Những Nguyên Lý Cơ Bản của Chủ Nghĩa Marx - Lenin 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "HIS 361",
+                        "name": "Đường Lối Cách Mạng của Đảng Cộng Sản Việt Nam",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "SPM 302",
+                        "name": "Dịch Tể Học",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "NUR 305",
+                        "name": "Điều Dưỡng cho Gia Đình có Trẻ Con 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "NUR 303",
+                        "name": "Điều Dưỡng Ngoại 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "NUR 302",
+                        "name": "Điều Dưỡng Nội 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "NUR 396",
+                        "name": "Tranh Tài Giải Pháp PBL",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 167",
+                        "name": "Writing - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 168",
+                        "name": "Listening - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 169",
+                        "name": "Speaking - Level 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "JAP 119",
+                        "name": "Nhật Ngữ Cơ Sở 4",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 6,
+                "semester": "Học Kỳ 1 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "POS 361",
+                        "name": "Tư Tưởng Hồ Chí Minh",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "SOC 323",
+                        "name": "Dân Số Học - Kế Hoạch Hóa Gia Đình - Sức Khỏe Gia Đình",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "NUR 405",
+                        "name": "Điều Dưỡng cho Gia Đình có Trẻ Con 2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "NUR 306",
+                        "name": "Điều Dưỡng cho Gia Đình có Người Già 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "NUR 403",
+                        "name": "Điều Dưỡng Ngoại 2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "NUR 313",
+                        "name": "Điều Dưỡng Cấp Cứu - Hồi Sức",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "NUR 402",
+                        "name": "Điều Dưỡng Nội 2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "REM 400",
+                        "name": "Phục Hồi Chức Năng",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 216",
+                        "name": "Reading - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 217",
+                        "name": "Writing - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 218",
+                        "name": "Listening - Level 3",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 219",
+                        "name": "Speaking - Level 3",
+                        "credit": "1"
+                    }
+                ]
+            },
+            {
+                "keyid": 7,
+                "semester": "Học Kỳ 2 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "EVR 205",
+                        "name": "Sức Khỏe Môi Trường",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "SPM 413",
+                        "name": "Tổ Chức Y Tế - Chương Trình Y Tế Quốc Gia",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "NUR 406",
+                        "name": "Điều Dưỡng cho Gia Đình có Người Già 2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "MED 362",
+                        "name": "Y Học Cổ Truyền",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "MGT 433",
+                        "name": "Quản Lý Điều Dưỡng",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "NUR 448",
+                        "name": "Thực Tập Điều Dưỡng II",
+                        "credit": "5"
+                    },
+                    {
+                        "id": "NUR 423",
+                        "name": "Điều Dưỡng Chuyên Khoa Hệ Nội",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "NUR 433",
+                        "name": "Điều Dưỡng Chuyên Khoa Hệ Ngoại",
+                        "credit": "2"
+                    }
+                ]
+            }
+        ]
+    }
+]
