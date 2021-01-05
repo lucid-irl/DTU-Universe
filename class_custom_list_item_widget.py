@@ -3,6 +3,7 @@ from PyQt5.QtCore import pyqtSignal, Qt
 from PyQt5.QtWidgets import QApplication, QWidget,QLabel, QHBoxLayout, QLayout, QPushButton
 
 from class_subject import Subject
+from class_dialogDetailInfo import DetailClassInfoWindow
 
 from win10toast import ToastNotifier
 # from main import Main
@@ -12,7 +13,7 @@ class CustomListItemWidget(QWidget):
 
     ICON_BUTTON_DELETE = 'resources/007-delete.svg'
     ICON_BUTTON_COPY_ID = 'resources/icons8-paste-96.png'
-    ICON_BUTTON_ADD = 'resources/icons8-add-new-96.png'
+    ICON_BUTTON_ADD = 'resources/icon_add.svg'
     ICON_BUTTON_DETAILINFO = 'resources/icons8-info.svg'
 
     ICON_IMAGE_VALID = 'Images\\green_dot.png'
@@ -46,6 +47,31 @@ class CustomListItemWidget(QWidget):
 
         self.textQVBoxLayout.setSizeConstraint(QLayout.SetDefaultConstraint)
         self.setLayout(self.textQVBoxLayout)
+
+        stringFullDateTime = []
+        for date in self.subject.getSchedule().getDatesOfLesson():
+            times = self.subject.getSchedule().getTimeOfDate(date)
+            timeString = ', '.join(times)
+            dateTime = '{0} ({1})'.format(date, timeString)
+            stringFullDateTime.append(dateTime)
+        joinedStringFullDateTime = ', '.join(stringFullDateTime)
+        if self.subject.getTeachers() != [""]:
+            teachers = ', '.join(self.subject.getTeachers())
+        else:
+            teachers = 'Không rõ'
+        places = ', '.join(self.subject.getLocations())
+        toolTip = '<b>{0}</b><br>{1}<br>{2}'.format(teachers, places, joinedStringFullDateTime)
+
+        self.setToolTip(toolTip)
+
+        #right click to delete subject
+
+    def addRightClickToRemove(self, event):
+        if event.button() == Qt.RightButton:
+            self.deleteThisSubjectToSemeter()
+
+    def removeWhenRightClick(self):
+        self.mousePressEvent = lambda e: self.addRightClickToRemove(e)
 
     def addButtonCopyIDSubject(self):
         self.button_copyIDToClipBoard = QPushButton()
@@ -85,10 +111,10 @@ class CustomListItemWidget(QWidget):
 
     def addButtonShowDetailInfo(self):
         self.button_showDetailInfo = QPushButton()
-        self.button_showDetailInfo.setIcon(QIcon())
+        self.button_showDetailInfo.setIcon(QIcon(CustomListItemWidget.ICON_BUTTON_DETAILINFO))
         self.button_showDetailInfo.setToolTip('Thông tin chi tiết')
         self.button_showDetailInfo.clicked.connect(self.showDetailInfo)
         self.textQVBoxLayout.addWidget(self.button_showDetailInfo, 0, Qt.AlignRight)
 
     def showDetailInfo(self):
-        self.signal_buttonShowDetailInfo.emit(self.subject)
+        self.detailInfo = DetailClassInfoWindow(self.subject).exec()

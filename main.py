@@ -1,7 +1,9 @@
+from class_dialogDonate import DonateWindow
 import logging
+from re import T
 from class_conflict import Conflict
-from PyQt5.QtWidgets import (QShortcut, QStackedWidget, QWidget, QApplication, QPushButton, QListWidget, QListWidgetItem,
-                            QTableWidget, QTableWidgetItem, QMessageBox, QLineEdit, QLabel, 
+from PyQt5.QtWidgets import (QCheckBox, QShortcut, QStackedWidget, QWidget, QApplication, QPushButton, QListWidget, QListWidgetItem,
+                            QTableWidget, QTableWidgetItem, QLineEdit, QLabel, 
                             QFrame, QScrollArea, QCompleter, QDesktopWidget)
 from PyQt5.QtCore import QEasingCurve, QPropertyAnimation, QRect, Qt
 from PyQt5.QtGui import QColor, QKeySequence, QValidator 
@@ -16,21 +18,16 @@ from class_flow_layout import FlowLayout
 from class_subjectCrawler import *
 from class_dialogNotification import NotificationWindow
 from class_homeCourseSearch import HomeCourseSearch
-from class_setting import Setting
+from class_setting import ConnectSettingToWidget, Setting
 from thread_downloadSubject import ThreadDownloadSubject, ThreadShowLoading
 
 from typing import List
 
 import sys
-import os
 import cs4rsa_color
 import team_config
 
-# logging.basicConfig(filename='me_cs4rsa_log.log', 
-# level=logging.DEBUG, 
-# format='%(asctime)s | %(name)s | %(levelname)s | %(message)s')
-
-
+logging.basicConfig(level=logging.DEBUG)
 class ValidatorFindLineEdit(QValidator):
     """In hoa mọi ký tự nhập vào QLineEdit."""
     def validate(self, string, pos):
@@ -49,9 +46,8 @@ class Main(QWidget):
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.semester = Semester()
-        self.setting = Setting('cs4rsa_settings.json')
         self.currentSchoolYearValue = HomeCourseSearch.getCurrentSchoolYearValue()
-        uic.loadUi(team_config.FOLDER_UI+'/'+team_config.USE_UI, self)
+        uic.loadUi(team_config.UI_MAIN, self)
 
         self.button_findSubject = ConvertThisQObject(self, QPushButton, 'button_timKiem').toQPushButton()
         self.button_updateSubject = ConvertThisQObject(self, QPushButton, 'button_capNhat').toQPushButton()
@@ -105,6 +101,36 @@ class Main(QWidget):
         self.scroll_buttonWeek.setWidget(self.widget_buttonWeekContainer)
         self.scroll_buttonWeek.setWidgetResizable(True)
 
+        # frame setting
+        self.label_setting = ConvertThisQObject(self, QLabel, 'label_setting').toQLabel()
+        self.checkBox_setting_save_class = ConvertThisQObject(self, QCheckBox, 'checkBox_setting_save_class').toQCheckBox()
+        self.checkBox_setting_auto_import_class = ConvertThisQObject(self, QCheckBox, 'checkBox_setting_auto_import_class').toQCheckBox()
+        self.checkBox_setting_darkmode = ConvertThisQObject(self, QCheckBox, 'checkBox_setting_darkmode').toQCheckBox()
+        self.checkBox_setting_show_info_when_hover = ConvertThisQObject(self, QCheckBox, 'checkBox_setting_show_info_when_hover').toQCheckBox()
+        self.checkBox_setting_show_teacher_name = ConvertThisQObject(self, QCheckBox, 'checkBox_setting_show_teacher_name').toQCheckBox()
+        self.checkBox_setting_show_date_conflict = ConvertThisQObject(self, QCheckBox, 'checkBox_setting_show_date_conflict').toQCheckBox()
+        self.checkBox_setting_highlight_conflict = ConvertThisQObject(self, QCheckBox, 'checkBox_setting_highlight_conflict').toQCheckBox()
+        self.button_setting_save = ConvertThisQObject(self, QPushButton, 'button_setting_save').toQPushButton()
+        self.button_setting_default = ConvertThisQObject(self, QPushButton, 'button_setting_default').toQPushButton()
+
+        self.setting = Setting('cs4rsa_settings.json')
+        self.connectSetting = ConnectSettingToWidget(self.setting)
+        self.connectSetting.connectSettingToWidget('system','saveChoicedSubject', self.checkBox_setting_save_class)
+        self.connectSetting.connectSettingToWidget('system','autoImportSubjectFile', self.checkBox_setting_auto_import_class)
+        self.connectSetting.connectSettingToWidget('appearance','darkMode', self.checkBox_setting_darkmode)
+        self.connectSetting.connectSettingToWidget('itemListWidget','showInfoWhenHover', self.checkBox_setting_show_info_when_hover)
+        self.connectSetting.connectSettingToWidget('itemListWidget','showTeacherNameBySide', self.checkBox_setting_show_teacher_name)
+        self.connectSetting.connectSettingToWidget('itemConflictListWidget','showDayConflict', self.checkBox_setting_show_date_conflict)
+        self.connectSetting.connectSettingToWidget('buttonWeekContainer','highlightConflictWeekButton', self.checkBox_setting_highlight_conflict)
+        self.connectSetting.whichIsDefaultSettingButton(self.button_setting_default)
+        self.connectSetting.whichIsSaveButton(self.button_setting_save)
+        self.connectSetting.run()
+
+        #frame info
+        self.button_info_donate_green = ConvertThisQObject(self, QPushButton, 'button_info_donate_green').toQPushButton()
+        self.button_info_donate_red = ConvertThisQObject(self, QPushButton, 'button_info_donate_red').toQPushButton()
+
+
         width = (QDesktopWidget().size().width()/100)*80
         height = (QDesktopWidget().size().height()/100)*80
         centerPoint = QDesktopWidget().availableGeometry().center()
@@ -140,6 +166,15 @@ class Main(QWidget):
         self.semester.signal_addSubject.connect(self.afterAddSubject)
         self.semester.signal_deleteSubject.connect(self.afterDeleteSubject)
 
+        # setting
+        self.connectSetting.signal_settingChange.connect(lambda value: self.changeSettingTitle(value))
+        self.connectSetting.signal_settingSave.connect(lambda value: self.changeSettingTitle(value))
+
+        # info
+        self.button_info_donate_red.clicked.connect(self.showDonateDialog)
+        self.button_info_donate_green.clicked.connect(self.showDonateDialog)
+
+
     def addShortcut(self):
         """Phương thức này chịu trách nhiệm gán Shortcut cho các chức năng trong ứng dụng."""
         self.quitSc = QShortcut(QKeySequence('Esc'), self)
@@ -150,10 +185,10 @@ class Main(QWidget):
         self.button_maximum.setShortcut('F')
 
     # IMPORTANT!!!
-    # Các phương thức này chuẩn bị đủ đúng context trước khi thao tác, ta gọi chúng là Action
+    # chứa action
 
     def actionFindSubject(self):
-        logging.info('Tôi nhấn Tìm môn học!')
+        logging.info('Click find subject')
         disciplineData = HomeCourseSearch.getDisciplineFromFile('allDiscipline.json')
         subjectName = toStringAndCleanSpace(self.line_findSubject.text())
         if subjectName:
@@ -167,15 +202,18 @@ class Main(QWidget):
             NotificationWindow('Thông báo','Chưa nhập mã môn kìa bạn','Cảm ơn đã nhắc mình').exec_()
 
     def actionGoToPreviousWeek(self):
-        logging.info('Tôi nhấn đi Lùi!')
+        logging.info('Click previous')
         self.gotoPreviousWeek()
 
     def actionGoToNextWeek(self):
-        logging.info('Tôi nhấn đi tới!')
+        logging.info('Click next')
         self.gotoNextWeek()
 
     def actionChangeFrame(self, frameIndex):
-        logging.info('Tôi nhấn điều hướng tới trang {0}'.format(frameIndex))
+        logging.info('Go to {0}'.format(frameIndex))
+        if frameIndex != 2:
+            self.connectSetting.run()
+            self.changeSettingTitle(True)
         self.stackedWidget.setCurrentIndex(frameIndex)
         
 
@@ -231,6 +269,7 @@ class Main(QWidget):
         for subject in subjects:
 
             self.custom_widget_subject = CustomListItemWidget(subject)
+            self.custom_widget_subject.removeWhenRightClick()
             self.custom_widget_subject.addButtonCopyIDSubject()
             self.custom_widget_subject.addButtonDelete()
             self.custom_widget_subject.signal_buttonDeleteIsPressed.connect(self.deleteSubject)
@@ -246,6 +285,7 @@ class Main(QWidget):
         logging.info('Load list widget found subjects--> {0}'.format(self.SUBJECT_FOUND))
         for subject in self.SUBJECT_FOUND:
             self.custom_widget_subject = CustomListItemWidget(subject, self)
+            self.custom_widget_subject.addButtonShowDetailInfo()
             self.custom_widget_subject.addButtonAddToSemeter()
             self.custom_widget_subject.signal_buttonAddIsPressed.connect(self.addSubject)
 
@@ -491,6 +531,8 @@ class Main(QWidget):
             i+=1
         return output
 
+    #setting
+
 
     # Giao diện
     def closeWindow(self):
@@ -557,7 +599,19 @@ class Main(QWidget):
     def selectAllAndFocusFindQLineEdit(self):
         self.line_findSubject.setFocus()
         self.line_findSubject.selectAll()
-    
+
+    # Giao diện phần setting
+    def changeSettingTitle(self, value):
+        self.label_setting.setTextFormat(Qt.RichText)
+        if value:
+            self.label_setting.setText('<html><head/><body><p>Cài đặt</p></body></html>')
+        else:
+            self.label_setting.setText('<html><head/><body><p>Cài đặt<span style=" vertical-align:super;">*</span></p></body></html>')
+
+    # Giao diện phần info
+    def showDonateDialog(self):
+        DonateWindow().exec()
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = Main()

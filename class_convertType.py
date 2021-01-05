@@ -49,3 +49,10 @@ class ConvertThisQObject:
 
     def toQStackedWidget(self) -> QStackedWidget:
         return self.object
+
+
+def toQCheckBox(object) -> QCheckBox:
+    return object
+
+
+
