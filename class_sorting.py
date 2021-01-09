@@ -1,9 +1,9 @@
-from team_config import PREDICT_SUBJECT
-from DataToExcel import *
-
+from team_config import *
 from PyQt5.QtWidgets import QWidget, QComboBox, QPushButton, QListWidget, QApplication, QDialog
 from PyQt5 import uic
 from class_convertType import ConvertThisQObject
+
+import sys
 
 import json
 
@@ -43,7 +43,8 @@ class PredictSubject(QDialog):
         super(QWidget, self).__init__()
         self.jsonPath = jsonPath
         self.filldata = FillMajorData(jsonPath)
-        uic.loadUi(team_config.FOLDER_UI+"/"+team_config.PREDICT_SUBJECT, self)
+        uic.loadUi("guis/predict_subject.ui", self)
+        #uic.loadUi(team_config.FOLDER_UI+"/"+team_config.PREDICT_SUBJECT, self)
         self.button_find = ConvertThisQObject(self, QPushButton,'pushButtonFind').toQPushButton()
         self.button_sort = ConvertThisQObject(self, QPushButton,'pushButtonSort').toQPushButton()
         self.comboBox_major = ConvertThisQObject(self, QComboBox, 'comboBoxMajor').toQComboBox()
@@ -75,7 +76,7 @@ class PredictSubject(QDialog):
         self.listWidget_listSubject.addItems(data)
 
 
-class AutoSortingClass:
+'''class AutoSortingClass:
     def __init__(self, file):
         self.file = file
         with open(file, 'r', encoding='utf-8') as f:
@@ -108,10 +109,10 @@ class AutoSortingClass:
             listSubjectID.append(subject['id'])
         print(listSubjectID)
         return listSubjectID
-
+'''
 
 app = QApplication(sys.argv)
-window = PredictSubject('major_info.json')
+window = PredictSubject('semester_info.json')
 window.show()
 sys.exit(app.exec_())
 
