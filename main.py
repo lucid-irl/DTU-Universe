@@ -1,6 +1,7 @@
+from class_DTUCrawler import DTUInfoStudent
+from class_register import SubjectRegister
 from class_dialogDonate import DonateWindow
 import logging
-from re import T
 from class_conflict import Conflict
 from PyQt5.QtWidgets import (QCheckBox, QShortcut, QStackedWidget, QWidget, QApplication, QPushButton, QListWidget, QListWidgetItem,
                             QTableWidget, QTableWidgetItem, QLineEdit, QLabel, 
@@ -47,6 +48,7 @@ class Main(QWidget):
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.semester = Semester()
         self.currentSchoolYearValue = HomeCourseSearch.getCurrentSchoolYearValue()
+        self.currentSemesterValue = HomeCourseSearch.getCurrentSemesterValue()
         uic.loadUi(team_config.UI_MAIN, self)
 
         self.button_findSubject = ConvertThisQObject(self, QPushButton, 'button_timKiem').toQPushButton()
@@ -361,7 +363,15 @@ class Main(QWidget):
 
 
     def register(self):
-        print('Run register window')
+        logging.info('Register run')
+        registerClassCodes = []
+        for i in range(self.listView_SubjectChoiced.count()):
+            item = self.listView_SubjectChoiced.item(i)
+            subject: Subject = item.data(Qt.UserRole)
+            registerClassCodes.append(subject.getRegisterCode())
+        logging.info('Register Class Codes {0}'.format(registerClassCodes))
+        SubjectRegister(registerClassCodes, self.currentSemesterValue, self.currentSchoolYearValue, self).exec()
+
 
     def updateSubject(self):
         # tạm thời update mình sẽ xoá tất cả mọi file trong thư mục data để nó tải lại mọi thứ.
@@ -463,7 +473,9 @@ class Main(QWidget):
                 self.table_Semeter.item(i, c).setBackground(QColor(255,255,255))
 
     def paintConflict(self):
-        """Vẽ Conflict lên bảng."""
+        """**Không còn được dùng nữa**
+        
+        Vẽ Conflict lên bảng."""
         if len(self.semester.getCurrentSubjects()) >= 2:
             for conflictsASubject in self.semester.scanSubjectConflict():
                 for conflict in conflictsASubject:
