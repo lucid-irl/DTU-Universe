@@ -44,7 +44,7 @@ class DTULogin:
         for cookie in cookies:
             if cookie.name == 'ASP.NET_SessionId' and cookie.domain == 'mydtu.duytan.edu.vn':
                 return {'ASP.NET_SessionId':cookie.value}
-        return None
+        return {}
 
     def isCanLoginDTU(self, ASPNETSessionIdDict):
         """#### Phương thức này phụ thuộc hoàn toàn vào tình trạng máy chủ của MyDTU.
@@ -54,18 +54,22 @@ class DTULogin:
 
         Trả về True nếu có thể đăng nhập vào MyDTU, ngược lại trả về False.
         Tất cả vấn đề về máy chủ, requests, ASPNETSessionIdDict đều khiến phương thức này trả về False."""
-        try:
-            logging.info('Check request, cookies, server')
-            url = 'https://mydtu.duytan.edu.vn/Sites/index.aspx?p=home_timetable&functionid=13', 
-            DTURequest = requests.get(url, cookies=ASPNETSessionIdDict, headers=self.CHROME_HEADER)
-            if DTURequest.status_code == 200:
-                if self.isHomePageDTU(DTURequest.text):
-                    return True
-                return False
-            else:
-                return False
-        except:
+        logging.info('Check request, cookies, server')
+        url = 'https://mydtu.duytan.edu.vn/Sites/index.aspx?p=home_timetable&functionid=13' 
+        self.DTURequest = requests.get(url, cookies=ASPNETSessionIdDict, headers=self.CHROME_HEADER)
+        
+        if self.DTURequest.status_code == 200:
+            if self.isHomePageDTU(self.DTURequest.text):
+                return True
             return False
+        else:
+            return False
+
+    def getName(self):
+        """Trả về tên của Sinh viên nếu đăng nhập thành công."""
+        soup = BeautifulSoup(self.DTURequest.text, 'lxml')
+        nameStudent = soup.find(class_='hello man').text
+        return nameStudent
 
 
 class DTUSession:
@@ -89,32 +93,6 @@ class DTUSession:
         loggingString = 'GET request to {0}'.format(url)
         logging.info(loggingString)
         return self.dtuSession.get(url, params=params, cookies=self.cookies)
-
-class OpenBrowser:
-
-    def openAtDTU(self):
-        """Mở trình duyệt tại trang đăng nhập của MyDTU."""
-        browserName, browserPath = self.getBrowser()
-        dtuHomePage = 'https://mydtu.duytan.edu.vn/Signin.aspx'
-        webbrowser.register(browserName, None, webbrowser.BackgroundBrowser(browserPath))
-        webbrowser.get(browserName).open(dtuHomePage)
-
-    @staticmethod
-    def getBrowser():
-        """Trả về đường dẫn Chrome được cài đặt trên thiết bị này."""
-        browserPath = ''
-        browserName = ''
-        chromeBrowsers = {
-            'chrome64':'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-            'chrome32':'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'
-        }
-        for name, path in chromeBrowsers:
-            if os.path.exists(path):
-                browserPath = path
-                browserName = name
-                return browserName, browserPath
-        else:
-            return None
 
 
 # class DTUFirebase:
