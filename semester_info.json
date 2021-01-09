@@ -2470,6 +2470,375 @@
     },
     {
         "id": 7,
+        "major": "Quản Trị Du Lịch Lữ Hành Chuẩn PSU (Đại Học) - K24",
+        "semester_info": [
+            {
+                "keyid": 0,
+                "semester": "Học Kỳ 1 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "CS 101",
+                        "name": "Tin Học Đại Cương",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PSU-ECO 151",
+                        "name": "Căn Bản Kinh Tế Vi Mô",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PSU-HOS 151",
+                        "name": "Tổng Quan Ngành Lưu Trú",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DTE-HT 102",
+                        "name": "Hướng Nghiệp 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 126",
+                        "name": "Reading - Level 1 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 127",
+                        "name": "Writing - Level 1 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 128",
+                        "name": "Listening - Level 1 (International School)",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 1,
+                "semester": "Học Kỳ 2 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "COM 101",
+                        "name": "Nói & Trình Bày (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 201",
+                        "name": "Tin Học Ứng Dụng",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PSU-ECO 152",
+                        "name": "Căn Bản Kinh Tế Vĩ Mô",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PSU-MGT 201",
+                        "name": "Quản Trị Học",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DTE-HT 152",
+                        "name": "Hướng Nghiệp 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 129",
+                        "name": "Speaking - Level 1 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 226",
+                        "name": "Reading - Level 2 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 227",
+                        "name": "Writing - Level 2 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 228",
+                        "name": "Listening - Level 2 (International School)",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 2,
+                "semester": "Học Kỳ 1 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "COM 102",
+                        "name": "Viết (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "MTH 101",
+                        "name": "Toán Cao Cấp C1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "STA 151",
+                        "name": "Lý Thuyết Xác Suất & Thống Kê Toán",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "HOS 250",
+                        "name": "Tài Nguyên Du Lịch",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PSU-ACC 201",
+                        "name": "Nguyên Lý Kế Toán 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ENG 229",
+                        "name": "Speaking - Level 2 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PSU-TOU 151",
+                        "name": "Giới Thiệu về Du Lịch & Giải Trí Thương Mại",
+                        "credit": "3"
+                    }
+                ]
+            },
+            {
+                "keyid": 3,
+                "semester": "Học Kỳ 2 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 100",
+                        "name": "Phương Pháp Luận (gồm Nghiên Cứu Khoa Học)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "MTH 102",
+                        "name": "Toán Cao Cấp C2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "HIS 221",
+                        "name": "Lịch Sử Văn Minh Thế Giới 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PHI 161",
+                        "name": "Những Nguyên Lý Cơ Bản của Chủ Nghĩa Marx - Lenin 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CSN 161",
+                        "name": "Ẩm Thực Việt Nam - Lý Thuyết & Thực Hành",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "TOU 296",
+                        "name": "Tranh Tài Giải Pháp PBL",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 128",
+                        "name": "Listening - Level 1 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 129",
+                        "name": "Speaking - Level 1 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PSU-TOU 264",
+                        "name": "Introduction to Meeting & Event Management",
+                        "credit": "3"
+                    }
+                ]
+            },
+            {
+                "keyid": 4,
+                "semester": "Học Kỳ 1 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "CUL 251",
+                        "name": "Cơ Sở Văn Hóa Việt Nam",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "HRM 303",
+                        "name": "Quản Trị Nhân Lực Trong Du Lịch",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ECO 303",
+                        "name": "Kinh Tế Trong Quản Trị Dịch Vụ",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "TOU 361",
+                        "name": "Thiết Kế & Điều Hành Tour Du Lịch",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "IS 253",
+                        "name": "Hệ Thống Thông Tin Du Lịch",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "PSU-ENG 133",
+                        "name": "Anh Văn Chuyên Ngành cho Sinh Viên PSU Du Lịch 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 226",
+                        "name": "Reading - Level 2 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PSU-TOU 414",
+                        "name": "Meetings & Events (Intermediate)",
+                        "credit": "3"
+                    }
+                ]
+            },
+            {
+                "keyid": 5,
+                "semester": "Học Kỳ 2 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "HIS 361",
+                        "name": "Đường Lối Cách Mạng của Đảng Cộng Sản Việt Nam",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MKT 253",
+                        "name": "Tiếp Thị Du Lịch",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "FIN 301",
+                        "name": "Quản Trị Tài Chính 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "OB 253",
+                        "name": "Tổng Quan Hành Vi Tổ Chức trong Du Lịch",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "TOU 396",
+                        "name": "Tranh Tài Giải Pháp PBL",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "PSU-ENG 233",
+                        "name": "Anh Văn Chuyên Ngành cho Sinh Viên PSU Du Lịch 2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 227",
+                        "name": "Writing - Level 2 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PSU-MKT 424",
+                        "name": "Leisure and Tourism Behavior",
+                        "credit": "3"
+                    }
+                ]
+            },
+            {
+                "keyid": 6,
+                "semester": "Học Kỳ 1 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "DTE 201",
+                        "name": "Đạo Đức trong Công Việc",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "HIS 222",
+                        "name": "Lịch Sử Văn Minh Thế Giới 2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "POS 361",
+                        "name": "Tư Tưởng Hồ Chí Minh",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "TOU 404",
+                        "name": "Quản Trị Kinh Doanh Lữ Hành",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "TOU 431",
+                        "name": "Tuyến Điểm Du Lịch Việt Nam",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PSU-ENG 333",
+                        "name": "Anh Văn Chuyên Ngành cho Sinh Viên PSU Du Lịch 3",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 228",
+                        "name": "Listening - Level 2 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 229",
+                        "name": "Speaking - Level 2 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "PSU-TOU 442",
+                        "name": "Programming in Recreation Services and Tourism",
+                        "credit": "3"
+                    }
+                ]
+            },
+            {
+                "keyid": 7,
+                "semester": "Học Kỳ 2 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 162",
+                        "name": "Những Nguyên Lý Cơ Bản của Chủ Nghĩa Marx - Lenin 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MGT 403",
+                        "name": "Quản Trị Chiến Lược",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "LAW 403",
+                        "name": "Cơ Sở Luật Kinh Tế",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "TOU 448",
+                        "name": "Thực Tập Nghiệp Vụ Trong Công Ty Lữ Hành / Đại Lý Lữ Hành (3 tháng)",
+                        "credit": "5"
+                    },
+                    {
+                        "id": "TOU 496",
+                        "name": "Tranh Tài Giải Pháp PBL",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "PSU-TOU 443",
+                        "name": "Commercial Recreation Management",
+                        "credit": "3"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 8,
         "major": "Quản Trị Khách Sạn & Nhà Hàng (Đại Học) - K24",
         "semester_info": [
             {
@@ -2682,7 +3051,331 @@
         ]
     },
     {
-        "id": 8,
+        "id": 9,
+        "major": "Quản Trị Sự Kiện & Giải Trí (Đại Học) - K26",
+        "semester_info": [
+            {
+                "keyid": 0,
+                "semester": "Học Kỳ 1 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "PHI 100",
+                        "name": "Phương Pháp Luận (gồm Nghiên Cứu Khoa Học)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "COM 102",
+                        "name": "Viết (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "MTH 101",
+                        "name": "Toán Cao Cấp C1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "HIS 221",
+                        "name": "Lịch Sử Văn Minh Thế Giới 1",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "DTE-HT 102",
+                        "name": "Hướng Nghiệp 1",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "PHI 150",
+                        "name": "Triết Học Marx - Lenin",
+                        "credit": "3"
+                    }
+                ]
+            },
+            {
+                "keyid": 1,
+                "semester": "Học Kỳ 2 - Năm 1 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "COM 101",
+                        "name": "Nói & Trình Bày (tiếng Việt)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "CS 201",
+                        "name": "Tin Học Ứng Dụng",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "CUL 251",
+                        "name": "Cơ Sở Văn Hóa Việt Nam",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "DTE-HT 152",
+                        "name": "Hướng Nghiệp 2",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 126",
+                        "name": "Reading - Level 1 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 127",
+                        "name": "Writing - Level 1 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 128",
+                        "name": "Listening - Level 1 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 129",
+                        "name": "Speaking - Level 1 (International School)",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 2,
+                "semester": "Học Kỳ 1 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "DTE 201",
+                        "name": "Đạo Đức trong Công Việc",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "HIS 222",
+                        "name": "Lịch Sử Văn Minh Thế Giới 2",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ECO 151",
+                        "name": "Căn Bản Kinh Tế Vi Mô",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "TOU 296",
+                        "name": "Tranh Tài Giải Pháp PBL",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "ENG 226",
+                        "name": "Reading - Level 2 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 227",
+                        "name": "Writing - Level 2 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "POS 151",
+                        "name": "Kinh Tế Chính Trị Marx - Lenin",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "EVT 102",
+                        "name": "Giới Thiệu về Du Lịch & Giải Trí Thương Mại",
+                        "credit": "3"
+                    }
+                ]
+            },
+            {
+                "keyid": 3,
+                "semester": "Học Kỳ 2 - Năm 2 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "STA 151",
+                        "name": "Lý Thuyết Xác Suất & Thống Kê Toán",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ACC 201",
+                        "name": "Nguyên Lý Kế Toán 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ECO 152",
+                        "name": "Căn Bản Kinh Tế Vĩ Mô",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MGT 201",
+                        "name": "Quản Trị Học",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 228",
+                        "name": "Listening - Level 2 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "ENG 229",
+                        "name": "Speaking - Level 2 (International School)",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "EVT 201",
+                        "name": "Giới Thiệu về Quản Trị Sự Kiện",
+                        "credit": "3"
+                    }
+                ]
+            },
+            {
+                "keyid": 4,
+                "semester": "Học Kỳ 1 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "HRM 303",
+                        "name": "Quản Trị Nhân Lực Trong Du Lịch",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ACC 202",
+                        "name": "Nguyên Lý Kế Toán 2",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "ECO 303",
+                        "name": "Kinh Tế Trong Quản Trị Dịch Vụ",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "TOU 396",
+                        "name": "Tranh Tài Giải Pháp PBL",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "EVT 305",
+                        "name": "Quản Trị Dự Án Sự Kiện & Giải Trí",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "EVT 312",
+                        "name": "Sự Kiện & Hoạt Động Ngoài Trời",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "EVT 363",
+                        "name": "Quản Trị Lễ Hội & Sự Kiện Đặc Biệt",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 5,
+                "semester": "Học Kỳ 2 - Năm 3 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "FIN 301",
+                        "name": "Quản Trị Tài Chính 1",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "COM 435",
+                        "name": "Quan Hệ Công Chúng",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "POS 351",
+                        "name": "Chủ Nghĩa Xã Hội Khoa Học",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "LAW 213",
+                        "name": "Luật về Văn Hóa, Sự Kiện & Giải Trí",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MGT 393",
+                        "name": "Quản Trị Rủi Ro & An Toàn trong Du Lịch",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "EVT 303",
+                        "name": "Quản Trị MICE",
+                        "credit": "3"
+                    }
+                ]
+            },
+            {
+                "keyid": 6,
+                "semester": "Học Kỳ 1 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "POS 361",
+                        "name": "Tư Tưởng Hồ Chí Minh",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "TOU 411",
+                        "name": "Quản Trị Sự Kiện",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "OB 253",
+                        "name": "Tổng Quan Hành Vi Tổ Chức trong Du Lịch",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "IS 253",
+                        "name": "Hệ Thống Thông Tin Du Lịch",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "TOU 496",
+                        "name": "Tranh Tài Giải Pháp PBL",
+                        "credit": "1"
+                    },
+                    {
+                        "id": "EVT 354",
+                        "name": "Quản Trị Dịch Vụ Giải Trí & Thư Giãn",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "EVT 362",
+                        "name": "Quản Trị Sự Kiện Thể Thao",
+                        "credit": "2"
+                    }
+                ]
+            },
+            {
+                "keyid": 7,
+                "semester": "Học Kỳ 2 - Năm 4 - Đại Học",
+                "subjects": [
+                    {
+                        "id": "MGT 403",
+                        "name": "Quản Trị Chiến Lược",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "HIS 362",
+                        "name": "Lịch Sử Đảng Cộng Sản Việt Nam",
+                        "credit": "2"
+                    },
+                    {
+                        "id": "MKT 423",
+                        "name": "Tiếp Thị & Truyền Thông trong Sự Kiện & Giải Trí",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "MKT 474",
+                        "name": "Hành Vi Giải Trí & Du Lịch",
+                        "credit": "3"
+                    },
+                    {
+                        "id": "EVT 448",
+                        "name": "Thực Tập Nghiệp Vụ trong Công Ty Tổ Chức Sự Kiện (3 tháng)",
+                        "credit": "5"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 10,
         "major": "Thiết kế Đồ họa - Game - Multimedia (Đại Học) - K22",
         "semester_info": [
             {
@@ -3113,7 +3806,7 @@
         ]
     },
     {
-        "id": 9,
+        "id": 11,
         "major": "Thiết kế Đồ họa - Game - Multimedia (Đại Học) - K25",
         "semester_info": [
             {
@@ -3533,7 +4226,7 @@
         ]
     },
     {
-        "id": 10,
+        "id": 12,
         "major": "Truyền Thông Đa Phương Tiện (Đại Học) - K24",
         "semester_info": [
             {
@@ -3927,7 +4620,7 @@
         ]
     },
     {
-        "id": 11,
+        "id": 13,
         "major": "Tài Chính Doanh Nghiệp (Đại Học) - K24",
         "semester_info": [
             {
@@ -4291,7 +4984,7 @@
         ]
     },
     {
-        "id": 12,
+        "id": 14,
         "major": "Điều Dưỡng (Đại Học) - K24",
         "semester_info": [
             {
