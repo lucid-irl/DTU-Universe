@@ -1,5 +1,5 @@
 from bs4.element import ResultSet
-from class_DTUWeb import DTUFirebase, DTUSession
+from class_DTUWeb import DTUSession
 from typing import Dict, List
 from bs4 import BeautifulSoup
 
@@ -23,29 +23,18 @@ class DTUInfoStudent(DTUSession):
         specialNumber."""
         super().__init__(ASPNETSessionIdDict)
         self.__soup = BeautifulSoup(self.__getPage(), 'lxml')
-        self.specialNumber = self.getSpecialStudentID()
+        self.specialStudentID = self.getSpecialStudentID()
+        html = self.get(self.PAGE_WARNING_DETAIL, params={'stid':self.specialStudentID}).text
+        self.__soupPageWarningDetail = BeautifulSoup(html, 'lxml')
 
     def __getPage(self):
         return self.get(self.PAGE_STUDYING_WARNING).text
 
-    def getMentor(self):
-        return str(self.__soup.find('div', class_='mentorname').text).split(':')[1].strip()
-
-    def getSpecialStudentID(self):
-        """Trả về chuỗi đặc biệt được hash bởi một phương thức đặc biệt từ mã sinh viên."""
-        logging.info('get special id')
-        warningTable = self.__soup.find(class_='tbresult')
-        tdHaveSpecialID = warningTable('td')[2]
-        onClickValue = tdHaveSpecialID.span['onclick']
-        return str(onClickValue).split("'")[1]
-
     def getJson(self) -> Dict:
         """Trả về JSON chứa thông tin sinh viên."""
         logging.info('get student infomation')
-        specialStudentID = self.getSpecialStudentID()
-        html = self.get(self.PAGE_WARNING_DETAIL, params={'stid':specialStudentID}).text
-        soup = BeautifulSoup(html, 'lxml')
-        warningTable = soup.find('table')
+
+        warningTable = self.__soupPageWarningDetail.find('table')
         tdList = warningTable('td')
         username = tdList[1].strong.text
         # avatarBase64 = tdList[2].img['src']
@@ -58,7 +47,7 @@ class DTUInfoStudent(DTUSession):
         return {
                 'student_id':studentID,
                 'username':username,
-                'special_number':self.getSpecialStudentID(),
+                'special_number':self.specialStudentID,
                 'birthday':birthday,
                 'cmnd':cmnd,
                 'email':dtuMail,
@@ -68,15 +57,49 @@ class DTUInfoStudent(DTUSession):
                 'degree':self.getDegree()
             }
 
+    def getMentor(self):
+        """Trả về tên giảng viên cố vấn của sinh viên này."""
+        return str(self.__soup.find('div', class_='mentorname').text).split(':')[1].strip()
+
+    def getSpecialStudentID(self):
+        """Trả về chuỗi đặc biệt được hash bởi một phương thức đặc biệt từ mã sinh viên."""
+        logging.info('get special id')
+        warningTable = self.__soup.find(class_='tbresult')
+        tdHaveSpecialID = warningTable('td')[2]
+        onClickValue = tdHaveSpecialID.span['onclick']
+        return str(onClickValue).split("'")[1]
+    
+    def getStudentId(self):
+        return self.getJson()['student_id']
+
+    def getUsername(self):
+        return self.getJson()['username']
+
+    def getSpecialNumber(self):
+        return self.getJson()['special_number']
+
+    def getBirthday(self):
+        return self.getJson()['birthday']
+
+    def getCMND(self):
+        return self.getJson()['cmnd']
+
+    def getEmail(self):
+        return self.getJson()['email']
+
+    def getNumberphone(self):
+        return self.getJson()['number_phone']
+
+    def getLocation(self):
+        return self.getJson()['location']
+
     def getDegree(self):
         tableTag = self.__soup.find('table', class_='tbresult')
         return str(tableTag('td')[3].a.text).strip()
 
-
-    @staticmethod
-    def toHTMLFile(filename: str, html: str):
-        with open(filename, 'w', encoding='utf-8') as f:
-            f.write(str(html))
+    def toJsonFile(self):
+        with open(self.getStudentId()+'.json', 'w', encoding='utf-8') as f:
+            json.dump(self.getJson(),f, indent=4, ensure_ascii=False)
 
     @staticmethod
     def saveBase64ToImage(base64Data: str, filename: str):
@@ -501,6 +524,5 @@ class DTUGetAll:
             print('Can not write info on {0}'.format(JSONFilename))
 
 if __name__ == "__main__":
-    import me_info
-    js = DTUGetAll({'ASP.NET_SessionId':me_info.ASPNETSessionID}, me_info.specialNumber).getJson()
-    DTUFirebase().appendStudentData(js)
+    js = DTUInfoStudent({'ASP.NET_SessionId':'d5fesmaw42zcbwv5cquifuxs'}).getStudentId()
+    print(js)

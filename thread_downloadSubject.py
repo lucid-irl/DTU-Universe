@@ -52,11 +52,8 @@ class ThreadDownloadSubject(QThread):
                     subjects = subjectData.getSubjects()
                     self.signal_foundSubject.emit(subjects)
                 except ExceptionSpecialSubject:
-                    print('mon dac biet')
                     self.signal_specialSubject.emit(subjectPage.getName())
             except ExceptionNotHaveSchedule:
-                print('ko co lich')
                 self.signal_notHaveSchedule.emit(self.subjectCode)
         except ExceptionCantFoundThisSubject:
-            print('ko tim thay')
             self.signal_notFoundSubject.emit(self.subjectCode)

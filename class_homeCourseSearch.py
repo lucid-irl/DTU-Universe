@@ -10,7 +10,7 @@ import re
 import json
 
 class HomeCourseSearch:
-    """Nó đại diện cho tất cả mọi thứ ở trang này."""
+    """Bao gồm các hàm chức năng giúp lấy ra các giá trị học kỳ và giá trị năm hiện tại của DTU."""
 
     @staticmethod
     def getSchoolYear():
