@@ -134,7 +134,8 @@ class Semester(QObject):
                 max = subject.getWeekEnd()
         return max
 
-    def pairingSubjectInWeek(self) -> List[Tuple[Subject]]:
+    @staticmethod
+    def pairingSubjectInWeek() -> List[Tuple[Subject]]:
         """Bắt cặp các Subject có trong danh sách Subject được thêm vào Semester."""
         logging.info('pairingSubjectInWeek run')
         pairedSubjects = []
@@ -148,13 +149,22 @@ class Semester(QObject):
             tempSubjects.pop(0)
         return pairedSubjects
 
+    @staticmethod
+    def filterSamePairingSubject(listPairingSubject: List[Tuple[Subject]]) -> List[Tuple[Subject]]:
+        listPairingSubjectFiltered = []
+        for pairing in listPairingSubject:
+            if not isHaveThisPairingSubjectIn(listPairingSubjectFiltered, pairing):
+                listPairingSubjectFiltered.append(pairing)
+        return listPairingSubjectFiltered
+
     def getConflicts(self) -> List[Conflict]:
         """Trả về list conflict của tuần hiện tại."""
         logging.info('getConflicts run')
         if len(Semester.SUBJECTS) < 2:
             return []
         conflictsOutput = []
-        pairedSubjects: List[Tuple[Subject]] = self.pairingSubjectInWeek()
+        pairedSubjects = self.pairingSubjectInWeek()
+        logging.info(pairedSubjects)
         for pairedSubject in pairedSubjects:
             conflict = Conflict(pairedSubject[0], pairedSubject[1])
             if conflict.getConflictTime():
