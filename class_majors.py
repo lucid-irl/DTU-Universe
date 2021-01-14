@@ -51,5 +51,5 @@ def main():
 if __name__ == "__main__":
 
     js = main()
-    with open('major_info.json','w',encoding='utf-8') as g:
+    with open('semester_info.json','w',encoding='utf-8') as g:
         json.dump(js, g, indent=4, ensure_ascii=False)
