@@ -1,11 +1,7 @@
 import os
-import sys
 import webbrowser
 
-from PyQt5.QtCore import QLine, QThread, pyqtSignal
-from PyQt5.QtGui import QPixmap, QTextDocument
-from class_subject import Subject
-from typing import List, Tuple
+from typing import List
 
 from bs4 import BeautifulSoup
 from class_DTUWeb import DTULogin, DTUSession
@@ -14,7 +10,8 @@ from class_homeCourseSearch import HomeCourseSearch
 
 from PyQt5.QtWidgets import QApplication, QDialog, QLabel, QLineEdit, QPushButton, QStackedWidget, QWidget
 from PyQt5 import uic
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QThread, pyqtSignal 
+from PyQt5.QtGui import QPixmap
 
 from class_convertType import ConvertThisQObject
 import team_config
