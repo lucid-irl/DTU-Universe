@@ -5,6 +5,7 @@ Module này chứa những hàm đơn giản phục vụ cho việc làm sạch 
 làm sạch text sau khi lấy được từ một Tag trong BeautifulSoup, suy cụm data thành một nhóm data duy nhất.
 """
 
+import re
 from typing import List
 
 
@@ -27,6 +28,11 @@ def clustering(listCondition: List, funcClustering, iter):
         item = funcClustering(listItemPass)
         clusters.append(item)
     return clusters
+
+def getListStringMatchRegex(string: str, regexString:str):
+    regex = re.compile(regexString)
+    return [item for item in regex.findall(string) if item]
+
 
 if __name__ == "__main__":
     checkChan = lambda number: True if number%2==0 else False

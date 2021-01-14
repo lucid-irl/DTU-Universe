@@ -2,7 +2,6 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~
 Chuyển dữ liệu từ HTML sang JSON."""
 
-from PyQt5.QtCore import pyqtSignal
 from class_schedule import Schedule
 from class_subject import Subject
 from typing import Dict, List, Set
@@ -69,7 +68,6 @@ class SubjectPage:
     
     def getSoup(self):
         return self.soup
-
     
     def getIsHaveSchedule(self):
         return self.haveSchedule
@@ -130,11 +128,21 @@ class SubjectPage:
         return toStringAndCleanSpace(name)
 
     def getCredit(self) -> int:
+        """Trả về số lượng đơn vị học tập của môn này được tính bằng tín chỉ."""
         """//*[@id="ResultCourseClass"]/table/tbody/tr[2]/td/table/tbody/tr[2]/td[2]"""
         table = self.getSoup().find('table', class_='tb_coursedetail')
         tdTag = table('table')[0]('tr')[1]('td')[1]
-        credit = str(tdTag.text).split(' ')[0]
+        credit = int(toStringAndCleanSpace(tdTag.text).split(' ')[0])
         return credit
+
+    def getDetailCreditString(self) -> List:
+        table = self.getSoup().find('table', class_='tb_coursedetail')
+        tdTag = table('table')[0]('tr')[1]('td')[1]
+        text = toStringAndCleanSpace(tdTag.text)
+        listStringCreditDetail = getListStringMatchRegex(text, r'([0-9]*[A-Z]*)')
+        listStringCreditDetail.pop(0)
+        return listStringCreditDetail
+
 
 class RawClass:
     """Class này đại diện cho một hàng trong bảng lịch học bao gồm các thông tin."""
@@ -335,6 +343,7 @@ class SubjectData:
         self.__subjectCode = subjectPage.getSubjectCode() 
         self.__name = subjectPage.getName()
         self.__credit = subjectPage.getCredit()
+        self.__creditDetail = subjectPage.getDetailCreditString()
         self.__soup = subjectPage.getSoup()
 
     @staticmethod
@@ -439,7 +448,7 @@ class SubjectData:
         return False
 
     def getJson(self):
-        jsonOut = {'name':self.__name}
+        jsonOut = {'name':self.__name, 'credit': self.__credit, 'credit_detail': self.__creditDetail}
         for classGroup in self.getListClassGroup():
             jsonOut.update(classGroup.getJson())
         return jsonOut
@@ -449,7 +458,7 @@ class SubjectData:
         jsonOut = {}
         for classGroup in self.getListClassGroup():
             jsonOut.update(classGroup.getJson())
-        return jsonOut 
+        return jsonOut
 
     def toJsonFile(self):
         with open(self.getSubjectCode()+'.json', 'w', encoding='utf-8') as f:
@@ -468,4 +477,5 @@ if __name__ == "__main__":
     sp = SubjectPage('70','CS','414')
     print(sp)
     sd = SubjectData(sp)
+    print(sd.getSubjects()[0].getCredits())
     sd.toJsonFile()

@@ -1,6 +1,7 @@
-from typing import List
+from typing import Dict, List, Tuple
 from class_schedule import Schedule
 import re
+import json
 
 
 class ColorError(Exception):
@@ -81,13 +82,8 @@ class Subject:
         return "<Subject {0}>".format(self.subjectCode)
 
     def __eq__(self, o: object) -> bool:
-        if self.name == o.name:
-            return True
-        else:
-            return False
-
-    def __cmp__(self, o: object):
-        return cmp(self.registerCode, o.registerCode)
+        if isinstance(o, Subject):
+            return self.registerCode == o.registerCode
 
     def getLocations(self):
         return self.locations
@@ -108,7 +104,7 @@ class Subject:
         return self.name
     
     def getRegistrationStatus(self) -> str:
-        return self.registration_status
+        return self.registrationStatus
 
     def getRegisterCode(self) -> str:
         return self.registerCode
@@ -145,3 +141,79 @@ class Subject:
 
     def getImplementationStatus(self):
         return self.implementationStatus
+
+    def getCredits(self):
+        return self.credits
+
+    def setCreditDetail(self, creditDetail: List[str]):
+        self.creditDetail = creditDetail
+
+    def getCreditDetail(self):
+        return self.creditDetail
+
+def comparingPairingSubject(pairingSubject1: Tuple[Subject], pairingSubject2: Tuple[Subject]):
+    """So sánh hai ghép đôi Subject.
+    
+    Trả về True nếu hai ghép đôi như nhau, ngược lại trả về False."""
+    if pairingSubject1[0] == pairingSubject2[0] and pairingSubject1[1] == pairingSubject2[1]:
+        return True
+    if pairingSubject1[0] == pairingSubject2[1] and pairingSubject1[1] == pairingSubject2[0]:
+        return True
+    return False
+
+def isHaveThisPairingSubjectIn(listPairingSubject:List[Tuple[Subject]], pairingSubject: Tuple[Subject]):
+    """Trả về True nếu một cặp các Subject có trong một list các cặp Subject."""
+    for pairing in listPairingSubject:
+        if comparingPairingSubject(pairing, pairingSubject):
+            return True
+    return False
+
+def isIntersectWeek(subject1:Subject, subject2:Subject):
+    """Hàm này dùng để xem xét khả năng xung đột của hai Subject.
+    
+    Trả về True nếu cả hai giao nhau về Tuần học, ngược lại trả về False."""
+    weeks = [subject1.getWeekStart(), subject1.getWeekEnd(), subject2.getWeekStart(), subject2.getWeekEnd()]
+    weeks.sort()
+    if weeks[2] <= subject1.getWeekEnd():
+        return True
+    return False
+
+def isIntersectWeek_Test(subject1:List, subject2:List):
+    weeks = [subject1[0], subject1[1], subject2[0], subject2[1]]
+    weeks.sort()
+    if weeks[2] <= subject1[1]:
+        return True
+    return False
+
+def fromJsonToSubjects(jsonData:Dict) -> List[Subject]:
+    """Chuyển một JSON String thành một Subject."""
+    subjects:List[Subject] = []
+    name = jsonData['name']
+    credit = jsonData['credit']
+    creditDetail = jsonData['creditDetail']
+    for classGroupCode, valueGroup in jsonData.items():
+        for classCode, valueClass in valueGroup:
+            className = valueClass['class_name']
+            registerCode = valueClass['register_code']
+            type = valueClass['type']
+            emptySeat = valueClass['empty_seat']
+            registrationTermStart = valueClass['registration_term_start']
+            registrationTermEnd = valueClass['registration_term_end']
+            weekStart = valueClass['week_start']
+            weekEnd = valueClass['week_end']
+            schedule = Schedule(valueClass['hour'])
+            rooms = valueClass['rooms']
+            locations = valueClass['locations']
+            teachers = valueClass['teachers']
+            registrationStatus = valueClass['registration_status']
+            implementationStatus = valueClass['implementation_status']
+            subject = Subject(registerCode, classCode, name, credit, emptySeat,
+                            type, schedule, teachers, locations, rooms, weekStart,
+                            weekEnd, registrationTermStart, registrationTermEnd, 
+                            registrationStatus, implementationStatus)
+            subjects.append(subject)
+    return subjects
+
+
+if __name__ == "__main__":
+    pass
