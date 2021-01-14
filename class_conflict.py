@@ -34,39 +34,44 @@ class Conflict:
         """
         Trả về một List[Dict[Tuple]] chứa thời gian bắt đầu và thời gian kết thúc xung đột của hai môn học nào đó.
         [{Monday: ('07:00:00','8:00:00')}, {Tuseday: ('07:00:00','8:00:00')}]
+
+        Sẽ trả về một List rỗng khi:
+        - Hai Subject có cùng mã đăng ký.
+        - Hai Subject không xung đột tuần học.
         """
         output = []
-        if self.subject1.getRegisterCode() == self.subject2.getRegisterCode():
-            return output
-        for day in self.getGenericDate():
+        if isIntersectWeek(self.subject1, self.subject2):
+            if self.subject1.getRegisterCode() == self.subject2.getRegisterCode():
+                return output
+            for day in self.getGenericDate():
 
-            start1 = self.subject1.getSchedule().getStartTimeOfDate(day)
-            end1 = self.subject1.getSchedule().getEndTimeOfDate(day)
-            start2 = self.subject2.getSchedule().getStartTimeOfDate(day)
-            end2 = self.subject2.getSchedule().getEndTimeOfDate(day)
+                start1 = self.subject1.getSchedule().getStartTimeOfDate(day)
+                end1 = self.subject1.getSchedule().getEndTimeOfDate(day)
+                start2 = self.subject2.getSchedule().getStartTimeOfDate(day)
+                end2 = self.subject2.getSchedule().getEndTimeOfDate(day)
 
-            # Phân rã thành những cặp start và end
-            timeRange1s = []
-            for i in range(len(start1)):
-                timeRange = [start1[i], end1[i]]
-                timeRange1s.append(timeRange)
+                # Phân rã thành những cặp start và end
+                timeRange1s = []
+                for i in range(len(start1)):
+                    timeRange = [start1[i], end1[i]]
+                    timeRange1s.append(timeRange)
 
-            timeRange2s = []
-            for i in range(len(start2)):
-                timeRange2 = [start2[i], end2[i]]
-                timeRange2s.append(timeRange2)
-        
-            # So khớp từ cặp để tìm xung đột.
-            for time_range_sub1 in timeRange1s:
-                for time_range_sub2 in timeRange2s:
-                    if (self.isThatRangeTimeInThisRangeTime(time_range_sub1, time_range_sub2)
-                    or self.isThatRangeTimeInThisRangeTime(time_range_sub2, time_range_sub1)
-                    or self.isTwoTimeRangeIntersect(time_range_sub1, time_range_sub2)
-                    or self.isTwoTimeRangeIntersect(time_range_sub2, time_range_sub1)):
-                        # sort lấy range giữa
-                        time_ranges = time_range_sub1 + time_range_sub2
-                        time_ranges = sorted(time_ranges)
-                        output.append({day:(str(time_ranges[1]), str(time_ranges[2]))})
+                timeRange2s = []
+                for i in range(len(start2)):
+                    timeRange2 = [start2[i], end2[i]]
+                    timeRange2s.append(timeRange2)
+            
+                # So khớp từ cặp để tìm xung đột.
+                for time_range_sub1 in timeRange1s:
+                    for time_range_sub2 in timeRange2s:
+                        if (self.isThatRangeTimeInThisRangeTime(time_range_sub1, time_range_sub2)
+                        or self.isThatRangeTimeInThisRangeTime(time_range_sub2, time_range_sub1)
+                        or self.isTwoTimeRangeIntersect(time_range_sub1, time_range_sub2)
+                        or self.isTwoTimeRangeIntersect(time_range_sub2, time_range_sub1)):
+                            # sort lấy range giữa
+                            time_ranges = time_range_sub1 + time_range_sub2
+                            time_ranges = sorted(time_ranges)
+                            output.append({day:(str(time_ranges[1]), str(time_ranges[2]))})
         return output
 
     def isInTimeRange(self, timeRange: List[timedelta], point: timedelta) -> bool:
