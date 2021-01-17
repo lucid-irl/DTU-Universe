@@ -41,7 +41,8 @@ class Conflict:
         """
         output = []
         if isIntersectWeek(self.subject1, self.subject2):
-            if self.subject1.getRegisterCode() == self.subject2.getRegisterCode():
+            logging.info('IsisIntersectWeek True')
+            if self.subject1.getSubjectCode() == self.subject2.getSubjectCode():
                 return output
             for day in self.getGenericDate():
 

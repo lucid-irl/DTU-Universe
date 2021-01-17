@@ -1,5 +1,4 @@
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QTextDocument
 from PyQt5.QtWidgets import QDialog, QLabel, QPushButton
 from class_subject import Subject
 from PyQt5 import uic
@@ -45,6 +44,8 @@ class DetailClassInfoWindow(QDialog):
             <body>
             Mã đăng ký: {0}
             <br>
+            Số tín chỉ: {13} ({14})
+            <br>
             Loại hình: {1}
             <br>
             Còn trống: <b>{2}</b>
@@ -84,7 +85,9 @@ class DetailClassInfoWindow(QDialog):
             rooms,
             teachers,
             self.subject.getRegistrationStatus(),
-            self.subject.getImplementationStatus()
+            self.subject.getImplementationStatus(),
+            self.subject.getCredit(),
+            ' '.join(self.subject.getCreditDetail())
         )
         self.label_content.setTextFormat(Qt.RichText)
         self.label_content.setText(self.content)
