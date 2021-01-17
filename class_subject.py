@@ -1,3 +1,4 @@
+import logging
 from typing import Dict, List, Tuple
 from class_schedule import Schedule
 import re
@@ -14,7 +15,7 @@ class ColorError(Exception):
 class Subject:
     """Đại diện cho một môn học trong một học kỳ."""
 
-    def __init__(self, registerCode: str, subjectCode: str, name: str, credits: int, emptySeat: int, type:str,
+    def __init__(self, registerCode: str, subjectCode: str, name: str, credit: int, creditDetail: List, emptySeat: int, type:str,
                 schedule: Schedule, teachers: List[str], locations: List[str], rooms:List[str],
                 weekStart: int, weekEnd: int, 
                 registrationTermStart: str, registrationTermEnd:str, 
@@ -56,7 +57,8 @@ class Subject:
         self.subjectCode = subjectCode
         self.name = name
         self.emptySeat = emptySeat  
-        self.credits = credits
+        self.credit = credit
+        self.creditDetail = creditDetail
         self.type = type
 
         self.schedule = schedule
@@ -142,11 +144,8 @@ class Subject:
     def getImplementationStatus(self):
         return self.implementationStatus
 
-    def getCredits(self):
-        return self.credits
-
-    def setCreditDetail(self, creditDetail: List[str]):
-        self.creditDetail = creditDetail
+    def getCredit(self):
+        return self.credit
 
     def getCreditDetail(self):
         return self.creditDetail
@@ -172,6 +171,8 @@ def isIntersectWeek(subject1:Subject, subject2:Subject):
     """Hàm này dùng để xem xét khả năng xung đột của hai Subject.
     
     Trả về True nếu cả hai giao nhau về Tuần học, ngược lại trả về False."""
+    logging.info('Subject intersect {} >< {}'.format(subject1, subject2))
+    logging.info('Kiểm tra giao nhau trong tuần {}'.format([subject1.getWeekStart(), subject1.getWeekEnd(), subject2.getWeekStart(), subject2.getWeekEnd()]))
     weeks = [subject1.getWeekStart(), subject1.getWeekEnd(), subject2.getWeekStart(), subject2.getWeekEnd()]
     weeks.sort()
     if weeks[2] <= subject1.getWeekEnd():
