@@ -149,7 +149,7 @@ class Main(QWidget):
         """Phương thức này kết nối signal với slot tương ứng."""
         self.button_findSubject.clicked.connect(self.actionFindSubject)
         self.button_register.clicked.connect(self.register)
-        self.button_updateSubject.clicked.connect(self.updateSubject)
+
         self.button_previousWeek.clicked.connect(self.actionGoToPreviousWeek)
         self.button_nextWeek.clicked.connect(self.actionGoToNextWeek)
 
@@ -243,8 +243,9 @@ class Main(QWidget):
                             item.setBackground(color)
                             item.setToolTip(subject.getSubjectCode() +' • '+ subject.getName())
                             self.table_Semeter.setItem(pen, column, item)
+                            # FIXME xem lại hàm getConflictsForWeek
             if len(self.semester.getCurrentSubjects()) > 1:
-                self.paintAllConflict(self.semester.getConflicts())
+                self.paintAllConflict(self.semester.getConflictsForWeek())
 
     def loadListConflict(self, conflicts: List[Conflict]):
         """Load List Widget chứa thông tin Subject Conflict."""
@@ -372,11 +373,6 @@ class Main(QWidget):
         logging.info('Register Class Codes {0}'.format(registerClassCodes))
         SubjectRegister(registerClassCodes, self.currentSemesterValue, self.currentSchoolYearValue, self).exec()
 
-
-    def updateSubject(self):
-        # tạm thời update mình sẽ xoá tất cả mọi file trong thư mục data để nó tải lại mọi thứ.
-        pass
-
     @staticmethod
     def getSubjectsInListWidget(listWidget: QListWidget) -> List[Subject]:
         subjects = []
@@ -471,27 +467,10 @@ class Main(QWidget):
             for c in range(self.table_Semeter.columnCount()):
                 self.table_Semeter.setItem(i, c, QTableWidgetItem())
                 self.table_Semeter.item(i, c).setBackground(QColor(255,255,255))
-
-    def paintConflict(self):
-        """**Không còn được dùng nữa**
-        
-        Vẽ Conflict lên bảng."""
-        if len(self.semester.getCurrentSubjects()) >= 2:
-            for conflictsASubject in self.semester.scanSubjectConflict():
-                for conflict in conflictsASubject:
-                    key = next(iter(conflict))
-                    col = self.semester.DATE_CHAINS[key]
-                    startConflict = self.semester.TIME_CHAINS[conflict[key][0]]
-                    endConflict = self.semester.TIME_CHAINS[conflict[key][1]]
-                    for row in range(startConflict, endConflict+1):
-                        item = QTableWidgetItem()
-                        item.setText('Conflict')
-                        item.setBackground(QColor('#FF0000'))
-                        self.table_Semeter.setItem(row, col, item)
     
-    #TODO
     def paintAConflict(self, conflict: Conflict):
         """Vẽ một Conflict lên bảng."""
+        logging.info('paint A Conflict {}'.format(conflict))
         for time in conflict.getConflictTime():
             key = next(iter(time))
             col = self.semester.DATE_CHAINS[key]
@@ -499,7 +478,7 @@ class Main(QWidget):
             endConflict = self.semester.TIME_CHAINS[time[key][1]]
             for row in range(startConflict, endConflict+1):
                 item = QTableWidgetItem()
-                item.setText('Conflict')
+                item.setText('{0}|{1}'.format(conflict.getSubject1().getSubjectCode(), conflict.getSubject2().getSubjectCode()))
                 item.setBackground(QColor('#FF0000'))
                 self.table_Semeter.setItem(row, col, item)
 
@@ -516,7 +495,7 @@ class Main(QWidget):
         for item in listItems:
             self.listView_SubjectChoiced.takeItem(self.listView_SubjectChoiced.row(item))
 
-    # Navigation in Semester
+# Navigation in Semester
     def gotoPreviousWeek(self):
         """Điều hướng tới Tuần trước của Semester."""
         logging.info('gotoPreviousWeek run')
@@ -531,8 +510,9 @@ class Main(QWidget):
         logging.info('gotoWeek {0} run'.format(week))
         self.semester.gotoWeek(week)
 
-    # Các phương thức kiểm tra và logic
-    def isHaveLecOrLab(self, subject: Subject, inList: list) -> List:
+# Các phương thức kiểm tra và logic
+    @staticmethod
+    def isHaveLecOrLab(subject: Subject, inList: list) -> List:
         """Kiểm tra List of Subject truyền vào có Môn LEC hay LAB hay không. 
         Nếu có trả về list index của Subject LEC hoặc LAB tương ứng. Nếu không trả về None."""
         output = []
@@ -546,7 +526,7 @@ class Main(QWidget):
     #setting
 
 
-    # Giao diện
+# Giao diện
     def closeWindow(self):
         self.close()
 
