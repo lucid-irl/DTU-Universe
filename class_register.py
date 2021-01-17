@@ -1,3 +1,4 @@
+from class_DTURegister import ThreadDTURegister
 import os
 import webbrowser
 
@@ -206,6 +207,9 @@ class SubjectRegister(QDialog):
         fc = FindCurriculumId(self.semesterId, self.yearId, self.sessionId)
         curriculumId = fc.getCurriculumId()
         captcha = self.lineEdit_captcha.text()
+        ok = ThreadDTURegister()
+        ok.signal_Done.connect(lambda r: print(r))
+        ok.start()
         print('captcha', captcha)
         print('subjects', self.classRegCodes)
         print('studentId', self.studentId)

@@ -216,7 +216,7 @@ class RawClass:
     def addTeacher(self, teacher: str):
         self.__teachers.add(teacher)
 
-    def toSubject(self, name: str, credit: int) -> Subject:
+    def toSubject(self, name: str, credit: int, detailCredit: List) -> Subject:
         """
         Bản thân RawClass đại diện cho một row trong bảng danh sách lớp đăng ký
         nên nó sẽ còn thiếu một số trường sau.
@@ -226,7 +226,7 @@ class RawClass:
         @credit: Số tín chỉ"""
         return Subject(
             self.__registerCode, self.__className, name,
-            credit, self.__emptySeat, self.__type, Schedule(self.__hour),
+            credit, detailCredit, self.__emptySeat, self.__type, Schedule(self.__hour),
             self.__teachers, self.__locations, self.__rooms, int(self.__weekStart),
             int(self.__weekEnd), self.__registrationTermStart, self.__registrationTermEnd,
             self.__registrationStatus, self.__implementationStatus
@@ -469,7 +469,7 @@ class SubjectData:
         subjectsOut = []
         for classGroup in self.getListClassGroup():
             rawClasses = classGroup.getRawClasses()
-            subjectsInClassGroup = [rawClass.toSubject(self.__name, self.__credit) for rawClass in rawClasses]
+            subjectsInClassGroup = [rawClass.toSubject(self.__name, self.__credit, self.__creditDetail) for rawClass in rawClasses]
             subjectsOut.extend(subjectsInClassGroup)
         return subjectsOut
 
@@ -477,5 +477,5 @@ if __name__ == "__main__":
     sp = SubjectPage('70','CS','414')
     print(sp)
     sd = SubjectData(sp)
-    print(sd.getSubjects()[0].getCredits())
+    print(sd.getSubjects()[0].getCredit())
     sd.toJsonFile()
