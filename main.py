@@ -310,7 +310,7 @@ class Main(QWidget):
             for index in range(maxWeek):
                 self.weekButton = QPushButton(str(index+1), self)
                 if index == self.semester.getCurrentSemesterIndex():
-                    stylingString = """QPushButton {background-color: #2980b9;border-bottom: 5px solid #0a3d62;color: white;}
+                    stylingString = """QPushButton {background-color: #2980b9;border-bottom: 5px solid #0a3d62;color: white;font-weight: bold;}
                     QPushButton:pressed {border:none;}"""
                     self.weekButton.setStyleSheet(stylingString)
                 self.weekButton.setFixedWidth(40)
