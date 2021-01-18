@@ -168,23 +168,12 @@ def isHaveThisPairingSubjectIn(listPairingSubject:List[Tuple[Subject]], pairingS
     return False
 
 def isIntersectWeek(subject1:Subject, subject2:Subject):
-    """Hàm này dùng để xem xét khả năng xung đột của hai Subject.
-    
-    Trả về True nếu cả hai giao nhau về Tuần học, ngược lại trả về False."""
-    logging.info('Subject intersect {} >< {}'.format(subject1, subject2))
-    logging.info('Kiểm tra giao nhau trong tuần {}'.format([subject1.getWeekStart(), subject1.getWeekEnd(), subject2.getWeekStart(), subject2.getWeekEnd()]))
     weeks = [subject1.getWeekStart(), subject1.getWeekEnd(), subject2.getWeekStart(), subject2.getWeekEnd()]
     weeks.sort()
-    if weeks[2] <= subject1.getWeekEnd():
-        return True
-    return False
-
-def isIntersectWeek_Test(subject1:List, subject2:List):
-    weeks = [subject1[0], subject1[1], subject2[0], subject2[1]]
-    weeks.sort()
-    if weeks[2] <= subject1[1]:
-        return True
-    return False
+    if ((weeks[0] == subject1.getWeekStart() and weeks[1] == subject2.getWeekEnd()) or
+        (weeks[0] == subject2.getWeekStart() and weeks[1] == subject2.getWeekEnd())):
+        return False
+    return True
 
 def fromJsonToSubjects(jsonData:Dict) -> List[Subject]:
     """Chuyển một JSON String thành một Subject."""

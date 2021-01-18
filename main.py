@@ -243,7 +243,6 @@ class Main(QWidget):
                             item.setBackground(color)
                             item.setToolTip(subject.getSubjectCode() +' • '+ subject.getName())
                             self.table_Semeter.setItem(pen, column, item)
-                            # FIXME xem lại hàm getConflictsForWeek
             if len(self.semester.getCurrentSubjects()) > 1:
                 self.paintAllConflict(self.semester.getConflictsForWeek())
 
@@ -273,6 +272,7 @@ class Main(QWidget):
 
             self.custom_widget_subject = CustomListItemWidget(subject)
             self.custom_widget_subject.removeWhenRightClick()
+            self.custom_widget_subject.addButtonShowDetailInfo()
             self.custom_widget_subject.addButtonCopyIDSubject()
             self.custom_widget_subject.addButtonDelete()
             self.custom_widget_subject.signal_buttonDeleteIsPressed.connect(self.deleteSubject)
@@ -478,7 +478,7 @@ class Main(QWidget):
             endConflict = self.semester.TIME_CHAINS[time[key][1]]
             for row in range(startConflict, endConflict+1):
                 item = QTableWidgetItem()
-                item.setText('{0}|{1}'.format(conflict.getSubject1().getSubjectCode(), conflict.getSubject2().getSubjectCode()))
+                item.setText('{0}⚡{1}'.format(conflict.getSubject1().getSubjectCode(), conflict.getSubject2().getSubjectCode()))
                 item.setBackground(QColor('#FF0000'))
                 self.table_Semeter.setItem(row, col, item)
 
