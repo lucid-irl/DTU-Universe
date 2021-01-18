@@ -304,6 +304,7 @@ class Main(QWidget):
         for i in reversed(range(self.flowlayout.count())):
             self.flowlayout.itemAt(i).widget().deleteLater()
         if maxWeek == 0:
+            logging.info('clear flowlayout')
             self.flowlayout.clear()
         else:
             for index in range(maxWeek):
@@ -324,7 +325,7 @@ class Main(QWidget):
             self.label_week.setText('Tuần ?')
 
     def loadIndexChange(self):
-        self.loadButtonWeekContainer(self.semester.getMaxWeekInSemester())
+        self.loadButtonWeekContainer(self.semester.getMaxWeek())
         logging.info('loadTable --> {0}'.format(self.semester.getCurrentSubjects()))
         self.loadTable(self.semester.getCurrentSubjects())
         self.loadLabelWeek()
@@ -349,7 +350,7 @@ class Main(QWidget):
         logging.info('after delete --> {0}'.format(subject))
         self.loadListSubjectChoiced(self.semester.getSubjects())
         self.loadListConflict(self.semester.getConflicts())
-        self.loadButtonWeekContainer(self.semester.getMaxWeekInSemester())
+        self.loadButtonWeekContainer(self.semester.getMaxWeek())
         self.loadTable(self.semester.getCurrentSubjects())
         self.loadLabelWeek()
         self.showItemInListDownloadedAfterDelInListChoiced(subject)
@@ -357,7 +358,7 @@ class Main(QWidget):
     def afterAddSubject(self, subject: Subject):
         self.loadListSubjectChoiced(self.semester.getSubjects())
         self.loadListConflict(self.semester.getConflicts())
-        self.loadButtonWeekContainer(self.semester.getMaxWeekInSemester())
+        self.loadButtonWeekContainer(self.semester.getMaxWeek())
         self.loadTable(self.semester.getCurrentSubjects())
         self.loadLabelWeek()
         self.hideItemIsHavedInListChoiced()

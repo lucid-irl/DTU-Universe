@@ -150,6 +150,10 @@ class Subject:
     def getCreditDetail(self):
         return self.creditDetail
 
+    def getMaxWeek(self):
+        """Trả về số tuần học tối đa."""
+        return self.weekEnd-self.weekStart+1
+
 def comparingPairingSubject(pairingSubject1: Tuple[Subject], pairingSubject2: Tuple[Subject]):
     """So sánh hai ghép đôi Subject.
     
@@ -167,7 +171,15 @@ def isHaveThisPairingSubjectIn(listPairingSubject:List[Tuple[Subject]], pairingS
             return True
     return False
 
+def isHaveInThisWeek(subject: Subject, week: int):
+    """Nếu subject có tuần học trong tuần week thì trả về True ngược lại trả về False."""
+    logging.info('isHaveInThisWeek {0} in week {1}'.format(subject, week))
+    if week >= subject.getWeekStart() and week <= subject.getWeekEnd():
+        return True
+    return False
+
 def isIntersectWeek(subject1:Subject, subject2:Subject):
+    """Trả về True nếu hai Subject có tuần giao nhau, ngược lại trả về False."""
     weeks = [subject1.getWeekStart(), subject1.getWeekEnd(), subject2.getWeekStart(), subject2.getWeekEnd()]
     weeks.sort()
     if ((weeks[0] == subject1.getWeekStart() and weeks[1] == subject2.getWeekEnd()) or

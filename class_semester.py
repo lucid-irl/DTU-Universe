@@ -1,3 +1,4 @@
+from os import makedirs, stat
 from PyQt5.QtCore import QObject, pyqtSignal
 
 from class_subject import Subject
@@ -53,6 +54,7 @@ class Semester(QObject):
     # list of week do initSemester sẽ nằm ở đây
     SEMESTER: List[List[Subject]] = []
     SEMESTER_INDEX = 0
+    CURRENT_DIFFERENCE = 0
 
     # signal
     signal_indexChanged = pyqtSignal('PyQt_PyObject')
@@ -65,7 +67,8 @@ class Semester(QObject):
         """Thêm một Subject vào Semester."""
         logging.info('addSubject run')
         Semester.SUBJECTS.append(subject)
-        self.initSemester()
+        logging.info('after add SUBJECTS is {}'.format(Semester.SUBJECTS))
+        self.initSemester_New()
         self.setSemesterIndex(0)
         self.signal_addSubject.emit(subject)
 
@@ -78,27 +81,42 @@ class Semester(QObject):
                 sb = Semester.SUBJECTS.pop(i)
                 logging.info('DELETED --> {0}'.format(sb))
                 break
-        self.initSemester()
+        if len(self.SUBJECTS) > 0:
+            self.initSemester_New()
         self.setSemesterIndex(0)
         self.signal_deleteSubject.emit(subject)
 
     # IMPORTANT!!!
     def initSemester(self) -> List[List[Subject]]:
-        """
-        Khởi tạo lại danh sách tuần học mỗi lần Thêm, Xoá.
-        """
+        """*Không còn được dùng nữa*
+        
+        Khởi tạo lại danh sách tuần học mỗi lần Thêm, Xoá."""
         logging.info('initSemester run')
         Semester.SEMESTER: List[List[Subject]] = [[] for i in range(self.getMaxWeekInSemester())]
         for subject in Semester.SUBJECTS:
             for i in range(subject.getWeekStart()-1, subject.getWeekEnd()):
                 Semester.SEMESTER[i].append(subject)
+        logging.info('Semester after init {}'.format(self.SEMESTER))
+
+    def initSemester_New(self) -> List[List[Subject]]:
+        Semester.CURRENT_DIFFERENCE = Semester.getWeekStartOfSubjects()
+        Semester.SEMESTER: List[List[Subject]] = [[] for i in range(Semester.getWeekEndOfSubjects() - Semester.getWeekStartOfSubjects() + 1)]
+        # add Subject from SUBJECTS to SEMESTER
+        logging.info('Semester before init {0} with len == {1}'.format(Semester.SEMESTER, len(Semester.SEMESTER)))
+        for i in range(Semester.getWeekEndOfSubjects() - Semester.getWeekStartOfSubjects() + 1):
+            for subject in Semester.SUBJECTS:
+                if isHaveInThisWeek(subject, i+Semester.CURRENT_DIFFERENCE):
+                    Semester.SEMESTER[i].append(subject)
+                    logging.info('Semester at index {0} have {1} len == {2}'.format(i, Semester.SEMESTER[i], len(Semester.SEMESTER[i])))
+        logging.info('Semester after init {0} with len == {1}'.format(Semester.SEMESTER, len(Semester.SEMESTER)))
 
     def getSubjects(self) -> List[Subject]:
         """Trả về danh sách tất cả các Subject có trong một học kỳ."""
         logging.info('getSubjects run')
         return Semester.SUBJECTS
     
-    def getCurrentSubjects(self) -> List[Subject]:
+    @staticmethod
+    def getCurrentSubjects() -> List[Subject]:
         """Trả về danh sách các Subject có trong tuần hiện tại."""
         logging.info('getCurrentSubjects run')
         if len(Semester.SEMESTER):
@@ -134,6 +152,42 @@ class Semester(QObject):
             if subject.getWeekEnd() > max:
                 max = subject.getWeekEnd()
         return max
+
+    @staticmethod
+    def getWeekEndOfSubjects():
+        maxWeekEnd = 0
+        for subject in Semester.SUBJECTS:
+            if subject.getWeekEnd() > maxWeekEnd:
+                maxWeekEnd = subject.getWeekEnd()
+        logging.info('getWeekEndOfSubjects == {}'.format(maxWeekEnd))
+        return maxWeekEnd
+
+    @staticmethod
+    def getWeekStartOfSubjects():
+        if len(Semester.SUBJECTS):
+            maxWeekStart = Semester.SUBJECTS[0].getWeekStart()
+            for subject in Semester.SUBJECTS:
+                if subject.getWeekStart() < maxWeekStart:
+                    maxWeekStart = subject.getWeekStart()
+            logging.info('getWeekStartOfSubjects == {}'.format(maxWeekStart))
+            return maxWeekStart
+        return 0
+
+    @staticmethod
+    def getMaxWeek():
+        """Trả về số tuần học tối đa của Semester."""
+        if len(Semester.SUBJECTS) > 0:
+            return Semester.getWeekEndOfSubjects() - Semester.getWeekStartOfSubjects() + 1
+        return 0
+    
+    @staticmethod
+    def getSubjectHaveMaxWeekHightest():
+        """Trả về Subject có tuần học tối đa cao nhất."""
+        output = Semester.SUBJECTS[0]
+        for subject in Semester.SUBJECTS:
+            if subject.getMaxWeek() > output.getMaxWeek():
+                output = subject
+        return output
 
     @staticmethod
     def pairingSubjectInChoiced() -> List[Tuple[Subject]]:
