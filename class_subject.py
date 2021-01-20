@@ -156,7 +156,7 @@ class Subject:
 
     def toListInfo(self) -> List:
         """Đưa tất cả thông tin của Subject này thành một List."""
-        registrationTerm = 'Từ: {0}\nĐến: {1}'.format(self.registrationTermStart, self.registrationTermEnd)
+        registrationTerm = '{0} → {1}'.format(self.registrationTermStart, self.registrationTermEnd)
         studyWeek ='{} → {}'.format(self.weekStart,self.weekEnd)
         studyHours = self.schedule.fromScheduleToInfo()
         rooms = '\n'.join(self.rooms)

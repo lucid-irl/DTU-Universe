@@ -17,9 +17,9 @@ class Window(QWidget):
 
     def __init__(self, connectString, minimumButton, maximumButton, closeButton, windowTitle):
         super().__init__()
-        self.connectUi(connectString, minimumButton, maximumButton, closeButton, windowTitle)
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
+        self.connectUi(connectString, minimumButton, maximumButton, closeButton, windowTitle)
 
     def connectUi(self, connectString, minimumButton, maximumButton, closeButton, windowTitle):
         uic.loadUi(connectString, self)

@@ -1,10 +1,10 @@
 from re import search
 
-from PyQt5.QtGui import QColor
+from PyQt5.QtGui import QColor, QIcon
 from class_convertType import ConvertThisQObject
 from typing import Dict
 from PyQt5.QtCore import *
-from PyQt5.QtWidgets import QDialog, QTableWidget, QTableWidgetItem, QApplication, QWidget, QPushButton, QLabel
+from PyQt5.QtWidgets import QDesktopWidget, QDialog, QHBoxLayout, QTableWidget, QTableWidgetItem, QApplication, QWidget, QPushButton, QLabel
 
 
 from class_subjectCrawler import *
@@ -43,7 +43,7 @@ class DetailSubjectWindow(Window):
         data = self.fromSubjectToListData()
         dataHaveClassGroupName = self.insertClassNameToListData(data)
         numrows = len(dataHaveClassGroupName)
-        numcols = len(data[0])
+        numcols = len(data[0])+1
         self.tableWidget_detail.setColumnCount(numcols)
         self.tableWidget_detail.setRowCount(numrows)
         for row in range(numrows):
@@ -56,9 +56,40 @@ class DetailSubjectWindow(Window):
             else:
                 # add subject
                 for column in range(numcols):
-                    self.tableWidget_detail.setItem(row, column, QTableWidgetItem((dataHaveClassGroupName[row][column])))
+                    if column == numcols-1:
+                        self.addAddSubjectButton(row, column)
+                    else:
+                        self.tableWidget_detail.setItem(row, column, QTableWidgetItem((dataHaveClassGroupName[row][column])))
         self.tableWidget_detail.resizeColumnsToContents()
         self.tableWidget_detail.resizeRowsToContents()
+        self.show()
+
+    def show(self):
+        """Fit size window for content in table."""
+        width = self.sizeHint().width()
+        height = (QDesktopWidget().size().height()/100)*80
+        centerPoint = QDesktopWidget().availableGeometry().center()
+        self.hopePointX = centerPoint.x() - width/2
+        self.hopePointY = centerPoint.y() - height/2
+        self.qrect = QRect(self.hopePointX, self.hopePointY, width, height)
+        self.setGeometry(self.qrect)
+        super().show()
+
+
+    #TODO add signal for button
+    def addAddSubjectButton(self, row, col):
+        ICON_BUTTON_ADD = 'resources/icon_add.svg'
+        widget = QWidget()
+        self.addButton = QPushButton()
+        self.addButton.setIcon(QIcon(ICON_BUTTON_ADD))
+        self.addButton.setToolTip('Thêm môn này vào bảng.')
+        layout = QHBoxLayout()
+
+        layout.addWidget(self.addButton)
+        layout.setAlignment(Qt.AlignCenter)
+        layout.setContentsMargins(0, 0, 0, 0)
+        widget.setLayout(layout)
+        self.tableWidget_detail.setCellWidget(row, col, widget)
 
     def insertClassNameToListData(self, listSubjecInfo: List[List[str]]) -> List:
         """Chèn class group name vào list data của subject."""
@@ -82,6 +113,31 @@ class DetailSubjectWindow(Window):
         for subject in self.subjects:
             outputData.append(subject.toListInfo())
         return outputData
+
+    def maximum(self):
+        if self.WINDOW_IS_MAXIMIZED:
+            width = self.sizeHint().width()
+            height = (QDesktopWidget().size().height()/100)*80
+            centerPoint = QDesktopWidget().availableGeometry().center()
+            self.hopePointX = centerPoint.x() - width/2
+            self.hopePointY = centerPoint.y() - height/2
+            self.qrect = QRect(self.hopePointX, self.hopePointY, width, height)
+            self.ani = QPropertyAnimation(self, b'geometry')
+            self.ani.setDuration(300)
+            self.ani.setEndValue(self.qrect)
+            self.ani.setEasingCurve(QEasingCurve.InOutQuad)
+            self.ani.start()
+            self.WINDOW_IS_MAXIMIZED = False
+        else:
+            self.desktop = QApplication.desktop()
+            self.screenRect = self.desktop.screenGeometry()
+            self.screenRect.setHeight(self.screenRect.height()-50)
+            self.ani = QPropertyAnimation(self, b'geometry')
+            self.ani.setDuration(300)
+            self.ani.setEndValue(self.screenRect)
+            self.ani.setEasingCurve(QEasingCurve.InOutQuad)
+            self.ani.start()
+            self.WINDOW_IS_MAXIMIZED = True
 
 if __name__ == "__main__":
     sp = SubjectPage('70','CS','414')

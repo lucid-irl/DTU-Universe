@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1571</width>
-    <height>786</height>
+    <width>1651</width>
+    <height>626</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -76,7 +76,7 @@ border: 1px solid #ced6e0;
           <number>14</number>
          </property>
          <property name="leftMargin">
-          <number>0</number>
+          <number>11</number>
          </property>
          <property name="topMargin">
           <number>0</number>
@@ -522,6 +522,11 @@ font-size: 16px;</string>
            <column>
             <property name="text">
              <string>Tình trạng triển khai</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Thao tác</string>
             </property>
            </column>
           </widget>
