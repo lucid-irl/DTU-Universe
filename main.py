@@ -1,8 +1,3 @@
-from class_DTUCrawler import DTUInfoStudent
-from class_register import SubjectRegister
-from class_dialogDonate import DonateWindow
-import logging
-from class_conflict import Conflict
 from PyQt5.QtWidgets import (QCheckBox, QShortcut, QStackedWidget, QWidget, QApplication, QPushButton, QListWidget, QListWidgetItem,
                             QTableWidget, QTableWidgetItem, QLineEdit, QLabel, 
                             QFrame, QScrollArea, QCompleter, QDesktopWidget)
@@ -10,6 +5,10 @@ from PyQt5.QtCore import QEasingCurve, QPropertyAnimation, QRect, Qt
 from PyQt5.QtGui import QColor, QKeySequence, QValidator 
 from PyQt5 import uic
 
+from class_conflict import Conflict
+from class_DTUCrawler import DTUInfoStudent
+from class_register import SubjectRegister
+from class_dialogDonate import DonateWindow
 from class_custom_list_item_widget import CustomListItemWidget
 from class_customConflictWidget import CustomConflictWidget
 from class_semester import Semester, WEEK
@@ -20,10 +19,12 @@ from class_subjectCrawler import *
 from class_dialogNotification import NotificationWindow
 from class_homeCourseSearch import HomeCourseSearch
 from class_setting import ConnectSettingToWidget, Setting
+from class_detailSubjectTable import DetailSubjectWindow
 from thread_downloadSubject import ThreadDownloadSubject, ThreadShowLoading
 
 from typing import List
 
+import logging
 import sys
 import cs4rsa_color
 import team_config
@@ -40,6 +41,8 @@ class Main(QWidget):
     SUBJECT_FOUND:List[Subject] = []
     CURRENT_SUBJECT:str = ''
     WINDOW_IS_MAXIMIZED = False
+    # Chứa các cửa sổ giao diện thông tin chi tiết của một Subject
+    WINDOW_DETAIL_INFO = None
 
     # Các phương thức setting Giao diện bao gồm kết nối Signal, add Hot key,...
     def __init__(self):
@@ -58,6 +61,7 @@ class Main(QWidget):
         self.button_nextWeek = ConvertThisQObject(self, QPushButton, 'button_nextWeek').toQPushButton()
         self.button_previousWeek = ConvertThisQObject(self, QPushButton, 'button_previousWeek').toQPushButton()
         self.button_gotoWeek = ConvertThisQObject(self, QPushButton, 'button_goto').toQPushButton()
+        self.button_info = ConvertThisQObject(self, QPushButton, 'button_info').toQPushButton()
 
         # title bar
         self.button_close = ConvertThisQObject(self, QPushButton, 'button_close').toQPushButton()
@@ -132,7 +136,6 @@ class Main(QWidget):
         self.button_info_donate_green = ConvertThisQObject(self, QPushButton, 'button_info_donate_green').toQPushButton()
         self.button_info_donate_red = ConvertThisQObject(self, QPushButton, 'button_info_donate_red').toQPushButton()
 
-
         width = (QDesktopWidget().size().width()/100)*80
         height = (QDesktopWidget().size().height()/100)*80
         centerPoint = QDesktopWidget().availableGeometry().center()
@@ -149,7 +152,7 @@ class Main(QWidget):
         """Phương thức này kết nối signal với slot tương ứng."""
         self.button_findSubject.clicked.connect(self.actionFindSubject)
         self.button_register.clicked.connect(self.register)
-
+        self.button_info.clicked.connect(self.showDetailInfo)
         self.button_previousWeek.clicked.connect(self.actionGoToPreviousWeek)
         self.button_nextWeek.clicked.connect(self.actionGoToNextWeek)
 
@@ -163,7 +166,7 @@ class Main(QWidget):
         self.button_nav_setting.clicked.connect(lambda _: self.actionChangeFrame(2))
         self.button_nav_info.clicked.connect(lambda _: self.actionChangeFrame(3))
         
-        # Các đối tượng dữ liệu
+        # semester
         self.semester.signal_indexChanged.connect(self.loadIndexChange)
         self.semester.signal_addSubject.connect(self.afterAddSubject)
         self.semester.signal_deleteSubject.connect(self.afterDeleteSubject)
@@ -386,11 +389,12 @@ class Main(QWidget):
     def getSubjectInListWidgetAtIndex(listWidget: QListWidget, index: int) -> Subject:
         return listWidget.item(index).data(Qt.UserRole)
 
-    def fillDataToSubjectFound(self, subjects: List[Subject]):
-        """Phương thức này nhận vào một list các Subject và render ra UI trên phần 
+    def fillDataToSubjectFound(self, subjectData: SubjectData):
+        """Phương thức này nhận vào một SubjectData và render ra UI trên phần 
         Subject found."""
+        self.subjectData = subjectData
         self.listView_SubjectDownloaded.clear()
-        self.SUBJECT_FOUND = subjects
+        self.SUBJECT_FOUND = subjectData.getSubjects()
         self.loadListSubjectFound()
         self.hideItemIsHavedInListChoiced()
 
@@ -410,7 +414,6 @@ class Main(QWidget):
             if subject.getSubjectCode() == downloadedSubject.getSubjectCode():
                 self.listView_SubjectDownloaded.item(i).setHidden(False)
 
-        
     def fillDataToSubjectFoundFromJsonFile(self, filename):
         """Phương thức này nhận vào một JSON file path và render ra UI trên phần 
         Subject found."""
@@ -460,6 +463,25 @@ class Main(QWidget):
         self.threadDownloadSubject.signal_notHaveSchedule.connect(lambda content: innerCleanWindowTitleAndNoti(notiHaveNotSchedule, content))
         self.threadDownloadSubject.signal_specialSubject.connect(lambda content: innerCleanWindowTitleAndNoti(notiSpecialSubject, content))
         self.threadDownloadSubject.start()
+
+    def showDetailInfo(self):
+        logging.info('show detail subject info')
+        if Main.WINDOW_DETAIL_INFO == None:
+            Main.WINDOW_DETAIL_INFO:List[DetailSubjectWindow] = []
+        detailInfo = DetailSubjectWindow(self.subjectData, team_config.UI_DETAILSUBJECTTABLE, 
+                                        'button_minimum','button_maximum','button_close','label_windowTitle')
+        Main.WINDOW_DETAIL_INFO.append(detailInfo)
+        Main.WINDOW_DETAIL_INFO[-1].show()
+
+        # cleaning the closed window
+        # Giải phóng vùng nhớ
+        i = 0
+        while i < len(Main.WINDOW_DETAIL_INFO):
+            if not Main.WINDOW_DETAIL_INFO[i].isVisible():
+                Main.WINDOW_DETAIL_INFO.pop(i)
+                continue
+            i+=1
+
 
     # Các phương thức thao tác trên Table và các thành phần giao diện khác
     def resetColorTable(self):
@@ -601,7 +623,6 @@ class Main(QWidget):
         else:
             self.label_setting.setText('<html><head/><body><p>Cài đặt<span style=" vertical-align:super;">*</span></p></body></html>')
 
-    # Giao diện phần info
     def showDonateDialog(self):
         DonateWindow().exec()
 
