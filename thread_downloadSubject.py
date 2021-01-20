@@ -49,8 +49,8 @@ class ThreadDownloadSubject(QThread):
                 try:
                     subjectData = SubjectData(subjectPage)
                     self.signal_subjectName.emit(subjectPage.getName())
-                    subjects = subjectData.getSubjects()
-                    self.signal_foundSubject.emit(subjects)
+                    # subjects = subjectData.getSubjects()
+                    self.signal_foundSubject.emit(subjectData)
                 except ExceptionSpecialSubject:
                     self.signal_specialSubject.emit(subjectPage.getName())
             except ExceptionNotHaveSchedule:
