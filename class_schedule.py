@@ -65,8 +65,7 @@ class Schedule:
             for _, times in lesson.items():
                 time_temp = 0
                 for time in times:
-                    delta_time = self.convertStringToTimeDelta(
-                        time).total_seconds()
+                    delta_time = self.convertStringToTimeDelta(time).total_seconds()
                     if delta_time > time_temp:
                         time_temp = delta_time
                 time_sum += time_temp
@@ -147,6 +146,21 @@ class Schedule:
         time2 = timedelta(hours=time2_hour, minutes=time2_minute)
         return time2 - time1
 
+    def fromScheduleToInfo(self) -> str:
+        dateInfo = {'T2': 'Thứ 2',
+                    'T3': 'Thứ 3',
+                    'T4': 'Thứ 4',
+                    'T5': 'Thứ 5',
+                    'T6': 'Thứ 6',
+                    'T7': 'Thứ 7',
+                    'CN': 'Chủ Nhật'}
+        infoOutput = ''
+        for dayItem in self.schedules:
+            for day, hours in dayItem.items():
+                infoOutput += dateInfo[day] + '\n'
+                for hour in hours:
+                    infoOutput += hour + '\n'
+        return infoOutput
 
 def StringToSchedule(raw: str) -> Schedule:
     """
@@ -161,6 +175,20 @@ def StringToSchedule(raw: str) -> Schedule:
 
 
 if __name__ == "__main__":
-    string = """[{"T2":["07:00-09:00","07:00-10:15"]},{"T5":["07:00-09:00"]}]"""
-    s = StringToSchedule(string)
-    print(s.getEndTimeOfDate(Thursday, merge=True))
+    # string = """[{"T2":["07:00-09:00","07:00-10:15"]},{"T5":["07:00-09:00"]}]"""
+    # s = StringToSchedule(string)
+    # print(s.getEndTimeOfDate(Thursday, merge=True))
+
+    data = [
+                {
+                    "T3": [
+                        "09:15-11:15"
+                    ]
+                },
+                {
+                    "T6": [
+                        "09:15-11:15",
+                        "07:00-10:15"
+                    ]
+                }
+            ]

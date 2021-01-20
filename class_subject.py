@@ -154,6 +154,18 @@ class Subject:
         """Trả về số tuần học tối đa."""
         return self.weekEnd-self.weekStart+1
 
+    def toListInfo(self) -> List:
+        """Đưa tất cả thông tin của Subject này thành một List."""
+        registrationTerm = 'Từ: {0}\nĐến: {1}'.format(self.registrationTermStart, self.registrationTermEnd)
+        studyWeek ='{} → {}'.format(self.weekStart,self.weekEnd)
+        studyHours = self.schedule.fromScheduleToInfo()
+        rooms = '\n'.join(self.rooms)
+        places = '\n'.join(self.locations)
+        teacher = '\n'.join(self.teachers)
+        return [self.subjectCode, self.registerCode, self.type, 
+                str(self.emptySeat), registrationTerm, studyWeek, 
+                studyHours, rooms, places, teacher, self.registrationStatus, self.implementationStatus]
+
 def comparingPairingSubject(pairingSubject1: Tuple[Subject], pairingSubject2: Tuple[Subject]):
     """So sánh hai ghép đôi Subject.
     
@@ -185,7 +197,7 @@ def isIntersectWeek(subject1:Subject, subject2:Subject):
     if ((weeks[0] == subject1.getWeekStart() and weeks[1] == subject2.getWeekEnd()) or
         (weeks[0] == subject2.getWeekStart() and weeks[1] == subject2.getWeekEnd())):
         return False
-    return True
+    return True    
 
 def fromJsonToSubjects(jsonData:Dict) -> List[Subject]:
     """Chuyển một JSON String thành một Subject."""

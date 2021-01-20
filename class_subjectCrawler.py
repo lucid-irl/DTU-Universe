@@ -4,7 +4,7 @@ Chuyển dữ liệu từ HTML sang JSON."""
 
 from class_schedule import Schedule
 from class_subject import Subject
-from typing import Dict, List, Set
+from typing import Dict, List, Set, Text
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 from cs4rsa_cleanSubTime import cleanScheduleTime
@@ -135,13 +135,60 @@ class SubjectPage:
         credit = int(toStringAndCleanSpace(tdTag.text).split(' ')[0])
         return credit
 
-    def getDetailCreditString(self) -> List:
+    def getDetailCreditList(self) -> List:
+        """Phân rã chi tiết số đơn vị học tập."""
         table = self.getSoup().find('table', class_='tb_coursedetail')
         tdTag = table('table')[0]('tr')[1]('td')[1]
         text = toStringAndCleanSpace(tdTag.text)
         listStringCreditDetail = getListStringMatchRegex(text, r'([0-9]*[A-Z]*)')
         listStringCreditDetail.pop(0)
         return listStringCreditDetail
+
+    def getDetailCreditString(self) -> List:
+        """Lấy mô tả số ĐVHT."""
+        table = self.getSoup().find('table', class_='tb_coursedetail')
+        tdTag = table('table')[0]('tr')[1]('td')[1]
+        credit = toStringAndCleanSpace(tdTag.text)
+        return credit
+
+    def getStudyUnitType(self):
+        table = self.soup.find('table', class_='tb_coursedetail')
+        tdTag = table('table')[0]('tr')[2]('td')[1]
+        text = toStringAndCleanSpace(tdTag.text)
+        return text
+
+    def getStudyType(self):
+        table = self.soup.find('table', class_='tb_coursedetail')
+        tdTag = table('table')[0]('tr')[3]('td')[1]
+        text = toStringAndCleanSpace(tdTag.text)
+        return text
+
+    def getSemester(self):
+        table = self.soup.find('table', class_='tb_coursedetail')
+        tdTag = table('table')[0]('tr')[4]('td')[1]
+        text = toStringAndCleanSpace(tdTag.text)
+        return text
+
+    def getMustStudySubject(self):
+        """Môn học tiên quyết."""
+        table = self.soup.find('table', class_='tb_coursedetail')
+        tdTag = table('table')[0]('tr')[5]('td')[1]
+        text = toStringAndCleanSpace(tdTag.font.text)
+        return text
+
+    def getParallelSubject(self):
+        """Môn học song hành."""
+        table = self.soup.find('table', class_='tb_coursedetail')
+        tdTag = table('table')[0]('tr')[6]('td')[1]
+        text = toStringAndCleanSpace(tdTag.font.text)
+        return text
+
+    def getDescription(self):
+        """Mô tả môn học."""
+        table = self.soup.find('table', class_='tb_coursedetail')
+        tdTag = table('table')[0]('tr')[7]('td')[1]
+        text = toStringAndCleanSpace(tdTag.text)
+        return text
 
 
 class RawClass:
@@ -343,7 +390,15 @@ class SubjectData:
         self.__subjectCode = subjectPage.getSubjectCode() 
         self.__name = subjectPage.getName()
         self.__credit = subjectPage.getCredit()
-        self.__creditDetail = subjectPage.getDetailCreditString()
+        self.__creditDetail = subjectPage.getDetailCreditList()
+
+        self.creditString = subjectPage.getDetailCreditString()
+        self.studyUnitType = subjectPage.getStudyUnitType()
+        self.semester = subjectPage.getSemester()
+        self.studyType = subjectPage.getStudyType()
+        self.mustStudySubject = subjectPage.getMustStudySubject()
+        self.parallelSubject = subjectPage.getParallelSubject()
+        self.description = subjectPage.getDescription()
         self.__soup = subjectPage.getSoup()
 
     @staticmethod
@@ -448,7 +503,19 @@ class SubjectData:
         return False
 
     def getJson(self):
-        jsonOut = {'name':self.__name, 'credit': self.__credit, 'credit_detail': self.__creditDetail}
+        """Trả về thông tin dưới dạng JSON đầy đủ của môn học được tìm kiếm."""
+        jsonOut = {
+            'name':self.__name,
+            'credit_string':self.creditString,
+            'credit': self.__credit, 
+            'credit_detail': self.__creditDetail,
+            'subject_code': self.__subjectCode,
+            'study_unit_type': self.studyUnitType,
+            'study_type': self.studyType,
+            'semester': self.semester,
+            'must_study_subject': self.mustStudySubject,
+            'parallel_subject':self.parallelSubject,
+            'description':self.description}
         for classGroup in self.getListClassGroup():
             jsonOut.update(classGroup.getJson())
         return jsonOut
@@ -475,7 +542,5 @@ class SubjectData:
 
 if __name__ == "__main__":
     sp = SubjectPage('70','CS','414')
-    print(sp)
     sd = SubjectData(sp)
-    print(sd.getSubjects()[0].getCredit())
     sd.toJsonFile()
