@@ -1,20 +1,33 @@
-from re import search
+import logging
 
 from PyQt5.QtGui import QColor, QIcon
 from class_convertType import ConvertThisQObject
 from typing import Dict
 from PyQt5.QtCore import *
-from PyQt5.QtWidgets import QDesktopWidget, QDialog, QHBoxLayout, QTableWidget, QTableWidgetItem, QApplication, QWidget, QPushButton, QLabel
-
+from PyQt5.QtWidgets import QDesktopWidget, QHBoxLayout, QTableWidget, QTableWidgetItem, QApplication, QWidget, QPushButton, QLabel
 
 from class_subjectCrawler import *
 from class_window import Window
 import team_config
 
-class DetailSubjectWindow(Window):
 
-    def __init__(self, subjectData: SubjectData, connectString, minimumButton, maximumButton, closeButton, windowTitle):
+class ButtonAddSubject(QPushButton):
+
+    def __init__(self, subject: Subject):
+        super().__init__()
+        self.subject = subject
+
+    def getSubject(self) -> Subject:
+        return self.subject
+
+class DetailSubjectWindow(Window):
+    signal_addSubject = pyqtSignal('PyQt_PyObject')
+    ICON_BUTTON_ADD = 'resources/icon_add.svg'
+    LIST_BUTTON_ADD_SUBJECT: List[ButtonAddSubject] = []
+
+    def __init__(self, master, subjectData: SubjectData, connectString, minimumButton, maximumButton, closeButton, windowTitle):
         super().__init__(connectString, minimumButton, maximumButton, closeButton, windowTitle)
+        self.master = master
         self.subjectData = subjectData
         self.jsonData = subjectData.getJson()
         self.subjects = subjectData.getSubjects()
@@ -27,10 +40,10 @@ class DetailSubjectWindow(Window):
         self.label_parallel_subject = ConvertThisQObject(self, QLabel, 'parallel_subject').toQLabel()
         self.tableWidget_detail = ConvertThisQObject(self, QTableWidget, 'tableWidget_detail').toQTableWidget()
         self.renderOverview()
-        self.renderDetailTable()
 
     def renderOverview(self):
         self.windowTitleLabel.setText(self.jsonData['name'])
+        self.setWindowTitle(self.jsonData['name'])
         self.label_subject_code.setText(self.jsonData['subject_code'])
         self.label_credit_string.setText(self.jsonData['credit_string'])
         self.label_study_unit_type.setText(self.jsonData['study_unit_type'])
@@ -41,32 +54,53 @@ class DetailSubjectWindow(Window):
 
     def renderDetailTable(self):
         data = self.fromSubjectToListData()
-        dataHaveClassGroupName = self.insertClassNameToListData(data)
-        numrows = len(dataHaveClassGroupName)
+        self.dataHaveClassGroupName = self.insertClassNameToListData(data)
+
+        numrows = len(self.dataHaveClassGroupName)
         numcols = len(data[0])+1
-        self.tableWidget_detail.setColumnCount(numcols)
+
         self.tableWidget_detail.setRowCount(numrows)
+        self.tableWidget_detail.setColumnCount(numcols)
+        diffIndexAddSubjectButton = 0
+
         for row in range(numrows):
             # paint class group name
-            if len(dataHaveClassGroupName[row])==1:
-                item = QTableWidgetItem(dataHaveClassGroupName[row][0])
+            if len(self.dataHaveClassGroupName[row])==1:
+                logging.info('row == {}'.format(row))
+                item = QTableWidgetItem(self.dataHaveClassGroupName[row][0])
                 item.setBackground(QColor('#e8fcc3'))
                 self.tableWidget_detail.setItem(row, 0, item)
                 self.tableWidget_detail.setSpan(row, 0, 1, self.tableWidget_detail.columnCount())
+                diffIndexAddSubjectButton += 1
             else:
                 # add subject
                 for column in range(numcols):
                     if column == numcols-1:
-                        self.addAddSubjectButton(row, column)
+                        logging.info('row-diffIndexAddSubjectButton {}'.format(row-diffIndexAddSubjectButton))
+                        logging.info('len self.subject {}'.format(len(self.subjects)))
+                        subject = self.subjects[row-diffIndexAddSubjectButton]
+                        
+                        button = self.createAddSubjectButton(subject)
+                        DetailSubjectWindow.LIST_BUTTON_ADD_SUBJECT.append(button)
+                        
+                        widget = QWidget()
+                        layout = QHBoxLayout()
+                        layout.addWidget(button)
+                        layout.setAlignment(Qt.AlignCenter)
+                        layout.setContentsMargins(0, 0, 0, 0)
+                        widget.setLayout(layout)
+                        self.tableWidget_detail.setCellWidget(row, column, widget)
                     else:
-                        self.tableWidget_detail.setItem(row, column, QTableWidgetItem((dataHaveClassGroupName[row][column])))
+                        item = QTableWidgetItem(self.dataHaveClassGroupName[row][column])
+                        self.tableWidget_detail.setItem(row, column, item)
+
+        self.unableButtonAddSubject()
         self.tableWidget_detail.resizeColumnsToContents()
         self.tableWidget_detail.resizeRowsToContents()
-        self.show()
 
     def show(self):
         """Fit size window for content in table."""
-        width = self.sizeHint().width()
+        width = self.sizeHint().width()+50
         height = (QDesktopWidget().size().height()/100)*80
         centerPoint = QDesktopWidget().availableGeometry().center()
         self.hopePointX = centerPoint.x() - width/2
@@ -75,21 +109,28 @@ class DetailSubjectWindow(Window):
         self.setGeometry(self.qrect)
         super().show()
 
+    def createAddSubjectButton(self, subject: Subject):
+        addButton = ButtonAddSubject(subject)
+        addButton.setIcon(QIcon(DetailSubjectWindow.ICON_BUTTON_ADD))
+        addButton.setToolTip('Thêm môn này vào bảng.')
+        addButton.clicked.connect(lambda: self.emitSignalAddSubject(emitter=addButton))
+        return addButton
 
-    #TODO add signal for button
-    def addAddSubjectButton(self, row, col):
-        ICON_BUTTON_ADD = 'resources/icon_add.svg'
-        widget = QWidget()
-        self.addButton = QPushButton()
-        self.addButton.setIcon(QIcon(ICON_BUTTON_ADD))
-        self.addButton.setToolTip('Thêm môn này vào bảng.')
-        layout = QHBoxLayout()
+    def unableButtonAddSubject(self):
+        currentChoicedSubject = self.master.semester.getSubjects()
+        subjectCodes = [subject.getSubjectCode() for subject in currentChoicedSubject]
+        for button in DetailSubjectWindow.LIST_BUTTON_ADD_SUBJECT:
+            if button.getSubject().getSubjectCode() in subjectCodes:
+                button.setEnabled(False)
 
-        layout.addWidget(self.addButton)
-        layout.setAlignment(Qt.AlignCenter)
-        layout.setContentsMargins(0, 0, 0, 0)
-        widget.setLayout(layout)
-        self.tableWidget_detail.setCellWidget(row, col, widget)
+    def enableButtonAddSubject(self, subject: Subject):
+        for button in DetailSubjectWindow.LIST_BUTTON_ADD_SUBJECT:
+            if button.getSubject().getSubjectCode() == subject.getSubjectCode():
+                button.setEnabled(True)
+
+    def emitSignalAddSubject(self, emitter: ButtonAddSubject):
+        self.signal_addSubject.emit(emitter.getSubject())
+        self.unableButtonAddSubject()
 
     def insertClassNameToListData(self, listSubjecInfo: List[List[str]]) -> List:
         """Chèn class group name vào list data của subject."""
@@ -97,7 +138,7 @@ class DetailSubjectWindow(Window):
         for classGroupName in self.subjectData.getListClassGroupName():
             newData.append([classGroupName])
             for subjectInfoes in listSubjecInfo:
-                pattern = '^({})'.format(classGroupName)
+                pattern = '({})[0-9]*$'.format(classGroupName)
                 if re.search(pattern, subjectInfoes[0]):
                     newData.append(subjectInfoes)
         return newData
@@ -114,30 +155,7 @@ class DetailSubjectWindow(Window):
             outputData.append(subject.toListInfo())
         return outputData
 
-    def maximum(self):
-        if self.WINDOW_IS_MAXIMIZED:
-            width = self.sizeHint().width()
-            height = (QDesktopWidget().size().height()/100)*80
-            centerPoint = QDesktopWidget().availableGeometry().center()
-            self.hopePointX = centerPoint.x() - width/2
-            self.hopePointY = centerPoint.y() - height/2
-            self.qrect = QRect(self.hopePointX, self.hopePointY, width, height)
-            self.ani = QPropertyAnimation(self, b'geometry')
-            self.ani.setDuration(300)
-            self.ani.setEndValue(self.qrect)
-            self.ani.setEasingCurve(QEasingCurve.InOutQuad)
-            self.ani.start()
-            self.WINDOW_IS_MAXIMIZED = False
-        else:
-            self.desktop = QApplication.desktop()
-            self.screenRect = self.desktop.screenGeometry()
-            self.screenRect.setHeight(self.screenRect.height()-50)
-            self.ani = QPropertyAnimation(self, b'geometry')
-            self.ani.setDuration(300)
-            self.ani.setEndValue(self.screenRect)
-            self.ani.setEasingCurve(QEasingCurve.InOutQuad)
-            self.ani.start()
-            self.WINDOW_IS_MAXIMIZED = True
+
 
 if __name__ == "__main__":
     sp = SubjectPage('70','CS','414')
@@ -145,5 +163,6 @@ if __name__ == "__main__":
     app = QApplication([])
 
     d = DetailSubjectWindow(sd, team_config.UI_DETAILSUBJECTTABLE, 'button_minimum','button_maximum','button_close','label_windowTitle')
+    d.signal_addSubject.connect(lambda s: print(s))
     d.show()
     app.exec()
