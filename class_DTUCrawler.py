@@ -504,13 +504,12 @@ class DTUStudentScore(DTUSession):
 
 class DTUGetAll:
 
-    def __init__(self, ASPNETSessionIdDict, specialNumber) -> None:
+    def __init__(self, ASPNETSessionIdDict) -> None:
         self.ASPNETSessionIdDict = ASPNETSessionIdDict
-        self.specialNumber = specialNumber
 
     def getJson(self):
-        dtusc = DTUStudentScore(ASPNETSessionIdDict=self.ASPNETSessionIdDict,specialNumber=self.specialNumber)
         dtust = DTUInfoStudent(self.ASPNETSessionIdDict)
+        dtusc = DTUStudentScore(ASPNETSessionIdDict=self.ASPNETSessionIdDict,specialNumber=dtust.getSpecialNumber())
         jsonOut = dtust.getJson()
         jsonOut.update(dtusc.getJson())
         return jsonOut
@@ -525,4 +524,4 @@ class DTUGetAll:
 
 if __name__ == "__main__":
     js = DTUInfoStudent({'ASP.NET_SessionId':'d5fesmaw42zcbwv5cquifuxs'}).getStudentId()
-    print(js)
+
