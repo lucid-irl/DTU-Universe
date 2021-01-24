@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>496</width>
+    <width>666</width>
     <height>272</height>
    </rect>
   </property>
@@ -546,7 +546,7 @@ border:none;
                 </font>
                </property>
                <property name="text">
-                <string>Có vẻ như bạn chưa đăng nhập vào DTU???</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Có vẻ như bạn chưa đăng nhập vào DTU???&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:400;&quot;&gt;Sau khi đăng nhập xong, hãy đợi vài khoảng 15s sau đó vào lại tính năng này nhé.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
               </widget>
              </item>
@@ -730,8 +730,20 @@ border:none;
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
+               <property name="font">
+                <font>
+                 <family>Segoe UI</family>
+                 <pointsize>10</pointsize>
+                </font>
+               </property>
                <property name="styleSheet">
-                <string notr="true">min-height: 30px;</string>
+                <string notr="true">QLineEdit {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    selection-background-color: darkgray;
+min-height: 30px;
+}</string>
                </property>
               </widget>
              </item>
@@ -753,6 +765,16 @@ border:none;
                     <weight>75</weight>
                     <bold>true</bold>
                    </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton {
+background-color: #0be881;
+border-bottom: 5px solid #05c46b;
+}
+
+QPushButton:pressed {
+border: none;
+}</string>
                   </property>
                   <property name="text">
                    <string>Tiếp tục</string>

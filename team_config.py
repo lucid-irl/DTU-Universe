@@ -12,6 +12,7 @@ WINDOW_DETAIL_INFO = 'window_class_info.ui'
 WINDOW_DONATE = 'window_info_donate.ui'
 WINDOW_REGISTER = 'window_register.ui'
 WINDOW_SUBJECTS_TABLE = 'window_info_table.ui'
+WINDOW_SAVE_EXCEL = 'window_export_excel.ui'
 
 # data
 DISCIPLINE_FILE = 'allDiscipline.json'
@@ -22,3 +23,4 @@ UI_DONATE = FOLDER_UI+'/'+WINDOW_DONATE
 UI_MAIN = FOLDER_UI+'/'+USE_UI
 UI_REGISTER = FOLDER_UI+'/'+WINDOW_REGISTER
 UI_DETAILSUBJECTTABLE = FOLDER_UI+'/'+WINDOW_SUBJECTS_TABLE
+UI_SAVE_EXCEL = FOLDER_UI+'/'+WINDOW_SAVE_EXCEL

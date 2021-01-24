@@ -1,7 +1,7 @@
 from os import makedirs, stat
 from PyQt5.QtCore import QObject, pyqtSignal
 
-from class_subject import Subject
+from class_subject import Subject, getWeekStartOfSubjects, getWeekEndOfSubjects
 from class_schedule import *
 from class_conflict import *
 from cs4rsa_color import *
@@ -16,6 +16,9 @@ class Semester(QObject):
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Bao gồm tìm lịch, thêm lịch và xử lý xung đột.
     """
+
+    WEEK_INDEX_RULE_1 = list(range(1,10))
+    WEEK_INDEX_RULE_2 = list(range(9, 19))
 
     TIME_CHAINS = {
         '7:00:00':0,
@@ -119,7 +122,8 @@ class Semester(QObject):
     def getCurrentSubjects() -> List[Subject]:
         """Trả về danh sách các Subject có trong tuần hiện tại."""
         logging.info('getCurrentSubjects run')
-        if len(Semester.SEMESTER):
+        if len(Semester.SEMESTER) and len(Semester.SUBJECTS):
+            logging.info('Số lượng subject còn lại trong SEMSESTER {}'.format(len(Semester.SEMESTER)))
             return Semester.SEMESTER[Semester.SEMESTER_INDEX]
         else:
             return []
@@ -207,7 +211,7 @@ class Semester(QObject):
 
     @staticmethod
     def pairingSubjectInWeek() -> List[Tuple[Subject]]:
-        """Bắt cặp các Subject có trong một tuần nào đó"""
+        """Bắt cặp các Subject có trong một Tuần."""
         logging.info('pairingSubjectInWeek run')
         pairedSubjects = []
         tempSubjects = Semester.SEMESTER[Semester.SEMESTER_INDEX].copy()
@@ -257,11 +261,61 @@ class Semester(QObject):
             logging.info('Conflict is {}'.format(conflictsOutput))
         return conflictsOutput
         
-
     def setSemesterIndex(self, index: int):
         logging.info('setSemesterIndex run')
         Semester.SEMESTER_INDEX = index
         self.signal_indexChanged.emit(Semester.SEMESTER_INDEX)
+
+    @staticmethod
+    def filterPhase(subjects: List[Subject], phase: int) -> List[Subject]:
+        """
+        Hàm này lọc ra các Subject trải dài trên một số Tuần nào đó.
+        
+        @phase: Giai đoạn (0, 1 hoặc 2)
+
+        Xét trong WEEK_INDEX_RULE
+        
+        - 0 - Chỉ lấy những Subject nào có trên cả 2 giai đoạn.
+        - 1 - Lấy những Subject có trong giai đoạn 1.
+        - 2 - Lấy những Subject có trong giai đoạn 2.
+        """
+        output = []
+        for subject in subjects:
+            if Semester.isHaveInThisPhase(subject, phase):
+                output.append(subject)
+        return output
+
+    @staticmethod
+    def filterPhase_New(subjects: List[Subject], phase: int) -> List[Subject]:
+        startWeek = getWeekStartOfSubjects(subjects)
+        endWeek = getWeekEndOfSubjects(subjects)
+        output = []
+        for subject in subjects:
+            if phase == 1:
+                reduceWeekStart = subject.getWeekStart() - startWeek + 1
+                if reduceWeekStart in Semester.WEEK_INDEX_RULE_1:
+                    output.append(subject)
+            elif phase == 2:
+                reduceWeekEnd = subject.getWeekEnd() -startWeek + 1
+                if reduceWeekEnd in Semester.WEEK_INDEX_RULE_2:
+                    output.append(subject)
+        return output
+
+    @staticmethod
+    def isHaveInThisPhase(subject: Subject, phase: int) -> bool:
+        """Kiểm tra một Subject có ở trong một giai đoạn nào đó hay không.
+        
+        @subject: Subject
+
+        @phase: 1 hoặc 2"""
+        if phase == 1:
+            if subject.getWeekStart() in Semester.WEEK_INDEX_RULE_1:
+                return True
+            return False
+        if phase == 2:
+            if subject.getWeekEnd() in Semester.WEEK_INDEX_RULE_2:
+                return True
+            return False
 
 # Điều khiển Week Context của Semester
     def nextWeek(self):

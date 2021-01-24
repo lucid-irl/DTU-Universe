@@ -29,12 +29,36 @@ Sunday = SUNDAY = 'CN'
 
 Week = WEEK = [Monday, Tuseday, Wednesday, Thursday, Friday, Saturday, Sunday]
 
-
 class Schedule:
     """Đại diện cho thời gian biểu của một Subject trong một Tuần kéo dài cho đến hết giai đoạn."""
 
     def __init__(self, schedules: List[Dict[str, List]]) -> None:
         self.schedules = schedules
+
+    def __str__(self):
+        output = '<Schedule {}>'.format(self.getDatesOfLesson())
+        return output
+
+    def __repr__(self) -> str:
+        output = '<Schedule {}>'.format(self.getDatesOfLesson())
+        return output
+
+    def showDetail(self):
+        print()
+        for date in WEEK:
+            if self.getTimeOfDate(date):
+                dateString = "{0}: {1}".format(date, self.getTimeOfDate(date))
+                print(dateString)
+
+    def extend(self, another):
+        output = []
+        dateItem:Dict[str, List[str]] = None
+        for date in WEEK:
+            unionDate = set(self.getTimeOfDate(date)).union(set(another.getTimeOfDate(date)))
+            if unionDate:
+                dateItem = {date: list(unionDate)}
+                output.append(dateItem)
+        self.schedules = output
 
     def getNumberLessonPerWeek(self) -> int:
         """Trả về số buổi học mỗi tuần."""
@@ -162,6 +186,22 @@ class Schedule:
                     infoOutput += hour + '\n'
         return infoOutput
 
+    def fromScheduleToRenderExcel(self) -> str:
+        dateInfo = {'T2': 'Thứ 2',
+                    'T3': 'Thứ 3',
+                    'T4': 'Thứ 4',
+                    'T5': 'Thứ 5',
+                    'T6': 'Thứ 6',
+                    'T7': 'Thứ 7',
+                    'CN': 'Chủ Nhật'}
+        infoOutput = ''
+        for dayItem in self.schedules:
+            for day, hours in dayItem.items():
+                infoOutput += dateInfo[day] + '\r\n'
+                for hour in hours:
+                    infoOutput += hour + '\r\n'
+        return infoOutput
+
 def StringToSchedule(raw: str) -> Schedule:
     """
     Hàm này nhận vào một string và trả về một Schedule.
@@ -179,7 +219,7 @@ if __name__ == "__main__":
     # s = StringToSchedule(string)
     # print(s.getEndTimeOfDate(Thursday, merge=True))
 
-    data = [
+    data2 = [
                 {
                     "T3": [
                         "09:15-11:15"
@@ -192,3 +232,24 @@ if __name__ == "__main__":
                     ]
                 }
             ]
+    data1 = [
+                {
+                    "T2": [
+                        "09:15-11:15"
+                    ]
+                },
+                {
+                    "T6": [
+                        "09:15-11:15",
+                        "07:00-10:15"
+                    ]
+                }
+            ]
+
+    sd1 = Schedule(data1)
+    sd1.showDetail()
+    sd2 = Schedule(data2)
+    sd2.showDetail()
+    sd1.extend(sd2)
+    sd1.showDetail()
+

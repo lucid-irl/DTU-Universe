@@ -39,7 +39,7 @@ class Window(QWidget):
 
     def maximum(self):
         if self.WINDOW_IS_MAXIMIZED:
-            width = (QDesktopWidget().size().width()/100)*80
+            width = self.sizeHint().width()
             height = (QDesktopWidget().size().height()/100)*80
             centerPoint = QDesktopWidget().availableGeometry().center()
             self.hopePointX = centerPoint.x() - width/2

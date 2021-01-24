@@ -6,7 +6,7 @@ làm sạch text sau khi lấy được từ một Tag trong BeautifulSoup, suy 
 """
 
 import re
-from typing import List
+from typing import Dict, List
 
 
 def toStringAndCleanSpace(text):
@@ -33,6 +33,38 @@ def getListStringMatchRegex(string: str, regexString:str):
     regex = re.compile(regexString)
     return [item for item in regex.findall(string) if item]
 
+def getListObjectFromIndex(listIndex, listObject):
+    """Lấy ra một list các object dựa theo list index được truyền vào."""
+    output = []
+    for i in listIndex:
+        output.append(listObject[i])
+    return output
+
+def getNewListWithoutIndex(listIndex, listObject):
+    """Lấy ra danh sách các object trong một list các object mà chúng không thuộc list index được truyền vào."""
+    output = []
+    for i in range(len(listObject)):
+        if i in listIndex:
+            continue
+        output.append(listObject[i])
+    return output
+
+def getIndexOfKeyInDict(d:Dict, k: str):
+    index = 0
+    for key, _ in d.items():
+        if key == k:
+            return index
+        index += 1
+    return None
+
+def getColFromMatrix(matrix: List[List[str]], colIndex: int) -> List[str]:
+    if colIndex >= len(matrix[0]):
+        return []
+    output = []
+    for row in matrix:
+        output.append(row[colIndex])
+    return output
+
 
 if __name__ == "__main__":
     checkChan = lambda number: True if number%2==0 else False
@@ -51,4 +83,3 @@ if __name__ == "__main__":
 
     items = [1,2,3,4,5,5,6,7,9,21,13,42,53,123,51]
     out = clustering([checkChan, checkLe], itemsToGroup, items)
-    print(out)

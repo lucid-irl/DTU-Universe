@@ -30,6 +30,16 @@ def hex_code_colors():
         LIST_COLORS.append(z)
         return z
 
+def generateRandomColor(r, g, b):
+    red = random.randint(0, 256)
+    green = random.randint(0,256)
+    blue = random.randint(0, 256)
 
+    if r and g and b:
+        red = int((red + r) / 2)
+        green = int((green + g) / 2)
+        blue = int((blue + b) / 2)
+        LIST_COLORS.append('#%02x%02x%02x' % (red, green, blue))
+        return '#%02x%02x%02x' % (red, green, blue)
 
 

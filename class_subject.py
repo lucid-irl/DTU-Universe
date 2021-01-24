@@ -1,6 +1,9 @@
 import logging
+from team_config import UI_MAIN
 from typing import Dict, List, Tuple
 from class_schedule import Schedule
+
+import cs4rsa_helpfulFunctions
 import re
 import json
 
@@ -154,6 +157,18 @@ class Subject:
         """Trả về số tuần học tối đa."""
         return self.weekEnd-self.weekStart+1
 
+    def setSubjectCode(self, subjectCode):
+        self.subjectCode = subjectCode
+
+    def setStudyType(self, type):
+        self.type = type
+
+    def setLocations(self, locations):
+        self.locations = locations
+
+    def setTeachers(self, teachers):
+        self.teachers = teachers
+
     def toListInfo(self) -> List:
         """Đưa tất cả thông tin của Subject này thành một List."""
         registrationTerm = '{0} → {1}'.format(self.registrationTermStart, self.registrationTermEnd)
@@ -165,6 +180,29 @@ class Subject:
         return [self.subjectCode, self.registerCode, self.type, 
                 str(self.emptySeat), registrationTerm, studyWeek, 
                 studyHours, rooms, places, teacher, self.registrationStatus, self.implementationStatus]
+
+    def toDictInfoRenderExcel(self):
+        """`(excel)` Đưa tất cả thông tin của Subject này thành một Dict."""
+        registrationTerm = '{0} → {1}'.format(self.registrationTermStart, self.registrationTermEnd)
+        studyWeek ='{} → {}'.format(self.weekStart,self.weekEnd)
+        studyHours = self.schedule.fromScheduleToRenderExcel()
+        rooms = ', '.join(self.rooms)
+        places = ', '.join(self.locations)
+        teachers = ', '.join(self.teachers)
+        return {'register_code': self.registerCode, 
+                'subject_code': self.subjectCode,
+                'name': self.name,
+                'empty_seat': str(self.emptySeat),
+                'credit':self.credit, 
+                'type':self.type, 
+                'study_hours':studyHours,
+                'teachers':teachers, 
+                'places':places, 
+                'rooms':rooms,
+                'study_week':studyWeek, 
+                'registration_term':registrationTerm, 
+                'registration_status':self.registrationStatus, 
+                'implementation_status':self.implementationStatus}
 
 def comparingPairingSubject(pairingSubject1: Tuple[Subject], pairingSubject2: Tuple[Subject]):
     """So sánh hai ghép đôi Subject.
@@ -197,15 +235,128 @@ def isIntersectWeek(subject1:Subject, subject2:Subject):
     if ((weeks[0] == subject1.getWeekStart() and weeks[1] == subject2.getWeekEnd()) or
         (weeks[0] == subject2.getWeekStart() and weeks[1] == subject2.getWeekEnd())):
         return False
-    return True    
+    return True
+
+def indexOfLecLab(subject: Subject, inList: List[Subject]) -> List:
+    """Kiểm tra List of Subject truyền vào có Môn LEC hay LAB hay không. 
+    Nếu có trả về list index của Subject LEC hoặc LAB tương ứng. Nếu không trả về None."""
+    output = []
+    i = 0
+    while i<len(inList):
+        if subject.getRegisterCode() == inList[i].getRegisterCode():
+            output.append(i)
+        i+=1
+    return output
+
+def intersectClassGroupName(subjectCode1, subjectCode2):
+    """`(excel)` Hợp nhất hai subjectName để lấy được classGroupName."""
+    output = ''
+    if len(subjectCode1) > len(subjectCode2):
+        for i in range(len(subjectCode2)):
+            if subjectCode1[i] == subjectCode2[i]:
+                output += subjectCode1[i]
+    else:
+        for i in range(len(subjectCode1)):
+            if subjectCode1[i] == subjectCode2[i]:
+                output += subjectCode1[i]
+    return output
+
+def isLecAndLab(subject1: Subject, subject2: Subject) -> bool:
+    if (subject1.getRegisterCode() == subject2.getRegisterCode() and
+        ((subject1.getType()=='LEC' or subject2.getType()=='LAB') or
+        (subject1.getType()=='LAB' or subject2.getType()=='LEB'))):
+        return True
+    return False
+
+def mergeTwoSubject(subject1: Subject, subject2: Subject):
+    """`(excel)` Gộp hai Subject (LEC/LAB) thành một Subject."""
+    if isLecAndLab(subject1, subject2):
+        subjectCode = intersectClassGroupName(subject1.getSubjectCode(), subject2.getSubjectCode())
+        studyType = '{0}/{1}'.format(subject1.getType(), subject2.getType())
+        places = list(set(subject1.getLocations() + subject2.getLocations()))
+        teachers = list(set(subject1.getTeachers() + subject2.getTeachers()))
+        subject1.getSchedule().extend(subject2.getSchedule())
+
+        subject1.setSubjectCode(subjectCode)
+        subject1.setStudyType(studyType)
+        subject1.setLocations(places)
+        subject1.setTeachers(teachers)
+        return subject1
+
+def mergeListSubject(subjects: List[Subject]) -> Subject:
+    """`(excel)` Gộp một List các Subject có cùng mã đăng ký lại thành một Subject duy nhất."""
+    if len(subjects) < 2:
+        return None
+    output = subjects[0]
+    while len(subjects) > 0:
+        if len(subjects) > 1:
+            subject = subjects.pop(1)
+        else:
+            subject = subjects.pop(0)
+        if isLecAndLab(output, subject):
+            output = mergeTwoSubject(output, subject)
+            return output
+        else:
+            return None
+
+def isHaveLecLab(subjects):
+    subject1 = subjects[0]
+    for i in range(1, len(subjects)):
+        if subjects[i] == subject1:
+            return True
+    return False
+
+def getTotalCredit(subjects: List[Subject]):
+    output = 0
+    for subject in subjects:
+        output += subject.getCredit()
+    return output
+
+def reduceSubject(subjects: List[Subject]):
+    """Gộp những lớp LEC/LAB lại với nhau và trả về một list Subject mới."""
+    newSubjects: List[Subject] = []
+    i = 0
+    while len(subjects) > 0 and isHaveLecLab(subjects):
+            indexs = indexOfLecLab(subjects[i], subjects)
+            listSubjectLecLab: List[Subject] = cs4rsa_helpfulFunctions.getListObjectFromIndex(indexs, subjects)
+            mergedSubject = mergeListSubject(listSubjectLecLab)
+            newSubjects.append(mergedSubject)
+            subjects = cs4rsa_helpfulFunctions.getNewListWithoutIndex(indexs, subjects)
+    return newSubjects + subjects
+
+
+def getWeekEndOfSubjects(subjects:List[Subject]):
+    """Trả về tuần kết thúc của một list các Subject."""
+    if subjects:
+        maxWeekEnd = 0
+        for subject in subjects:
+            if subject.getWeekEnd() > maxWeekEnd:
+                maxWeekEnd = subject.getWeekEnd()
+        return maxWeekEnd
+    return 0
+
+def getWeekStartOfSubjects(subjects:List[Subject]):
+    """Trả về tuần bắt đầu của một list các Subject."""
+    if subjects:
+        maxWeekStart = subjects[0].getWeekStart()
+        for subject in subjects:
+            if subject.getWeekStart() < maxWeekStart:
+                maxWeekStart = subject.getWeekStart()
+        return maxWeekStart
+    return 0
+
+def getMaxWeek(subjects:List[Subject]):
+    """Trả về số tuần học tối đa của một danh sách các Subject."""
+    if subjects:
+        return getWeekEndOfSubjects(subjects) - getWeekStartOfSubjects(subjects) + 1
+    return 0
 
 def fromJsonToSubjects(jsonData:Dict) -> List[Subject]:
-    """Chuyển một JSON String thành một Subject."""
+    """Chuyển một JSON String thành một list Subject."""
     subjects:List[Subject] = []
     name = jsonData['name']
     credit = jsonData['credit']
-    creditDetail = jsonData['creditDetail']
-    for classGroupCode, valueGroup in jsonData.items():
+    for _, valueGroup in jsonData.items():
         for classCode, valueClass in valueGroup:
             className = valueClass['class_name']
             registerCode = valueClass['register_code']
@@ -229,5 +380,5 @@ def fromJsonToSubjects(jsonData:Dict) -> List[Subject]:
     return subjects
 
 
-if __name__ == "__main__":
-    pass
+if __name__ == '__main__':
+    print(intersectClassGroupName('cs 414 A', 'cs 414 A2123'))

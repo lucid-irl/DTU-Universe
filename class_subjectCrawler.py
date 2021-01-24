@@ -3,7 +3,7 @@
 Chuyển dữ liệu từ HTML sang JSON."""
 
 from class_schedule import Schedule
-from class_subject import Subject
+from class_subject import Subject, indexOfLecLab, isHaveLecLab, mergeListSubject, mergeTwoSubject
 from typing import Dict, List, Set, Text
 from bs4 import BeautifulSoup
 from bs4.element import Tag
@@ -42,12 +42,11 @@ class ExceptionCantFoundThisSubject(Exception):
 class SubjectPage:
     """Class này đại diện cho một course detail page bao gồm các thông tin về lịch lớp học.
     Đảm bảo một request duy nhất tới server DTU.
-    
-    - Kiểm tra tồn tại môn và có lịch."""
+    """
 
-    def __init__(self, schoolYear: str, discipline: str, keyword1: str):
+    def __init__(self, currentSemesterValue: str, discipline: str, keyword1: str):
         super(SubjectPage, self).__init__()
-        self.schoolYear = schoolYear
+        self.currentSemesterValue = currentSemesterValue
         self.discipline = discipline
         self.keyword1 = keyword1
         self.subjectCode = discipline+' '+keyword1
@@ -58,13 +57,10 @@ class SubjectPage:
         self.haveSchedule = self.isHaveSchedule()
 
     def __str__(self):
-        return '<SubjectPage SemesterID: {2} {0} {1}>'.format(self.discipline, self.keyword1, self.schoolYear)
+        return '<SubjectPage SemesterID: {2} {0} {1}>'.format(self.discipline, self.keyword1, self.currentSemesterValue)
 
     def getUrl(self):
-        if self.url:
-            return self.url
-        else:
-            raise Exception("You need to run SubjectPage's run() method before run this getter.")
+        return self.url
     
     def getSoup(self):
         return self.soup
@@ -93,7 +89,7 @@ class SubjectPage:
         params = {
             'discipline': discipline,
             'keyword1': keyword1,
-            'hocky': self.schoolYear,
+            'hocky': self.currentSemesterValue,
         }
         courseResultSearchUrl = 'http://courses.duytan.edu.vn/Modules/academicprogram/CourseResultSearch.aspx'
         r = requests.get(courseResultSearchUrl, params)
@@ -104,7 +100,7 @@ class SubjectPage:
             urlSub = hitTag[1]['href']
             courseId = SubjectPage.extractCourseId(urlSub)
             urlOutput = "http://courses.duytan.edu.vn/Modules/academicprogram/CourseClassResult.aspx?courseid={0}&semesterid={1}&timespan={2}"
-            return urlOutput.format(courseId, self.schoolYear, self.schoolYear)
+            return urlOutput.format(courseId, self.currentSemesterValue, self.currentSemesterValue)
         else:
             raise ExceptionCantFoundThisSubject(discipline+' '+keyword1)
 
@@ -543,4 +539,5 @@ class SubjectData:
 if __name__ == "__main__":
     sp = SubjectPage('70','CS','414')
     sd = SubjectData(sp)
-    sd.toJsonFile()
+    sjs = sd.getSubjects()
+    listSubject = [sjs[0], sjs[1]]

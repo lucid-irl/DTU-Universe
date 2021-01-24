@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1651</width>
-    <height>626</height>
+    <width>475</width>
+    <height>231</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -45,9 +45,6 @@ border: 1px solid #ced6e0;
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
-      <property name="spacing">
-       <number>0</number>
-      </property>
       <property name="leftMargin">
        <number>0</number>
       </property>
@@ -111,7 +108,7 @@ border: 1px solid #ced6e0;
             <string notr="true">padding-left: 5px;</string>
            </property>
            <property name="text">
-            <string>window title</string>
+            <string>Xuất Excel</string>
            </property>
           </widget>
          </item>
@@ -284,257 +281,87 @@ background-color: rgb(255, 0, 0);
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
-          <widget class="QFrame" name="frame_overview">
-           <property name="styleSheet">
-            <string notr="true">font-family: Segoe UI;
-font-size: 16px;</string>
-           </property>
+          <widget class="QFrame" name="frame">
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
            </property>
            <property name="frameShadow">
             <enum>QFrame::Raised</enum>
            </property>
-           <layout class="QGridLayout" name="gridLayout">
-            <item row="0" column="8">
-             <spacer name="horizontalSpacer_4">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="0" column="7">
-             <spacer name="horizontalSpacer_5">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_3">
-              <property name="text">
-               <string>Loại ĐVHT</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="label_4">
-              <property name="text">
-               <string>Loại hình</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="3">
-             <widget class="QLabel" name="label_5">
-              <property name="text">
-               <string>Học kỳ</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLabel" name="subject_code">
-              <property name="text">
-               <string>TextLabel</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="3">
-             <widget class="QLabel" name="label_6">
-              <property name="text">
-               <string>Môn tiên quyết</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="3">
-             <widget class="QLabel" name="label_7">
-              <property name="text">
-               <string>Môn song hành</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="2">
-             <spacer name="horizontalSpacer_3">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="1" column="5">
-             <widget class="QLabel" name="must_study_subject">
-              <property name="text">
-               <string>TextLabel</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="5">
-             <widget class="QLabel" name="parallel_subject">
-              <property name="text">
-               <string>TextLabel</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QLabel" name="study_unit_type">
-              <property name="text">
-               <string>TextLabel</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLabel" name="credit_string">
-              <property name="text">
-               <string>TextLabel</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
              <widget class="QLabel" name="label">
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
               <property name="text">
-               <string>Mã môn</string>
+               <string>Tên file</string>
               </property>
              </widget>
             </item>
-            <item row="3" column="1">
-             <widget class="QLabel" name="study_type">
-              <property name="text">
-               <string>TextLabel</string>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_fileName">
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLineEdit {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 0 8px;
+    selection-background-color: darkgray;
+min-height: 30px;
+}</string>
               </property>
              </widget>
             </item>
-            <item row="1" column="0">
+            <item>
              <widget class="QLabel" name="label_2">
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+               </font>
+              </property>
               <property name="text">
-               <string>Số ĐVHT</string>
+               <string>.xlsx</string>
               </property>
              </widget>
-            </item>
-            <item row="0" column="9">
-             <spacer name="horizontalSpacer_2">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item row="0" column="5">
-             <widget class="QLabel" name="semester">
-              <property name="text">
-               <string>TextLabel</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="6">
-             <spacer name="horizontalSpacer_6">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
             </item>
            </layout>
           </widget>
          </item>
-         <item>
-          <widget class="QTableWidget" name="tableWidget_detail">
-           <property name="sizeAdjustPolicy">
-            <enum>QAbstractScrollArea::AdjustToContents</enum>
+         <item alignment="Qt::AlignHCenter">
+          <widget class="QPushButton" name="button_ok">
+           <property name="font">
+            <font>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
            </property>
-           <attribute name="verticalHeaderStretchLastSection">
-            <bool>true</bool>
-           </attribute>
-           <column>
-            <property name="text">
-             <string>Tên lớp</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Mã đăng ký</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Loại hình</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Số chỗ còn lại</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Hạn đăng ký</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Tuần học</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Giờ học</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Phòng</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Địa điểm</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Giảng viên</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Tình trạng đăng ký</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Tình trạng triển khai</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Thao tác</string>
-            </property>
-           </column>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+border-radius: 7px;
+border-bottom: 5px solid #7f8c8d;
+background-color: #95a5a6;
+color: #ffffff;
+max-height: 40px;
+min-width: 150px;
+}
+
+QPushButton:pressed {
+border: none;
+}</string>
+           </property>
+           <property name="text">
+            <string>Xuất ra nè</string>
+           </property>
           </widget>
          </item>
         </layout>

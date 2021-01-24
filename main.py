@@ -2,11 +2,10 @@ from PyQt5.QtWidgets import (QCheckBox, QShortcut, QStackedWidget, QWidget, QApp
                             QTableWidget, QTableWidgetItem, QLineEdit, QLabel, 
                             QFrame, QScrollArea, QCompleter, QDesktopWidget)
 from PyQt5.QtCore import QEasingCurve, QPropertyAnimation, QRect, Qt
-from PyQt5.QtGui import QColor, QKeySequence, QValidator 
+from PyQt5.QtGui import QColor, QIcon, QKeySequence, QValidator 
 from PyQt5 import uic
 
 from class_conflict import Conflict
-from class_DTUCrawler import DTUInfoStudent
 from class_register import SubjectRegister
 from class_dialogDonate import DonateWindow
 from class_custom_list_item_widget import CustomListItemWidget
@@ -20,6 +19,7 @@ from class_dialogNotification import NotificationWindow
 from class_homeCourseSearch import HomeCourseSearch
 from class_setting import ConnectSettingToWidget, Setting
 from class_detailSubjectTable import DetailSubjectWindow
+from class_saveExcel import SaveExcel
 from thread_downloadSubject import ThreadDownloadSubject, ThreadShowLoading
 
 from typing import List
@@ -50,6 +50,7 @@ class Main(QWidget):
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.semester = Semester()
+        self.setWindowIcon(QIcon('Images/new-logo.png'))
         self.currentSchoolYearValue = HomeCourseSearch.getCurrentSchoolYearValue()
         self.currentSemesterValue = HomeCourseSearch.getCurrentSemesterValue()
         uic.loadUi(team_config.UI_MAIN, self)
@@ -151,7 +152,8 @@ class Main(QWidget):
     def connectSignals(self):
         """Phương thức này kết nối signal với slot tương ứng."""
         self.button_findSubject.clicked.connect(self.actionFindSubject)
-        self.button_register.clicked.connect(self.register)
+        self.button_register.clicked.connect(self.actionRegister)
+        self.button_saveExcel.clicked.connect(self.actionExportExcel)
         self.button_info.clicked.connect(self.showDetailInfo)
         self.button_previousWeek.clicked.connect(self.actionGoToPreviousWeek)
         self.button_nextWeek.clicked.connect(self.actionGoToNextWeek)
@@ -221,11 +223,23 @@ class Main(QWidget):
             self.changeSettingTitle(True)
         self.stackedWidget.setCurrentIndex(frameIndex)
         
+    def actionExportExcel(self):
+        if len(self.semester.getSubjects()):
+            self.exportExcel(self.semester.getSubjects())
+        else:
+            NotificationWindow('Thông báo', 'Có vẻ như bạn chưa thêm môn nào cho nên không thể xuất Excel được!').exec()
+
+    def actionRegister(self):
+        if len(self.semester.getSubjects()):
+            self.register()
+        else:
+            NotificationWindow('Thông báo', 'Có vẻ như bạn chưa thêm môn nào cho nên không thể đăng ký được.').exec()
+
 
     # IMPORTANT!!!
     # Các phương thức load giao diện quan trọng
     def loadTable(self, subjects: List[Subject]):
-        logging.debug('Table load {0}'.format(subjects))
+        logging.info('Table load {0}'.format(subjects))
         self.resetColorTable()
         if subjects:
             for subject in subjects:
@@ -248,6 +262,8 @@ class Main(QWidget):
                             self.table_Semeter.setItem(pen, column, item)
             if len(self.semester.getCurrentSubjects()) > 1:
                 self.paintAllConflict(self.semester.getConflictsForWeek())
+        else:
+            self.resetColorTable()
 
     def loadListConflict(self, conflicts: List[Conflict]):
         """Load List Widget chứa thông tin Subject Conflict."""
@@ -340,12 +356,11 @@ class Main(QWidget):
         logging.info('DELETE --> {0}'.format(subject))
         cs4rsa_color.remove_color(subject.getColor())
         self.semester.deleteSubject(subject)
-        # self.removeSel()
 
     def addSubject(self, subject: Subject):
         """Thêm một Subject vào Semester."""
         logging.info('ADD --> {0}'.format(subject))
-        cl = cs4rsa_color.hex_code_colors()
+        cl = cs4rsa_color.generateRandomColor(255, 255, 255)
         subject.setColor(cl)
         self.semester.addSubject(subject)
 
@@ -357,6 +372,8 @@ class Main(QWidget):
         self.loadTable(self.semester.getCurrentSubjects())
         self.loadLabelWeek()
         self.showItemInListDownloadedAfterDelInListChoiced(subject)
+        for detailWindow in Main.WINDOW_DETAIL_INFO:
+            detailWindow.enableButtonAddSubject(subject)
 
     def afterAddSubject(self, subject: Subject):
         self.loadListSubjectChoiced(self.semester.getSubjects())
@@ -365,7 +382,6 @@ class Main(QWidget):
         self.loadTable(self.semester.getCurrentSubjects())
         self.loadLabelWeek()
         self.hideItemIsHavedInListChoiced()
-
 
     def register(self):
         logging.info('Register run')
@@ -468,13 +484,16 @@ class Main(QWidget):
         logging.info('show detail subject info')
         if Main.WINDOW_DETAIL_INFO == None:
             Main.WINDOW_DETAIL_INFO:List[DetailSubjectWindow] = []
-        detailInfo = DetailSubjectWindow(self.subjectData, team_config.UI_DETAILSUBJECTTABLE, 
+        detailInfo = DetailSubjectWindow(self, self.subjectData ,team_config.UI_DETAILSUBJECTTABLE, 
                                         'button_minimum','button_maximum','button_close','label_windowTitle')
+        detailInfo.renderDetailTable()
+
+        detailInfo.signal_addSubject.connect(lambda subject:self.addSubject(subject))
         Main.WINDOW_DETAIL_INFO.append(detailInfo)
         Main.WINDOW_DETAIL_INFO[-1].show()
 
         # cleaning the closed window
-        # Giải phóng vùng nhớ
+        # free mem
         i = 0
         while i < len(Main.WINDOW_DETAIL_INFO):
             if not Main.WINDOW_DETAIL_INFO[i].isVisible():
@@ -482,6 +501,9 @@ class Main(QWidget):
                 continue
             i+=1
 
+    def exportExcel(self, subjects: List[Subject]):
+        self.saveExcelWindow = SaveExcel(team_config.UI_SAVE_EXCEL, 'button_minimum','button_maximum', 'button_close','label_windowTitle',subjects)
+        self.saveExcelWindow.show()
 
     # Các phương thức thao tác trên Table và các thành phần giao diện khác
     def resetColorTable(self):
@@ -534,17 +556,6 @@ class Main(QWidget):
         self.semester.gotoWeek(week)
 
 # Các phương thức kiểm tra và logic
-    @staticmethod
-    def isHaveLecOrLab(subject: Subject, inList: list) -> List:
-        """Kiểm tra List of Subject truyền vào có Môn LEC hay LAB hay không. 
-        Nếu có trả về list index của Subject LEC hoặc LAB tương ứng. Nếu không trả về None."""
-        output = []
-        i = 0
-        while i<len(inList):
-            if subject.getRegisterCode() == inList[i].getRegisterCode():
-                output.append(i)
-            i+=1
-        return output
 
     #setting
 
@@ -627,8 +638,13 @@ class Main(QWidget):
         DonateWindow().exec()
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = Main()
-    window.show()
-    sys.exit(app.exec_())
+    try:
+        app = QApplication(sys.argv)
+        r = requests.get('https://www.google.com.vn/?hl=vi')
+        window = Main()
+        window.show()
+        app.exec_()
+    except:
+        NotificationWindow('Thông tin', 'Có vẻ bạn chưa đóng tiền wifi hay sao đó mà đéo có mạng. Quay lại khi có mạng nhé.', 'Mình hiểu rồi huhu').exec()
+
     
