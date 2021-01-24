@@ -213,11 +213,11 @@ class SubjectRegister(QDialog):
     def register(self):
         try:
             fc = FindCurriculumId(self.semesterId, self.yearId, self.sessionId)
-            # curriculumId = fc.getCurriculumId()
+            curriculumId = fc.getCurriculumId()
             captcha = self.lineEdit_captcha.text()
-            self.ok = ThreadDTURegister()
-            self.ok.signal_Done.connect(lambda r: print(r))
+            self.ok = ThreadDTURegister(curriculumId,self.semesterId, self.classRegCodes, captcha, self.studentId)
             self.ok.start()
+            NotificationWindow('Thông báo', 'Chờ, chờ và chờ, thoát ứng dụng này khi mọi thứ đã đến hồi kết.').exec()
         except:
             NotificationWindow('Thông báo', 'Có vẻ như trường chưa mở đăng ký 😁 Cố gắng đợi thêm nha.').exec()
 
