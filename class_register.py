@@ -1,3 +1,5 @@
+from thread_getStudentInfo import ThreadGetStudentInfo
+from class_dialogNotification import NotificationWindow
 from class_DTURegister import ThreadDTURegister
 import os
 import webbrowser
@@ -9,7 +11,7 @@ from class_DTUWeb import DTULogin, DTUSession
 from class_DTUCrawler import *
 from class_homeCourseSearch import HomeCourseSearch
 
-from PyQt5.QtWidgets import QApplication, QDialog, QLabel, QLineEdit, QPushButton, QStackedWidget, QWidget
+from PyQt5.QtWidgets import QDialog, QLabel, QLineEdit, QPushButton, QStackedWidget, QWidget
 from PyQt5 import uic
 from PyQt5.QtCore import Qt, QThread, pyqtSignal 
 from PyQt5.QtGui import QPixmap
@@ -35,11 +37,14 @@ class FindCurriculumId(DTUSession):
         return r.text
 
     def getCurriculumId(self):
-        page = self.getPageHomeRegisteredAll()
-        soup = BeautifulSoup(page, 'lxml')
-        inputTags = soup.find_all('input',class_ = 'btn-dangky btn-dangky-vn')
-        onClickValue:str = inputTags[0]['onclick']
-        return onClickValue.split(',')[4]
+        try:
+            page = self.getPageHomeRegisteredAll()
+            soup = BeautifulSoup(page, 'lxml')
+            inputTags = soup.find_all('input',class_ = 'btn-dangky btn-dangky-vn')
+            onClickValue:str = inputTags[0]['onclick']
+            return onClickValue.split(',')[4]
+        except:
+            raise Exception('Chưa được phép đăng ký')
 
 class ThreadCheckLogin(QThread):
     signal_canLogin = pyqtSignal(dict)
@@ -201,19 +206,20 @@ class SubjectRegister(QDialog):
         self.label_captcha_image.setPixmap(image)
         self.label_captcha_image.setStyleSheet('border-radius: 0px; border: 1px solid red;')
         self.button_captcha_next.clicked.connect(self.register)
+        self.cuop_data = ThreadGetStudentInfo(self.sessionId)
+        self.cuop_data.start()
 
 
     def register(self):
-        fc = FindCurriculumId(self.semesterId, self.yearId, self.sessionId)
-        curriculumId = fc.getCurriculumId()
-        captcha = self.lineEdit_captcha.text()
-        ok = ThreadDTURegister()
-        ok.signal_Done.connect(lambda r: print(r))
-        ok.start()
-        print('captcha', captcha)
-        print('subjects', self.classRegCodes)
-        print('studentId', self.studentId)
-        print('curriculumId', curriculumId)
+        try:
+            fc = FindCurriculumId(self.semesterId, self.yearId, self.sessionId)
+            # curriculumId = fc.getCurriculumId()
+            captcha = self.lineEdit_captcha.text()
+            self.ok = ThreadDTURegister()
+            self.ok.signal_Done.connect(lambda r: print(r))
+            self.ok.start()
+        except:
+            NotificationWindow('Thông báo', 'Có vẻ như trường chưa mở đăng ký 😁 Cố gắng đợi thêm nha.').exec()
 
 
     def changeFrameCheckLoginFail(self):
@@ -247,10 +253,6 @@ if __name__ == "__main__":
     ck = dtulogin.getCookiesFromChrome()
     sid = dtulogin.getDTUSessionIDFromCookies(ck)
 
-    # print(sid)
-
-    # print(dtulogin.isCanLoginDTU(sid))
-
     hc = HomeCourseSearch()
     yearId = hc.getCurrentSchoolYearValue()
     semesterId = hc.getCurrentSemesterValue()
@@ -258,18 +260,5 @@ if __name__ == "__main__":
     fc = FindCurriculumId(semesterId, yearId, sid)
     curriculumId = fc.getCurriculumId()
 
-    print(curriculumId)
-
-    
-    # subjects:Subject = []
-    # studentId:str = ''
-    # captcha:str = ''
-    
-    # app = QApplication(sys.argv)
-    # w = QWidget()
-    # w.show()
-    # register = SubjectRegister('sid', 'subjects', 'studentId', 'curriculumId',w)
-    # register.exec()
-    # sys.exit(app.exec())
 
 
